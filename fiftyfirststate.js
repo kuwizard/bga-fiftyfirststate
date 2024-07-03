@@ -1,0 +1,40 @@
+/**
+ *------
+ * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
+ * 51 State implementation : © Pavel Kulagin (KuWizard) kuzwiz@mail.ru
+ *
+ * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
+ * See http://en.boardgamearena.com/#!doc/Studio for more information.
+ * -----
+ *
+ * fiftyfirststate.js
+ *
+ * 51 State user interface script
+ *
+ */
+var isDebug = window.location.host === 'studio.boardgamearena.com' || window.location.hash.indexOf('debug') > -1;
+var debug = isDebug ? console.info.bind(window.console) : function () {
+};
+
+define(['dojo', 'dojo/_base/declare', 'ebg/counter', g_gamethemeurl + 'modules/js/game.js'], function (dojo, declare) {
+    return declare('bgagame.fiftyfirststate', [customgame.game], {
+        constructor() {
+            this._notifications = [
+                // ['sentClue', 1],
+            ];
+
+            // TODO: Fix for mobile
+            // this.default_viewport = 'width=600';
+        },
+
+        setup(gamedatas) {
+            debug('SETUP', gamedatas);
+            this.inherited(arguments);
+        },
+
+        notif_template(n) {
+            debug('Notif: template', n);
+
+        },
+    });
+});
