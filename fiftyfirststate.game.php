@@ -37,7 +37,7 @@ spl_autoload_register($swdNamespaceAutoload, true, true);
 
 class Fiftyfirststate extends Table
 {
-//  use STATE\States\DaySetupTrait;
+    use STATE\States\DaySetupTrait;
 
     public static $instance = null;
 
@@ -74,7 +74,10 @@ class Fiftyfirststate extends Table
      */
     public function getAllDatas()
     {
-        return [];
+        $currentPlayerId = Players::getCurrentId();
+        return [
+            'players' => Players::getUiData($currentPlayerId),
+        ];
     }
 
     /*
@@ -87,7 +90,7 @@ class Fiftyfirststate extends Table
 
     function actChangePreference($pref, $value)
     {
-        Preferences::set($this->getCurrentPId(), $pref, $value);
+//        Preferences::set($this->getCurrentPlayerId(), $pref, $value);
     }
 
     ///////////////////////////
@@ -131,7 +134,7 @@ class Fiftyfirststate extends Table
     // Exposing protected method getCurrentPlayerId
     public static function getCurrentPId()
     {
-        return self::getCurrentPlayerId();
+        return self::get()->getCurrentPlayerId();
     }
 
     // Exposing protected method translation

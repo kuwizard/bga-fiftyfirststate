@@ -26,16 +26,27 @@ class Players extends DB_Manager
         // Create players
         $gameInfos = Game::get()->getGameinfos();
         $colors = $gameInfos['player_colors'];
-        $query = self::DB()->multipleInsert(['player_id', 'player_color', 'player_canal', 'player_name', 'player_avatar']);
+        shuffle($colors);
+        $query = self::DB()->multipleInsert([
+            'player_id',
+            'player_color',
+            'player_canal',
+            'player_name',
+            'player_avatar',
+        ]);
 
         $values = [];
         foreach ($players as $pId => $player) {
             $color = array_shift($colors);
-            $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar']];
+            $values[] = [
+                $pId,
+                $color,
+                $player['player_canal'],
+                $player['player_name'],
+                $player['player_avatar'],
+            ];
         }
         $query->values($values);
-        Game::get()->reattributeColorsBasedOnPreferences($players, $gameInfos['player_colors']);
-        Game::get()->reloadPlayersBasicInfos();
     }
 
     public static function getActiveId()
@@ -131,14 +142,6 @@ class Players extends DB_Manager
     }
 
     /*
-     * Return the number of players
-     */
-    public static function count()
-    {
-        return self::DB()->count();
-    }
-
-    /*
      * getUiData : get all ui data of all players
      */
     public static function getUiData($pId)
@@ -146,17 +149,5 @@ class Players extends DB_Manager
         return self::getAll()->map(function ($player) use ($pId) {
             return $player->jsonSerialize($pId);
         });
-    }
-
-    public static function isSecondClue()
-    {
-        return self::count() <= 4;
-    }
-
-    public static function setFinalPoints($score)
-    {
-        self::DB()
-            ->update(['player_score' => $score])
-            ->run();
     }
 }

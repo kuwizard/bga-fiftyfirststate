@@ -19,10 +19,9 @@ class Player extends DB_Manager implements JsonSerializable
     protected $no; // natural order
     protected $name; // player name
     protected $color;
-    protected $eliminated = false;
+    protected $faction;
     protected $score = 0;
     protected $zombie = false;
-    protected $multiactive;
 
     public function __construct($row)
     {
@@ -31,10 +30,9 @@ class Player extends DB_Manager implements JsonSerializable
             $this->no = (int)$row['player_no'];
             $this->name = $row['player_name'];
             $this->color = $row['player_color'];
-            $this->eliminated = (int)$row['player_eliminated'] === 1;
+            $this->faction = $this->getFaction();
             $this->score = (int)$row['player_score'];
             $this->zombie = (int)$row['player_zombie'] === 1;
-            $this->multiactive = $row['player_is_multiactive'] === '1';
         }
     }
 
@@ -76,6 +74,20 @@ class Player extends DB_Manager implements JsonSerializable
         return Preferences::get($this->id, $prefId);
     }
 
+    /**
+     * @param string $color
+     * @return int
+     */
+    public function getFaction()
+    {
+        return [
+            "bcc6cc" => FACTION_NEW_YORK,
+            "ffa500" => FACTION_APPALACHIAN,
+            "ff0000" => FACTION_MUTANTS,
+            "0000ff" => FACTION_MERCHANTS,
+        ][$this->color];
+    }
+
     public function jsonSerialize($currentPlayerId = null)
     {
         $data = [
@@ -84,7 +96,7 @@ class Player extends DB_Manager implements JsonSerializable
             'name' => $this->name,
             'color' => $this->color,
             'score' => $this->score,
-            'multiactive' => $this->multiactive,
+            'faction' => $this->faction,
         ];
         return $data;
     }

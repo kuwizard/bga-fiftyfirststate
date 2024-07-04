@@ -8,8 +8,8 @@
 
 -- dbmodel.sql
 
-ALTER TABLE `player`
-    ADD `player_money` TINYINT(1) NOT NULL DEFAULT 0;
+# ALTER TABLE `player`
+#     ADD `player_faction` TINYINT NOT NULL;
 
 CREATE TABLE IF NOT EXISTS `global_variables`
 (
