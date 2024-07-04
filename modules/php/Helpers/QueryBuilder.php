@@ -71,7 +71,7 @@ class QueryBuilder extends APP_DbObject
         // Fetch starting index if not provided
         $startingId = null;
         if ($this->insertPrimaryIndex === false) {
-            $startingId = (int)self::getUniqueValueFromDB(
+            $startingId = (int) self::getUniqueValueFromDB(
                 "SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '{$this->table}';"
             );
         }
@@ -232,7 +232,7 @@ class QueryBuilder extends APP_DbObject
             if (is_callable($this->cast)) {
                 $val = forward_static_call($this->cast, $row);
             } elseif (is_string($this->cast)) {
-                $val = $this->cast === 'object' ? ((object)$row) : new $this->cast($row);
+                $val = $this->cast === 'object' ? ((object) $row) : new $this->cast($row);
             }
 
             $oRes[$id] = $val;
@@ -262,7 +262,7 @@ class QueryBuilder extends APP_DbObject
         $field = is_null($field) ? '*' : "`$field`";
         $this->sql = "SELECT $func($field) FROM `$this->table`";
         $this->assembleQueryClauses();
-        return (int)self::getUniqueValueFromDB($this->sql);
+        return (int) self::getUniqueValueFromDB($this->sql);
     }
 
     public function count($field = null)

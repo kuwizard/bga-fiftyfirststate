@@ -56,12 +56,12 @@ class Players extends DB_Manager
 
     public static function getCurrentId()
     {
-        return (int)Game::get()->getCurrentPId();
+        return (int) Game::get()->getCurrentPId();
     }
 
     public static function getAll()
     {
-        return self::DB()->get(false);
+        return self::DB()->get();
     }
 
     /*

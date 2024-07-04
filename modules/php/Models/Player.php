@@ -26,13 +26,13 @@ class Player extends DB_Manager implements JsonSerializable
     public function __construct($row)
     {
         if ($row != null) {
-            $this->id = (int)$row['player_id'];
-            $this->no = (int)$row['player_no'];
+            $this->id = (int) $row['player_id'];
+            $this->no = (int) $row['player_no'];
             $this->name = $row['player_name'];
             $this->color = $row['player_color'];
             $this->faction = $this->getFaction();
-            $this->score = (int)$row['player_score'];
-            $this->zombie = (int)$row['player_zombie'] === 1;
+            $this->score = (int) $row['player_score'];
+            $this->zombie = (int) $row['player_zombie'] === 1;
         }
     }
 

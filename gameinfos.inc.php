@@ -13,7 +13,7 @@
 $gameinfos = array(
 
 // Name of the game in English (will serve as the basis for translation) 
-    'game_name' => '51 State',
+    'game_name' => '51st State',
 
 // Game designer (or game designers, separated by commas)
     'designer' => 'Ignacy Trzewiczek',
@@ -124,7 +124,7 @@ $gameinfos = array(
         //  default: null (ie: no limit, the game interface is as big as the player's screen allows it).
         //  maximum possible value: unlimited
         //  minimum possible value: 740
-        'max' => null
+        'max' => null,
     ),
 
 // Game presentation
@@ -143,7 +143,7 @@ $gameinfos = array(
 // circuit : A plays and choose the next player C, C plays and choose the next player D, ...
 // complex : A+B+C plays and says that the next player is A+B
     'is_sandbox' => false,
-    'turnControl' => 'simple'
+    'turnControl' => 'simple',
 
 ////////
 );
