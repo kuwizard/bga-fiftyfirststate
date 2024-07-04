@@ -16,25 +16,25 @@ $gameinfos = array(
     'game_name' => '51 State',
 
 // Game designer (or game designers, separated by commas)
-    'designer' => 'Corey Konieczka',
+    'designer' => 'Ignacy Trzewiczek',
 
 // Game artist (or game artists, separated by commas)
-    'artist' => 'David Ardila, Matijos Gebreselassie',
+    'artist' => 'Grzegorz Bobrowski',
 
 // Year of FIRST publication of this game. Can be negative.
-    'year' => 2022,
+    'year' => 2010,
 
 // Game publisher (use empty string if there is no publisher)
-    'publisher' => 'Unexpected Games',
+    'publisher' => 'Portal Games',
 
 // Url of game publisher website
-    'publisher_website' => 'http://www.unexpectedgames.com/',
+    'publisher_website' => 'http://portalgames.pl/',
 
 // Board Game Geek ID of the publisher
-    'publisher_bgg_id' => 47671,
+    'publisher_bgg_id' => 2726,
 
 // Board game geek ID of the game
-    'bgg_id' => 367525,
+    'bgg_id' => 192458,
 
 
 // Players configuration that can be played (ex: 2 to 4 players)
@@ -42,7 +42,7 @@ $gameinfos = array(
 
 // Suggest players to play with this number of players. Must be null if there is no such advice, or if there is only one possible player configuration.
 // NB: the automatic lobby will try first the lowest number of players if this is not specified. So you _have to_ specify this parameter if the lowest player number is not compatible with the default options.
-    'suggest_player_number' => 3,
+    'suggest_player_number' => 2,
 
 // Discourage players to play with these numbers of players. Must be null if there is no such advice.
     'not_recommend_player_number' => null,
@@ -50,7 +50,7 @@ $gameinfos = array(
 
 
 // Estimated game duration, in minutes (used only for the launch, afterward the real duration is computed)
-    'estimated_duration' => 75,
+    'estimated_duration' => 40,
 
 // Time in second add to a player when "giveExtraTime" is called (speed profile = fast)
     'fast_additional_time' => 60,
@@ -67,7 +67,7 @@ $gameinfos = array(
 // Note: if you are NOT using any tie breaker, leave the empty string.
 //
 // Example: 'tie_breaker_description' => totranslate( "Number of remaining cards in hand" ),
-    'tie_breaker_description' => totranslate('the tied player with the most money wins. If there is still a tie, the tied player who took the most recent turn wins'),
+    'tie_breaker_description' => totranslate('the player with the most total Goods is the winner. If the tie persists, the player among those ties with the most Locations wins.'),
 
 // If in the game, all losers are equal (no score to rank them or explicit in the rules that losers are not ranked between them), set this to true 
 // The game end result will display "Winner" for the 1st player and "Loser" for all other players
@@ -91,16 +91,16 @@ $gameinfos = array(
     'complexity' => 3,
 
 // Luck of the game, from 0 (absolutely no luck in this game) to 5 (totally luck driven)
-    'luck' => 3,
+    'luck' => 2,
 
 // Strategy of the game, from 0 (no strategy can be setup) to 5 (totally based on strategy)
-    'strategy' => 3,
+    'strategy' => 4,
 
 // Diplomacy of the game, from 0 (no interaction in this game) to 5 (totally based on interaction and discussion between players)
-    'diplomacy' => 3,
+    'diplomacy' => 2,
 
 // Colors attributed to players
-    'player_colors' => array("ff0000", "008000", "0000ff", "ffa500", "773300"),
+    'player_colors' => array("ff0000", "008000", "0000ff", "ffa500"),
 
 // Favorite colors support : if set to "true", support attribution of favorite colors based on player's preferences (see reattributeColorsBasedOnPreferences PHP method)
 // NB: this parameter is used only to flag games supporting this feature; you must use (or not use) reattributeColorsBasedOnPreferences PHP method to actually enable or disable the feature.
