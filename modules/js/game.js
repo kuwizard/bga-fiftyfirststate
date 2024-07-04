@@ -259,7 +259,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             if (config.from != null) this.placeOnObject(mobile, config.from);
             return new Promise((resolve, reject) => {
                 const animation =
-                    config.pos == null
+                    config.pos === null
                         ? this.slideToObject(mobile, targetId, config.duration, config.delay)
                         : this.slideToObjectPos(mobile, targetId, config.pos.x, config.pos.y, config.duration, config.delay);
 
@@ -292,13 +292,13 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                 console.error('attachToNewParent: new_parent is null');
                 return;
             }
-            if (typeof mobile == 'string') {
+            if (typeof mobile === 'string') {
                 mobile = $(mobile);
             }
-            if (typeof new_parent == 'string') {
+            if (typeof new_parent === 'string') {
                 new_parent = $(new_parent);
             }
-            if (typeof relation == 'undefined') {
+            if (typeof relation === 'undefined') {
                 relation = 'last';
             }
             var src = dojo.position(mobile);
@@ -327,12 +327,12 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
         },
 
         place(tplMethodName, object, container) {
-            if ($(container) == null) {
+            if ($(container) === null) {
                 console.error('Trying to place on null container', container);
                 return;
             }
 
-            if (this[tplMethodName] == undefined) {
+            if (this[tplMethodName] === undefined) {
                 console.error('Trying to create a non-existing template', tplMethodName);
                 return;
             }
@@ -350,7 +350,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
         startActionTimer(buttonId, time) {
             var button = $(buttonId);
             var isReadOnly = this.isReadOnly();
-            if (button == null || isReadOnly) {
+            if (button === null || isReadOnly) {
                 debug('Ignoring startActionTimer(' + buttonId + ')', 'readOnly=' + isReadOnly);
                 return;
             }
@@ -359,7 +359,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             this._actionTimerSeconds = time;
             this._actionTimerFunction = () => {
                 var button = $(buttonId);
-                if (button == null) {
+                if (button === null) {
                     this.stopActionTimer();
                 } else if (this._actionTimerSeconds-- > 1) {
                     button.innerHTML = this._actionTimerLabel + ' (' + this._actionTimerSeconds + ')';

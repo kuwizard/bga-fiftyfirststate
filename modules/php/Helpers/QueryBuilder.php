@@ -160,9 +160,9 @@ class QueryBuilder extends APP_DbObject
             // Log module is on
             $tmp = $this->sql;
 
-            if ($this->operation == 'delete') {
+            if ($this->operation === 'delete') {
                 $this->sql = "SELECT * FROM `{$this->table}`";
-            } elseif ($this->operation == 'update') {
+            } elseif ($this->operation === 'update') {
                 if (!in_array($this->primary, $this->operationDatas)) {
                     $this->operationDatas[] = $this->primary;
                 }
@@ -232,14 +232,14 @@ class QueryBuilder extends APP_DbObject
             if (is_callable($this->cast)) {
                 $val = forward_static_call($this->cast, $row);
             } elseif (is_string($this->cast)) {
-                $val = $this->cast == 'object' ? ((object)$row) : new $this->cast($row);
+                $val = $this->cast === 'object' ? ((object)$row) : new $this->cast($row);
             }
 
             $oRes[$id] = $val;
         }
 
         if ($returnValueIfOnlyOneRow && count($oRes) <= 1) {
-            return count($oRes) == 1 ? reset($oRes) : null;
+            return count($oRes) === 1 ? reset($oRes) : null;
         } else {
             return new Collection($oRes);
         }
@@ -309,13 +309,13 @@ class QueryBuilder extends APP_DbObject
         $param = array_pop($arg);
         $n = count($param);
         // Only one param => use primary field
-        if ($n == 1) {
+        if ($n === 1) {
             $this->where .= " `{$this->primary}` = " . $this->protect($param[0]);
         } // Three params : WHERE $1 OP2 $3
-        elseif ($n == 3) {
+        elseif ($n === 3) {
             $this->where .= '`' . trim($param[0]) . '` ' . $param[1] . ' ' . $this->protect($param[2]);
         } // Two params : $1 = $2
-        elseif ($n == 2) {
+        elseif ($n === 2) {
             $this->where .= '`' . trim($param[0]) . '` = ' . $this->protect($param[1]);
         }
 
@@ -329,7 +329,7 @@ class QueryBuilder extends APP_DbObject
         $this->isOrWhere = false;
         $num_args = func_num_args();
         $args = func_get_args();
-        $this->computeWhereClause($num_args == 1 && is_array($args[0]) ? $args[0] : [$args]);
+        $this->computeWhereClause($num_args === 1 && is_array($args[0]) ? $args[0] : [$args]);
         return $this;
     }
 
@@ -339,8 +339,8 @@ class QueryBuilder extends APP_DbObject
 
         $num_args = func_num_args();
         $args = func_get_args();
-        $field = $num_args == 1 ? $this->primary : $args[0];
-        $values = $num_args == 1 ? $args[0] : $args[1];
+        $field = $num_args === 1 ? $this->primary : $args[0];
+        $values = $num_args === 1 ? $args[0] : $args[1];
         if (is_null($values)) {
             return $this;
         }
@@ -357,8 +357,8 @@ class QueryBuilder extends APP_DbObject
 
         $num_args = func_num_args();
         $args = func_get_args();
-        $field = $num_args == 1 ? $this->primary : $args[0];
-        $values = $num_args == 1 ? $args[0] : $args[1];
+        $field = $num_args === 1 ? $this->primary : $args[0];
+        $values = $num_args === 1 ? $args[0] : $args[1];
         if (is_null($values)) {
             return $this;
         }
@@ -379,14 +379,14 @@ class QueryBuilder extends APP_DbObject
         $this->isOrWhere = true;
         $num_args = func_num_args();
         $args = func_get_args();
-        $this->computeWhereClause($num_args == 1 ? $args[0] : [$args]);
+        $this->computeWhereClause($num_args === 1 ? $args[0] : [$args]);
         return $this;
     }
 
     // Syntaxic sugar
     public function wherePlayer($pId)
     {
-        return $pId == null ? $this : $this->where('player_id', $pId);
+        return $pId === null ? $this : $this->where('player_id', $pId);
     }
 
     /*
@@ -405,7 +405,7 @@ class QueryBuilder extends APP_DbObject
 
         $field_name = '';
         $order = 'ASC';
-        if ($num_args == 1) {
+        if ($num_args === 1) {
             if (is_array($args[0])) {
                 $field_name = trim($args[0][0]);
                 $order = trim(strtoupper($args[0][1]));
@@ -418,8 +418,8 @@ class QueryBuilder extends APP_DbObject
         }
 
         // validate it's not empty and have a proper valuse
-        if ($field_name !== null && ($order == 'ASC' || $order == 'DESC')) {
-            if ($this->orderBy == null) {
+        if ($field_name !== null && ($order === 'ASC' || $order === 'DESC')) {
+            if ($this->orderBy === null) {
                 $this->orderBy = " ORDER BY $field_name $order";
             } else {
                 $this->orderBy .= ", $field_name $order";

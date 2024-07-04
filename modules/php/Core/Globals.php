@@ -25,7 +25,7 @@ class Globals extends DB_Manager
     protected static function cast($row)
     {
         $val = json_decode(stripslashes($row['value']), true);
-        return self::$variables[$row['name']] == 'int' ? ((int)$val) : $val;
+        return self::$variables[$row['name']] === 'int' ? ((int)$val) : $val;
     }
 
     /*
@@ -98,29 +98,29 @@ class Globals extends DB_Manager
                 self::create($name);
             }
 
-            if ($match[1] == 'get') {
+            if ($match[1] === 'get') {
                 // Basic getters
                 return self::$data[$name];
-            } elseif ($match[1] == 'is') {
+            } elseif ($match[1] === 'is') {
                 // Boolean getter
                 if (self::$variables[$name] != 'bool') {
                     throw new InvalidArgumentException("Property {$name} is not of type bool");
                 }
                 return (bool)self::$data[$name];
-            } elseif ($match[1] == 'set') {
+            } elseif ($match[1] === 'set') {
                 // Setters in DB and update cache
                 $value = $args[0];
-                if (self::$variables[$name] == 'int') {
+                if (self::$variables[$name] === 'int') {
                     $value = (int)$value;
                 }
-                if (self::$variables[$name] == 'bool') {
+                if (self::$variables[$name] === 'bool') {
                     $value = (bool)$value;
                 }
 
                 self::$data[$name] = $value;
                 self::DB()->update(['value' => addslashes(json_encode($value))], $name);
                 return $value;
-            } elseif ($match[1] == 'inc') {
+            } elseif ($match[1] === 'inc') {
                 if (self::$variables[$name] != 'int') {
                     throw new InvalidArgumentException("Trying to increase {$name} which is not an int");
                 }

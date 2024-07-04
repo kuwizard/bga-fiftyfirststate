@@ -61,7 +61,7 @@ class Preferences extends DB_Manager
             $defaultValue = $data['default'] ?? array_keys($data['values'])[0];
 
             foreach ($playerIds as $pId) {
-                if (self::get($pId, $id) == null) {
+                if (self::get($pId, $id) === null) {
                     $values[] = [
                         'player_id' => $pId,
                         'pref_id' => $id,

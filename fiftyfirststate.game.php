@@ -23,7 +23,7 @@ require_once APP_GAMEMODULE_PATH . 'module/table/table.game.php';
 
 $swdNamespaceAutoload = function ($class) {
     $classParts = explode('\\', $class);
-    if ($classParts[0] == 'STATE') {
+    if ($classParts[0] === 'STATE') {
         array_shift($classParts);
         $file = dirname(__FILE__) . '/modules/php/' . implode(DIRECTORY_SEPARATOR, $classParts) . '.php';
         if (file_exists($file)) {

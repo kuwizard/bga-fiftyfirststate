@@ -31,9 +31,9 @@ class Player extends DB_Manager implements JsonSerializable
             $this->no = (int)$row['player_no'];
             $this->name = $row['player_name'];
             $this->color = $row['player_color'];
-            $this->eliminated = $row['player_eliminated'] == 1;
+            $this->eliminated = (int)$row['player_eliminated'] === 1;
             $this->score = (int)$row['player_score'];
-            $this->zombie = $row['player_zombie'] == 1;
+            $this->zombie = (int)$row['player_zombie'] === 1;
             $this->multiactive = $row['player_is_multiactive'] === '1';
         }
     }

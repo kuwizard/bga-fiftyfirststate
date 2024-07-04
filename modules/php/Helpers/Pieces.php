@@ -156,7 +156,7 @@ class Pieces extends DB_Manager
         }
 
         $extra = $like ? '%' : '';
-        if (preg_match("/^[A-Za-z0-9${extra}-][A-Za-z_0-9${extra}-]*$/", $location) == 0) {
+        if (preg_match("/^[A-Za-z0-9${extra}-][A-Za-z_0-9${extra}-]*$/", $location) === 0) {
             throw new BgaVisibleSystemException(
                 "Class Pieces: location must be alphanum and underscore non empty string '$location'"
             );
@@ -173,7 +173,7 @@ class Pieces extends DB_Manager
         }
 
         $extra = $like ? '%' : '';
-        if (preg_match("/^[A-Za-z_0-9${extra}]+$/", $id) == 0) {
+        if (preg_match("/^[A-Za-z_0-9${extra}]+$/", $id) === 0) {
             throw new BgaVisibleSystemException("Class Pieces: id must be alphanum and underscore non empty string '$id'");
         }
     }
@@ -201,7 +201,7 @@ class Pieces extends DB_Manager
             throw new BgaVisibleSystemException('Class Pieces: state cannot be null');
         }
 
-        if (!is_null($state) && preg_match("/^-*[0-9]+$/", $state) == 0) {
+        if (!is_null($state) && preg_match("/^-*[0-9]+$/", $state) === 0) {
             throw new BgaVisibleSystemException('Class Pieces: state must be integer number');
         }
     }
@@ -211,7 +211,7 @@ class Pieces extends DB_Manager
      */
     final static function checkPosInt($n)
     {
-        if ($n && preg_match("/^[0-9]+$/", $n) == 0) {
+        if ($n && preg_match("/^[0-9]+$/", $n) === 0) {
             throw new BgaVisibleSystemException('Class Pieces: number of pieces must be integer number');
         }
     }
@@ -236,7 +236,7 @@ class Pieces extends DB_Manager
     public static function get($id, $raiseExceptionIfNotEnough = true)
     {
         $result = self::getMany($id, $raiseExceptionIfNotEnough);
-        return $result->count() == 1 ? $result->first() : $result;
+        return $result->count() === 1 ? $result->first() : $result;
     }
 
     public static function getMany($ids, $raiseExceptionIfNotEnough = true)
@@ -263,7 +263,7 @@ class Pieces extends DB_Manager
     public static function getSingle($id, $raiseExceptionIfNotEnough = true)
     {
         $result = self::getMany([$id], $raiseExceptionIfNotEnough);
-        return $result->count() == 1 ? $result->first() : null;
+        return $result->count() === 1 ? $result->first() : null;
     }
 
     /**
@@ -518,7 +518,7 @@ class Pieces extends DB_Manager
             $location = $info['location'] ?? $globalLocation;
             $state = $info['state'] ?? $globalState;
             if (is_null($state)) {
-                $state = $location == $globalLocation ? $pos++ : 0;
+                $state = $location === $globalLocation ? $pos++ : 0;
             }
 
             // SANITY
@@ -538,7 +538,7 @@ class Pieces extends DB_Manager
                 if (static::$autoIncrement) {
                     $data = [$location, $state];
                 } else {
-                    $nId = preg_replace('/\{INDEX\}/', $id == $globalId ? count($ids) : $i, $id);
+                    $nId = preg_replace('/\{INDEX\}/', $id === $globalId ? count($ids) : $i, $id);
                     self::checkId($nId);
                     $data = [$nId, $location, $state];
                     $ids[] = $nId;
