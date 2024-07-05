@@ -39,16 +39,16 @@ define('RESOURCE_FUEL', 0);
 define('RESOURCE_GUN', 1);
 define('RESOURCE_IRON', 2);
 define('RESOURCE_BRICK', 3);
-define('RESOURCE_CARD', 4);
-define('RESOURCE_WORKER', 5);
-define('RESOURCE_VP', 6);
-define('RESOURCE_ARROW_GREY', 7);
-define('RESOURCE_ARROW_RED', 8);
-define('RESOURCE_ARROW_BLUE', 9);
-define('RESOURCE_ARROW_UNIVERSAL', 10);
-define('RESOURCE_AMMO', 11);
-define('RESOURCE_DEFENCE', 12);
-define('RESOURCE_DEVELOPMENT', 13);
+define('RESOURCE_WORKER', 4);
+define('RESOURCE_ARROW_GREY', 5);
+define('RESOURCE_ARROW_RED', 6);
+define('RESOURCE_ARROW_BLUE', 7);
+define('RESOURCE_ARROW_UNIVERSAL', 8);
+define('RESOURCE_AMMO', 9);
+define('RESOURCE_DEFENCE', 10);
+define('RESOURCE_DEVELOPMENT', 11);
+define('RESOURCE_CARD', 12);
+define('RESOURCE_VP', 13);
 
 /*
  * Icons

@@ -8,8 +8,18 @@
 
 -- dbmodel.sql
 
-ALTER TABLE `player`
-    ADD `player_faction` TINYINT;
+ALTER TABLE `player` ADD `player_fuel` TINYINT DEFAULT 0;
+ALTER TABLE `player` ADD `player_gun` TINYINT DEFAULT 0;
+ALTER TABLE `player` ADD `player_iron` TINYINT DEFAULT 0;
+ALTER TABLE `player` ADD `player_brick` TINYINT DEFAULT 0;
+ALTER TABLE `player` ADD `player_worker` TINYINT DEFAULT 0;
+ALTER TABLE `player` ADD `player_arrow_grey` TINYINT DEFAULT 0;
+ALTER TABLE `player` ADD `player_arrow_red` TINYINT DEFAULT 0;
+ALTER TABLE `player` ADD `player_arrow_blue` TINYINT DEFAULT 0;
+ALTER TABLE `player` ADD `player_arrow_uni` TINYINT DEFAULT 0;
+ALTER TABLE `player` ADD `player_ammo` TINYINT DEFAULT 0;
+ALTER TABLE `player` ADD `player_defence` TINYINT DEFAULT 0;
+ALTER TABLE `player` ADD `player_devel` TINYINT DEFAULT 0;
 
 CREATE TABLE IF NOT EXISTS `global_variables`
 (

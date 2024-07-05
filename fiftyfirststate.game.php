@@ -144,4 +144,9 @@ class Fiftyfirststate extends Table
     {
         return self::_($text);
     }
+
+    public static function a()
+    {
+        
+    }
 }
