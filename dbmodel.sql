@@ -8,8 +8,8 @@
 
 -- dbmodel.sql
 
-# ALTER TABLE `player`
-#     ADD `player_faction` TINYINT NOT NULL;
+ALTER TABLE `player`
+    ADD `player_faction` TINYINT;
 
 CREATE TABLE IF NOT EXISTS `global_variables`
 (
@@ -26,5 +26,15 @@ CREATE TABLE IF NOT EXISTS `user_preferences`
     `pref_id`    int(10)          NOT NULL,
     `pref_value` int(10)          NOT NULL,
     PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+CREATE TABLE IF NOT EXISTS `cards`
+(
+    `card_id`       smallint unsigned NOT NULL AUTO_INCREMENT,
+    `type`          varchar(20)       NOT NULL,
+    `card_location` varchar(16)       NOT NULL,
+    `card_state`    tinyint           NOT NULL,
+    PRIMARY KEY (`card_id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;

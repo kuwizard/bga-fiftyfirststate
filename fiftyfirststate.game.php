@@ -17,6 +17,7 @@
  */
 
 use STATE\Core\Stats;
+use STATE\Managers\LocationCards;
 use STATE\Managers\Players;
 
 require_once APP_GAMEMODULE_PATH . 'module/table/table.game.php';
@@ -66,6 +67,7 @@ class Fiftyfirststate extends Table
     {
         Stats::setupNewGame();
         Players::setupNewGame($players, $options);
+        LocationCards::setupNewGame();
         $this->activeNextPlayer();
     }
 
