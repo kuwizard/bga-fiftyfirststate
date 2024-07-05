@@ -68,3 +68,8 @@ define('ICON_AMMO', 9);
  * Features
  */
 define('FEATURE_NONE', 0);
+
+/*
+ * Action types
+ */
+define('ACTION_TYPE_SPEND', 0);

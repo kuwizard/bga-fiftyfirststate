@@ -2,6 +2,7 @@
 
 namespace STATE\Data\Cards;
 
+use STATE\Models\Action;
 use STATE\Models\ActionCard;
 
 class OilmenFortress extends ActionCard
@@ -16,8 +17,9 @@ class OilmenFortress extends ActionCard
         $this->icons = [ICON_FUEL, ICON_VP];
         $this->deals = [RESOURCE_FUEL];
         $this->copies = 2;
-
-        $this->spendRequirements = [RESOURCE_WORKER, RESOURCE_AMMO, RESOURCE_AMMO];
-        $this->actionBonus = [RESOURCE_VP];
+        $this->action = new Action(
+            [RESOURCE_WORKER, RESOURCE_AMMO, RESOURCE_AMMO],
+            [RESOURCE_VP],
+        );
     }
 }

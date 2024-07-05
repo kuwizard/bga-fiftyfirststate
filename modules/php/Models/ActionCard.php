@@ -5,13 +5,9 @@ namespace STATE\Models;
 class ActionCard extends LocationCard
 {
     /**
-     * @var int[]
+     * @var Action
      */
-    protected $spendRequirements;
-    /**
-     * @var int[]
-     */
-    protected $actionBonus;
+    protected $action;
 
     public function __construct($params = [])
     {
