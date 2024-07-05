@@ -18,19 +18,21 @@ class LocationCards extends Pieces
         return new LocationCard($row);
     }
 
-    private static $allCards = [
-        CARD_FUEL_TANK => 'FuelTank',
+    private static $allCardTypes = [
+        'FuelTank',
+        'Crossroads',
+        'OilmenFortress',
     ];
 
     public static function setupNewGame()
     {
-        foreach (self::$allCards as $type => $class) {
+        foreach (self::$allCardTypes as $class) {
             $name = "STATE\Data\Cards\\" . $class;
             /** @var LocationCard $card */
             $card = new $name();
             for ($i = 0; $i < $card->getCopies(); $i++) {
                 $cards[] = [
-                    'type' => $type,
+                    'type' => $card->getType(),
                 ];
             }
         }

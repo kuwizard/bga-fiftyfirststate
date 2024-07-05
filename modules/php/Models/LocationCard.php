@@ -13,6 +13,30 @@ class LocationCard implements \JsonSerializable
      */
     protected $type;
     /**
+     * @var string
+     */
+    protected $name;
+    /**
+     * @var int
+     */
+    protected $distance;
+    /**
+     * @var int[]
+     */
+    protected $spoils;
+    /**
+     * @var int[]
+     */
+    protected $icons;
+    /**
+     * @var int[]
+     */
+    protected $buildingBonus;
+    /**
+     * @var int[]
+     */
+    protected $deals;
+    /**
      * @var int
      */
     protected $copies;
@@ -21,6 +45,8 @@ class LocationCard implements \JsonSerializable
     {
         $this->id = isset($params['id']) ? (int) $params['id'] : null;
         $this->type = $params['type'] ?? null;
+        $this->buildingBonus = [];
+        $this->copies = 1;
     }
 
     /**
@@ -51,7 +77,6 @@ class LocationCard implements \JsonSerializable
     {
         return [
             'id' => $this->id,
-            'value' => $this->value,
         ];
     }
 }
