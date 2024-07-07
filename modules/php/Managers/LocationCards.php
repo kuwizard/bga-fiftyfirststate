@@ -5,6 +5,7 @@ namespace STATE\Managers;
 use STATE\Core\Game;
 use STATE\Helpers\Pieces;
 use STATE\Models\LocationCard;
+use STATE\Models\Player;
 
 class LocationCards extends Pieces
 {
@@ -12,6 +13,25 @@ class LocationCards extends Pieces
     protected static $primary = 'card_id';
     protected static $prefix = 'card_';
     protected static $customFields = ['type'];
+
+    /**
+     * @param Player $player
+     * @param int $amount
+     * @return void
+     */
+    public static function draw($player, $amount = 1)
+    {
+        $pId = $player->getId();
+        self::pickForLocation($amount, LOCATION_DECK, [LOCATION_HAND, $pId]);
+//        Notifications::newCardsDrawn($player);
+    }
+
+    public static function discard($cardIds)
+    {
+        foreach ($cardIds as $cardId) {
+            self::insertOnTop($cardId, LOCATION_DISCARD);
+        }
+    }
 
     protected static function cast($row)
     {

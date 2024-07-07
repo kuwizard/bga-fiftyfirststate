@@ -27,4 +27,17 @@ class action_fiftyfirststate extends APP_GameAction
             self::trace('Complete reinitialization of board game');
         }
     }
+
+    public function actDiscardCardsGameStart()
+    {
+        self::setAjaxMode();
+
+        $cardIds = explode(';', self::getArg('ids', AT_numberlist, true));
+        $cardIds = array_filter($cardIds);
+        $cardIds = array_map(function ($id) {
+            return (int) $id;
+        }, $cardIds);
+        $this->game->actDiscardCardsGameStart($cardIds);
+        self::ajaxResponse();
+    }
 }

@@ -21,16 +21,43 @@ $machinestates = [
         'description' => '',
         'type' => 'manager',
         'action' => 'stGameSetup',
-        'transitions' => ['' => ST_DAY_SETUP],
+        'transitions' => ['' => ST_DISCARD_CARDS_GAME_START],
     ],
 
-    ST_DAY_SETUP => [
-        'name' => 'daySetup',
+    ST_DISCARD_CARDS_GAME_START => [
+        'name' => 'discardCardsGameStart',
+        'description' => clienttranslate('${actplayer} must choose 2 cards to discard'),
+        'descriptionmyturn' => clienttranslate('${you} must choose 2 cards to discard'),
+        'action' => 'stMakeEveryoneActive',
+        'type' => 'multipleactiveplayer',
+        'possibleactions' => ['actDiscardCardsGameStart'],
+        'transitions' => ['' => 98],
+    ],
+
+    98 => [
+        'name' => 'debug',
         'description' => clienttranslate('Waiting for ${actplayer}'),
         'descriptionmyturn' => clienttranslate('${you} must decide'),
         'type' => 'activeplayer',
-        'possibleactions' => ['actExcludeClues'],
-        'transitions' => [ST_END_GAME => ST_END_GAME],
+        'possibleactions' => ['actDiscardCardsGameStart'],
+        'transitions' => ['' => ST_NEXT_TURN],
+    ],
+
+    ST_NEXT_TURN => [
+        'name' => 'nextTurn',
+        'description' => '',
+        'action' => 'stNextTurn',
+        'type' => 'game',
+    ],
+
+    ST_TURN_PHASE_ONE_LOOKOUT => [
+        'name' => 'turnPhaseOneLookout',
+        'description' => clienttranslate('${actplayer} must choose a card '),
+        'descriptionmyturn' => clienttranslate('${you} should place a poker card in any open slot'),
+        'args' => 'argStepOnePlan',
+        'type' => 'activeplayer',
+        'updateGameProgression' => true,
+        'possibleactions' => ['actPlaceCard', 'actUndo'],
     ],
 
     // Final state.

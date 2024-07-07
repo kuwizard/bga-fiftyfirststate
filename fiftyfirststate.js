@@ -16,8 +16,14 @@ var isDebug = window.location.host === 'studio.boardgamearena.com' || window.loc
 var debug = isDebug ? console.info.bind(window.console) : function () {
 };
 
-define(['dojo', 'dojo/_base/declare', 'ebg/counter', g_gamethemeurl + 'modules/js/game.js'], function (dojo, declare) {
-    return declare('bgagame.fiftyfirststate', [customgame.game], {
+define([
+    'dojo',
+    'dojo/_base/declare',
+    'ebg/counter',
+    g_gamethemeurl + 'modules/js/game.js',
+    g_gamethemeurl + 'modules/js/States/DiscardCardsGameStartState.js',
+], function (dojo, declare) {
+    return declare('bgagame.fiftyfirststate', [customgame.game, state.discardCardsGameStart], {
         constructor() {
             this._notifications = [
                 // ['sentClue', 1],
@@ -34,7 +40,6 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter', g_gamethemeurl + 'modules/j
 
         notif_template(n) {
             debug('Notif: template', n);
-
         },
     });
 });

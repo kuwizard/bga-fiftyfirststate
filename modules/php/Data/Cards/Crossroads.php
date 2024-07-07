@@ -16,6 +16,6 @@ class Crossroads extends FeatureCard
         $this->icons = [ICON_WORKER, ICON_CARD];
         $this->buildingBonus = [RESOURCE_CARD, RESOURCE_CARD];
         $this->deals = [RESOURCE_CARD];
-        $this->copies = 1;
+        $this->copies = 10;
     }
 }

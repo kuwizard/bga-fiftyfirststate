@@ -1,8 +1,6 @@
 <?php
 namespace STATE\Core;
 
-use STATE\Managers\Languages;
-
 class Notifications
 {
     /*************************

@@ -16,7 +16,7 @@ class OilmenFortress extends ActionCard
         $this->spoils = [RESOURCE_FUEL, RESOURCE_FUEL, RESOURCE_FUEL, RESOURCE_VP];
         $this->icons = [ICON_FUEL, ICON_VP];
         $this->deals = [RESOURCE_FUEL];
-        $this->copies = 2;
+        $this->copies = 20;
         $this->action = new Action(
             [RESOURCE_WORKER, RESOURCE_AMMO, RESOURCE_AMMO],
             [RESOURCE_VP],

@@ -5,6 +5,7 @@ namespace STATE\Models;
 use JsonSerializable;
 use STATE\Core\Preferences;
 use STATE\Helpers\DB_Manager;
+use STATE\Managers\LocationCards;
 
 /*
  * Player: all utility functions concerning a player
@@ -166,7 +167,7 @@ class Player extends DB_Manager implements JsonSerializable
         $newAmount = $resourceAmount - $amount;
         if ($newAmount < 0) {
             throw new \BgaVisibleSystemException(
-                "You try to decrease resource {$resourceName} to a negative value. You have {$resourceAmount}, amount to lose - {$amount}"
+                "Something's wrong. You try to decrease resource {$resourceName} to a negative value. You have {$resourceAmount}, amount to lose - {$amount}"
             );
         }
         $this->{$resourceName} = $newAmount;
@@ -179,6 +180,12 @@ class Player extends DB_Manager implements JsonSerializable
             ->update([$name => $amount])
             ->wherePlayer($this->id)
             ->run();
+    }
+
+    public function discard($cardIds)
+    {
+        LocationCards::discard($cardIds);
+//        Notifications::cardsDiscarded($this, $cardIds);
     }
 
     private function getResourceName($type)
@@ -225,6 +232,12 @@ class Player extends DB_Manager implements JsonSerializable
             "ff0000" => FACTION_MUTANTS,
             "0000ff" => FACTION_MERCHANTS,
         ][$this->color];
+    }
+
+
+    public function drawCards($amount = 1)
+    {
+        LocationCards::draw($this, $amount);
     }
 
     public function jsonSerialize($currentPlayerId = null)

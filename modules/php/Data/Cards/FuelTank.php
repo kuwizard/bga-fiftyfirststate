@@ -16,6 +16,6 @@ class FuelTank extends ProductionCard
         $this->icons = [ICON_FUEL, ICON_AMMO];
         $this->deals = [RESOURCE_FUEL];
         $this->isOpen = true;
-        $this->copies = 2;
+        $this->copies = 20;
     }
 }

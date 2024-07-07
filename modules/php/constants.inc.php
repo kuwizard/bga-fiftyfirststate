@@ -4,7 +4,9 @@
  * State constants
  */
 define('ST_GAME_SETUP', 1);
-define('ST_DAY_SETUP', 2);
+define('ST_DISCARD_CARDS_GAME_START', 2);
+define('ST_NEXT_TURN', 3);
+define('ST_TURN_PHASE_ONE_LOOKOUT', 4);
 
 define('ST_END_GAME', 99);
 
@@ -73,3 +75,8 @@ define('FEATURE_NONE', 0);
  * Action types
  */
 define('ACTION_TYPE_SPEND', 0);
+
+/*
+ * Global constants
+ */
+define('GLOBAL_START_CARDS', 6);

@@ -261,7 +261,14 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                 const animation =
                     config.pos === null
                         ? this.slideToObject(mobile, targetId, config.duration, config.delay)
-                        : this.slideToObjectPos(mobile, targetId, config.pos.x, config.pos.y, config.duration, config.delay);
+                        : this.slideToObjectPos(
+                            mobile,
+                            targetId,
+                            config.pos.x,
+                            config.pos.y,
+                            config.duration,
+                            config.delay
+                        );
 
                 dojo.connect(animation, 'onEnd', () => {
                     dojo.style(mobile, 'zIndex', null);
@@ -276,7 +283,10 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                         else this.changeParent(mobile, newParent);
                     }
                     if (config.destroy) dojo.destroy(mobile);
-                    if (config.clearPos && !config.destroy) dojo.style(mobile, {top: null, left: null, position: null});
+                    if (config.clearPos && !config.destroy) dojo.style(
+                        mobile,
+                        { top: null, left: null, position: null }
+                    );
                     resolve();
                 });
                 animation.play();

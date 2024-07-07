@@ -19,6 +19,7 @@
 use STATE\Core\Stats;
 use STATE\Managers\LocationCards;
 use STATE\Managers\Players;
+use STATE\Models\Player;
 
 require_once APP_GAMEMODULE_PATH . 'module/table/table.game.php';
 
@@ -39,6 +40,8 @@ spl_autoload_register($swdNamespaceAutoload, true, true);
 class Fiftyfirststate extends Table
 {
     use STATE\States\DaySetupTrait;
+    use STATE\States\TurnTrait;
+    use STATE\States\DiscardCardsGameStartTrait;
 
     public static $instance = null;
 
@@ -68,7 +71,21 @@ class Fiftyfirststate extends Table
         Stats::setupNewGame();
         Players::setupNewGame($players, $options);
         LocationCards::setupNewGame();
+        $this->giveEachPlayerCardsSetup();
         $this->activeNextPlayer();
+    }
+
+    /**
+     * @param Player[] $players
+     * @param int $amount
+     * @return void
+     */
+    private function giveEachPlayerCardsSetup()
+    {
+        /** @var Player $player */
+        foreach (Players::getAll() as $player) {
+            $player->drawCards(GLOBAL_START_CARDS);
+        }
     }
 
     /*
@@ -147,6 +164,6 @@ class Fiftyfirststate extends Table
 
     public static function a()
     {
-        
+
     }
 }

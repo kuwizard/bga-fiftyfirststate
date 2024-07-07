@@ -75,71 +75,38 @@ class Players extends DB_Manager
             ->getSingle();
     }
 
+    /**
+     * @return Player | null
+     */
     public static function getCurrent()
     {
         return self::get(self::getCurrentId());
     }
 
-    public static function getGuesser()
-    {
-        return self::DB()
-            ->where('player_is_guesser', 1)
-            ->getSingle();
-    }
-
-    public static function getNonGuessers()
-    {
-        return self::DB()
-            ->where('player_is_guesser', 0)
-            ->get();
-    }
-
-    public static function switchGuesser()
-    {
-        $newGuesser = self::getNextAfterGuesser();
-        $newGuesser->setAsGuesser();
-        return $newGuesser;
-    }
-
-    public static function getNextAfterGuesser()
-    {
-        $guesser = self::getGuesser();
-        if (is_null($guesser)) {
-            $next = self::getByNo(1);
-        } else {
-            $guesserNo = $guesser->getNo();
-            $next = self::getNextNonZombie($guesserNo);
-            if (!$next) {
-                $next = self::getNextNonZombie();
-            }
-        }
-        return $next;
-    }
-
-    private static function getNextNonZombie($startFrom = 0)
-    {
-        $increment = 1;
-        $probablyNext = self::getByNo($startFrom + $increment);
-        while ($probablyNext && $probablyNext->isZombie()) {
-            $increment++;
-            $probablyNext = self::getByNo($startFrom + $increment);
-        }
-        return $probablyNext;
-    }
-
-    private static function getByNo($no)
-    {
-        return self::DB()
-            ->where('player_no', $no)
-            ->getSingle();
-    }
-
-    public static function getNextId($player)
-    {
-        $pId = is_int($player) ? $player : $player->getId();
-        $table = Game::get()->getNextPlayerTable();
-        return $table[$pId];
-    }
+//    private static function getNextNonZombie($startFrom = 0)
+//    {
+//        $increment = 1;
+//        $probablyNext = self::getByNo($startFrom + $increment);
+//        while ($probablyNext && $probablyNext->isZombie()) {
+//            $increment++;
+//            $probablyNext = self::getByNo($startFrom + $increment);
+//        }
+//        return $probablyNext;
+//    }
+//
+//    private static function getByNo($no)
+//    {
+//        return self::DB()
+//            ->where('player_no', $no)
+//            ->getSingle();
+//    }
+//
+//    public static function getNextId($player)
+//    {
+//        $pId = is_int($player) ? $player : $player->getId();
+//        $table = Game::get()->getNextPlayerTable();
+//        return $table[$pId];
+//    }
 
     /*
      * getUiData : get all ui data of all players
