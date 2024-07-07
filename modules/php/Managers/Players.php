@@ -49,11 +49,17 @@ class Players extends DB_Manager
         $query->values($values);
     }
 
+    /**
+     * @return int
+     */
     public static function getActiveId()
     {
-        return Game::get()->getActivePlayerId();
+        return (int) Game::get()->getActivePlayerId();
     }
 
+    /**
+     * @return int
+     */
     public static function getCurrentId()
     {
         return (int) Game::get()->getCurrentPId();
@@ -94,19 +100,25 @@ class Players extends DB_Manager
 //        return $probablyNext;
 //    }
 //
-//    private static function getByNo($no)
-//    {
-//        return self::DB()
-//            ->where('player_no', $no)
-//            ->getSingle();
-//    }
-//
-//    public static function getNextId($player)
-//    {
-//        $pId = is_int($player) ? $player : $player->getId();
-//        $table = Game::get()->getNextPlayerTable();
-//        return $table[$pId];
-//    }
+
+    public static function getFirstPlayerId()
+    {
+        return self::getByNo(1)->getId();
+    }
+
+    private static function getByNo($no)
+    {
+        return self::DB()
+            ->where('player_no', $no)
+            ->getSingle();
+    }
+
+    public static function getNextId($player)
+    {
+        $pId = is_int($player) ? $player : $player->getId();
+        $table = Game::get()->getNextPlayerTable();
+        return $table[$pId];
+    }
 
     /*
      * getUiData : get all ui data of all players

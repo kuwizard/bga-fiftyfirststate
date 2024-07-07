@@ -16,6 +16,7 @@
  *
  */
 
+use STATE\Core\Globals;
 use STATE\Core\Stats;
 use STATE\Managers\LocationCards;
 use STATE\Managers\Players;
@@ -71,6 +72,7 @@ class Fiftyfirststate extends Table
         Stats::setupNewGame();
         Players::setupNewGame($players, $options);
         LocationCards::setupNewGame();
+        Globals::setupNewGame();
         $this->giveEachPlayerCardsSetup();
         $this->activeNextPlayer();
     }
@@ -96,6 +98,7 @@ class Fiftyfirststate extends Table
         $currentPlayerId = Players::getCurrentId();
         return [
             'players' => Players::getUiData($currentPlayerId),
+            'firstPlayerId' => Globals::getFirstPlayerId(),
         ];
     }
 

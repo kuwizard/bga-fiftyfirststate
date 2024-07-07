@@ -8,6 +8,7 @@ namespace STATE\Core;
 
 use InvalidArgumentException;
 use STATE\Helpers\DB_Manager;
+use STATE\Managers\Players;
 use function addslashes;
 use function array_key_exists;
 use function json_encode;
@@ -17,6 +18,10 @@ class Globals extends DB_Manager
 {
     protected static $initialized = false;
     protected static $variables = [
+        'stack' => 'obj', // USED BY STACK ENGINE
+        'stackCtx' => 'obj', // USED BY STACK ENGINE
+
+        'firstPlayerId' => 'int',
     ];
 
     protected static $table = 'global_variables';
@@ -88,7 +93,7 @@ class Globals extends DB_Manager
 
         if (preg_match('/^([gs]et|inc|is)([A-Z])(.*)$/', $method, $match)) {
             // Sanity check : does the name correspond to a declared variable ?
-            $name = Globals . phpstrtolower($match[2]) . $match[3];
+            $name = strtolower($match[2]) . $match[3];
             if (!array_key_exists($name, self::$variables)) {
                 throw new InvalidArgumentException("Property {$name} doesn't exist");
             }
@@ -130,7 +135,7 @@ class Globals extends DB_Manager
                 return self::$setter(self::$getter() + (empty($args) ? 1 : $args[0]));
             }
         }
-        return undefined;
+        return null;
     }
 
     /*
@@ -138,5 +143,6 @@ class Globals extends DB_Manager
      */
     public static function setupNewGame()
     {
+        Globals::setFirstPlayerId(Players::getFirstPlayerId());
     }
 }

@@ -31,7 +31,13 @@ $machinestates = [
         'action' => 'stMakeEveryoneActive',
         'type' => 'multipleactiveplayer',
         'possibleactions' => ['actDiscardCardsGameStart'],
-        'transitions' => ['' => 98],
+        'transitions' => ['' => ST_NEXT_TURN],
+    ],
+
+    ST_RESOLVE_STACK => [
+        'name' => 'resolveStack',
+        'type' => 'game',
+        'transitions' => [],
     ],
 
     98 => [
@@ -39,8 +45,7 @@ $machinestates = [
         'description' => clienttranslate('Waiting for ${actplayer}'),
         'descriptionmyturn' => clienttranslate('${you} must decide'),
         'type' => 'activeplayer',
-        'possibleactions' => ['actDiscardCardsGameStart'],
-        'transitions' => ['' => ST_NEXT_TURN],
+        'possibleactions' => ['actTest'],
     ],
 
     ST_NEXT_TURN => [

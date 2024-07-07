@@ -9,6 +9,7 @@ define('ST_NEXT_TURN', 3);
 define('ST_TURN_PHASE_ONE_LOOKOUT', 4);
 
 define('ST_END_GAME', 99);
+define('ST_RESOLVE_STACK', 100);
 
 /*
  * Factions

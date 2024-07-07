@@ -2,16 +2,25 @@
 
 namespace STATE\States;
 
+use STATE\Core\Globals;
+use STATE\Core\Stack;
 use STATE\Managers\Players;
 
 trait TurnTrait
 {
-//    /**
-//     * @param int[] $cardIds
-//     * @return void
-//     */
-//    public function actDiscardCardsGameStart($cardIds)
-//    {
-//        Players::getCurrent()->discard($cardIds);
-//    }
+    public function stNextTurn()
+    {
+        $nextPlayer = Players::getNextId(Globals::getFirstPlayerId());
+        Globals::setFirstPlayerId($nextPlayer);
+
+        $stack = [
+            98,
+            ST_NEXT_TURN,
+        ];
+
+        $this->gamestate->changeActivePlayer($nextPlayer);
+        self::giveExtraTime($nextPlayer);
+        Stack::setup($stack);
+        Stack::finishState();
+    }
 }
