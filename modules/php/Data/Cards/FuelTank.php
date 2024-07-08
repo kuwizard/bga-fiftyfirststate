@@ -15,7 +15,8 @@ class FuelTank extends ProductionCard
         $this->spoils = [RESOURCE_FUEL, RESOURCE_FUEL];
         $this->icons = [ICON_FUEL, ICON_AMMO];
         $this->deals = [RESOURCE_FUEL];
+        $this->product = [RESOURCE_FUEL];
         $this->isOpen = true;
-        $this->copies = 20;
+        $this->copies = 2;
     }
 }

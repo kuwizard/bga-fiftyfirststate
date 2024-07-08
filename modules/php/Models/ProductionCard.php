@@ -8,6 +8,10 @@ class ProductionCard extends LocationCard
      * @var boolean
      */
     protected $isOpen;
+    /**
+     * @var int[]
+     */
+    protected $product;
 
     public function __construct($params = [])
     {

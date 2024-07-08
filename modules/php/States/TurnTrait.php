@@ -14,6 +14,7 @@ trait TurnTrait
         Globals::setFirstPlayerId($nextPlayer);
 
         $stack = [
+            
             98,
             ST_NEXT_TURN,
         ];
