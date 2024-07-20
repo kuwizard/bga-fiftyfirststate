@@ -5,7 +5,7 @@ namespace STATE\Models;
 use JsonSerializable;
 use STATE\Core\Preferences;
 use STATE\Helpers\DB_Manager;
-use STATE\Managers\LocationCards;
+use STATE\Managers\Locations;
 
 /*
  * Player: all utility functions concerning a player
@@ -184,7 +184,7 @@ class Player extends DB_Manager implements JsonSerializable
 
     public function discard($cardIds)
     {
-        LocationCards::discard($cardIds);
+        Locations::discard($cardIds);
 //        Notifications::cardsDiscarded($this, $cardIds);
     }
 
@@ -237,7 +237,7 @@ class Player extends DB_Manager implements JsonSerializable
 
     public function drawCards($amount = 1)
     {
-        LocationCards::draw($this, $amount);
+        Locations::draw($this, $amount);
     }
 
     public function jsonSerialize($currentPlayerId = null)

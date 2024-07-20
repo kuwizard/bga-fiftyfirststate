@@ -2,32 +2,29 @@
 
 namespace STATE\Models;
 
-class Action
+class Action extends Location
 {
+    /**
+     * @var Act
+     */
+    protected $action;
     /**
      * @var int
      */
-    protected $type;
-    /**
-     * @var int[]
-     */
-    protected $spendRequirements;
-    /**
-     * @var int[]
-     */
-    protected $bonus;
+    protected $activateTimes;
 
-    public function __construct($spendRequirements, $bonus, $type = ACTION_TYPE_SPEND)
+    public function __construct($params = [])
     {
-        $this->spendRequirements = $spendRequirements;
-        $this->bonus = $bonus;
-        $this->type = $type;
+        parent::__construct($params);
+        $this->activateTimes = 1;
     }
 
-//    public function jsonSerialize()
-//    {
-//        return [
-//            'id' => $this->id,
-//        ];
-//    }
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public function action($player)
+    {
+
+    }
 }

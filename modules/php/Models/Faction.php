@@ -17,7 +17,7 @@ class Faction
      */
     protected $resources;
     /**
-     * @var Action[]
+     * @var Act[]
      */
     protected $actions;
 

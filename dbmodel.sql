@@ -39,12 +39,22 @@ CREATE TABLE IF NOT EXISTS `user_preferences`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE IF NOT EXISTS `cards`
+CREATE TABLE IF NOT EXISTS `locations`
 (
-    `card_id`       smallint unsigned NOT NULL AUTO_INCREMENT,
-    `type`          varchar(20)       NOT NULL,
-    `card_location` varchar(16)       NOT NULL,
-    `card_state`    tinyint           NOT NULL,
-    PRIMARY KEY (`card_id`)
+    `location_id`       smallint unsigned NOT NULL AUTO_INCREMENT,
+    `type`              varchar(20)       NOT NULL,
+    `location_location` varchar(16)       NOT NULL,
+    `location_state`    tinyint           NOT NULL,
+    PRIMARY KEY (`location_id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+CREATE TABLE IF NOT EXISTS `connections`
+(
+    `connection_id`       smallint unsigned NOT NULL AUTO_INCREMENT,
+    `type`                varchar(20)       NOT NULL,
+    `connection_location` varchar(16)       NOT NULL,
+    `connection_state`    tinyint           NOT NULL,
+    PRIMARY KEY (`connection_id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;

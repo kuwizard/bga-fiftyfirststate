@@ -27,6 +27,9 @@ define('LOCATION_DISCARD', 'discard');
 define('LOCATION_HAND', 'hand');
 define('LOCATION_BOARD', 'board');
 define('LOCATION_DEALS', 'deals');
+define('LOCATION_BLUE_DECK', 'blue_deck');
+define('LOCATION_RED_DECK', 'red_deck');
+define('LOCATION_FLIPPED', 'flipped');
 
 /*
  * Cards types
@@ -91,6 +94,15 @@ define('CARD_ABANDONED_SUBURBS', 'abandoned_suburbs');
 define('CARD_SHADOW', 'shadow');
 define('CARD_BOILER_ROOM', 'boiler_room');
 define('CARD_UNDERGROUND_WAREHOUSE', 'underground_warehouse');
+
+
+/*
+ * Connections types
+ */
+define('CONNECTION_JUNK_TRAIN', 'junk_train');
+define('CONNECTION_MERCHANTS', 'merchants');
+define('CONNECTION_PUNKS', 'punks');
+define('CONNECTION_THUGS', 'thugs');
 
 /*
  * Resources
