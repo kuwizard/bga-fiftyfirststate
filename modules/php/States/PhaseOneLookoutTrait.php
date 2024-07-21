@@ -1,0 +1,54 @@
+<?php
+
+namespace STATE\States;
+
+use STATE\Core\Stack;
+use STATE\Managers\Locations;
+use STATE\Managers\Players;
+
+trait PhaseOneLookoutTrait
+{
+    public function argPhaseOneLookoutChoose()
+    {
+        return Locations::getInLocation(LOCATION_LOOKOUT)->getIds();
+    }
+
+    public function stPhaseOneLookoutSetup()
+    {
+        $players = Players::getPlayersSortedByNo(true);
+        Stack::insertOnTop(ST_PHASE_ONE_LOOKOUT_DISCARD);
+        foreach (array_reverse($players) as $pId) {
+            Stack::insertOnTop(ST_PHASE_ONE_LOOKOUT_CHOOSE, ['pId' => $pId]);
+        }
+        Stack::insertOnTop(ST_PHASE_ONE_LOOKOUT_DRAW, ['amount' => count($players) + 1]);
+        Stack::insertOnTop(ST_PHASE_ONE_LOOKOUT_DISCARD);
+        foreach (array_reverse(Players::getPlayersSortedByNo()) as $pId) {
+            Stack::insertOnTop(ST_PHASE_ONE_LOOKOUT_CHOOSE, ['pId' => $pId]);
+        }
+        Stack::insertOnTop(ST_PHASE_ONE_LOOKOUT_DRAW, ['amount' => count($players) + 1]);
+        Stack::finishState();
+    }
+
+    public function stPhaseOneLookoutDraw()
+    {
+        $amount = Stack::getCtx()['amount'];
+        Locations::move(Locations::getTopOf(LOCATION_DECK, $amount)->getIds(), LOCATION_LOOKOUT);
+        Stack::finishState();
+    }
+
+    public function stPhaseOneLookoutDiscard()
+    {
+        $leftoverLocations = Locations::getInLocation(LOCATION_LOOKOUT)->getIds();
+        if (count($leftoverLocations) !== 1) {
+            throw new BgaVisibleSystemException('Incorrect leftover locations amount: ' . count($leftoverLocations));
+        }
+        Locations::move($leftoverLocations, LOCATION_DISCARD);
+        Stack::finishState();
+    }
+
+    public function actChooseCardLookout($id)
+    {
+        Locations::move($id, [LOCATION_HAND, Players::getActiveId()]);
+        Stack::finishState();
+    }
+}

@@ -31,7 +31,6 @@ class action_fiftyfirststate extends APP_GameAction
     public function actDiscardCardsGameStart()
     {
         self::setAjaxMode();
-
         $cardIds = explode(';', self::getArg('ids', AT_numberlist, true));
         $cardIds = array_filter($cardIds);
         $cardIds = array_map(function ($id) {
@@ -40,4 +39,14 @@ class action_fiftyfirststate extends APP_GameAction
         $this->game->actDiscardCardsGameStart($cardIds);
         self::ajaxResponse();
     }
+
+    public function actChooseCardLookout()
+    {
+        self::setAjaxMode();
+        $locationId = self::getArg('id', AT_numberlist, true);
+        $this->game->actChooseCardLookout($locationId);
+        self::ajaxResponse();
+    }
+
+
 }

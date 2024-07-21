@@ -22,24 +22,29 @@ define([
     'ebg/counter',
     g_gamethemeurl + 'modules/js/game.js',
     g_gamethemeurl + 'modules/js/States/DiscardCardsGameStartState.js',
+    g_gamethemeurl + 'modules/js/States/PhaseOneLookoutChooseState.js',
 ], function (dojo, declare) {
-    return declare('bgagame.fiftyfirststate', [customgame.game, state.discardCardsGameStart], {
-        constructor() {
-            this._notifications = [
-                // ['sentClue', 1],
-            ];
+    return declare(
+        'bgagame.fiftyfirststate',
+        [customgame.game, state.discardCardsGameStart, state.phaseOneLookoutChoose],
+        {
+            constructor() {
+                this._notifications = [
+                    // ['sentClue', 1],
+                ];
 
-            // TODO: Fix for mobile
-            // this.default_viewport = 'width=600';
-        },
+                // TODO: Fix for mobile
+                // this.default_viewport = 'width=600';
+            },
 
-        setup(gamedatas) {
-            debug('SETUP', gamedatas);
-            this.inherited(arguments);
-        },
+            setup(gamedatas) {
+                debug('SETUP', gamedatas);
+                this.inherited(arguments);
+            },
 
-        notif_template(n) {
-            debug('Notif: template', n);
-        },
-    });
+            notif_template(n) {
+                debug('Notif: template', n);
+            },
+        }
+    );
 });

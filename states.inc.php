@@ -55,14 +55,35 @@ $machinestates = [
         'type' => 'game',
     ],
 
-    ST_TURN_PHASE_ONE_LOOKOUT => [
-        'name' => 'turnPhaseOneLookout',
-        'description' => clienttranslate('${actplayer} must choose a card '),
-        'descriptionmyturn' => clienttranslate('${you} should place a poker card in any open slot'),
-        'args' => 'argStepOnePlan',
+    ST_PHASE_ONE_LOOKOUT_SETUP => [
+        'name' => 'phaseOneLookoutSetup',
+        'description' => '',
+        'action' => 'stPhaseOneLookoutSetup',
+        'type' => 'game',
+    ],
+
+    ST_PHASE_ONE_LOOKOUT_CHOOSE => [
+        'name' => 'phaseOneLookoutChoose',
+        'description' => clienttranslate('${actplayer} must choose a card'),
+        'descriptionmyturn' => clienttranslate('${you} must choose a card'),
+        'args' => 'argPhaseOneLookoutChoose',
         'type' => 'activeplayer',
         'updateGameProgression' => true,
-        'possibleactions' => ['actPlaceCard', 'actUndo'],
+        'possibleactions' => ['actChooseCardLookout'],
+    ],
+
+    ST_PHASE_ONE_LOOKOUT_DRAW => [
+        'name' => 'phaseOneLookoutDraw',
+        'description' => '',
+        'action' => 'stPhaseOneLookoutDraw',
+        'type' => 'game',
+    ],
+
+    ST_PHASE_ONE_LOOKOUT_DISCARD => [
+        'name' => 'phaseOneLookoutDiscard',
+        'description' => '',
+        'action' => 'stPhaseOneLookoutDiscard',
+        'type' => 'game',
     ],
 
     // Final state.

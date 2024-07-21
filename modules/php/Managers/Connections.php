@@ -42,7 +42,10 @@ class Connections extends Pieces
 
     public static function setupNewGame()
     {
-        foreach (['blueCardTypes' => LOCATION_BLUE_DECK, 'redCardTypes' => LOCATION_RED_DECK] as $deck => $location) {
+        foreach ([
+            'blueCardTypes' => LOCATION_CONNECTIONS_BLUE_DECK,
+            'redCardTypes' => LOCATION_CONNECTIONS_RED_DECK,
+        ] as $deck => $location) {
             foreach (self::$$deck as $class) {
                 $name = "STATE\Data\Connections\\" . $class;
                 /** @var Connection $card */

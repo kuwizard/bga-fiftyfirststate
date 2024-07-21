@@ -70,6 +70,19 @@ class Players extends DB_Manager
         return self::DB()->get();
     }
 
+    /**
+     * @param boolean $backwards
+     * @return int[]
+     */
+    public static function getPlayersSortedByNo($backwards = false)
+    {
+        $sort = $backwards ? 'DESC' : 'ASC';
+        $playerIds = self::getObjectListFromDB("SELECT player_id FROM player ORDER BY player_no {$sort}", true);
+        return array_map(function ($pId) {
+            return (int) $pId;
+        }, $playerIds);
+    }
+
     /*
      * get : returns the Player object for the given player ID
      */

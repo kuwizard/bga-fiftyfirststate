@@ -6,7 +6,11 @@
 define('ST_GAME_SETUP', 1);
 define('ST_DISCARD_CARDS_GAME_START', 2);
 define('ST_NEXT_TURN', 3);
-define('ST_TURN_PHASE_ONE_LOOKOUT', 4);
+define('ST_PHASE_ONE_LOOKOUT_SETUP', 10);
+define('ST_PHASE_ONE_LOOKOUT_CHOOSE', 11);
+define('ST_PHASE_ONE_LOOKOUT_DRAW', 12);
+define('ST_PHASE_ONE_LOOKOUT_DISCARD', 13);
+define('ST_PHASE_TWO_PRODUCTION', 20);
 
 define('ST_END_GAME', 99);
 define('ST_RESOLVE_STACK', 100);
@@ -27,9 +31,10 @@ define('LOCATION_DISCARD', 'discard');
 define('LOCATION_HAND', 'hand');
 define('LOCATION_BOARD', 'board');
 define('LOCATION_DEALS', 'deals');
-define('LOCATION_BLUE_DECK', 'blue_deck');
-define('LOCATION_RED_DECK', 'red_deck');
-define('LOCATION_FLIPPED', 'flipped');
+define('LOCATION_CONNECTIONS_BLUE_DECK', 'blue_deck');
+define('LOCATION_CONNECTIONS_RED_DECK', 'red_deck');
+define('LOCATION_CONNECTIONS_FLIPPED', 'flipped');
+define('LOCATION_LOOKOUT', 'lookout');
 
 /*
  * Cards types

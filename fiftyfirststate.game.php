@@ -41,9 +41,9 @@ spl_autoload_register($swdNamespaceAutoload, true, true);
 
 class Fiftyfirststate extends Table
 {
-    use STATE\States\DaySetupTrait;
     use STATE\States\TurnTrait;
     use STATE\States\DiscardCardsGameStartTrait;
+    use STATE\States\PhaseOneLookoutTrait;
 
     public static $instance = null;
 

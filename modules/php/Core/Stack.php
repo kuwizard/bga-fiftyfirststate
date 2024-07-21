@@ -75,47 +75,14 @@ class Stack
         return $atom;
     }
 
-    /**
-     * @param int $state
-     * @param array $options
-     * @param boolean $addAsFirstIfNoBlock
-     * @return void
-     */
-    public static function insertAfterBlock($state, $options = [], $addAsFirstIfNoBlock = false)
-    {
-        $atom = self::newAtom($state, $options);
-        $stack = self::get();
-        $top[] = array_shift($stack);
-        if (isset($top[0]['stackBlock'])) {
-            $blockName = $top[0]['stackBlock'];
-            while (isset($stack[0]['stackBlock']) && $stack[0]['stackBlock'] === $blockName) {
-                $top[] = array_shift($stack);
-            }
-        } else if ($addAsFirstIfNoBlock) {
-            self::insertOnTop($state, $options);
-        } else {
-            throw new \BgaVisibleSystemException(
-                'Class Stack: insertAfterBlock() was called but found no block. Please report this to the BGA bug tracker. Top: '
-                . json_encode($top)
-            );
-        }
-        array_unshift($stack, $atom);
-        $stack = array_merge($top, $stack);
-        self::set($stack);
-        if (Globals::enabledStackLogger()) {
-            var_dump('[Stack logger] Inserted a new atom after block and now Stack looks like this:');
-            var_dump(Stack::get());
-        }
-    }
-
-    public static function addPlayerIdToNextAtom($pId)
-    {
-        $stack = Stack::get();
-        $atom = array_splice($stack, 1, 1);
-        $atom[0]['pId'] = $pId;
-        array_splice($stack, 1, 0, $atom);
-        Stack::set($stack);
-    }
+//    public static function addPlayerIdToNextAtom($pId)
+//    {
+//        $stack = Stack::get();
+//        $atom = array_splice($stack, 1, 1);
+//        $atom[0]['pId'] = $pId;
+//        array_splice($stack, 1, 0, $atom);
+//        Stack::set($stack);
+//    }
 
     private static function get()
     {

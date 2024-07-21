@@ -1,8 +1,6 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     return declare('state.discardCardsGameStart', null, {
-        constructor() {
-
-        },
+        constructor() {},
 
         onEnteringStateDiscardCardsGameStart(args) {
             debug('DiscardCardsGameStart state', args);
@@ -10,7 +8,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 this.addPrimaryActionButton(
                     'buttonDiscardCards',
                     _('Discard 1, 3'),
-                    () => this.takeAction('actDiscardCardsGameStart', { ids: [1, 3] })
+                    () => this.takeAction('actDiscardCardsGameStart', { ids: [1, 3].join(';') })
                 );
                 this.addPrimaryActionButton(
                     'buttonDiscardCards2',
