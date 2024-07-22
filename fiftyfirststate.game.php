@@ -44,6 +44,7 @@ class Fiftyfirststate extends Table
     use STATE\States\TurnTrait;
     use STATE\States\DiscardCardsGameStartTrait;
     use STATE\States\PhaseOneLookoutTrait;
+    use STATE\States\PhaseTwoProductionTrait;
 
     public static $instance = null;
 

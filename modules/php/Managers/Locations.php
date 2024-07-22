@@ -34,75 +34,75 @@ class Locations extends Pieces
 
     protected static function cast($row)
     {
-        return new Location($row);
+        return self::getByType($row['type']);
     }
 
     private static $allCardTypes = [
-        'AbandonedSuburbs',
-        'Archive',
-        'Arena',
-        'Assassin',
-        'AssemblyPlant',
-        'Bioweaponry',
-        'BoilerRoom',
-        'BrickStorage',
-        'BrickSupplier',
-        'Camp',
-        'Church',
-        'CityGuards',
-        'ClayPit',
-        'Confessor',
-        'ConstructionVehicles',
-        'Convoy',
-        'CornerShop',
-        'Crossroads',
-        'DesertedColony',
-        'Docks',
-        'Excavator',
-        'Factory',
-        'FuelTank',
-        'GasolineCultist',
-        'GasolineDrinkersDen',
-        'GunShop',
-        'Gunsmith',
-        'Hideout',
-        'HugeMachinery',
-        'MercOutpost',
-        'MethaneStorage',
-        'Motel',
-        'MurderersPub',
-        'Museum',
-        'Negotiator',
-        'OilmenFortress',
-        'OilRig',
-        'OilTrader',
-        'OldCinema',
-        'ParkingLot',
-        'Pub',
-        'Quarry',
-        'RadioactiveFuel',
-        'Refinery',
-        'Rubble',
-        'RubbleTrader',
-        'RuinedLibrary',
-        'School',
-        'ScrapMetal',
-        'ScrapTrader',
-        'Shadow',
-        'Sharrash',
-        'Shelter',
-        'Shipwreck',
-        'Skyscraper',
-        'ThievesCaravan',
-        'ThievesDen',
-        'UndergroundWarehouse',
-        'WeaponTrader',
-        'WreckedTank',
+        CARD_ABANDONED_SUBURBS => 'AbandonedSuburbs',
+        CARD_ARCHIVE => 'Archive',
+        CARD_ARENA => 'Arena',
+        CARD_ASSASSIN => 'Assassin',
+        CARD_ASSEMBLY_PLANT => 'AssemblyPlant',
+        CARD_BIOWEAPONRY => 'Bioweaponry',
+        CARD_BOILER_ROOM => 'BoilerRoom',
+        CARD_BRICK_STORAGE => 'BrickStorage',
+        CARD_BRICK_SUPPLIER => 'BrickSupplier',
+        CARD_CAMP => 'Camp',
+        CARD_CHURCH => 'Church',
+        CARD_CITY_GUARDS => 'CityGuards',
+        CARD_CLAY_PIT => 'ClayPit',
+        CARD_CONFESSOR => 'Confessor',
+        CARD_CONSTRUCTION_VEHICLES => 'ConstructionVehicles',
+        CARD_CONVOY => 'Convoy',
+        CARD_CORNER_SHOP => 'CornerShop',
+        CARD_CROSSROADS => 'Crossroads',
+        CARD_DESERTED_COLONY => 'DesertedColony',
+        CARD_DOCKS => 'Docks',
+        CARD_EXCAVATOR => 'Excavator',
+        CARD_FACTORY => 'Factory',
+        CARD_FUEL_TANK => 'FuelTank',
+        CARD_GASOLINE_CULTIST => 'GasolineCultist',
+        CARD_GASOLINE_DEN => 'GasolineDrinkersDen',
+        CARD_GUN_SHOP => 'GunShop',
+        CARD_GUNSMITH => 'Gunsmith',
+        CARD_HIDEOUT => 'Hideout',
+        CARD_HUGE_MACHINERY => 'HugeMachinery',
+        CARD_MERC_OUTPOST => 'MercOutpost',
+        CARD_METHANE_STORAGE => 'MethaneStorage',
+        CARD_MOTEL => 'Motel',
+        CARD_MURDERERS_PUB => 'MurderersPub',
+        CARD_MUSEUM => 'Museum',
+        CARD_NEGOTIATOR => 'Negotiator',
+        CARD_OILMEN_FORTRESS => 'OilmenFortress',
+        CARD_OIL_RIG => 'OilRig',
+        CARD_OIL_TRADER => 'OilTrader',
+        CARD_OLD_CINEMA => 'OldCinema',
+        CARD_PARKING_LOT => 'ParkingLot',
+        CARD_PUB => 'Pub',
+        CARD_QUARRY => 'Quarry',
+        CARD_RADIOACTIVE_FUEL => 'RadioactiveFuel',
+        CARD_REFINERY => 'Refinery',
+        CARD_RUBBLE => 'Rubble',
+        CARD_RUBBLE_TRADER => 'RubbleTrader',
+        CARD_RUINED_LIBRARY => 'RuinedLibrary',
+        CARD_SCHOOL => 'School',
+        CARD_SCRAP_METAL => 'ScrapMetal',
+        CARD_SCRAP_TRADER => 'ScrapTrader',
+        CARD_SHADOW => 'Shadow',
+        CARD_SHARRASH => 'Sharrash',
+        CARD_SHELTER => 'Shelter',
+        CARD_SHIPWRECK => 'Shipwreck',
+        CARD_SKYSCRAPER => 'Skyscraper',
+        CARD_THIEVES_CARAVAN => 'ThievesCaravan',
+        CARD_THIEVES_DEN => 'ThievesDen',
+        CARD_UNDERGROUND_WAREHOUSE => 'UndergroundWarehouse',
+        CARD_WEAPON_TRADER => 'WeaponTrader',
+        CARD_WRECKED_TANK => 'WreckedTank',
     ];
 
     public static function setupNewGame()
     {
-        foreach (self::$allCardTypes as $class) {
+        foreach (array_values(self::$allCardTypes) as $class) {
             $name = "STATE\Data\Locations\\" . $class;
             /** @var Location $card */
             $card = new $name();
@@ -119,6 +119,16 @@ class Locations extends Pieces
             $statedCards[] = array_merge(array_shift($cards), ['state' => $i]);
         }
         self::create($statedCards, LOCATION_DECK);
+    }
+
+    /**
+     * @param int $type
+     * @return Location
+     */
+    private static function getByType($type)
+    {
+        $name = "STATE\Data\Locations\\" . self::$allCardTypes[$type];
+        return new $name();
     }
 
     public static function getAll()

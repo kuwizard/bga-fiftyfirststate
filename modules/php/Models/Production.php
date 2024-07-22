@@ -19,6 +19,11 @@ class Production extends Location
         $this->isOpen = false;
     }
 
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
     public function jsonSerialize()
     {
         return array_merge(parent::jsonSerialize(), [

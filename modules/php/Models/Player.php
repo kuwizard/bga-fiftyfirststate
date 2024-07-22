@@ -152,42 +152,6 @@ class Player extends DB_Manager implements JsonSerializable
         return Preferences::get($this->id, $prefId);
     }
 
-    public function increaseResource($type, $amount = 1)
-    {
-        $resourceName = $this->getResourceName($type);
-        $newAmount = $this->{$resourceName} + $amount;
-        $this->{$resourceName} = $newAmount;
-        $this->updateResource($this->getDBName($type), $newAmount);
-    }
-
-    public function decreaseResource($type, $amount = 1)
-    {
-        $resourceName = $this->getResourceName($type);
-        $resourceAmount = $this->{$resourceName};
-        $newAmount = $resourceAmount - $amount;
-        if ($newAmount < 0) {
-            throw new \BgaVisibleSystemException(
-                "Something's wrong. You try to decrease resource {$resourceName} to a negative value. You have {$resourceAmount}, amount to lose - {$amount}"
-            );
-        }
-        $this->{$resourceName} = $newAmount;
-        $this->updateResource($this->getDBName($type), $newAmount);
-    }
-
-    private function updateResource($name, $amount)
-    {
-        self::DB()
-            ->update([$name => $amount])
-            ->wherePlayer($this->id)
-            ->run();
-    }
-
-    public function discard($cardIds)
-    {
-        Locations::discard($cardIds);
-//        Notifications::cardsDiscarded($this, $cardIds);
-    }
-
     private function getResourceName($type)
     {
         return [
@@ -234,10 +198,102 @@ class Player extends DB_Manager implements JsonSerializable
         ][$this->color];
     }
 
+    /**
+     * @return int[]
+     */
+    public function getDeals()
+    {
+        return $this->combineResources(LOCATION_DEALS);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getProduction()
+    {
+        return $this->combineResources(LOCATION_BOARD);
+    }
+
+    /**
+     * @param array $resources
+     * @return void
+     */
+    public function increaseResources($resources)
+    {
+        if (isset($resources[RESOURCE_CARD])) {
+            Locations::draw($this, $resources[RESOURCE_CARD]);
+            unset($resources[RESOURCE_CARD]);
+        }
+        foreach ($resources as $type => $amount) {
+            $this->increaseResource($type, $amount);
+        }
+    }
+
+    public function increaseResource($type, $amount = 1)
+    {
+        $resourceName = $this->getResourceName($type);
+        $newAmount = $this->{$resourceName} + $amount;
+        $this->{$resourceName} = $newAmount;
+        $this->updateResource($this->getDBName($type), $newAmount);
+    }
+
+    public function decreaseResource($type, $amount = 1)
+    {
+        $resourceName = $this->getResourceName($type);
+        $resourceAmount = $this->{$resourceName};
+        $newAmount = $resourceAmount - $amount;
+        if ($newAmount < 0) {
+            throw new \BgaVisibleSystemException(
+                "Something's wrong. You try to decrease resource {$resourceName} to a negative value. You have {$resourceAmount}, amount to lose - {$amount}"
+            );
+        }
+        $this->{$resourceName} = $newAmount;
+        $this->updateResource($this->getDBName($type), $newAmount);
+    }
+
+    private function updateResource($name, $amount)
+    {
+        self::DB()
+            ->update([$name => $amount])
+            ->wherePlayer($this->id)
+            ->run();
+    }
+
+    public function discard($cardIds)
+    {
+        Locations::discard($cardIds);
+//        Notifications::cardsDiscarded($this, $cardIds);
+    }
 
     public function drawCards($amount = 1)
     {
         Locations::draw($this, $amount);
+    }
+
+    private function combineResources($location)
+    {
+        $locationsCards = Locations::getInLocation([$location, $this->id]);
+        if ($location === LOCATION_BOARD) {
+            $locationsCards = $locationsCards->filter(function ($locationCard) {
+                /** @var Location $locationCard */
+                return $locationCard instanceof Production;
+            });
+        }
+        $combined = [];
+        /** @var Location | Production $locationCard */
+        foreach ($locationsCards->toArray() as $locationCard) {
+            if ($location === LOCATION_DEALS) {
+                $resources = $locationCard->getDeals();
+            } else if ($location === LOCATION_BOARD) {
+                $resources = $locationCard->getProduct();
+            } else {
+                throw new \BgaVisibleSystemException(
+                    'Trying to get resources from unknown location (' . $location . ')'
+                );
+            }
+            $combined = array_merge($combined, $resources);
+        }
+        return $combined;
     }
 
     public function jsonSerialize($currentPlayerId = null)

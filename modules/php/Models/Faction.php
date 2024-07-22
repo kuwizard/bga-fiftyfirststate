@@ -27,11 +27,11 @@ class Faction
     }
 
     /**
-     * @return string
+     * @return int[]
      */
-    public function getType()
+    public function getProduction()
     {
-        return $this->type;
+        return $this->resources;
     }
 
 //    public function jsonSerialize()

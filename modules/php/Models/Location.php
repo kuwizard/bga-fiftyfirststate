@@ -73,6 +73,14 @@ class Location implements \JsonSerializable
         return $this->copies;
     }
 
+    /**
+     * @return int[]
+     */
+    public function getDeals()
+    {
+        return $this->deals;
+    }
+
     public function jsonSerialize()
     {
         return [

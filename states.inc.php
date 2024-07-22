@@ -86,6 +86,13 @@ $machinestates = [
         'type' => 'game',
     ],
 
+    ST_PHASE_TWO_PRODUCTION => [
+        'name' => 'phaseTwoProduction',
+        'description' => '',
+        'action' => 'stPhaseTwoProduction',
+        'type' => 'game',
+    ],
+
     // Final state.
     // Please do not modify (and do not overload action/args methods).
     ST_END_GAME => [
