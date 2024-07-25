@@ -13,5 +13,8 @@
  * 51 State stylesheet
  *
  */
+.player-board.passed {
+  opacity: 0.4;
+}
 
 /*# sourceMappingURL=fiftyfirststate.css.map */

@@ -3,6 +3,7 @@
 namespace STATE\Managers;
 
 use STATE\Core\Game;
+use STATE\Core\Globals;
 use STATE\Helpers\DB_Manager;
 use STATE\Models\Player;
 
@@ -58,6 +59,14 @@ class Players extends DB_Manager
     }
 
     /**
+     * @return Player
+     */
+    public static function getActive()
+    {
+        return self::get(self::getActiveId());
+    }
+
+    /**
      * @return int
      */
     public static function getCurrentId()
@@ -83,8 +92,9 @@ class Players extends DB_Manager
         }, $playerIds);
     }
 
-    /*
-     * get : returns the Player object for the given player ID
+    /**
+     * @param int $pId
+     * @return Player
      */
     public static function get($pId = null)
     {
@@ -114,9 +124,17 @@ class Players extends DB_Manager
 //    }
 //
 
-    public static function getFirstPlayerId()
+    /**
+     * @return int
+     */
+    public static function getFirstFirstPlayerId()
     {
         return self::getByNo(1)->getId();
+    }
+
+    public static function getFirstPlayerId()
+    {
+        return Globals::getFirstPlayerId();
     }
 
     private static function getByNo($no)
@@ -126,11 +144,40 @@ class Players extends DB_Manager
             ->getSingle();
     }
 
-    public static function getNextId($player)
+
+    public static function getNextId($player = null)
     {
-        $pId = is_int($player) ? $player : $player->getId();
-        $table = Game::get()->getNextPlayerTable();
-        return $table[$pId];
+        if ($player) {
+            $pId = is_int($player) ? $player : $player->getId();
+        } else {
+            $pId = self::getActiveId();
+        }
+
+        $nextId = Game::get()->getNextPlayerTable()[$pId];
+        $i = 0;
+        while (self::get($nextId)->isPassed() && $i < 5) {
+            $nextId = Game::get()->getNextPlayerTable()[$nextId];
+            $i = $i + 1;
+        }
+        return $nextId;
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isAllPassed()
+    {
+        return self::DB()
+                ->where('player_passed', 0)
+                ->count() === 0;
+    }
+
+    public static function markAsPassed(int $pId)
+    {
+        self::DB()
+            ->wherePlayer($pId)
+            ->update(['player_passed' => 1])
+            ->run();
     }
 
     /*

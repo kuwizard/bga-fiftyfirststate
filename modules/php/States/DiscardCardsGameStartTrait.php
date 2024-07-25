@@ -12,6 +12,7 @@ trait DiscardCardsGameStartTrait
      */
     public function actDiscardCardsGameStart($cardIds)
     {
+        self::checkAction('actDiscardCardsGameStart');
         $currentPlayer = Players::getCurrent();
         $currentPlayer->discard($cardIds);
         $this->gamestate->setPlayerNonMultiactive($currentPlayer->getId(), '');

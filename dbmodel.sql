@@ -20,6 +20,7 @@ ALTER TABLE `player` ADD `player_arrow_uni` TINYINT DEFAULT 0;
 ALTER TABLE `player` ADD `player_ammo` TINYINT DEFAULT 0;
 ALTER TABLE `player` ADD `player_defence` TINYINT DEFAULT 0;
 ALTER TABLE `player` ADD `player_devel` TINYINT DEFAULT 0;
+ALTER TABLE `player` ADD `player_passed` TINYINT DEFAULT 0;
 
 CREATE TABLE IF NOT EXISTS `global_variables`
 (
@@ -42,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `user_preferences`
 CREATE TABLE IF NOT EXISTS `locations`
 (
     `location_id`       smallint unsigned NOT NULL AUTO_INCREMENT,
-    `type`              varchar(20)       NOT NULL,
+    `type`              varchar(25)       NOT NULL,
     `location_location` varchar(16)       NOT NULL,
     `location_state`    tinyint           NOT NULL,
     PRIMARY KEY (`location_id`)

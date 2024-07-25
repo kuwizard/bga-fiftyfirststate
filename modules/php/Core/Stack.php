@@ -6,6 +6,8 @@ namespace STATE\Core;
  * Stack: a class that handles resolution stack
  */
 
+use STATE\Managers\Players;
+
 class Stack
 {
     public static function setup($flow)
@@ -21,10 +23,11 @@ class Stack
         }
 
         foreach ($flow as $state) {
-            if (is_int($state)) {
-                $options = [];
-                $stack[] = Stack::newAtom($state, $options);
+            $options = [];
+            if ($state === ST_PHASE_THREE_ACTION) {
+                $options['suspended'] = true;
             }
+            $stack[] = Stack::newAtom($state, $options);
         }
         Stack::set($stack);
         Stack::setCtx($stack[0]);
@@ -48,11 +51,10 @@ class Stack
         $activePlayerId = (int) Game::get()->getActivePlayerId();
         // Jump to resolveStack state to ensure we can change active pId
         Game::get()->gamestate->jumpToState(ST_RESOLVE_STACK);
-        // Returning to turn player id if it was changed before
-        if (isset($atom['pId'])) {
-            if ($activePlayerId !== $atom['pId']) {
-                Game::get()->gamestate->changeActivePlayer($atom['pId']);
-            }
+        // We would like to always switch player if state is suspended (it should be phase 3: action)
+        if (self::isSuspended($atom)) {
+            $nextPId = Players::isAllPassed() ? Players::getFirstPlayerId() : Players::getNextId();
+            Game::get()->gamestate->changeActivePlayer($nextPId);
         }
         Game::get()->gamestate->jumpToState($atom['state']);
     }
@@ -74,15 +76,6 @@ class Stack
         }
         return $atom;
     }
-
-//    public static function addPlayerIdToNextAtom($pId)
-//    {
-//        $stack = Stack::get();
-//        $atom = array_splice($stack, 1, 1);
-//        $atom[0]['pId'] = $pId;
-//        array_splice($stack, 1, 0, $atom);
-//        Stack::set($stack);
-//    }
 
     private static function get()
     {

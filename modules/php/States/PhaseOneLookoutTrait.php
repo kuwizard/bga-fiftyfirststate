@@ -48,6 +48,7 @@ trait PhaseOneLookoutTrait
 
     public function actChooseCardLookout($id)
     {
+        self::checkAction('actChooseCardLookout');
         Locations::move($id, [LOCATION_HAND, Players::getActiveId()]);
         Stack::finishState();
     }

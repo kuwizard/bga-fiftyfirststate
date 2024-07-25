@@ -20,13 +20,21 @@ define([
     'dojo',
     'dojo/_base/declare',
     'ebg/counter',
-    g_gamethemeurl + 'modules/js/game.js',
+    g_gamethemeurl + 'modules/js/Core/game.js',
     g_gamethemeurl + 'modules/js/States/DiscardCardsGameStartState.js',
     g_gamethemeurl + 'modules/js/States/PhaseOneLookoutChooseState.js',
+    g_gamethemeurl + 'modules/js/States/PhaseThreeActionState.js',
+    g_gamethemeurl + 'modules/js/playerboard.js',
 ], function (dojo, declare) {
     return declare(
         'bgagame.fiftyfirststate',
-        [customgame.game, state.discardCardsGameStart, state.phaseOneLookoutChoose],
+        [
+            customgame.game,
+            state.discardCardsGameStart,
+            state.phaseOneLookoutChoose,
+            state.phaseThreeAction,
+            state.playerboard
+        ],
         {
             constructor() {
                 this._notifications = [

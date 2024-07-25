@@ -26,7 +26,7 @@ $machinestates = [
 
     ST_DISCARD_CARDS_GAME_START => [
         'name' => 'discardCardsGameStart',
-        'description' => clienttranslate('${actplayer} must choose 2 cards to discard'),
+        'description' => clienttranslate('Other players must choose 2 cards to discard'),
         'descriptionmyturn' => clienttranslate('${you} must choose 2 cards to discard'),
         'action' => 'stMakeEveryoneActive',
         'type' => 'multipleactiveplayer',
@@ -91,6 +91,16 @@ $machinestates = [
         'description' => '',
         'action' => 'stPhaseTwoProduction',
         'type' => 'game',
+    ],
+
+    ST_PHASE_THREE_ACTION => [
+        'name' => 'phaseThreeAction',
+        'description' => clienttranslate('${actplayer} must choose an action or pass'),
+        'descriptionmyturn' => clienttranslate('${you} must choose an action or pass'),
+//        'args' => 'argPhaseThreeAction',
+        'type' => 'activeplayer',
+        'updateGameProgression' => true,
+        'possibleactions' => ['actActionPass', 'actDoSomething'],
     ],
 
     // Final state.

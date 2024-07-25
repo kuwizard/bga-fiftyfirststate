@@ -143,6 +143,6 @@ class Globals extends DB_Manager
      */
     public static function setupNewGame()
     {
-        Globals::setFirstPlayerId(Players::getFirstPlayerId());
+        Globals::setFirstPlayerId(Players::getFirstFirstPlayerId());
     }
 }

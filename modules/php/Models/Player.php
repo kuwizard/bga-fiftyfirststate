@@ -6,6 +6,7 @@ use JsonSerializable;
 use STATE\Core\Preferences;
 use STATE\Helpers\DB_Manager;
 use STATE\Managers\Locations;
+use STATE\Managers\Players;
 
 /*
  * Player: all utility functions concerning a player
@@ -88,6 +89,10 @@ class Player extends DB_Manager implements JsonSerializable
      * @var int
      */
     protected $devel;
+    /**
+     * @var boolean
+     */
+    protected $passed;
 
     public function __construct($row)
     {
@@ -111,6 +116,7 @@ class Player extends DB_Manager implements JsonSerializable
             $this->ammo = (int) $row['player_ammo'];
             $this->defence = (int) $row['player_defence'];
             $this->devel = (int) $row['player_devel'];
+            $this->passed = (int) $row['player_passed'] === 1;
         }
     }
 
@@ -145,6 +151,11 @@ class Player extends DB_Manager implements JsonSerializable
     public function isZombie()
     {
         return $this->zombie;
+    }
+
+    public function isPassed(): bool
+    {
+        return $this->passed;
     }
 
     public function getPref($prefId)
@@ -296,6 +307,11 @@ class Player extends DB_Manager implements JsonSerializable
         return $combined;
     }
 
+    public function markAsPassed()
+    {
+        Players::markAsPassed($this->id);
+    }
+
     public function jsonSerialize($currentPlayerId = null)
     {
         $data = [
@@ -317,6 +333,7 @@ class Player extends DB_Manager implements JsonSerializable
             'ammo' => $this->ammo,
             'defence' => $this->defence,
             'devel' => $this->devel,
+            'passed' => $this->passed,
         ];
         return $data;
     }
