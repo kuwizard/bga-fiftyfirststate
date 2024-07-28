@@ -11,7 +11,12 @@ class Locations extends Pieces
     protected static $table = 'locations';
     protected static $primary = 'location_id';
     protected static $prefix = 'location_';
-    protected static $customFields = ['type'];
+    protected static $customFields = ['type', 'activated_times'];
+
+    protected static function cast($row)
+    {
+        return self::getByType($row['type']);
+    }
 
     /**
      * @param Player $player
@@ -30,11 +35,6 @@ class Locations extends Pieces
         foreach ($cardIds as $cardId) {
             self::insertOnTop($cardId, LOCATION_DISCARD);
         }
-    }
-
-    protected static function cast($row)
-    {
-        return self::getByType($row['type']);
     }
 
     private static $allCardTypes = [
@@ -141,5 +141,12 @@ class Locations extends Pieces
         return self::DB()
             ->where($id)
             ->getSingle();
+    }
+
+    public static function resetActivatedTimes()
+    {
+        self::DB()
+            ->update(['activated_times' => 0])
+            ->run();
     }
 }

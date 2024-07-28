@@ -3,6 +3,7 @@
 namespace STATE\States;
 
 use STATE\Core\Stack;
+use STATE\Managers\Connections;
 use STATE\Managers\Locations;
 use STATE\Managers\Players;
 
@@ -15,6 +16,8 @@ trait PhaseOneLookoutTrait
 
     public function stPhaseOneLookoutSetup()
     {
+        Connections::flipForNewRound();
+
         $players = Players::getPlayersSortedByNo(true);
         Stack::insertOnTop(ST_PHASE_ONE_LOOKOUT_DISCARD);
         foreach (array_reverse($players) as $pId) {

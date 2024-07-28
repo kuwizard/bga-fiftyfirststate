@@ -15,7 +15,7 @@ class Stack
         $ctx = Stack::getCtx();
         if (empty($ctx)) {
             // Ok, that should be the very game start
-            $firstAtom = Stack::newAtom(ST_NEXT_TURN);
+            $firstAtom = Stack::newAtom(ST_NEXT_ROUND);
             Stack::setCtx($firstAtom);
             $stack = [$firstAtom];
         } else {

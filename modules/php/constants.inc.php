@@ -5,13 +5,14 @@
  */
 define('ST_GAME_SETUP', 1);
 define('ST_DISCARD_CARDS_GAME_START', 2);
-define('ST_NEXT_TURN', 3);
+define('ST_NEXT_ROUND', 3);
 define('ST_PHASE_ONE_LOOKOUT_SETUP', 10);
 define('ST_PHASE_ONE_LOOKOUT_CHOOSE', 11);
 define('ST_PHASE_ONE_LOOKOUT_DRAW', 12);
 define('ST_PHASE_ONE_LOOKOUT_DISCARD', 13);
 define('ST_PHASE_TWO_PRODUCTION', 20);
 define('ST_PHASE_THREE_ACTION', 30);
+define('ST_PHASE_FOUR_CLEANUP', 95);
 
 define('ST_END_GAME', 99);
 define('ST_RESOLVE_STACK', 100);
@@ -34,7 +35,8 @@ define('LOCATION_BOARD', 'board');
 define('LOCATION_DEALS', 'deals');
 define('LOCATION_CONNECTIONS_BLUE_DECK', 'blue_deck');
 define('LOCATION_CONNECTIONS_RED_DECK', 'red_deck');
-define('LOCATION_CONNECTIONS_FLIPPED', 'flipped');
+define('LOCATION_CONNECTIONS_BLUE_FLIPPED', 'blue_flipped');
+define('LOCATION_CONNECTIONS_RED_FLIPPED', 'red_flipped');
 define('LOCATION_LOOKOUT', 'lookout');
 
 /*

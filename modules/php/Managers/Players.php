@@ -180,6 +180,13 @@ class Players extends DB_Manager
             ->run();
     }
 
+    public static function resetAllPassed()
+    {
+        self::DB()
+            ->update(['player_passed' => 0])
+            ->run();
+    }
+
     /*
      * getUiData : get all ui data of all players
      */

@@ -12,11 +12,16 @@ class Action extends Location
      * @var int
      */
     protected $activateTimes;
+    /**
+     * @var int
+     */
+    protected $activatedTimes;
 
     public function __construct($params = [])
     {
         parent::__construct($params);
         $this->activateTimes = 1;
+        $this->activatedTimes = isset($params['activatedTimes']) ? (int) $params['activatedTimes'] : null;
     }
 
     /**

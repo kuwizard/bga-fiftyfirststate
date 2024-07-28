@@ -31,7 +31,7 @@ $machinestates = [
         'action' => 'stMakeEveryoneActive',
         'type' => 'multipleactiveplayer',
         'possibleactions' => ['actDiscardCardsGameStart'],
-        'transitions' => ['' => ST_NEXT_TURN],
+        'transitions' => ['' => ST_NEXT_ROUND],
     ],
 
     ST_RESOLVE_STACK => [
@@ -48,10 +48,10 @@ $machinestates = [
         'possibleactions' => ['actTest'],
     ],
 
-    ST_NEXT_TURN => [
-        'name' => 'nextTurn',
+    ST_NEXT_ROUND => [
+        'name' => 'nextRound',
         'description' => '',
-        'action' => 'stNextTurn',
+        'action' => 'stNextRound',
         'type' => 'game',
     ],
 
@@ -101,6 +101,13 @@ $machinestates = [
         'type' => 'activeplayer',
         'updateGameProgression' => true,
         'possibleactions' => ['actActionPass', 'actDoSomething'],
+    ],
+
+    ST_PHASE_FOUR_CLEANUP => [
+        'name' => 'phaseFourCleanup',
+        'description' => '',
+        'action' => 'stPhaseFourCleanup',
+        'type' => 'game',
     ],
 
     // Final state.

@@ -13,18 +13,6 @@ class Connections extends Pieces
     protected static $prefix = 'connection_';
     protected static $customFields = ['type'];
 
-    /**
-     * @param Player $player
-     * @return void
-     */
-    public static function draw($player)
-    {
-        $top = self::getTopOf(LOCATION_DECK);
-        $top->action($player);
-        self::move($top->getId(), LOCATION_DECK, LOCATION_DISCARD);
-//        Notifications::connectionDrawn($player);
-    }
-
     protected static function cast($row)
     {
         return new Connection($row);
@@ -72,5 +60,41 @@ class Connections extends Pieces
         return self::DB()
             ->where($id)
             ->getSingle();
+    }
+
+    public static function discardFlippedEndOfRound()
+    {
+        foreach ([LOCATION_CONNECTIONS_BLUE_FLIPPED, LOCATION_CONNECTIONS_RED_FLIPPED] as $location) {
+            self::moveAllInLocation($location, LOCATION_DISCARD);
+        }
+    }
+
+    /**
+     * @param Player $player
+     * @param boolean $isBlue
+     * @return void
+     */
+    public static function draw($player, $isBlue)
+    {
+        $top = $isBlue ?
+            self::getTopOf(LOCATION_CONNECTIONS_BLUE_FLIPPED) :
+            self::getTopOf(LOCATION_CONNECTIONS_RED_DECK);
+        if (!$top) {
+            throw new \BgaVisibleSystemException("Tried to get a top of flipped deck (is blue: $isBlue) but it's empty");
+        }
+        $top->action($player);
+        self::move($top->getId(), LOCATION_DISCARD);
+//        Notifications::connectionDrawn($player);
+    }
+
+    public static function flipForNewRound()
+    {
+        foreach ([
+            LOCATION_CONNECTIONS_BLUE_DECK => LOCATION_CONNECTIONS_BLUE_FLIPPED,
+            LOCATION_CONNECTIONS_RED_DECK => LOCATION_CONNECTIONS_RED_FLIPPED,
+        ] as $location => $flipped) {
+            self::move(self::getTopOf($location)->getId(), $flipped);
+
+        }
     }
 }
