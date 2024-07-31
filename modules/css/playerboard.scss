@@ -1,5 +1,83 @@
+$resources: (
+        0: "fuel",
+        1: "gun",
+        2: "iron",
+        3: "brick",
+        4: "worker",
+        5: "arrowGrey",
+        6: "arrowRed",
+        7: "arrowBlue",
+        8: "arrowUni",
+        9: "ammo",
+        10: "defence",
+        11: "devel",
+        12: "cards"
+);
+
 .player-board {
   &.passed {
     opacity: 0.4;
+  }
+
+  .playerResourcesWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+
+    .playerResources {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+      justify-items: center;
+      gap: 5px;
+      width: 215px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+
+      .resource {
+        width: 50px;
+        height: 50px;
+        position: relative;
+      }
+    }
+
+    .cards {
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      top: -36px;
+      right: 45px;
+    }
+
+    .resourceIcon.cardsIcon {
+      width: 35px;
+      height: 35px;
+    }
+
+    .resourceValue {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: hsla(0, 0%, 100%, .733);
+      border-radius: 50%;
+      text-align: center;
+      width: 23px;
+      font-size: 19px;
+    }
+
+    .resourceIcon {
+      display: block;
+      background-image: url(img/icons.jpg);
+      background-size: 1300% 100%;
+      width: 45px;
+      height: 45px;
+
+      @each $xShift, $name in $resources {
+        &.#{$name}Icon {
+          background-position-x: (100%/12 * $xShift);
+        }
+      }
+    }
   }
 }

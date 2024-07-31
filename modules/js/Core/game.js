@@ -50,7 +50,8 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             // Create a new div for buttons to avoid BGA auto clearing it
             dojo.place("<div id='customActions' style='display:inline-block'></div>", $('generalactions'), 'after');
             this.setupNotifications();
-            this.markPassed(gamedatas.players)
+            this.markPassed(gamedatas.players);
+            this.addResourcesTable(gamedatas.players);
             dojo.connect(this.notifqueue, 'addToLog', () => {
                 this.checkLogCancel(this._last_notif);
             });
@@ -493,6 +494,30 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                     dojo.removeClass(element, clazz);
                 }, delay);
             }
+        },
+
+        forEachPlayer(callback) {
+            this.getOrderedPlayers().forEach(callback);
+        },
+
+        getOrderedPlayers(except) {
+            const otherPlayers = [];
+            let playersIds;
+            if (this.gamedatas.playerorder.length === Object.keys(this.gamedatas.players).length) {
+                playersIds = this.gamedatas.playerorder;
+            } else {
+                const sortedPlayers = Object.values(this.gamedatas.players).sort((a, b) => a.no - b.no);
+                playersIds = sortedPlayers.map((player) => {
+                    return player.id
+                });
+            }
+            playersIds.forEach((pId) => {
+                pId = parseInt(pId);
+                if (except === null || pId !== except) {
+                    otherPlayers.push(this.gamedatas.players[pId]);
+                }
+            });
+            return otherPlayers;
         },
     });
 });

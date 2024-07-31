@@ -334,6 +334,7 @@ class Player extends DB_Manager implements JsonSerializable
             'defence' => $this->defence,
             'devel' => $this->devel,
             'passed' => $this->passed,
+            'cards' => Locations::countInLocation([LOCATION_HAND, $this->id]),
         ];
         return $data;
     }

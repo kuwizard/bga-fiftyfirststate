@@ -16,5 +16,93 @@
 .player-board.passed {
   opacity: 0.4;
 }
+.player-board .playerResourcesWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.player-board .playerResourcesWrapper .playerResources {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  justify-items: center;
+  gap: 5px;
+  width: 215px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.player-board .playerResourcesWrapper .playerResources .resource {
+  width: 50px;
+  height: 50px;
+  position: relative;
+}
+.player-board .playerResourcesWrapper .cards {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: -36px;
+  right: 45px;
+}
+.player-board .playerResourcesWrapper .resourceIcon.cardsIcon {
+  width: 35px;
+  height: 35px;
+}
+.player-board .playerResourcesWrapper .resourceValue {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: hsla(0, 0%, 100%, 0.733);
+  border-radius: 50%;
+  text-align: center;
+  width: 23px;
+  font-size: 19px;
+}
+.player-board .playerResourcesWrapper .resourceIcon {
+  display: block;
+  background-image: url(img/icons.jpg);
+  background-size: 1300% 100%;
+  width: 45px;
+  height: 45px;
+}
+.player-board .playerResourcesWrapper .resourceIcon.fuelIcon {
+  background-position-x: 0%;
+}
+.player-board .playerResourcesWrapper .resourceIcon.gunIcon {
+  background-position-x: 8.3333333333%;
+}
+.player-board .playerResourcesWrapper .resourceIcon.ironIcon {
+  background-position-x: 16.6666666667%;
+}
+.player-board .playerResourcesWrapper .resourceIcon.brickIcon {
+  background-position-x: 25%;
+}
+.player-board .playerResourcesWrapper .resourceIcon.workerIcon {
+  background-position-x: 33.3333333333%;
+}
+.player-board .playerResourcesWrapper .resourceIcon.arrowGreyIcon {
+  background-position-x: 41.6666666667%;
+}
+.player-board .playerResourcesWrapper .resourceIcon.arrowRedIcon {
+  background-position-x: 50%;
+}
+.player-board .playerResourcesWrapper .resourceIcon.arrowBlueIcon {
+  background-position-x: 58.3333333333%;
+}
+.player-board .playerResourcesWrapper .resourceIcon.arrowUniIcon {
+  background-position-x: 66.6666666667%;
+}
+.player-board .playerResourcesWrapper .resourceIcon.ammoIcon {
+  background-position-x: 75%;
+}
+.player-board .playerResourcesWrapper .resourceIcon.defenceIcon {
+  background-position-x: 83.3333333333%;
+}
+.player-board .playerResourcesWrapper .resourceIcon.develIcon {
+  background-position-x: 91.6666666667%;
+}
+.player-board .playerResourcesWrapper .resourceIcon.cardsIcon {
+  background-position-x: 100%;
+}
 
 /*# sourceMappingURL=fiftyfirststate.css.map */

@@ -11,5 +11,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 }
             })
         },
+
+        addResourcesTable() {
+            this.forEachPlayer((player) => {
+                dojo.place(this.format_block('jstpl_player_board', player), 'player_board_' + player.id);
+            });
+        },
     });
 });
