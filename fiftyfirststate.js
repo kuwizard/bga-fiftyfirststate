@@ -37,10 +37,6 @@ define([
         ],
         {
             constructor() {
-                this._notifications = [
-                    // ['sentClue', 1],
-                ];
-
                 // TODO: Fix for mobile
                 // this.default_viewport = 'width=600';
             },

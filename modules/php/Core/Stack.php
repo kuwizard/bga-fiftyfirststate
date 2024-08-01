@@ -55,6 +55,8 @@ class Stack
         if (self::isSuspended($atom)) {
             $nextPId = Players::isAllPassed() ? Players::getFirstPlayerId() : Players::getNextId();
             Game::get()->gamestate->changeActivePlayer($nextPId);
+        } else if (isset($atom['pId']) && $activePlayerId !== $atom['pId']) {
+            Game::get()->gamestate->changeActivePlayer($atom['pId']);
         }
         Game::get()->gamestate->jumpToState($atom['state']);
     }

@@ -19,6 +19,12 @@ class Notifications
         Game::get()->notifyPlayer($pId, $name, $msg, $data);
     }
 
+    public static function resourcesChanged($player, $resources)
+    {
+        $resources = ['player' => $player, 'resources' => $resources];
+        self::notifyAll('resourcesChanged', '', $resources);
+    }
+
     /*********************
      **** UPDATE ARGS ****
      *********************/

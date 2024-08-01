@@ -2,6 +2,7 @@
 
 namespace STATE\States;
 
+use STATE\Core\Notifications;
 use STATE\Core\Stack;
 use STATE\Managers\Players;
 use STATE\Models\Faction;
@@ -26,7 +27,9 @@ trait PhaseTwoProductionTrait
             $factionProd = $faction->getProduction();
             $dealsProd = $player->getDeals();
             $prodLocations = $player->getProduction();
-            $player->increaseResources(array_count_values(array_merge($factionProd, $dealsProd, $prodLocations)));
+            $combinedResources = array_count_values(array_merge($factionProd, $dealsProd, $prodLocations));
+            $player->increaseResources($combinedResources);
+            Notifications::resourcesChanged($player, $player->getResourcesWithNames(array_keys($combinedResources)));
         }
         Stack::finishState();
     }

@@ -178,6 +178,7 @@ class Player extends DB_Manager implements JsonSerializable
             RESOURCE_AMMO => 'ammo',
             RESOURCE_DEFENCE => 'defence',
             RESOURCE_DEVELOPMENT => 'devel',
+            RESOURCE_CARD => 'cards',
         ][$type];
     }
 
@@ -223,6 +224,29 @@ class Player extends DB_Manager implements JsonSerializable
     public function getProduction()
     {
         return $this->combineResources(LOCATION_BOARD);
+    }
+
+    /**
+     * @return int
+     */
+    public function getHandAmount()
+    {
+        return Locations::countInLocation([LOCATION_HAND, $this->id]);
+    }
+
+    /**
+     * @param int[] $array_values
+     * @return array
+     */
+    public function getResourcesWithNames($resources)
+    {
+        $result = [];
+        foreach ($resources as $resource) {
+            $resourceName = $this->getResourceName($resource);
+            $value = $resource === RESOURCE_CARD ? $this->getHandAmount() : $this->$resourceName;
+            $result[$resourceName] = $value;
+        }
+        return $result;
     }
 
     /**
@@ -273,7 +297,6 @@ class Player extends DB_Manager implements JsonSerializable
     public function discard($cardIds)
     {
         Locations::discard($cardIds);
-//        Notifications::cardsDiscarded($this, $cardIds);
     }
 
     public function drawCards($amount = 1)
@@ -334,7 +357,7 @@ class Player extends DB_Manager implements JsonSerializable
             'defence' => $this->defence,
             'devel' => $this->devel,
             'passed' => $this->passed,
-            'cards' => Locations::countInLocation([LOCATION_HAND, $this->id]),
+            'cards' => $this->getHandAmount(),
         ];
         return $data;
     }

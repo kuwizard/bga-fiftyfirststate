@@ -2,6 +2,7 @@
 
 namespace STATE\States;
 
+use STATE\Core\Notifications;
 use STATE\Core\Stack;
 use STATE\Managers\Connections;
 use STATE\Managers\Locations;
@@ -52,7 +53,9 @@ trait PhaseOneLookoutTrait
     public function actChooseCardLookout($id)
     {
         self::checkAction('actChooseCardLookout');
-        Locations::move($id, [LOCATION_HAND, Players::getActiveId()]);
+        $player = Players::getActive();
+        Locations::move($id, [LOCATION_HAND, $player->getId()]);
+        Notifications::resourcesChanged($player, ['cards' => $player->getHandAmount()]);
         Stack::finishState();
     }
 }
