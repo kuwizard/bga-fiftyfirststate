@@ -83,6 +83,19 @@
             </div>
         </div>
     </div>`;
+    var jstpl_player_game_space = `
+    `;
+    var jstpl_board = `<div id="board"></div>`
+    var jstpl_faction_board = `
+    <div id="faction_\${id}" class="factionBoard">
+        <div class="faction" data-faction="\${faction}"></div>
+        <div class="cards">
+            <div class="production cardsBlock"></div>
+            <div class="feature cardsBlock"></div>
+            <div class="actions cardsBlock"></div>
+        </div>
+    </div>
+    `;
 </script>
 
 {OVERALL_GAME_FOOTER}

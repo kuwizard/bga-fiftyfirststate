@@ -25,6 +25,7 @@ define([
     g_gamethemeurl + 'modules/js/States/PhaseOneLookoutChooseState.js',
     g_gamethemeurl + 'modules/js/States/PhaseThreeActionState.js',
     g_gamethemeurl + 'modules/js/playerboard.js',
+    g_gamethemeurl + 'modules/js/factionboard.js',
 ], function (dojo, declare) {
     return declare(
         'bgagame.fiftyfirststate',
@@ -33,7 +34,8 @@ define([
             state.discardCardsGameStart,
             state.phaseOneLookoutChoose,
             state.phaseThreeAction,
-            state.playerboard
+            state.playerboard,
+            state.factionboard
         ],
         {
             constructor() {
