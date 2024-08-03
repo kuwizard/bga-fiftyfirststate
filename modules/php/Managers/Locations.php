@@ -3,8 +3,11 @@
 namespace STATE\Managers;
 
 use STATE\Helpers\Pieces;
+use STATE\Models\Action;
+use STATE\Models\Feature;
 use STATE\Models\Location;
 use STATE\Models\Player;
+use STATE\Models\Production;
 
 class Locations extends Pieces
 {
@@ -15,7 +18,7 @@ class Locations extends Pieces
 
     protected static function cast($row)
     {
-        return self::getByType($row['type']);
+        return self::getByType($row);
     }
 
     /**
@@ -122,13 +125,13 @@ class Locations extends Pieces
     }
 
     /**
-     * @param int $type
+     * @param array $params
      * @return Location
      */
-    private static function getByType($type)
+    private static function getByType($params)
     {
-        $name = "STATE\Data\Locations\\" . self::$allCardTypes[$type];
-        return new $name();
+        $name = "STATE\Data\Locations\\" . self::$allCardTypes[$params['type']];
+        return new $name($params);
     }
 
     public static function getAll()
@@ -141,6 +144,30 @@ class Locations extends Pieces
         return self::DB()
             ->where($id)
             ->getSingle();
+    }
+
+    public static function getBoard(int $pId)
+    {
+        $board = self::getInLocation([LOCATION_BOARD, $pId]);
+        $production = $board->filter(function ($location) {
+            return $location instanceof Production;
+        })->toArray();
+        $feature = $board->filter(function ($location) {
+            return $location instanceof Feature;
+        })->toArray();
+        $actions = $board->filter(function ($location) {
+            return $location instanceof Action;
+        })->toArray();
+        return ['production' => $production, 'feature' => $feature, 'actions' => $actions];
+    }
+
+    /**
+     * @param string $type
+     * @return int
+     */
+    public static function getSprite($type)
+    {
+        return array_search($type, array_keys(self::$allCardTypes));
     }
 
     public static function resetActivatedTimes()

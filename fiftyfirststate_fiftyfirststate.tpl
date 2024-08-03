@@ -20,7 +20,7 @@
     <div class="playerResourcesWrapper">
         <div class="cards resource">
             <span class="cardsIcon resourceIcon">
-                <span class="cardsValue resourceValue">\${cards}</span>
+                <span class="cardsValue resourceValue">\${handAmount}</span>
             </span>
         </div>
         <div class="playerResources">
@@ -83,8 +83,6 @@
             </div>
         </div>
     </div>`;
-    var jstpl_player_game_space = `
-    `;
     var jstpl_board = `<div id="board"></div>`
     var jstpl_faction_board = `
     <div id="faction_\${id}" class="factionBoard">
@@ -96,6 +94,7 @@
         </div>
     </div>
     `;
+    var jstpl_location = `<div class="location" data-sprite="\${sprite}"></div>`
 </script>
 
 {OVERALL_GAME_FOOTER}

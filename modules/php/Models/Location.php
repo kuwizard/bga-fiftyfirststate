@@ -2,6 +2,8 @@
 
 namespace STATE\Models;
 
+use STATE\Managers\Locations;
+
 class Location implements \JsonSerializable
 {
     /**
@@ -85,6 +87,7 @@ class Location implements \JsonSerializable
     {
         return [
             'id' => $this->id,
+            'sprite' => Locations::getSprite($this->type),
         ];
     }
 }

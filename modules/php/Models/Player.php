@@ -357,7 +357,8 @@ class Player extends DB_Manager implements JsonSerializable
             'defence' => $this->defence,
             'devel' => $this->devel,
             'passed' => $this->passed,
-            'cards' => $this->getHandAmount(),
+            'handAmount' => $this->getHandAmount(),
+            'locations' => Locations::getBoard($this->id),
         ];
         return $data;
     }
