@@ -1,0 +1,19 @@
+#hand, #lookoutBlock {
+  height: 270px;
+  background: hsla(0, 0%, 100%, 0.733);
+  margin-bottom: 6px;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-left: 3px;
+}
+
+#lookoutBlock {
+  display: none;
+}
+
+#hand {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  align-items: center;
+}

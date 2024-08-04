@@ -53,6 +53,8 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             this.markPassed(gamedatas.players);
             this.addResourcesTable();
             this.addBoard();
+            this.addHand();
+            this.addLookoutElement();
             this.addFactionBoards();
             dojo.connect(this.notifqueue, 'addToLog', () => {
                 this.checkLogCancel(this._last_notif);
@@ -482,11 +484,12 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
         },
 
         dojoConnect(element, func) {
-            dojo.connect($(element), 'click', (evt) => {
+            const connection = dojo.connect($(element), 'click', (evt) => {
                 evt.preventDefault();
                 evt.stopPropagation();
                 func();
             });
+            this._connections.push(connection);
         },
 
         addClass(element, clazz, removeAfter = false, delay = 1000) {
@@ -520,6 +523,35 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                 }
             });
             return otherPlayers;
+        },
+
+        addSelectableClass(elements) {
+            this.addSelectableSelectedClass(elements, 'selectable');
+        },
+
+        addSelectedClass(elements) {
+            this.addSelectableSelectedClass(elements, 'selected');
+        },
+
+        addSelectableSelectedClass(elements, clazz) {
+            if (!Array.isArray(elements)) {
+                elements = [elements];
+            }
+            elements.forEach((element) => {
+                dojo.addClass(element, clazz);
+                this._selectableNodes.push(element);
+            });
+        },
+
+        addUnselectableClass(elements) {
+            elements.forEach((element) => {
+                dojo.addClass(element, 'unselectable');
+            });
+        },
+
+        extractId(element, prefix) {
+            const unparsed = element.getAttribute('id').replace(`${prefix}_`, '');
+            return isNaN(parseInt(unparsed)) ? unparsed : parseInt(unparsed);
         },
     });
 });

@@ -337,6 +337,7 @@ class Player extends DB_Manager implements JsonSerializable
 
     public function jsonSerialize($currentPlayerId = null)
     {
+        $current = $this->id === $currentPlayerId;
         $data = [
             'id' => $this->id,
             'no' => $this->no,
@@ -358,6 +359,7 @@ class Player extends DB_Manager implements JsonSerializable
             'devel' => $this->devel,
             'passed' => $this->passed,
             'handAmount' => $this->getHandAmount(),
+            'hand' => $current ? Locations::getHand($this->id) : [],
             'locations' => Locations::getBoard($this->id),
         ];
         return $data;

@@ -106,15 +106,13 @@
 }
 
 .factionBoard {
-  width: 100%;
   height: 800px;
   background: hsla(0, 0%, 100%, 0.733);
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   border-radius: 14px;
   overflow: hidden;
   margin-left: 3px;
   display: flex;
-  box-shadow: rgba(0, 0, 0, 0.85) 0 3px 5px;
 }
 .factionBoard .faction {
   background-image: url(img/factions4.jpg);
@@ -152,7 +150,7 @@
   background-image: url(img/locations10.jpg);
   background-size: cover;
   width: 169px;
-  height: 100%;
+  height: 250px;
   box-shadow: rgba(0, 0, 0, 0.55) 0 2px 4px;
   border-radius: 8px;
 }
@@ -185,6 +183,41 @@
 }
 .location[data-sprite="9"] {
   background-position: 100% 0;
+}
+
+#hand, #lookoutBlock {
+  height: 270px;
+  background: hsla(0, 0%, 100%, 0.733);
+  margin-bottom: 6px;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-left: 3px;
+}
+
+#lookoutBlock {
+  display: none;
+}
+
+#hand {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  align-items: center;
+}
+
+.selectable {
+  cursor: pointer;
+  outline: 2px solid red;
+}
+
+.selected {
+  cursor: pointer;
+  outline: 3px solid #ff9600;
+  transform: scale(1.04);
+}
+
+.unselectable {
+  opacity: 0.5;
 }
 
 /*# sourceMappingURL=fiftyfirststate.css.map */

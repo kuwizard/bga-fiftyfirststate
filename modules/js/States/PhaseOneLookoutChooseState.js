@@ -15,5 +15,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 });
             }
         },
+
+        addLookoutElement() {
+            dojo.place(this.format_block('jstpl_lookout', {}), 'board');
+        },
     });
 });
