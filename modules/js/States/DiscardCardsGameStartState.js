@@ -1,7 +1,7 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     return declare('state.discardCardsGameStart', null, {
         constructor() {
-            this._notifications.push(['locationsDiscarded', 1]);
+            this._notifications.push(['handChanged', 1]);
         },
 
         onEnteringStateDiscardCardsGameStart(args) {
@@ -38,30 +38,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             return dojo.query('#hand .location');
         },
 
-        makeAllSelectableAndClickable(elements, callback) {
-            this.addSelectableClass(elements);
-            elements.forEach((element) => {
-                this.dojoConnect(element, () => callback(element));
-            });
-        },
-
-        makeAllSelectedAndClickable(elements, callback) {
-            this.addSelectedClass(elements);
-            elements.forEach((element) => {
-                this.dojoConnect(element, () => callback(element));
-            });
-        },
-
         discardSelected() {
             const ids = dojo.query('.selected').map(el => this.extractId(el, 'location'));
             this.takeAction('actDiscardCardsGameStart', { ids: ids.join(';') });
-        },
-
-        notif_locationsDiscarded(n) {
-            debug('Notif: locationsDiscarded', n);
-            n.args.locationsIds.forEach((id) => {
-                dojo.destroy(`location_${id}`);
-            });
         },
     });
 });

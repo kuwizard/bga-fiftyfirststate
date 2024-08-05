@@ -553,5 +553,19 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             const unparsed = element.getAttribute('id').replace(`${prefix}_`, '');
             return isNaN(parseInt(unparsed)) ? unparsed : parseInt(unparsed);
         },
+
+        makeAllSelectableAndClickable(elements, callback) {
+            this.addSelectableClass(elements);
+            elements.forEach((element) => {
+                this.dojoConnect(element, () => callback(element));
+            });
+        },
+
+        makeAllSelectedAndClickable(elements, callback) {
+            this.addSelectedClass(elements);
+            elements.forEach((element) => {
+                this.dojoConnect(element, () => callback(element));
+            });
+        },
     });
 });

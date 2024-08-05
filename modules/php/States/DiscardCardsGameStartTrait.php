@@ -16,7 +16,7 @@ trait DiscardCardsGameStartTrait
         self::checkAction('actDiscardCardsGameStart');
         $currentPlayer = Players::getCurrent();
         $currentPlayer->discard($locationsIds);
-        Notifications::locationsDiscarded($currentPlayer, $locationsIds);
+        Notifications::handChanged($currentPlayer);
         Notifications::resourcesChanged($currentPlayer, ['cards' => $currentPlayer->getHandAmount()]);
         $this->gamestate->setPlayerNonMultiactive($currentPlayer->getId(), '');
     }

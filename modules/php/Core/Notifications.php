@@ -34,13 +34,12 @@ class Notifications
 
     /**
      * @param Player $player
-     * @param int[] $resources
      * @return void
      */
-    public static function locationsDiscarded($player, $locationsIds)
+    public static function handChanged($player)
     {
-        $resources = ['player' => $player, 'locationsIds' => $locationsIds];
-        self::notify($player, 'locationsDiscarded', '', $resources);
+        $resources = ['player' => $player, 'hand' => $player->getHand()];
+        self::notify($player, 'handChanged', '', $resources);
     }
 
     /*********************

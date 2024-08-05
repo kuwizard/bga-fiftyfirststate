@@ -12,7 +12,7 @@ trait PhaseOneLookoutTrait
 {
     public function argPhaseOneLookoutChoose()
     {
-        return Locations::getInLocation(LOCATION_LOOKOUT)->getIds();
+        return Locations::getInLocation(LOCATION_LOOKOUT)->toArray();
     }
 
     public function stPhaseOneLookoutSetup()
@@ -55,6 +55,7 @@ trait PhaseOneLookoutTrait
         self::checkAction('actChooseCardLookout');
         $player = Players::getActive();
         Locations::move($id, [LOCATION_HAND, $player->getId()]);
+        Notifications::handChanged($player);
         Notifications::resourcesChanged($player, ['cards' => $player->getHandAmount()]);
         Stack::finishState();
     }

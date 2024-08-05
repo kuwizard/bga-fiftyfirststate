@@ -27,6 +27,7 @@ define([
     g_gamethemeurl + 'modules/js/playerboard.js',
     g_gamethemeurl + 'modules/js/factionboard.js',
     g_gamethemeurl + 'modules/js/hand.js',
+    g_gamethemeurl + 'modules/js/Core/common.js',
 ], function (dojo, declare) {
     return declare(
         'bgagame.fiftyfirststate',
@@ -38,6 +39,7 @@ define([
             state.playerboard,
             state.factionboard,
             state.hand,
+            state.common,
         ],
         {
             constructor() {

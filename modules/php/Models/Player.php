@@ -234,6 +234,11 @@ class Player extends DB_Manager implements JsonSerializable
         return Locations::countInLocation([LOCATION_HAND, $this->id]);
     }
 
+    public function getHand()
+    {
+        return Locations::getInLocation([LOCATION_HAND, $this->id])->toArray();
+    }
+
     /**
      * @param int[] $array_values
      * @return array
