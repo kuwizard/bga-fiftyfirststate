@@ -97,10 +97,18 @@ $machinestates = [
         'name' => 'phaseThreeAction',
         'description' => clienttranslate('${actplayer} must choose an action or pass'),
         'descriptionmyturn' => clienttranslate('${you} must choose an action or pass'),
-//        'args' => 'argPhaseThreeAction',
+        'args' => 'argPhaseThreeAction',
         'type' => 'activeplayer',
         'updateGameProgression' => true,
-        'possibleactions' => ['actActionPass', 'actDoSomething'],
+        'possibleactions' => ['actActionPass', 'actSpendWorkers'],
+    ],
+
+    ST_SPEND_WORKERS => [
+        'name' => 'spendWorkers',
+        'description' => clienttranslate('${actplayer} must choose a resource to gain'),
+        'descriptionmyturn' => clienttranslate('${you} must choose a resource to gain'),
+        'type' => 'activeplayer',
+        'possibleactions' => ['actGainResource', 'actUndoSpend'],
     ],
 
     ST_PHASE_FOUR_CLEANUP => [

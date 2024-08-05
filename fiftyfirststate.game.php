@@ -17,6 +17,7 @@
  */
 
 use STATE\Core\Globals;
+use STATE\Core\Stack;
 use STATE\Core\Stats;
 use STATE\Managers\Connections;
 use STATE\Managers\Locations;
@@ -172,6 +173,6 @@ class Fiftyfirststate extends Table
 
     public static function a()
     {
-
+//        var_dump(Stack::get());
     }
 }

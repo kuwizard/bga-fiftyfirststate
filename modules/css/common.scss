@@ -4,15 +4,7 @@
 
 .selectable {
   cursor: pointer;
-  &:hover {
-    transform: scale(1.04);
-  }
-}
-
-.selected {
-  cursor: pointer;
   outline: 2px solid red;
-  transform: scale(1.04);
 }
 
 .unselectable {
@@ -23,4 +15,29 @@
   justify-content: center;
   gap: 5px;
   align-items: center;
+}
+
+.resourceValue {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: hsla(0, 0%, 100%, .733);
+  border-radius: 50%;
+  text-align: center;
+  width: 23px;
+  font-size: 19px;
+}
+
+.resourceIcon {
+  display: block;
+  background-image: url(img/icons.jpg);
+  background-size: 1300% 100%;
+  width: 25px;
+  height: 25px;
+
+  @each $xShift, $name in $resources {
+    &.#{$name}Icon {
+      background-position-x: (100%/12 * $xShift);
+    }
+  }
 }

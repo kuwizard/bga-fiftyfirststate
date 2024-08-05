@@ -11,7 +11,7 @@ $resources: (
         9: "ammo",
         10: "defence",
         11: "devel",
-        12: "cards"
+        12: "card"
 );
 
 .player-board {
@@ -42,7 +42,7 @@ $resources: (
       }
     }
 
-    .cards {
+    .card {
       width: 40px;
       height: 40px;
       position: absolute;
@@ -50,33 +50,13 @@ $resources: (
       right: 45px;
     }
 
-    .resourceIcon.cardsIcon {
-      width: 35px;
-      height: 35px;
-    }
-
-    .resourceValue {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      background: hsla(0, 0%, 100%, .733);
-      border-radius: 50%;
-      text-align: center;
-      width: 23px;
-      font-size: 19px;
-    }
-
     .resourceIcon {
-      display: block;
-      background-image: url(img/icons.jpg);
-      background-size: 1300% 100%;
       width: 45px;
       height: 45px;
 
-      @each $xShift, $name in $resources {
-        &.#{$name}Icon {
-          background-position-x: (100%/12 * $xShift);
-        }
+      &.cardIcon {
+        width: 35px;
+        height: 35px;
       }
     }
   }

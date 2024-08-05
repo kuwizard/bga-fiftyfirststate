@@ -56,7 +56,7 @@ trait PhaseOneLookoutTrait
         $player = Players::getActive();
         Locations::move($id, [LOCATION_HAND, $player->getId()]);
         Notifications::handChanged($player);
-        Notifications::resourcesChanged($player, ['cards' => $player->getHandAmount()]);
+        Notifications::resourcesChanged($player, ['card' => $player->getHandAmount()]);
         Stack::finishState();
     }
 }

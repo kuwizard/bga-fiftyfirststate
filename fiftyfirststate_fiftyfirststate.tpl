@@ -18,9 +18,9 @@
 <script type="text/javascript">
     var jstpl_player_board = `
     <div class="playerResourcesWrapper">
-        <div class="cards resource">
-            <span class="cardsIcon resourceIcon">
-                <span class="cardsValue resourceValue">\${handAmount}</span>
+        <div class="card resource">
+            <span class="cardIcon resourceIcon">
+                <span class="cardValue resourceValue">\${handAmount}</span>
             </span>
         </div>
         <div class="playerResources">
@@ -86,7 +86,9 @@
     var jstpl_board = `<div id="board"></div>`
     var jstpl_faction_board = `
     <div id="faction_\${id}" class="factionBoard">
-        <div class="faction" data-faction="\${faction}"></div>
+        <div class="faction" data-faction="\${faction}">
+            <div class="spendWorkersArea"></div>
+        </div>
         <div class="cards">
             <div class="production cardsBlock"></div>
             <div class="feature cardsBlock"></div>
@@ -97,6 +99,7 @@
     var jstpl_location = `<div id="location_\${id}" class="location" data-sprite="\${sprite}"></div>`
     var jstpl_hand = `<div id="hand"></div>`
     var jstpl_lookout = `<div id="lookoutBlock"></div>`
+    var jstpl_resource_icon = `<span class="\${type}Icon resourceIcon">`
 </script>
 
 {OVERALL_GAME_FOOTER}

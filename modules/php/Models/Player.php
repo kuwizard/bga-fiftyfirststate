@@ -5,6 +5,7 @@ namespace STATE\Models;
 use JsonSerializable;
 use STATE\Core\Preferences;
 use STATE\Helpers\DB_Manager;
+use STATE\Helpers\Resources;
 use STATE\Managers\Locations;
 use STATE\Managers\Players;
 
@@ -163,39 +164,6 @@ class Player extends DB_Manager implements JsonSerializable
         return Preferences::get($this->id, $prefId);
     }
 
-    private function getResourceName($type)
-    {
-        return [
-            RESOURCE_FUEL => 'fuel',
-            RESOURCE_GUN => 'gun',
-            RESOURCE_IRON => 'iron',
-            RESOURCE_BRICK => 'brick',
-            RESOURCE_WORKER => 'worker',
-            RESOURCE_ARROW_GREY => 'arrowGrey',
-            RESOURCE_ARROW_RED => 'arrowRed',
-            RESOURCE_ARROW_BLUE => 'arrowBlue',
-            RESOURCE_ARROW_UNIVERSAL => 'arrowUni',
-            RESOURCE_AMMO => 'ammo',
-            RESOURCE_DEFENCE => 'defence',
-            RESOURCE_DEVELOPMENT => 'devel',
-            RESOURCE_CARD => 'cards',
-        ][$type];
-    }
-
-    private function getDBName($type)
-    {
-        if (in_array($type, [RESOURCE_ARROW_GREY, RESOURCE_ARROW_RED, RESOURCE_ARROW_BLUE, RESOURCE_ARROW_UNIVERSAL])) {
-            return 'player_' . [
-                    RESOURCE_ARROW_GREY => 'arrow_grey',
-                    RESOURCE_ARROW_RED => 'arrow_red',
-                    RESOURCE_ARROW_BLUE => 'arrow_blue',
-                    RESOURCE_ARROW_UNIVERSAL => 'arrow_uni',
-                ][$type];
-        } else {
-            return 'player_' . $this->getResourceName($type);
-        }
-    }
-
     /**
      * @param string $color
      * @return int
@@ -247,11 +215,15 @@ class Player extends DB_Manager implements JsonSerializable
     {
         $result = [];
         foreach ($resources as $resource) {
-            $resourceName = $this->getResourceName($resource);
-            $value = $resource === RESOURCE_CARD ? $this->getHandAmount() : $this->$resourceName;
-            $result[$resourceName] = $value;
+            $result[Resources::getResourceName($resource)] = $this->getResource($resource);
         }
         return $result;
+    }
+
+    public function getResource($resource)
+    {
+        $resourceName = Resources::getResourceName($resource);
+        return $resource === RESOURCE_CARD ? $this->getHandAmount() : $this->$resourceName;
     }
 
     /**
@@ -260,37 +232,52 @@ class Player extends DB_Manager implements JsonSerializable
      */
     public function increaseResources($resources)
     {
-        if (isset($resources[RESOURCE_CARD])) {
-            Locations::draw($this, $resources[RESOURCE_CARD]);
-            unset($resources[RESOURCE_CARD]);
-        }
         foreach ($resources as $type => $amount) {
             $this->increaseResource($type, $amount);
         }
     }
 
+    /**
+     * @param int $type
+     * @param int $amount
+     * @return void
+     */
     public function increaseResource($type, $amount = 1)
     {
-        $resourceName = $this->getResourceName($type);
-        $newAmount = $this->{$resourceName} + $amount;
-        $this->{$resourceName} = $newAmount;
-        $this->updateResource($this->getDBName($type), $newAmount);
+        $name = Resources::getResourceName($type);
+        if ($type === RESOURCE_CARD) {
+            Locations::draw($this);
+        } else {
+            $newAmount = $this->{$name} + $amount;
+            $this->{$name} = $newAmount;
+            $this->updateResource(Resources::getDBName($type), $newAmount);
+        }
     }
 
+    /**
+     * @param int $type
+     * @param int $amount
+     * @return void
+     */
     public function decreaseResource($type, $amount = 1)
     {
-        $resourceName = $this->getResourceName($type);
-        $resourceAmount = $this->{$resourceName};
+        $name = Resources::getResourceName($type);
+        $resourceAmount = $this->{$name};
         $newAmount = $resourceAmount - $amount;
         if ($newAmount < 0) {
             throw new \BgaVisibleSystemException(
-                "Something's wrong. You try to decrease resource {$resourceName} to a negative value. You have {$resourceAmount}, amount to lose - {$amount}"
+                "Something's wrong. You try to decrease resource {$name} to a negative value. You have {$resourceAmount}, amount to lose - {$amount}"
             );
         }
-        $this->{$resourceName} = $newAmount;
-        $this->updateResource($this->getDBName($type), $newAmount);
+        $this->{$name} = $newAmount;
+        $this->updateResource(Resources::getDBName($type), $newAmount);
     }
 
+    /**
+     * @param string $name
+     * @param int $amount
+     * @return void
+     */
     private function updateResource($name, $amount)
     {
         self::DB()

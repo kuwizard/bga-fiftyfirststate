@@ -17,7 +17,7 @@ trait DiscardCardsGameStartTrait
         $currentPlayer = Players::getCurrent();
         $currentPlayer->discard($locationsIds);
         Notifications::handChanged($currentPlayer);
-        Notifications::resourcesChanged($currentPlayer, ['cards' => $currentPlayer->getHandAmount()]);
+        Notifications::resourcesChanged($currentPlayer, ['card' => $currentPlayer->getHandAmount()]);
         $this->gamestate->setPlayerNonMultiactive($currentPlayer->getId(), '');
     }
 }

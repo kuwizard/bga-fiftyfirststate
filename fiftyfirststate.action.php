@@ -55,10 +55,25 @@ class action_fiftyfirststate extends APP_GameAction
         self::ajaxResponse();
     }
 
-    public function actDoSomething()
+    public function actSpendWorkers()
     {
         self::setAjaxMode();
-        $this->game->actDoSomething();
+        $this->game->actSpendWorkers();
+        self::ajaxResponse();
+    }
+
+    public function actUndoSpend()
+    {
+        self::setAjaxMode();
+        $this->game->actUndoSpend();
+        self::ajaxResponse();
+    }
+
+    public function actGainResource()
+    {
+        self::setAjaxMode();
+        $resource = self::getArg('resource', AT_alphanum, true);
+        $this->game->actGainResource($resource);
         self::ajaxResponse();
     }
 }

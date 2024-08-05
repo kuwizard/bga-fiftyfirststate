@@ -4,17 +4,36 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         },
 
         onEnteringStatePhaseThreeAction(args) {
-            debug('phase Three Action state', args);
+            debug('Phase Three Action state', args);
             if (this.isCurrentPlayerActive()) {
-                this.addPrimaryActionButton(
-                    'buttonDoSomething',
-                    _('Do something'),
-                    () => this.takeAction('actDoSomething', {})
-                );
                 this.addPrimaryActionButton(
                     'buttonActionPass',
                     _('Pass'),
-                    () => this.takeAction('actActionPass', {})
+                    () => this.takeAction('actActionPass')
+                );
+                if (args.spendWorkers) {
+                    const spendWorkers = this.querySingle(`#faction_${this.player_id} .spendWorkersArea`);
+                    this.addSelectableClass(spendWorkers);
+                    this.dojoConnect(spendWorkers, () => {
+                        this.takeAction('actSpendWorkers')
+                    })
+                }
+            }
+        },
+
+        onEnteringStateSpendWorkers() {
+            if (this.isCurrentPlayerActive()) {
+                ['fuel', 'gun', 'iron', 'brick', 'card'].forEach((resource) => {
+                    this.addPrimaryActionButton(
+                        `buttonGain${resource}`,
+                        this.format_block('jstpl_resource_icon', { type: resource }),
+                        () => this.takeAction('actGainResource', { resource: resource })
+                    );
+                });
+                this.addSecondaryActionButton(
+                    'buttonActionUndo',
+                    _('Undo'),
+                    () => this.takeAction('actUndoSpend')
                 );
             }
         },
