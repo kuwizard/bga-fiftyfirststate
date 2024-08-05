@@ -205,6 +205,10 @@
   align-items: center;
 }
 
+#page-title {
+  min-height: 34px;
+}
+
 .selectable {
   cursor: pointer;
   outline: 2px solid red;

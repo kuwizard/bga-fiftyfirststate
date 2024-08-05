@@ -8,14 +8,15 @@ use STATE\Managers\Players;
 trait DiscardCardsGameStartTrait
 {
     /**
-     * @param int[] $cardIds
+     * @param int[] $locationsIds
      * @return void
      */
-    public function actDiscardCardsGameStart($cardIds)
+    public function actDiscardCardsGameStart($locationsIds)
     {
         self::checkAction('actDiscardCardsGameStart');
         $currentPlayer = Players::getCurrent();
-        $currentPlayer->discard($cardIds);
+        $currentPlayer->discard($locationsIds);
+        Notifications::locationsDiscarded($currentPlayer, $locationsIds);
         Notifications::resourcesChanged($currentPlayer, ['cards' => $currentPlayer->getHandAmount()]);
         $this->gamestate->setPlayerNonMultiactive($currentPlayer->getId(), '');
     }

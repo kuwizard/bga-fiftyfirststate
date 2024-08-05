@@ -1,6 +1,8 @@
 <?php
 namespace STATE\Core;
 
+use STATE\Models\Player;
+
 class Notifications
 {
     /*************************
@@ -19,10 +21,26 @@ class Notifications
         Game::get()->notifyPlayer($pId, $name, $msg, $data);
     }
 
+    /**
+     * @param Player $player
+     * @param array $resources
+     * @return void
+     */
     public static function resourcesChanged($player, $resources)
     {
         $resources = ['player' => $player, 'resources' => $resources];
         self::notifyAll('resourcesChanged', '', $resources);
+    }
+
+    /**
+     * @param Player $player
+     * @param int[] $resources
+     * @return void
+     */
+    public static function locationsDiscarded($player, $locationsIds)
+    {
+        $resources = ['player' => $player, 'locationsIds' => $locationsIds];
+        self::notify($player, 'locationsDiscarded', '', $resources);
     }
 
     /*********************
