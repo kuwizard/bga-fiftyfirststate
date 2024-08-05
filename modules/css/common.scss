@@ -4,12 +4,14 @@
 
 .selectable {
   cursor: pointer;
-  outline: 2px solid red;
+  &:hover {
+    transform: scale(1.04);
+  }
 }
 
 .selected {
   cursor: pointer;
-  outline: 3px solid #ff9600;
+  outline: 2px solid red;
   transform: scale(1.04);
 }
 

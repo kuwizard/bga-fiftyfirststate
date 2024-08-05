@@ -30,6 +30,7 @@ trait PhaseTwoProductionTrait
             $combinedResources = array_count_values(array_merge($factionProd, $dealsProd, $prodLocations));
             $player->increaseResources($combinedResources);
             Notifications::resourcesChanged($player, $player->getResourcesWithNames(array_keys($combinedResources)));
+            Notifications::handChanged($player);
         }
         Stack::finishState();
     }
