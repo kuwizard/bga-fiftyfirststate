@@ -2,6 +2,7 @@
 
 namespace STATE\States;
 
+use STATE\Core\Globals;
 use STATE\Core\Notifications;
 use STATE\Core\Stack;
 use STATE\Managers\Connections;
@@ -18,15 +19,15 @@ trait PhaseOneLookoutTrait
     public function stPhaseOneLookoutSetup()
     {
         Connections::flipForNewRound();
-
-        $players = Players::getPlayersSortedByNo(true);
+        $firstPlayer = Players::get(Globals::getFirstPlayerId());
+        $players = Players::getPlayerIdsSortedByNo($firstPlayer);
         Stack::insertOnTop(ST_PHASE_ONE_LOOKOUT_DISCARD);
-        foreach (array_reverse($players) as $pId) {
+        foreach (($players) as $pId) {
             Stack::insertOnTop(ST_PHASE_ONE_LOOKOUT_CHOOSE, ['pId' => $pId]);
         }
         Stack::insertOnTop(ST_PHASE_ONE_LOOKOUT_DRAW, ['amount' => count($players) + 1]);
         Stack::insertOnTop(ST_PHASE_ONE_LOOKOUT_DISCARD);
-        foreach (array_reverse(Players::getPlayersSortedByNo()) as $pId) {
+        foreach (array_reverse($players) as $pId) {
             Stack::insertOnTop(ST_PHASE_ONE_LOOKOUT_CHOOSE, ['pId' => $pId]);
         }
         Stack::insertOnTop(ST_PHASE_ONE_LOOKOUT_DRAW, ['amount' => count($players) + 1]);

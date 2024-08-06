@@ -10,7 +10,12 @@ trait RoundTrait
 {
     public function stNextRound()
     {
-        $nextPlayer = Players::getNextId(Globals::getFirstPlayerId());
+        $firstPlayer = Globals::getFirstPlayerId();
+        if ($firstPlayer === 0) {
+            $nextPlayer = Players::getFirstFirstPlayerId();
+        } else {
+            $nextPlayer = Players::getNextId($firstPlayer);
+        }
         Globals::setFirstPlayerId($nextPlayer);
 
         $stack = [

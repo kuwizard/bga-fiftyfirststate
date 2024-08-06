@@ -80,13 +80,13 @@ class Players extends DB_Manager
     }
 
     /**
-     * @param boolean $backwards
+     * @param Player $startWith
      * @return int[]
      */
-    public static function getPlayersSortedByNo($backwards = false)
+    public static function getPlayerIdsSortedByNo($startWith = null)
     {
-        $sort = $backwards ? 'DESC' : 'ASC';
-        $playerIds = self::getObjectListFromDB("SELECT player_id FROM player ORDER BY player_no {$sort}", true);
+        $orderByPlayer = $startWith ? "player_no < {$startWith->getNo()}, " : '';
+        $playerIds = self::getObjectListFromDB("SELECT player_id FROM player ORDER BY {$orderByPlayer}player_no", true);
         return array_map(function ($pId) {
             return (int) $pId;
         }, $playerIds);

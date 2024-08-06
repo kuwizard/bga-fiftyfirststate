@@ -8,7 +8,6 @@ namespace STATE\Core;
 
 use InvalidArgumentException;
 use STATE\Helpers\DB_Manager;
-use STATE\Managers\Players;
 use function addslashes;
 use function array_key_exists;
 use function json_encode;
@@ -136,13 +135,5 @@ class Globals extends DB_Manager
             }
         }
         return null;
-    }
-
-    /*
-     * Setup new game
-     */
-    public static function setupNewGame()
-    {
-        Globals::setFirstPlayerId(Players::getFirstFirstPlayerId());
     }
 }

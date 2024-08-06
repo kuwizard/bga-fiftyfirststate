@@ -12,11 +12,11 @@ class Stack
 {
     public static function setup($flow)
     {
-        $ctx = Stack::getCtx();
+        $ctx = self::getCtx();
         if (empty($ctx)) {
             // Ok, that should be the very game start
-            $firstAtom = Stack::newAtom(ST_NEXT_ROUND);
-            Stack::setCtx($firstAtom);
+            $firstAtom = self::newAtom(ST_NEXT_ROUND);
+            self::setCtx($firstAtom);
             $stack = [$firstAtom];
         } else {
             $stack = [$ctx];
@@ -26,22 +26,23 @@ class Stack
             $options = [];
             if ($state === ST_PHASE_THREE_ACTION) {
                 $options['suspended'] = true;
+                $options['pId'] = Globals::getFirstPlayerId();
             }
-            $stack[] = Stack::newAtom($state, $options);
+            $stack[] = self::newAtom($state, $options);
         }
-        Stack::set($stack);
-        Stack::setCtx($stack[0]);
+        self::set($stack);
+        self::setCtx($stack[0]);
     }
 
     public static function top()
     {
-        $stack = Stack::get();
+        $stack = self::get();
         return reset($stack);
     }
 
     public static function getNextAtom()
     {
-        $stack = Stack::get();
+        $stack = self::get();
         return $stack[1] ?? null;
     }
 
@@ -55,8 +56,18 @@ class Stack
         if (self::isSuspended($atom)) {
             $nextPId = Players::isAllPassed() ? Players::getFirstPlayerId() : Players::getNextId();
             Game::get()->gamestate->changeActivePlayer($nextPId);
-        } else if (isset($atom['pId']) && $activePlayerId !== $atom['pId']) {
+            $activePlayerId = $nextPId;
+        }
+        if (isset($atom['pId']) && $activePlayerId !== $atom['pId']) {
             Game::get()->gamestate->changeActivePlayer($atom['pId']);
+        }
+        // Removing a hack to allow first player to play first in phase 3
+        if (isset($atom['pId']) && $atom['state'] === ST_PHASE_THREE_ACTION) {
+            $stack = self::get();
+            $top = array_splice($stack, 0, 1);
+            unset($top[0]['pId']);
+            array_splice($stack, 0, 0, $top);
+            self::set($stack);
         }
         Game::get()->gamestate->jumpToState($atom['state']);
     }
@@ -69,12 +80,12 @@ class Stack
     public static function insertOnTop($state, $options = [])
     {
         $atom = self::newAtom($state, $options);
-        $stack = Stack::get();
+        $stack = self::get();
         array_unshift($stack, $atom);
-        Stack::set($stack);
+        self::set($stack);
         if (Globals::enabledStackLogger()) {
             var_dump('[Stack logger] Inserted a new atom on top and now Stack looks like this:');
-            var_dump(Stack::get());
+            var_dump(self::get());
         }
         return $atom;
     }
@@ -113,16 +124,16 @@ class Stack
      */
     public static function finishState($resolve = true, $deleteCtxFromStack = true)
     {
-        $ctx = Stack::getCtx();
-        if (Stack::isSuspended($ctx) || !$deleteCtxFromStack) {
+        $ctx = self::getCtx();
+        if (self::isSuspended($ctx) || !$deleteCtxFromStack) {
             if (Globals::enabledStackLogger()) {
                 var_dump('finishState() is called however the ctx atom is suspended or $deleteCtxFromStack is false');
                 var_dump('CTX:');
                 var_dump($ctx);
             }
         } else {
-            $ctxIndex = Stack::getAtomIndexByUid($ctx['uid']);
-            $currentStack = Stack::get();
+            $ctxIndex = self::getAtomIndexByUid($ctx['uid']);
+            $currentStack = self::get();
             if (Globals::enabledStackLogger()) {
                 var_dump('CTX:');
                 var_dump($ctx);
@@ -134,7 +145,7 @@ class Stack
                 var_dump('NEW STACK:');
                 var_dump($currentStack);
             }
-            Stack::set($currentStack);
+            self::set($currentStack);
         }
         if (Globals::enabledStackLogger()) {
             var_dump('FINISHED WITH FINISHING!');
@@ -149,10 +160,10 @@ class Stack
             throw new \feException('Stack engine is empty !');
         }
 
-        Stack::setCtx($atom);
+        self::setCtx($atom);
 
         if ($resolve) {
-            Stack::resolve();
+            self::resolve();
         }
     }
 
@@ -164,36 +175,36 @@ class Stack
     public static function unsuspendNext($state = null)
     {
         if ($state === null) {
-            $atomIndex = Stack::getFirstSuspendedAtomIndex();
+            $atomIndex = self::getFirstSuspendedAtomIndex();
         } else {
-            $atomIndex = Stack::getFirstAtomIndexByState($state);
+            $atomIndex = self::getFirstAtomIndexByState($state);
         }
-        $stack = Stack::get();
-        if (Stack::isSuspended($stack[$atomIndex])) {
+        $stack = self::get();
+        if (self::isSuspended($stack[$atomIndex])) {
             $atom = array_splice($stack, $atomIndex, 1);
             unset($atom[0]['suspended']);
             array_splice($stack, $atomIndex, 0, $atom);
-            Stack::set($stack);
+            self::set($stack);
         }
 
-        if ($stack[$atomIndex]['uid'] == Stack::getCtx()['uid']) {
-            Stack::setCtx($stack[$atomIndex]);
+        if ($stack[$atomIndex]['uid'] == self::getCtx()['uid']) {
+            self::setCtx($stack[$atomIndex]);
         }
     }
 
     private static function getAtomIndexByUid($uid)
     {
-        return Stack::findBy('uid', $uid);
+        return self::findBy('uid', $uid);
     }
 
     private static function getFirstAtomIndexByState($state)
     {
-        return Stack::findBy('state', $state);
+        return self::findBy('state', $state);
     }
 
     private static function getFirstSuspendedAtomIndex()
     {
-        return Stack::findBy('suspended', true);
+        return self::findBy('suspended', true);
     }
 
     /**
@@ -209,7 +220,7 @@ class Stack
     private static function findBy($option, $value, $throwOnError = true)
     {
         $ctxIndex = -1;
-        $stack = Stack::get();
+        $stack = self::get();
         foreach ($stack as $key => $atom) {
             if (isset($atom[$option]) && $atom[$option] == $value) {
                 $ctxIndex = $key;
