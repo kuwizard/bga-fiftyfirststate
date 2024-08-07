@@ -82,6 +82,13 @@
 .factionBoard .faction[data-faction="3"] {
   background-position: 100% 0;
 }
+.factionBoard .faction .actionsArea {
+  width: 32%;
+  height: 9%;
+  bottom: 23%;
+  left: 21.5%;
+  position: absolute;
+}
 .factionBoard .faction .spendWorkersArea {
   width: 32%;
   height: 6%;
@@ -247,6 +254,12 @@
 }
 .resourceIcon.cardIcon {
   background-position-x: 100%;
+}
+
+#generalactions .resourceButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
 }
 
 /*# sourceMappingURL=fiftyfirststate.css.map */

@@ -75,7 +75,7 @@ class Stack
     /**
      * @param int $state
      * @param array $options
-     * @return array
+     * @return void
      */
     public static function insertOnTop($state, $options = [])
     {
@@ -87,7 +87,17 @@ class Stack
             var_dump('[Stack logger] Inserted a new atom on top and now Stack looks like this:');
             var_dump(self::get());
         }
-        return $atom;
+    }
+
+    /**
+     * @param int $state
+     * @param array $options
+     * @return void
+     */
+    public static function insertOnTopAndFinish($state, $options = [])
+    {
+        self::insertOnTop($state, $options);
+        self::finishState();
     }
 
     private static function get()

@@ -34,6 +34,14 @@ class Faction
         return $this->resources;
     }
 
+    /**
+     * @return Act[]
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
+
 //    public function jsonSerialize()
 //    {
 //        return [

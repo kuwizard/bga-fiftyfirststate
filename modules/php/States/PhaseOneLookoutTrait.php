@@ -30,8 +30,7 @@ trait PhaseOneLookoutTrait
         foreach (array_reverse($players) as $pId) {
             Stack::insertOnTop(ST_PHASE_ONE_LOOKOUT_CHOOSE, ['pId' => $pId]);
         }
-        Stack::insertOnTop(ST_PHASE_ONE_LOOKOUT_DRAW, ['amount' => count($players) + 1]);
-        Stack::finishState();
+        Stack::insertOnTopAndFinish(ST_PHASE_ONE_LOOKOUT_DRAW, ['amount' => count($players) + 1]);
     }
 
     public function stPhaseOneLookoutDraw()

@@ -100,7 +100,7 @@ $machinestates = [
         'args' => 'argPhaseThreeAction',
         'type' => 'activeplayer',
         'updateGameProgression' => true,
-        'possibleactions' => ['actActionPass', 'actSpendWorkers'],
+        'possibleactions' => ['actActionPass', 'actSpendWorkers', 'actEnableFactionActions'],
     ],
 
     ST_SPEND_WORKERS => [
@@ -108,7 +108,16 @@ $machinestates = [
         'description' => clienttranslate('${actplayer} must choose a resource to gain'),
         'descriptionmyturn' => clienttranslate('${you} must choose a resource to gain'),
         'type' => 'activeplayer',
-        'possibleactions' => ['actGainResource', 'actUndoSpend'],
+        'possibleactions' => ['actGainResourceForWorkers', 'actUndo'],
+    ],
+
+    ST_FACTION_ACTIONS => [
+        'name' => 'factionActions',
+        'description' => clienttranslate('${actplayer} must choose a faction action to activate'),
+        'descriptionmyturn' => clienttranslate('${you} must choose a faction action to activate'),
+        'args' => 'argFactionActions',
+        'type' => 'activeplayer',
+        'possibleactions' => ['actFactionAct', 'actUndo'],
     ],
 
     ST_PHASE_FOUR_CLEANUP => [

@@ -6,6 +6,7 @@ use JsonSerializable;
 use STATE\Core\Preferences;
 use STATE\Helpers\DB_Manager;
 use STATE\Helpers\Resources;
+use STATE\Managers\Factions;
 use STATE\Managers\Locations;
 use STATE\Managers\Players;
 
@@ -192,6 +193,54 @@ class Player extends DB_Manager implements JsonSerializable
     public function getProduction()
     {
         return $this->combineResources(LOCATION_BOARD);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getFactionProduction()
+    {
+        $name = 'STATE\Data\Factions\\' . Factions::getName($this->getFaction());
+        /** @var Faction $faction */
+        $faction = new $name;
+        return $faction->getProduction();
+    }
+
+    /**
+     * @return Act[]
+     */
+    public function getFactionActions()
+    {
+        $name = 'STATE\Data\Factions\\' . Factions::getName($this->getFaction());
+        /** @var Faction $faction */
+        $faction = new $name;
+        return $faction->getActions();
+    }
+
+    /**
+     * @param Act[] $actions
+     * @return array
+     */
+    public function getAvailableActions($actions = null)
+    {
+        if (!$actions) {
+            $actions = $this->getFactionActions();
+        }
+        $availableActions = [];
+        foreach ($actions as $action) {
+            $isAvailable = true;
+            $requirements = array_count_values($action->getSpendRequirements());
+            foreach ($requirements as $requirement => $amount) {
+                if ($this->getResource($requirement) < $amount) {
+                    $isAvailable = false;
+                    break;
+                }
+            }
+            if ($isAvailable) {
+                $availableActions[] = $action;
+            }
+        }
+        return $availableActions;
     }
 
     /**

@@ -12,13 +12,20 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     () => this.takeAction('actActionPass')
                 );
                 if (args.spendWorkers) {
-                    const spendWorkers = this.querySingle(`#faction_${this.player_id} .spendWorkersArea`);
-                    this.addSelectableClass(spendWorkers);
-                    this.dojoConnect(spendWorkers, () => {
-                        this.takeAction('actSpendWorkers')
-                    })
+                    this.makeAreaSelectable('spendWorkersArea', 'actSpendWorkers');
+                }
+                if (args.factionActions) {
+                    this.makeAreaSelectable('actionsArea', 'actEnableFactionActions');
                 }
             }
+        },
+
+        makeAreaSelectable(locator, action) {
+            const area = this.querySingle(`#faction_${this.player_id} .${locator}`);
+            this.addSelectableClass(area);
+            this.dojoConnect(area, () => {
+                this.takeAction(action);
+            })
         },
 
         onEnteringStateSpendWorkers() {
@@ -27,13 +34,38 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     this.addPrimaryActionButton(
                         `buttonGain${resource}`,
                         this.format_block('jstpl_resource_icon', { type: resource }),
-                        () => this.takeAction('actGainResource', { resource: resource })
+                        () => this.takeAction('actGainResourceForWorkers', { resource: resource })
                     );
                 });
                 this.addSecondaryActionButton(
                     'buttonActionUndo',
                     _('Undo'),
-                    () => this.takeAction('actUndoSpend')
+                    () => this.takeAction('actUndo')
+                );
+            }
+        },
+
+        onEnteringStateFactionActions(args) {
+            if (this.isCurrentPlayerActive()) {
+                args.forEach((action) => {
+                    const spendRequirements = action.spendRequirements.map((resource) => {
+                        return this.format_block('jstpl_resource_icon', { type: resource });
+                    });
+                    const bonus = action.bonus.map((resource) => {
+                        return this.format_block('jstpl_resource_icon', { type: resource });
+                    });
+                    const buttonId = `buttonGain${action.id}`;
+                    this.addPrimaryActionButton(
+                        buttonId,
+                        `${spendRequirements.join('')} ➤ ${bonus.join('')}`,
+                        () => this.takeAction('actFactionAct', { id: action.id })
+                    );
+                    dojo.addClass(buttonId, 'resourceButton');
+                });
+                this.addSecondaryActionButton(
+                    'buttonActionUndo',
+                    _('Undo'),
+                    () => this.takeAction('actUndo')
                 );
             }
         },

@@ -17,9 +17,9 @@
  */
 
 use STATE\Core\Globals;
-use STATE\Core\Stack;
 use STATE\Core\Stats;
 use STATE\Managers\Connections;
+use STATE\Managers\Factions;
 use STATE\Managers\Locations;
 use STATE\Managers\Players;
 use STATE\Models\Player;
@@ -78,6 +78,7 @@ class Fiftyfirststate extends Table
         Players::setupNewGame($players, $options);
         Locations::setupNewGame();
         Connections::setupNewGame();
+        Factions::setupNewGame();
         Globals::setupNewGame();
         $this->giveEachPlayerCardsSetup();
         $this->activeNextPlayer();
