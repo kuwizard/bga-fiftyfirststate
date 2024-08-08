@@ -47,18 +47,19 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         onEnteringStateFactionActions(args) {
             if (this.isCurrentPlayerActive()) {
-                args.forEach((action) => {
+                Object.keys(args).forEach((id) => {
+                    const action = args[id];
                     const spendRequirements = action.spendRequirements.map((resource) => {
                         return this.format_block('jstpl_resource_icon', { type: resource });
                     });
                     const bonus = action.bonus.map((resource) => {
                         return this.format_block('jstpl_resource_icon', { type: resource });
                     });
-                    const buttonId = `buttonGain${action.id}`;
+                    const buttonId = `buttonGain${id}`;
                     this.addPrimaryActionButton(
                         buttonId,
                         `${spendRequirements.join('')} ➤ ${bonus.join('')}`,
-                        () => this.takeAction('actFactionAct', { id: action.id })
+                        () => this.takeAction('actFactionAct', { id: id })
                     );
                     dojo.addClass(buttonId, 'resourceButton');
                 });

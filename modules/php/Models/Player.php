@@ -227,7 +227,7 @@ class Player extends DB_Manager implements JsonSerializable
             $actions = $this->getFactionActions();
         }
         $availableActions = [];
-        foreach ($actions as $action) {
+        foreach ($actions as $id => $action) {
             $isAvailable = true;
             $requirements = array_count_values($action->getSpendRequirements());
             foreach ($requirements as $requirement => $amount) {
@@ -237,7 +237,7 @@ class Player extends DB_Manager implements JsonSerializable
                 }
             }
             if ($isAvailable) {
-                $availableActions[] = $action;
+                $availableActions[$id] = $action;
             }
         }
         return $availableActions;

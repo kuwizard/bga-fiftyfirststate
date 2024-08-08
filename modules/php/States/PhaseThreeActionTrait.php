@@ -20,18 +20,7 @@ trait PhaseThreeActionTrait
 
     public function argFactionActions()
     {
-        return $this->addIdsToActions(Players::getActive()->getAvailableActions());
-    }
-
-    private function addIdsToActions($actions)
-    {
-        $id = 0;
-        foreach ($actions as $action) {
-            /** @var Act $action */
-            $action->setId($id);
-            $id = $id + 1;
-        }
-        return $actions;
+        return Players::getActive()->getAvailableActions();
     }
 
     public function actActionPass()
@@ -88,9 +77,8 @@ trait PhaseThreeActionTrait
     {
         self::checkAction('actFactionAct');
         $player = Players::getActive();
-        $actionsWithIds = $this->addIdsToActions($player->getAvailableActions());
         /** @var Act $actionChosen */
-        $actionChosen = array_column($actionsWithIds, null, 'id')[$id];
+        $actionChosen = $player->getAvailableActions()[$id];
         $actionChosen->activate($player);
         Stack::finishState();
     }
