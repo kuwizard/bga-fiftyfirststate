@@ -13,19 +13,11 @@ trait PhaseTwoProductionTrait
 {
     public function stPhaseTwoProduction()
     {
-        $factionsNames = [
-            FACTION_NEW_YORK => 'NewYork',
-            FACTION_APPALACHIAN => 'Appalachian',
-            FACTION_MUTANTS => 'Mutants',
-            FACTION_MERCHANTS => 'Merchants',
-        ];
+
 
         /** @var Player $player */
         foreach (Players::getAll() as $player) {
-            $name = 'STATE\Data\Factions\\' . $factionsNames[$player->getFaction()];
-            /** @var Faction $faction */
-            $faction = new $name;
-            $factionProd = $faction->getProduction();
+            $factionProd = $player->getFactionProduction();
             $dealsProd = $player->getDeals();
             $prodLocations = $player->getProduction();
             $combinedResources = array_count_values(array_merge($factionProd, $dealsProd, $prodLocations));

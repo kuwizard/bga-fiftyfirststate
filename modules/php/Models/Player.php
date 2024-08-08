@@ -227,6 +227,7 @@ class Player extends DB_Manager implements JsonSerializable
             $actions = $this->getFactionActions();
         }
         $availableActions = [];
+        $dbAvailableActions = Factions::getAllForFaction($this->faction);
         foreach ($actions as $id => $action) {
             $isAvailable = true;
             $requirements = array_count_values($action->getSpendRequirements());
@@ -237,7 +238,10 @@ class Player extends DB_Manager implements JsonSerializable
                 }
             }
             if ($isAvailable) {
-                $availableActions[$id] = $action;
+                $key = array_search(strval($id), array_column($dbAvailableActions, 'action_number'));
+                if ((int) $dbAvailableActions[$key]['used'] === 0) {
+                    $availableActions[$id] = $action;
+                }
             }
         }
         return $availableActions;

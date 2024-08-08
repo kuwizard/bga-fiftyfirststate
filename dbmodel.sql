@@ -60,3 +60,13 @@ CREATE TABLE IF NOT EXISTS `connections`
     PRIMARY KEY (`connection_id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
+
+CREATE TABLE IF NOT EXISTS `factions`
+(
+    `id`            smallint unsigned NOT NULL AUTO_INCREMENT,
+    `faction`       tinyint           NOT NULL,
+    `action_number` tinyint           NOT NULL,
+    `used`          tinyint           NOT NULL DEFAULT 0,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;

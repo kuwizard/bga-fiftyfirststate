@@ -5,6 +5,7 @@ namespace STATE\States;
 use STATE\Core\Notifications;
 use STATE\Core\Stack;
 use STATE\Helpers\Resources;
+use STATE\Managers\Factions;
 use STATE\Managers\Players;
 use STATE\Models\Act;
 
@@ -80,6 +81,7 @@ trait PhaseThreeActionTrait
         /** @var Act $actionChosen */
         $actionChosen = $player->getAvailableActions()[$id];
         $actionChosen->activate($player);
+        Factions::setAsUsed($player->getFaction(), $id);
         Stack::finishState();
     }
 }

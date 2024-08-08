@@ -30,7 +30,6 @@ class Locations extends Pieces
     {
         $pId = $player->getId();
         self::pickForLocation($amount, LOCATION_DECK, [LOCATION_HAND, $pId]);
-//        Notifications::newCardsDrawn($player);
     }
 
     public static function discard($cardIds)
@@ -159,6 +158,11 @@ class Locations extends Pieces
             return $location instanceof Action;
         })->toArray();
         return ['production' => $production, 'feature' => $feature, 'actions' => $actions];
+    }
+
+    public static function getHand(int $id): array
+    {
+        return self::getInLocation([LOCATION_HAND, $id])->toArray();
     }
 
     /**
