@@ -42,15 +42,17 @@
   }
 }
 
-#generalactions {
+#page-title #generalactions {
   .resourceButton {
     display: inline-flex;
     align-items: center;
     gap: 2px;
+    margin-bottom: 0;
+    border: 0;
   }
 
   .resourceIcon {
-    width: 25px;
-    height: 25px;
+    width: 21px;
+    height: 21px;
   }
 }

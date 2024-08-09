@@ -265,14 +265,16 @@
   background-position-x: 100%;
 }
 
-#generalactions .resourceButton {
+#page-title #generalactions .resourceButton {
   display: inline-flex;
   align-items: center;
   gap: 2px;
+  margin-bottom: 0;
+  border: 0;
 }
-#generalactions .resourceIcon {
-  width: 25px;
-  height: 25px;
+#page-title #generalactions .resourceIcon {
+  width: 21px;
+  height: 21px;
 }
 
 /*# sourceMappingURL=fiftyfirststate.css.map */

@@ -238,7 +238,7 @@ class Player extends DB_Manager implements JsonSerializable
      * @param Act[] $actions
      * @return array
      */
-    public function getAvailableActions($actions = null)
+    public function getAvailableFactionActions($actions = null)
     {
         if (!$actions) {
             $actions = $this->getFactionActions();
@@ -290,10 +290,58 @@ class Player extends DB_Manager implements JsonSerializable
         return $result;
     }
 
+    /**
+     * @param int $resource
+     * @return int
+     */
     public function getResource($resource)
     {
         $resourceName = Resources::getResourceName($resource);
         return $resource === RESOURCE_CARD ? $this->getHandAmount() : $this->$resourceName;
+    }
+
+    /**
+     * @return array
+     */
+    private function getPlayableLocations()
+    {
+        $hand = $this->getHand();
+        $result = [];
+        foreach ($hand as $location) {
+            $availableActions = $this->getAvailableLocationActions($location);
+            if (!empty($availableActions)) {
+                $result[$location->getId()] = $availableActions;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPlayableLocationsIds()
+    {
+        return array_keys($this->getPlayableLocations());
+    }
+
+    /**
+     * @param Location $location
+     * @return string[]
+     */
+    public function getAvailableLocationActions($location)
+    {
+        $availableActions = [];
+        /** @var Location $location */
+        if ($this->getResource(RESOURCE_ARROW_RED) >= $location->getDistance()) {
+            $availableActions[] = 'raze';
+        }
+        if ($this->getResource(RESOURCE_ARROW_GREY) >= $location->getDistance()) {
+            $availableActions[] = 'build';
+        }
+        if ($this->getResource(RESOURCE_ARROW_BLUE) >= $location->getDistance()) {
+            $availableActions[] = 'deal';
+        }
+        return $availableActions;
     }
 
     /**

@@ -100,7 +100,7 @@ $machinestates = [
         'args' => 'argPhaseThreeAction',
         'type' => 'activeplayer',
         'updateGameProgression' => true,
-        'possibleactions' => ['actActionPass', 'actSpendWorkers', 'actEnableFactionActions'],
+        'possibleactions' => ['actActionPass', 'actSpendWorkers', 'actEnableFactionActions', 'actUseLocation'],
     ],
 
     ST_SPEND_WORKERS => [
@@ -118,6 +118,15 @@ $machinestates = [
         'args' => 'argFactionActions',
         'type' => 'activeplayer',
         'possibleactions' => ['actFactionAct', 'actUndo'],
+    ],
+
+    ST_LOCATION_ACTIONS => [
+        'name' => 'locationActions',
+        'description' => clienttranslate('${actplayer} must choose what to do with a location'),
+        'descriptionmyturn' => clienttranslate('${you} must choose what to do with the chosen location'),
+        'args' => 'argLocationActions',
+        'type' => 'activeplayer',
+        'possibleactions' => ['actLocationRaze', 'actLocationDeal', 'actLocationBuild', 'actUndo'],
     ],
 
     ST_PHASE_FOUR_CLEANUP => [

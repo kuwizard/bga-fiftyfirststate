@@ -14,6 +14,7 @@ define('ST_PHASE_TWO_PRODUCTION', 20);
 define('ST_PHASE_THREE_ACTION', 30);
 define('ST_SPEND_WORKERS', 31);
 define('ST_FACTION_ACTIONS', 32);
+define('ST_LOCATION_ACTIONS', 33);
 define('ST_PHASE_FOUR_CLEANUP', 95);
 
 define('ST_END_GAME', 99);
@@ -155,6 +156,13 @@ define('FEATURE_NONE', 0);
  * Action types
  */
 define('ACTION_TYPE_SPEND', 0);
+
+/*
+ * Location action types
+ */
+define('LOCATION_ACTION_RAZE', 'raze');
+define('LOCATION_ACTION_DEAL', 'deal');
+define('LOCATION_ACTION_BUILD', 'build');
 
 /*
  * Global constants

@@ -28,6 +28,11 @@ class action_fiftyfirststate extends APP_GameAction
         }
     }
 
+    private function getId()
+    {
+        return (int) self::getArg('id', AT_alphanum, true);
+    }
+
     public function actDiscardCardsGameStart()
     {
         self::setAjaxMode();
@@ -87,8 +92,24 @@ class action_fiftyfirststate extends APP_GameAction
     public function actFactionAct()
     {
         self::setAjaxMode();
-        $id = self::getArg('id', AT_alphanum, true);
-        $this->game->actFactionAct($id);
+        $this->game->actFactionAct($this->getId());
+        var_dump($this->getId());
+        die('death');
         self::ajaxResponse();
     }
+
+    public function actUseLocation()
+    {
+        self::setAjaxMode();
+        $this->game->actUseLocation($this->getId());
+        self::ajaxResponse();
+    }
+
+    public function actLocationBuild()
+    {
+        self::setAjaxMode();
+        $this->game->actLocationBuild();
+        self::ajaxResponse();
+    }
+
 }

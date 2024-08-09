@@ -18,6 +18,17 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 if (args.factionActions) {
                     this.makeAreaSelectable('actionsArea', 'actEnableFactionActions');
                 }
+                dojo.query(`#hand .location`).forEach((location) => {
+                    const id = this.extractId(location, 'location');
+                    if (args.locations.includes(id)) {
+                        this.addSelectableClass(location);
+                        this.dojoConnect(location, () => {
+                            this.takeAction('actUseLocation', { id: id });
+                        })
+                    } else {
+                        dojo.addClass(location, 'unselectable');
+                    }
+                });
             }
         },
 
@@ -37,12 +48,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                         this.format_block('jstpl_resource_icon', { type: resource }),
                         () => this.takeAction('actGainResourceForWorkers', { resource: resource })
                     );
+                    dojo.addClass(`buttonGain${resource}`, 'resourceButton');
                 });
-                this.addSecondaryActionButton(
-                    'buttonActionUndo',
-                    _('Undo'),
-                    () => this.takeAction('actUndo')
-                );
+                this.addUndoButton();
             }
         },
 
@@ -64,12 +72,38 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     );
                     dojo.addClass(buttonId, 'resourceButton');
                 });
-                this.addSecondaryActionButton(
-                    'buttonActionUndo',
-                    _('Undo'),
-                    () => this.takeAction('actUndo')
-                );
+                this.addUndoButton();
             }
+        },
+
+        onEnteringStateLocationActions(args) {
+            if (this.isCurrentPlayerActive()) {
+                dojo.query(`#hand .location`).forEach((location) => {
+                    if (args.id === this.extractId(location, 'location')) {
+                        this.addSelectedClass(location);
+                    } else {
+                        dojo.addClass(location, 'unselectable');
+                    }
+                });
+                Object.keys(args.locationActionsLexemes).forEach((action) => {
+                    if (args.actions.includes(action)) {
+                        this.addPrimaryActionButton(
+                            `button${action}`,
+                            args.locationActionsLexemes[action],
+                            () => this.takeAction(`actLocation${action.replace(/^./, action[0].toUpperCase())}`)
+                        );
+                    }
+                });
+                this.addUndoButton();
+            }
+        },
+
+        addUndoButton() {
+            this.addSecondaryActionButton(
+                'buttonActionUndo',
+                _('Undo'),
+                () => this.takeAction('actUndo')
+            );
         },
 
         notif_resourcesSpentFaction(n) {

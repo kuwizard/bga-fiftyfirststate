@@ -83,6 +83,11 @@ class Location implements \JsonSerializable
         return $this->deals;
     }
 
+    public function getDistance(): int
+    {
+        return $this->distance;
+    }
+
     public function jsonSerialize()
     {
         return [

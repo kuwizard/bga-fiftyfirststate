@@ -6,8 +6,10 @@ use STATE\Core\Notifications;
 use STATE\Core\Stack;
 use STATE\Helpers\Resources;
 use STATE\Managers\Factions;
+use STATE\Managers\Locations;
 use STATE\Managers\Players;
 use STATE\Models\Act;
+use STATE\Models\Location;
 
 trait PhaseThreeActionTrait
 {
@@ -16,12 +18,31 @@ trait PhaseThreeActionTrait
     {
         $player = Players::getActive();
         $spendWorkers = $player->getResource(RESOURCE_WORKER) >= 2;
-        return ['spendWorkers' => $spendWorkers, 'factionActions' => !empty($player->getAvailableActions())];
+        return [
+            'spendWorkers' => $spendWorkers,
+            'factionActions' => !empty($player->getAvailableFactionActions()),
+            'locations' => $player->getPlayableLocationsIds(),
+        ];
     }
 
     public function argFactionActions()
     {
-        return Players::getActive()->getAvailableActions();
+        return Players::getActive()->getAvailableFactionActions();
+    }
+
+    public function argLocationActions()
+    {
+        $locationId = Stack::getCtx()['locationId'];
+        $location = Locations::get($locationId);
+        return [
+            'id' => $locationId,
+            'actions' => Players::getActive()->getAvailableLocationActions($location),
+            'locationActionsLexemes' => [
+                LOCATION_ACTION_RAZE => clienttranslate('Raze'),
+                LOCATION_ACTION_DEAL => clienttranslate('Make a deal'),
+                LOCATION_ACTION_BUILD => clienttranslate('Build'),
+            ],
+        ];
     }
 
     public function actActionPass()
@@ -79,10 +100,36 @@ trait PhaseThreeActionTrait
         self::checkAction('actFactionAct');
         $player = Players::getActive();
         /** @var Act $actionChosen */
-        $actionChosen = $player->getAvailableActions()[$id];
+        $actionChosen = $player->getAvailableFactionActions()[$id];
         $actionChosen->activate($player);
         Factions::setAsUsed($player->getFaction(), $id);
         Notifications::resourcesSpentFaction($player, $actionChosen->getSpendRequirementsUI(), $id);
+        Stack::finishState();
+    }
+
+    /**
+     * @param int $id
+     * @return void
+     */
+    public function actUseLocation($id)
+    {
+        self::checkAction('actUseLocation');
+        Stack::insertOnTopAndFinish(ST_LOCATION_ACTIONS, ['locationId' => $id]);
+    }
+
+    /**
+     * @param int $id
+     * @return void
+     */
+    public function actLocationBuild()
+    {
+        self::checkAction('actLocationBuild');
+        $locationId = Stack::getCtx()['locationId'];
+        $location = Locations::get($locationId);
+        $player = Players::getActive();
+        /** @var Location $location */
+        $player->decreaseResource(RESOURCE_ARROW_GREY, $location->getDistance());
+        Locations::move($locationId, [LOCATION_BOARD, $player->getId()]);
         Stack::finishState();
     }
 }
