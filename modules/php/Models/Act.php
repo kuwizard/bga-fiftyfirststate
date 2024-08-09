@@ -31,6 +31,11 @@ class Act implements \JsonSerializable
         return $this->spendRequirements;
     }
 
+    public function getSpendRequirementsUI(): array
+    {
+        return array_map('STATE\Helpers\Resources::getResourceName', $this->spendRequirements);
+    }
+
     /**
      * @param Player $player
      * @return void
@@ -52,7 +57,7 @@ class Act implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'spendRequirements' => array_map('STATE\Helpers\Resources::getResourceName', $this->spendRequirements),
+            'spendRequirements' => $this->getSpendRequirementsUI(),
             'bonus' => array_map('STATE\Helpers\Resources::getResourceName', $this->bonus),
         ];
     }

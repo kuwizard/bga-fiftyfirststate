@@ -82,6 +82,7 @@ trait PhaseThreeActionTrait
         $actionChosen = $player->getAvailableActions()[$id];
         $actionChosen->activate($player);
         Factions::setAsUsed($player->getFaction(), $id);
+        Notifications::resourcesSpentFaction($player, $actionChosen->getSpendRequirementsUI(), $id);
         Stack::finishState();
     }
 }

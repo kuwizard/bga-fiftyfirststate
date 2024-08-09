@@ -21,6 +21,21 @@
       }
     }
 
+    .spentArea {
+      width: 32%;
+      height: 23%;
+      bottom: 11%;
+      right: 13%;
+      position: absolute;
+      display: grid;
+      grid-template-rows: 1fr 1fr 1fr;
+
+      .spent {
+        display: flex;
+        gap: 15px;
+      }
+    }
+
     .actionsArea {
       width: 32%;
       height: 9%;

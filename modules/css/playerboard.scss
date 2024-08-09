@@ -50,14 +50,9 @@ $resources: (
       right: 45px;
     }
 
-    .resourceIcon {
-      width: 45px;
-      height: 45px;
-
-      &.cardIcon {
-        width: 35px;
-        height: 35px;
-      }
+    .resourceIcon.cardIcon {
+      width: 35px;
+      height: 35px;
     }
   }
 }

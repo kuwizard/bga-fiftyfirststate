@@ -42,6 +42,21 @@ class Notifications
         self::notify($player, 'handChanged', '', $resources);
     }
 
+    /**
+     * @param Player $player
+     * @return void
+     */
+    public static function resourcesSpentFaction($player, $resources, $order)
+    {
+        self::notifyAll('resourcesSpentFaction', '', [
+            'resources' => $resources,
+            'order' => $order,
+            'player' => $player,
+        ]);
+    }
+
+
+
     /*********************
      **** UPDATE ARGS ****
      *********************/

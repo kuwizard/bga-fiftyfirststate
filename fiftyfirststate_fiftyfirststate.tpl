@@ -87,6 +87,11 @@
     var jstpl_faction_board = `
     <div id="faction_\${id}" class="factionBoard">
         <div class="faction" data-faction="\${faction}">
+            <div class="spentArea">
+                <div class="spent" data-order="0"></div>
+                <div class="spent" data-order="1"></div>
+                <div class="spent" data-order="2"></div>
+            </div>
             <div class="actionsArea"></div>
             <div class="spendWorkersArea"></div>
         </div>

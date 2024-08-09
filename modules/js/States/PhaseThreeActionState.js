@@ -1,6 +1,7 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     return declare('state.phaseThreeAction', null, {
         constructor() {
+            this._notifications.push(['resourcesSpentFaction', 1]);
         },
 
         onEnteringStatePhaseThreeAction(args) {
@@ -69,6 +70,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     () => this.takeAction('actUndo')
                 );
             }
+        },
+
+        notif_resourcesSpentFaction(n) {
+            debug('Notif: resourcesSpentFaction', n);
+            const element = this.querySingle(`#faction_${n.args.player_id} .spent[data-order="${n.args.order}"]`);
+            n.args.resources.forEach((resource) => {
+                this.placeResourceOnFactionAction(element, resource);
+            })
         },
     });
 });

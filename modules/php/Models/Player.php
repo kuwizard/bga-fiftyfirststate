@@ -218,6 +218,23 @@ class Player extends DB_Manager implements JsonSerializable
     }
 
     /**
+     * @return array
+     */
+    private function getUsedFactionActions()
+    {
+        $actions = $this->getFactionActions();
+        $dbActions = Factions::getAllForFaction($this->faction);
+        $used = [];
+        foreach ($actions as $id => $action) {
+            $key = array_search(strval($id), array_column($dbActions, 'action_number'));
+            if ((int) $dbActions[$key]['used'] === 1) {
+                $used[$id] = $action->getSpendRequirementsUI();
+            }
+        }
+        return $used;
+    }
+
+    /**
      * @param Act[] $actions
      * @return array
      */
@@ -227,7 +244,7 @@ class Player extends DB_Manager implements JsonSerializable
             $actions = $this->getFactionActions();
         }
         $availableActions = [];
-        $dbAvailableActions = Factions::getAllForFaction($this->faction);
+        $dbActions = Factions::getAllForFaction($this->faction);
         foreach ($actions as $id => $action) {
             $isAvailable = true;
             $requirements = array_count_values($action->getSpendRequirements());
@@ -238,8 +255,8 @@ class Player extends DB_Manager implements JsonSerializable
                 }
             }
             if ($isAvailable) {
-                $key = array_search(strval($id), array_column($dbAvailableActions, 'action_number'));
-                if ((int) $dbAvailableActions[$key]['used'] === 0) {
+                $key = array_search(strval($id), array_column($dbActions, 'action_number'));
+                if ((int) $dbActions[$key]['used'] === 0) {
                     $availableActions[$id] = $action;
                 }
             }
@@ -406,6 +423,7 @@ class Player extends DB_Manager implements JsonSerializable
             'handAmount' => $this->getHandAmount(),
             'hand' => $current ? Locations::getHand($this->id) : [],
             'locations' => Locations::getBoard($this->id),
+            'usedFactionActions' => $this->getUsedFactionActions(),
         ];
         return $data;
     }

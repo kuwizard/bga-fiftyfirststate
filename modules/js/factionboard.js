@@ -1,7 +1,6 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     return declare('state.factionboard', null, {
         constructor() {
-            // this._notifications.push(['resourcesChanged', 1]);
         },
 
         addBoard() {
@@ -18,7 +17,23 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     });
                 });
 
+                Object.keys(player.usedFactionActions).forEach((order) => {
+                    const spentArea = this.querySingle(`#faction_${player.id} .spent[data-order="${order}"]`);
+                    player.usedFactionActions[order].forEach((resource) => {
+                        this.placeResourceOnFactionAction(spentArea, resource);
+                    })
+                })
             });
+        },
+
+        placeResourceOnFactionAction(element, resource) {
+            const res = dojo.place(this.format_block('jstpl_resource_icon', { type: resource }), element);
+            const getRandomNumber = (min, max) => {
+                return Math.floor(Math.random() * (max - min) + min);
+            }
+            dojo.style(res, 'margin-left', `${getRandomNumber(-7, 7)}px`);
+            dojo.style(res, 'margin-top', `${getRandomNumber(-7, 7)}px`);
+            dojo.style(res, 'transform', `rotate(${getRandomNumber(-20, 20)}deg)`);
         },
 
 

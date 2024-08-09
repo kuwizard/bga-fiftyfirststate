@@ -44,10 +44,6 @@
   top: -36px;
   right: 45px;
 }
-.player-board .playerResourcesWrapper .resourceIcon {
-  width: 45px;
-  height: 45px;
-}
 .player-board .playerResourcesWrapper .resourceIcon.cardIcon {
   width: 35px;
   height: 35px;
@@ -81,6 +77,19 @@
 }
 .factionBoard .faction[data-faction="3"] {
   background-position: 100% 0;
+}
+.factionBoard .faction .spentArea {
+  width: 32%;
+  height: 23%;
+  bottom: 11%;
+  right: 13%;
+  position: absolute;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+.factionBoard .faction .spentArea .spent {
+  display: flex;
+  gap: 15px;
 }
 .factionBoard .faction .actionsArea {
   width: 32%;
@@ -213,8 +222,8 @@
   display: block;
   background-image: url(img/icons.jpg);
   background-size: 1300% 100%;
-  width: 25px;
-  height: 25px;
+  width: 45px;
+  height: 45px;
 }
 .resourceIcon.fuelIcon {
   background-position-x: 0%;
@@ -260,6 +269,10 @@
   display: inline-flex;
   align-items: center;
   gap: 2px;
+}
+#generalactions .resourceIcon {
+  width: 25px;
+  height: 25px;
 }
 
 /*# sourceMappingURL=fiftyfirststate.css.map */
