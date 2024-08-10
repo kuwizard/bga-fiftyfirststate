@@ -88,6 +88,11 @@ class Location implements \JsonSerializable
         return $this->distance;
     }
 
+    public function getSpoils(): array
+    {
+        return $this->spoils;
+    }
+
     public function jsonSerialize()
     {
         return [

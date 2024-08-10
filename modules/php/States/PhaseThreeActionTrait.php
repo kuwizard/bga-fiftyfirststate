@@ -124,12 +124,49 @@ trait PhaseThreeActionTrait
     public function actLocationBuild()
     {
         self::checkAction('actLocationBuild');
+        $this->razeBuildDealCommon(RESOURCE_ARROW_GREY, LOCATION_BOARD);
+    }
+
+    /**
+     * @param int $id
+     * @return void
+     */
+    public function actLocationRaze()
+    {
+        self::checkAction('actLocationRaze');
+        $this->razeBuildDealCommon(RESOURCE_ARROW_RED, LOCATION_DISCARD, 'getSpoils');
+    }
+
+    /**
+     * @param int $id
+     * @return void
+     */
+    public function actLocationDeal()
+    {
+        self::checkAction('actLocationDeal');
+        $this->razeBuildDealCommon(RESOURCE_ARROW_BLUE, LOCATION_DEALS, 'getDeals');
+    }
+
+    /**
+     * @param int $decrease
+     * @param string $whereToMove
+     * @param string $increase
+     * @param Location|null $location
+     * @return void
+     */
+    private function razeBuildDealCommon($decrease, $whereToMove, $increase = null)
+    {
         $locationId = Stack::getCtx()['locationId'];
         $location = Locations::get($locationId);
         $player = Players::getActive();
         /** @var Location $location */
-        $player->decreaseResource(RESOURCE_ARROW_GREY, $location->getDistance());
-        Locations::move($locationId, [LOCATION_BOARD, $player->getId()]);
+        $player->decreaseResource($decrease, $location->getDistance());
+        if ($increase) {
+            foreach (array_count_values($location->{$increase}()) as $resource => $amount) {
+                $player->increaseResource($resource, $amount);
+            }
+        }
+        Locations::move($locationId, [$whereToMove, $player->getId()]);
         Stack::finishState();
     }
 }
