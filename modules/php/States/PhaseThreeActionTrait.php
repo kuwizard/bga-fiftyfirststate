@@ -161,12 +161,15 @@ trait PhaseThreeActionTrait
         $player = Players::getActive();
         /** @var Location $location */
         $player->decreaseResource($decrease, $location->getDistance());
+        $resourcesChanged = [$decrease];
         if ($increase) {
             foreach (array_count_values($location->{$increase}()) as $resource => $amount) {
+                $resourcesChanged[] = $resource;
                 $player->increaseResource($resource, $amount);
             }
         }
         Locations::move($locationId, [$whereToMove, $player->getId()]);
+        Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));
         Stack::finishState();
     }
 }
