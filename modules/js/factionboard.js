@@ -10,6 +10,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         addFactionBoards() {
             this.forEachPlayer((player) => {
                 const factionBoard = dojo.place(this.format_block('jstpl_faction_board', player), 'board');
+                this.addResourcesToDeals(player.id, player.dealsResources);
                 this.forEachFactionRow((row) => {
                     const rowElement = factionBoard.querySelector(`.${row}`);
                     player.locations[row].forEach((card) => {
@@ -23,6 +24,19 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                         this.placeResourceOnFactionAction(spentArea, resource);
                     })
                 })
+            });
+        },
+
+        addResourcesToDeals(playerId, resources) {
+            Object.keys(resources).forEach((resource) => {
+                const dealsLocation = this.querySingle(`#faction_${playerId} .deals`);
+                const block = dojo.place(
+                    this.format_block('jstpl_resource_block', { type: resource }),
+                    dealsLocation
+                );
+                for (let i = 0; i < resources[resource]; i++) {
+                    dojo.place(this.format_block('jstpl_resource_icon', { type: resource }), block);
+                }
             });
         },
 

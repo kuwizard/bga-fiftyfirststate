@@ -87,13 +87,15 @@ class Notifications
     /**
      * @param Player $player
      * @param int $id
+     * @param int $resource
      * @return void
      */
-    public static function locationDealMade($player, $id)
+    public static function locationDealMade($player, $id, $resource)
     {
         self::notifyAll('locationDealMade', '', [
             'player' => $player,
             'id' => $id,
+            'resource' => $resource,
         ]);
     }
 

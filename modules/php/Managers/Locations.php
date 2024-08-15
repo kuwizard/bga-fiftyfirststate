@@ -3,6 +3,7 @@
 namespace STATE\Managers;
 
 use STATE\Helpers\Pieces;
+use STATE\Helpers\Resources;
 use STATE\Models\Action;
 use STATE\Models\Feature;
 use STATE\Models\Location;
@@ -138,6 +139,11 @@ class Locations extends Pieces
         return self::DB()->get();
     }
 
+    /**
+     * @param int $id
+     * @param boolean $raiseExceptionIfNotEnough
+     * @return Location
+     */
     public static function get($id, $raiseExceptionIfNotEnough = true)
     {
         return self::DB()
@@ -172,6 +178,23 @@ class Locations extends Pieces
     public static function getSprite($type)
     {
         return array_search($type, array_keys(self::$allCardTypes));
+    }
+
+    /**
+     * @param int $pId
+     * @return array
+     */
+    public static function getDealsResources(int $pId)
+    {
+        $resources = [];
+        $locationsInDeals = self::getInLocation([LOCATION_DEALS, $pId]);
+        foreach ($locationsInDeals as $location) {
+            foreach (array_count_values($location->getDeals()) as $resource => $amount) {
+                $resourceName = Resources::getResourceName($resource);
+                $resources[$resourceName] = isset($resources[$resourceName]) ? $resources[$resourceName] + $amount : $amount;
+            }
+        }
+        return $resources;
     }
 
     public static function resetActivatedTimes()

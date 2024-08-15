@@ -86,14 +86,17 @@
     var jstpl_board = `<div id="board"></div>`
     var jstpl_faction_board = `
     <div id="faction_\${id}" class="factionBoard">
-        <div class="faction" data-faction="\${faction}">
-            <div class="spentArea">
-                <div class="spent" data-order="0"></div>
-                <div class="spent" data-order="1"></div>
-                <div class="spent" data-order="2"></div>
+        <div class="factionWrapper">
+            <div class="deals"></div>
+            <div class="faction" data-faction="\${faction}">
+                <div class="spentArea">
+                    <div class="spent" data-order="0"></div>
+                    <div class="spent" data-order="1"></div>
+                    <div class="spent" data-order="2"></div>
+                </div>
+                <div class="actionsArea"></div>
+                <div class="spendWorkersArea"></div>
             </div>
-            <div class="actionsArea"></div>
-            <div class="spendWorkersArea"></div>
         </div>
         <div class="cards">
             <div class="production cardsBlock"></div>
@@ -106,6 +109,7 @@
     var jstpl_hand = `<div id="hand"></div>`
     var jstpl_lookout = `<div id="lookoutBlock"></div>`
     var jstpl_resource_icon = `<span class="\${type}Icon resourceIcon"></span>`
+    var jstpl_resource_block = `<span class="\${type}Block resourceBlock"></span>`
 </script>
 
 {OVERALL_GAME_FOOTER}

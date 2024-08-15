@@ -156,7 +156,10 @@ trait PhaseThreeActionTrait
         $location = Locations::get($locationId);
         $player = Players::getActive();
         $this->razeBuildDealCommon($player, $location, RESOURCE_ARROW_BLUE, LOCATION_DEALS, 'getDeals');
-        Notifications::locationDealMade($player, $locationId);
+        if (count($location->getDeals()) > 1) {
+            throw new BgaVisibleSystemException('More than 1 resource in deals, that should be impossible');
+        }
+        Notifications::locationDealMade($player, $locationId, Resources::getResourceName($location->getDeals()[0]));
     }
 
     /**

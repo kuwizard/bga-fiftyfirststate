@@ -132,6 +132,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         notif_locationDealMade(n) {
             debug('Notif: locationDealMade', n);
             dojo.destroy(`location_${n.args.id}`);
+            const dealsResourceBlock = this.querySingle(`#faction_${n.args.player_id} .${n.args.resource}Block`);
+            if (dealsResourceBlock) {
+                dojo.place(this.format_block('jstpl_resource_icon', { type: n.args.resource }), dealsResourceBlock);
+            } else {
+                this.addResourcesToDeals(n.args.player_id, { [n.args.resource]: 1 });
+            }
         },
     });
 });
