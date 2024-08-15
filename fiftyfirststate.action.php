@@ -93,8 +93,6 @@ class action_fiftyfirststate extends APP_GameAction
     {
         self::setAjaxMode();
         $this->game->actFactionAct($this->getId());
-        var_dump($this->getId());
-        die('death');
         self::ajaxResponse();
     }
 

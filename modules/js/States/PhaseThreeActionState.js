@@ -2,6 +2,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     return declare('state.phaseThreeAction', null, {
         constructor() {
             this._notifications.push(['resourcesSpentFaction', 1]);
+            this._notifications.push(['locationRazed', 1]);
+            this._notifications.push(['locationBuilt', 1]);
+            this._notifications.push(['locationDealMade', 1]);
         },
 
         onEnteringStatePhaseThreeAction(args) {
@@ -112,6 +115,23 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             n.args.resources.forEach((resource) => {
                 this.placeResourceOnFactionAction(element, resource);
             })
+        },
+
+        notif_locationRazed(n) {
+            debug('Notif: locationRazed', n);
+            dojo.destroy(`location_${n.args.id}`);
+        },
+
+        notif_locationBuilt(n) {
+            debug('Notif: locationBuilt', n);
+            dojo.destroy(`location_${n.args.location.id}`);
+            const rowElement = this.querySingle(`#faction_${n.args.player_id} .${n.args.factionRow}`);
+            dojo.place(this.format_block('jstpl_location', n.args.location), rowElement);
+        },
+
+        notif_locationDealMade(n) {
+            debug('Notif: locationDealMade', n);
+            dojo.destroy(`location_${n.args.id}`);
         },
     });
 });

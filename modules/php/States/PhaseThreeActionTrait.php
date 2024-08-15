@@ -124,7 +124,11 @@ trait PhaseThreeActionTrait
     public function actLocationBuild()
     {
         self::checkAction('actLocationBuild');
-        $this->razeBuildDealCommon(RESOURCE_ARROW_GREY, LOCATION_BOARD);
+        $locationId = Stack::getCtx()['locationId'];
+        $location = Locations::get($locationId);
+        $player = Players::getActive();
+        $this->razeBuildDealCommon($player, $location, RESOURCE_ARROW_GREY, LOCATION_BOARD);
+        Notifications::locationBuilt($player, $location, $location->getFactionRow());
     }
 
     /**
@@ -134,7 +138,11 @@ trait PhaseThreeActionTrait
     public function actLocationRaze()
     {
         self::checkAction('actLocationRaze');
-        $this->razeBuildDealCommon(RESOURCE_ARROW_RED, LOCATION_DISCARD, 'getSpoils');
+        $locationId = Stack::getCtx()['locationId'];
+        $location = Locations::get($locationId);
+        $player = Players::getActive();
+        $this->razeBuildDealCommon($player, $location, RESOURCE_ARROW_RED, LOCATION_DISCARD, 'getSpoils');
+        Notifications::locationRazed($player, $locationId);
     }
 
     /**
@@ -144,7 +152,11 @@ trait PhaseThreeActionTrait
     public function actLocationDeal()
     {
         self::checkAction('actLocationDeal');
-        $this->razeBuildDealCommon(RESOURCE_ARROW_BLUE, LOCATION_DEALS, 'getDeals');
+        $locationId = Stack::getCtx()['locationId'];
+        $location = Locations::get($locationId);
+        $player = Players::getActive();
+        $this->razeBuildDealCommon($player, $location, RESOURCE_ARROW_BLUE, LOCATION_DEALS, 'getDeals');
+        Notifications::locationDealMade($player, $locationId);
     }
 
     /**
@@ -154,11 +166,8 @@ trait PhaseThreeActionTrait
      * @param Location|null $location
      * @return void
      */
-    private function razeBuildDealCommon($decrease, $whereToMove, $increase = null)
+    private function razeBuildDealCommon($player, $location, $decrease, $whereToMove, $increase = null)
     {
-        $locationId = Stack::getCtx()['locationId'];
-        $location = Locations::get($locationId);
-        $player = Players::getActive();
         /** @var Location $location */
         $player->decreaseResource($decrease, $location->getDistance());
         $resourcesChanged = [$decrease];
@@ -168,7 +177,7 @@ trait PhaseThreeActionTrait
                 $player->increaseResource($resource, $amount);
             }
         }
-        Locations::move($locationId, [$whereToMove, $player->getId()]);
+        Locations::move($location->getId(), [$whereToMove, $player->getId()]);
         Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));
         Stack::finishState();
     }

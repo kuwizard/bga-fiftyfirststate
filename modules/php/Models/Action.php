@@ -25,6 +25,14 @@ class Action extends Location
     }
 
     /**
+     * @return string
+     */
+    public function getFactionRow()
+    {
+        return 'actions';
+    }
+
+    /**
      * @param Player $player
      * @return void
      */

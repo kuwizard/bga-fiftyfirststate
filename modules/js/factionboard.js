@@ -10,7 +10,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         addFactionBoards() {
             this.forEachPlayer((player) => {
                 const factionBoard = dojo.place(this.format_block('jstpl_faction_board', player), 'board');
-                ['production', 'feature', 'actions'].forEach((row) => {
+                this.forEachFactionRow((row) => {
                     const rowElement = factionBoard.querySelector(`.${row}`);
                     player.locations[row].forEach((card) => {
                         dojo.place(this.format_block('jstpl_location', card), rowElement);

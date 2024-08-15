@@ -15,6 +15,14 @@ class Feature extends Location
         $this->featureType = FEATURE_NONE;
     }
 
+    /**
+     * @return string
+     */
+    public function getFactionRow()
+    {
+        return 'feature';
+    }
+
     public function jsonSerialize()
     {
         return array_merge(parent::jsonSerialize(), [

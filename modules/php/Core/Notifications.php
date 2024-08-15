@@ -1,6 +1,7 @@
 <?php
 namespace STATE\Core;
 
+use STATE\Models\Location;
 use STATE\Models\Player;
 
 class Notifications
@@ -55,7 +56,46 @@ class Notifications
         ]);
     }
 
+    /**
+     * @param Player $player
+     * @param int $id
+     * @return void
+     */
+    public static function locationRazed($player, $id)
+    {
+        self::notifyAll('locationRazed', '', [
+            'player' => $player,
+            'id' => $id,
+        ]);
+    }
 
+    /**
+     * @param Player $player
+     * @param Location $location
+     * @param string $factionRow
+     * @return void
+     */
+    public static function locationBuilt($player, $location, $factionRow)
+    {
+        self::notifyAll('locationBuilt', '', [
+            'player' => $player,
+            'location' => $location,
+            'factionRow' => $factionRow,
+        ]);
+    }
+
+    /**
+     * @param Player $player
+     * @param int $id
+     * @return void
+     */
+    public static function locationDealMade($player, $id)
+    {
+        self::notifyAll('locationDealMade', '', [
+            'player' => $player,
+            'id' => $id,
+        ]);
+    }
 
     /*********************
      **** UPDATE ARGS ****

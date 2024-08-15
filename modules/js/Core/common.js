@@ -11,5 +11,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 dojo.place(this.format_block('jstpl_location', location), 'hand');
             });
         },
+
+        forEachFactionRow(callback) {
+            ['production', 'feature', 'actions'].forEach(callback);
+        }
     });
 });

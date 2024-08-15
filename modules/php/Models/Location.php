@@ -45,6 +45,10 @@ class Location implements \JsonSerializable
 
     public function __construct($params = [])
     {
+        if (isset($params['location_id'])) {
+            // TODO: Find out why it could be id in some cases (getAllDatas) and location_id at others (actUseLocation)
+            $params['id'] = $params['location_id'];
+        }
         $this->id = isset($params['id']) ? (int) $params['id'] : null;
         $this->type = $params['type'] ?? null;
         $this->buildingBonus = [];
@@ -52,9 +56,9 @@ class Location implements \JsonSerializable
     }
 
     /**
-     * @return int
+     * @return int | null
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
@@ -91,6 +95,14 @@ class Location implements \JsonSerializable
     public function getSpoils(): array
     {
         return $this->spoils;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFactionRow()
+    {
+        return '';
     }
 
     public function jsonSerialize()

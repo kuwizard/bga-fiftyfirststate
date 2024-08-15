@@ -24,6 +24,11 @@ class Production extends Location
         return $this->product;
     }
 
+    public function getFactionRow()
+    {
+        return 'production';
+    }
+
     public function jsonSerialize()
     {
         return array_merge(parent::jsonSerialize(), [
