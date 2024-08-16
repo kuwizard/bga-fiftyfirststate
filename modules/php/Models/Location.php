@@ -97,6 +97,11 @@ class Location implements \JsonSerializable
         return $this->spoils;
     }
 
+    public function getBuildingBonus()
+    {
+        return $this->buildingBonus;
+    }
+
     /**
      * @return string
      */

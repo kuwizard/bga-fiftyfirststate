@@ -10,6 +10,8 @@ use STATE\Managers\Locations;
 use STATE\Managers\Players;
 use STATE\Models\Act;
 use STATE\Models\Location;
+use STATE\Models\Player;
+use STATE\Models\Production;
 
 trait PhaseThreeActionTrait
 {
@@ -129,6 +131,17 @@ trait PhaseThreeActionTrait
         $player = Players::getActive();
         $this->razeBuildDealCommon($player, $location, RESOURCE_ARROW_GREY, LOCATION_BOARD);
         Notifications::locationBuilt($player, $location, $location->getFactionRow());
+        if ($location instanceof Production || !empty($location->getBuildingBonus())) {
+            $resourcesChanged = [];
+            if ($location instanceof Production) {
+                $resourcesChanged = $this->increaseResourcesAfterAction($player, array_count_values($location->getProduct()));
+            }
+            if (!empty($location->getBuildingBonus())) {
+                $resourcesChangedAgain = $this->increaseResourcesAfterAction($player, array_count_values($location->getBuildingBonus()));
+                $resourcesChanged = array_unique(array_merge($resourcesChanged, $resourcesChangedAgain));
+            }
+            Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));
+        }
     }
 
     /**
@@ -163,10 +176,11 @@ trait PhaseThreeActionTrait
     }
 
     /**
+     * @param Player $player
+     * @param Location|null $location
      * @param int $decrease
      * @param string $whereToMove
      * @param string $increase
-     * @param Location|null $location
      * @return void
      */
     private function razeBuildDealCommon($player, $location, $decrease, $whereToMove, $increase = null)
@@ -175,13 +189,26 @@ trait PhaseThreeActionTrait
         $player->decreaseResource($decrease, $location->getDistance());
         $resourcesChanged = [$decrease];
         if ($increase) {
-            foreach (array_count_values($location->{$increase}()) as $resource => $amount) {
-                $resourcesChanged[] = $resource;
-                $player->increaseResource($resource, $amount);
-            }
+            $moreResourcesChanged = $this->increaseResourcesAfterAction($player, array_count_values($location->{$increase}()));
+            $resourcesChanged = array_unique(array_merge($resourcesChanged, $moreResourcesChanged));
         }
         Locations::move($location->getId(), [$whereToMove, $player->getId()]);
         Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));
         Stack::finishState();
+    }
+
+    /**
+     * @param Player $player
+     * @param array $resources
+     * @return array
+     */
+    private function increaseResourcesAfterAction($player, $resources)
+    {
+        $resourcesChanged = [];
+        foreach ($resources as $resource => $amount) {
+            $resourcesChanged[] = $resource;
+            $player->increaseResource($resource, $amount);
+        }
+        return $resourcesChanged;
     }
 }
