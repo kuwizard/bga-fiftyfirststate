@@ -228,7 +228,7 @@ class Player extends DB_Manager implements JsonSerializable
         foreach ($actions as $id => $action) {
             $key = array_search(strval($id), array_column($dbActions, 'action_number'));
             if ((int) $dbActions[$key]['used'] === 1) {
-                $used[$id] = $action->getSpendRequirementsUI();
+                $used[$id] = $action->getSpendRequirementsUIRemoveCard();
             }
         }
         return $used;

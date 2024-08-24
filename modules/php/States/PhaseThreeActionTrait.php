@@ -105,7 +105,7 @@ trait PhaseThreeActionTrait
         $actionChosen = $player->getAvailableFactionActions()[$id];
         $actionChosen->activate($player);
         Factions::setAsUsed($player->getFaction(), $id);
-        Notifications::resourcesSpentFaction($player, $actionChosen->getSpendRequirementsUI(), $id);
+        Notifications::resourcesSpentFaction($player, $actionChosen->getSpendRequirementsUIRemoveCard(), $id);
         Stack::finishState();
     }
 
@@ -155,7 +155,8 @@ trait PhaseThreeActionTrait
         $location = Locations::get($locationId);
         $player = Players::getActive();
         $this->razeBuildDealCommon($player, $location, RESOURCE_ARROW_RED, LOCATION_DISCARD, 'getSpoils');
-        Notifications::locationRazed($player, $locationId);
+        Notifications::handChanged($player);
+        Notifications::resourcesChanged($player, ['card' => $player->getHandAmount()]);
     }
 
     /**
@@ -194,6 +195,20 @@ trait PhaseThreeActionTrait
         }
         Locations::move($location->getId(), [$whereToMove, $player->getId()]);
         Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));
+        Stack::finishState();
+    }
+
+    /**
+     * @param int $id
+     * @return void
+     */
+    public function actDiscardLocation($id)
+    {
+        self::checkAction('actDiscardLocation');
+        $player = Players::getActive();
+        $player->discard([$id]);
+        Notifications::handChanged($player);
+        Notifications::resourcesChanged($player, ['card' => $player->getHandAmount()]);
         Stack::finishState();
     }
 

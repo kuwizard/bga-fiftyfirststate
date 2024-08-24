@@ -1,8 +1,6 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     return declare('state.phaseThreeAction', null, {
         constructor() {
-            this._notifications.push(['resourcesSpentFaction', 1]);
-            this._notifications.push(['locationRazed', 1]);
             this._notifications.push(['locationBuilt', 1]);
             this._notifications.push(['locationDealMade', 1]);
         },
@@ -43,42 +41,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             })
         },
 
-        onEnteringStateSpendWorkers() {
-            if (this.isCurrentPlayerActive()) {
-                ['fuel', 'gun', 'iron', 'brick', 'card'].forEach((resource) => {
-                    this.addPrimaryActionButton(
-                        `buttonGain${resource}`,
-                        this.format_block('jstpl_resource_icon', { type: resource }),
-                        () => this.takeAction('actGainResourceForWorkers', { resource: resource })
-                    );
-                    dojo.addClass(`buttonGain${resource}`, 'resourceButton');
-                });
-                this.addUndoButton();
-            }
-        },
-
-        onEnteringStateFactionActions(args) {
-            if (this.isCurrentPlayerActive()) {
-                Object.keys(args).forEach((id) => {
-                    const action = args[id];
-                    const spendRequirements = action.spendRequirements.map((resource) => {
-                        return this.format_block('jstpl_resource_icon', { type: resource });
-                    });
-                    const bonus = action.bonus.map((resource) => {
-                        return this.format_block('jstpl_resource_icon', { type: resource });
-                    });
-                    const buttonId = `buttonGain${id}`;
-                    this.addPrimaryActionButton(
-                        buttonId,
-                        `${spendRequirements.join('')} ➤ ${bonus.join('')}`,
-                        () => this.takeAction('actFactionAct', { id: id })
-                    );
-                    dojo.addClass(buttonId, 'resourceButton');
-                });
-                this.addUndoButton();
-            }
-        },
-
         onEnteringStateLocationActions(args) {
             if (this.isCurrentPlayerActive()) {
                 dojo.query(`#hand .location`).forEach((location) => {
@@ -107,19 +69,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 _('Undo'),
                 () => this.takeAction('actUndo')
             );
-        },
-
-        notif_resourcesSpentFaction(n) {
-            debug('Notif: resourcesSpentFaction', n);
-            const element = this.querySingle(`#faction_${n.args.player_id} .spent[data-order="${n.args.order}"]`);
-            n.args.resources.forEach((resource) => {
-                this.placeResourceOnFactionAction(element, resource);
-            })
-        },
-
-        notif_locationRazed(n) {
-            debug('Notif: locationRazed', n);
-            dojo.destroy(`location_${n.args.id}`);
         },
 
         notif_locationBuilt(n) {

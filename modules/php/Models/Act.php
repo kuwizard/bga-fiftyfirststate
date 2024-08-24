@@ -3,6 +3,7 @@
 namespace STATE\Models;
 
 use STATE\Core\Notifications;
+use STATE\Core\Stack;
 
 class Act implements \JsonSerializable
 {
@@ -36,6 +37,15 @@ class Act implements \JsonSerializable
         return array_map('STATE\Helpers\Resources::getResourceName', $this->spendRequirements);
     }
 
+    public function getSpendRequirementsUIRemoveCard(): array
+    {
+        $requirements = $this->spendRequirements;
+        if (in_array(RESOURCE_CARD, $requirements)) {
+            $requirements = array_diff($requirements, [RESOURCE_CARD]);
+        }
+        return array_map('STATE\Helpers\Resources::getResourceName', $requirements);
+    }
+
     /**
      * @param Player $player
      * @return void
@@ -43,7 +53,12 @@ class Act implements \JsonSerializable
     public function activate($player)
     {
         $resourcesChanged = [];
-        foreach (array_count_values($this->spendRequirements) as $spendRequirement => $amount) {
+        $spendRequirements = $this->spendRequirements;
+        if (in_array(RESOURCE_CARD, $spendRequirements)) {
+            Stack::insertOnTop(ST_DISCARD_LOCATION_FOR_RESOURCES);
+            $spendRequirements = array_diff($spendRequirements, [RESOURCE_CARD]);
+        }
+        foreach (array_count_values($spendRequirements) as $spendRequirement => $amount) {
             $player->decreaseResource($spendRequirement, $amount);
             $resourcesChanged[] = $spendRequirement;
         }

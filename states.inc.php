@@ -129,6 +129,14 @@ $machinestates = [
         'possibleactions' => ['actLocationRaze', 'actLocationDeal', 'actLocationBuild', 'actUndo'],
     ],
 
+    ST_DISCARD_LOCATION_FOR_RESOURCES => [
+        'name' => 'discardLocationForResources',
+        'description' => clienttranslate('${actplayer} must choose a location to discard'),
+        'descriptionmyturn' => clienttranslate('${you} must choose a location to discard'),
+        'type' => 'activeplayer',
+        'possibleactions' => ['actDiscardLocation'],
+    ],
+
     ST_PHASE_FOUR_CLEANUP => [
         'name' => 'phaseFourCleanup',
         'description' => '',

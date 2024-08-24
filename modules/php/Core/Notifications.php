@@ -58,19 +58,6 @@ class Notifications
 
     /**
      * @param Player $player
-     * @param int $id
-     * @return void
-     */
-    public static function locationRazed($player, $id)
-    {
-        self::notifyAll('locationRazed', '', [
-            'player' => $player,
-            'id' => $id,
-        ]);
-    }
-
-    /**
-     * @param Player $player
      * @param Location $location
      * @param string $factionRow
      * @return void

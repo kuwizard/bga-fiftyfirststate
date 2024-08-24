@@ -123,4 +123,13 @@ class action_fiftyfirststate extends APP_GameAction
         $this->game->actLocationDeal();
         self::ajaxResponse();
     }
+
+    public function actDiscardLocation()
+    {
+        self::setAjaxMode();
+        $this->game->actDiscardLocation($this->getId());
+        self::ajaxResponse();
+    }
+
+
 }

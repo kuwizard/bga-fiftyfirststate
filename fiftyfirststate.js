@@ -24,6 +24,7 @@ define([
     g_gamethemeurl + 'modules/js/States/DiscardCardsGameStartState.js',
     g_gamethemeurl + 'modules/js/States/PhaseOneLookoutChooseState.js',
     g_gamethemeurl + 'modules/js/States/PhaseThreeActionState.js',
+    g_gamethemeurl + 'modules/js/States/FactionActions.js',
     g_gamethemeurl + 'modules/js/playerboard.js',
     g_gamethemeurl + 'modules/js/factionboard.js',
     g_gamethemeurl + 'modules/js/hand.js',
@@ -40,6 +41,7 @@ define([
             state.factionboard,
             state.hand,
             state.common,
+            state.factionActions,
         ],
         {
             constructor() {
