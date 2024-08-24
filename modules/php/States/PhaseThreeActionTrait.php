@@ -134,10 +134,12 @@ trait PhaseThreeActionTrait
         if ($location instanceof Production || !empty($location->getBuildingBonus())) {
             $resourcesChanged = [];
             if ($location instanceof Production) {
-                $resourcesChanged = $this->increaseResourcesAfterAction($player, array_count_values($location->getProduct()));
+                $resourcesChanged =
+                    $this->increaseResourcesAfterAction($player, array_count_values($location->getProduct($player)));
             }
             if (!empty($location->getBuildingBonus())) {
-                $resourcesChangedAgain = $this->increaseResourcesAfterAction($player, array_count_values($location->getBuildingBonus()));
+                $resourcesChangedAgain =
+                    $this->increaseResourcesAfterAction($player, array_count_values($location->getBuildingBonus()));
                 $resourcesChanged = array_unique(array_merge($resourcesChanged, $resourcesChangedAgain));
             }
             Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));

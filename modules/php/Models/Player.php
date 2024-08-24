@@ -345,6 +345,20 @@ class Player extends DB_Manager implements JsonSerializable
     }
 
     /**
+     * @param int $icon
+     * @return int[]
+     */
+    public function getBoardIcons(int $icon)
+    {
+        $board = Locations::getBoard($this->id);
+        $allIcons = array_merge(...$board->map(function ($location) {
+            /** @var Location $location */
+            return $location->getIcons();
+        })->toArray());
+        return array_intersect($allIcons, [$icon]);
+    }
+
+    /**
      * @param array $resources
      * @return void
      */
@@ -470,7 +484,7 @@ class Player extends DB_Manager implements JsonSerializable
             'passed' => $this->passed,
             'handAmount' => $this->getHandAmount(),
             'hand' => $current ? Locations::getHand($this->id) : [],
-            'locations' => Locations::getBoard($this->id),
+            'locations' => Locations::getBoardUI($this->id),
             'usedFactionActions' => $this->getUsedFactionActions(),
             'dealsResources' => Locations::getDealsResources($this->id),
         ];

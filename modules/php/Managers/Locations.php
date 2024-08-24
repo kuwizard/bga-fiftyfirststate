@@ -2,6 +2,7 @@
 
 namespace STATE\Managers;
 
+use STATE\Helpers\Collection;
 use STATE\Helpers\Pieces;
 use STATE\Helpers\Resources;
 use STATE\Models\Action;
@@ -151,9 +152,18 @@ class Locations extends Pieces
             ->getSingle();
     }
 
+    /**
+     * @param int $pId
+     * @return Collection
+     */
     public static function getBoard(int $pId)
     {
-        $board = self::getInLocation([LOCATION_BOARD, $pId]);
+        return self::getInLocation([LOCATION_BOARD, $pId]);
+    }
+
+    public static function getBoardUI(int $pId)
+    {
+        $board = self::getBoard($pId);
         $production = $board->filter(function ($location) {
             return $location instanceof Production;
         })->toArray();

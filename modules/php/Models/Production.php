@@ -19,7 +19,11 @@ class Production extends Location
         $this->isOpen = false;
     }
 
-    public function getProduct()
+    /**
+     * @param Player $player
+     * @return int[]
+     */
+    public function getProduct($player)
     {
         return $this->product;
     }

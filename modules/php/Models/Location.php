@@ -103,6 +103,14 @@ class Location implements \JsonSerializable
     }
 
     /**
+     * @return int[]
+     */
+    public function getIcons(): array
+    {
+        return $this->icons;
+    }
+
+    /**
      * @return string
      */
     public function getFactionRow()

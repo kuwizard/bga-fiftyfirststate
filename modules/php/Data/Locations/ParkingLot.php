@@ -15,7 +15,13 @@ class ParkingLot extends Production
         $this->spoils = [RESOURCE_IRON, RESOURCE_IRON, RESOURCE_IRON];
         $this->icons = [ICON_IRON, ICON_AMMO];
         $this->deals = [RESOURCE_IRON];
-        $this->product = [RESOURCE_IRON]; // TODO: ...for each iron icon
         $this->copies = 2;
+    }
+
+    public function getProduct($player)
+    {
+        $icons = $player->getBoardIcons(ICON_IRON);
+        $maxIcons = array_slice($icons, 0, 3);
+        return array_fill(0, count($maxIcons), RESOURCE_IRON);
     }
 }

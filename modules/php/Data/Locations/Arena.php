@@ -15,7 +15,13 @@ class Arena extends Production
         $this->spoils = [RESOURCE_GUN, RESOURCE_GUN, RESOURCE_GUN];
         $this->icons = [ICON_GUN, ICON_AMMO];
         $this->deals = [RESOURCE_GUN];
-        $this->product = [RESOURCE_GUN]; // TODO: ...for each gun icon
         $this->copies = 2;
+    }
+
+    public function getProduct($player)
+    {
+        $icons = $player->getBoardIcons(ICON_GUN);
+        $maxIcons = array_slice($icons, 0, 3);
+        return array_fill(0, count($maxIcons), RESOURCE_GUN);
     }
 }

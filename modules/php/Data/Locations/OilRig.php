@@ -15,7 +15,13 @@ class OilRig extends Production
         $this->spoils = [RESOURCE_FUEL, RESOURCE_FUEL, RESOURCE_FUEL];
         $this->icons = [ICON_FUEL, ICON_AMMO];
         $this->deals = [RESOURCE_FUEL];
-        $this->product = [RESOURCE_FUEL]; // TODO: For each fuel icon
         $this->copies = 2;
+    }
+
+    public function getProduct($player)
+    {
+        $icons = $player->getBoardIcons(ICON_FUEL);
+        $maxIcons = array_slice($icons, 0, 3);
+        return array_fill(0, count($maxIcons), RESOURCE_FUEL);
     }
 }

@@ -4,17 +4,13 @@ namespace STATE\States;
 
 use STATE\Core\Notifications;
 use STATE\Core\Stack;
-use STATE\Managers\Factions;
 use STATE\Managers\Players;
-use STATE\Models\Faction;
 use STATE\Models\Player;
 
 trait PhaseTwoProductionTrait
 {
     public function stPhaseTwoProduction()
     {
-
-
         /** @var Player $player */
         foreach (Players::getAll() as $player) {
             $factionProd = $player->getFactionProduction();
