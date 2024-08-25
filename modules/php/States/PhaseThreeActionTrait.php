@@ -131,15 +131,15 @@ trait PhaseThreeActionTrait
         $player = Players::getActive();
         $this->razeBuildDealCommon($player, $location, RESOURCE_ARROW_GREY, LOCATION_BOARD);
         Notifications::locationBuilt($player, $location, $location->getFactionRow());
-        if ($location instanceof Production || !empty($location->getBuildingBonus())) {
+        if ($location instanceof Production || !empty($location->getBuildingBonus($player))) {
             $resourcesChanged = [];
             if ($location instanceof Production) {
                 $resourcesChanged =
                     $this->increaseResourcesAfterAction($player, array_count_values($location->getProduct($player)));
             }
-            if (!empty($location->getBuildingBonus())) {
+            if (!empty($location->getBuildingBonus($player))) {
                 $resourcesChangedAgain =
-                    $this->increaseResourcesAfterAction($player, array_count_values($location->getBuildingBonus()));
+                    $this->increaseResourcesAfterAction($player, array_count_values($location->getBuildingBonus($player)));
                 $resourcesChanged = array_unique(array_merge($resourcesChanged, $resourcesChangedAgain));
             }
             Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));

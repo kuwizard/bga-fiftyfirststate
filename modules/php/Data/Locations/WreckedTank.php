@@ -15,7 +15,11 @@ class WreckedTank extends Feature
         $this->spoils = [RESOURCE_VP, RESOURCE_VP];
         $this->icons = [ICON_CHURCH];
         $this->deals = [RESOURCE_VP];
-        $this->buildingBonus = [RESOURCE_VP]; // TODO: For each church icon
         $this->copies = 3;
+    }
+
+    public function getBuildingBonus($player)
+    {
+        return $this->getVPForEachIcon($player, ICON_CHURCH);
     }
 }

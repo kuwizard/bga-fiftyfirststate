@@ -15,7 +15,11 @@ class Rubble extends Feature
         $this->spoils = [RESOURCE_VP, RESOURCE_VP, RESOURCE_BRICK];
         $this->icons = [ICON_BRICK, ICON_VP];
         $this->deals = [RESOURCE_BRICK];
-        $this->buildingBonus = [RESOURCE_VP]; // TODO: For each brick icon
         $this->copies = 1;
+    }
+
+    public function getBuildingBonus($player)
+    {
+        return $this->getVPForEachIcon($player, ICON_BRICK);
     }
 }

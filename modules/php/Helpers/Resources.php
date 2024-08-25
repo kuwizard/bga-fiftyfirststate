@@ -18,6 +18,7 @@ class Resources
         RESOURCE_DEFENCE => 'defence',
         RESOURCE_DEVELOPMENT => 'devel',
         RESOURCE_CARD => 'card',
+        RESOURCE_VP => 'score',
     ];
 
     /**

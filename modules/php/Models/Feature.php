@@ -23,6 +23,18 @@ class Feature extends Location
         return 'feature';
     }
 
+    /**
+     * @param Player $player
+     * @param int $icon
+     * @return array
+     */
+    protected function getVPForEachIcon($player, $icon)
+    {
+        $icons = $player->getBoardIcons($icon);
+        $maxIcons = array_slice($icons, 0, 5);
+        return array_fill(0, count($maxIcons), RESOURCE_VP);
+    }
+
     public function jsonSerialize()
     {
         return array_merge(parent::jsonSerialize(), [

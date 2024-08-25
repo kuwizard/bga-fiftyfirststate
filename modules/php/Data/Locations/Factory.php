@@ -14,8 +14,12 @@ class Factory extends Feature
         $this->distance = 2;
         $this->spoils = [RESOURCE_VP, RESOURCE_VP, RESOURCE_IRON];
         $this->icons = [ICON_IRON, ICON_VP];
-        $this->buildingBonus = [RESOURCE_VP]; // TODO: For each iron icon
         $this->deals = [RESOURCE_IRON];
         $this->copies = 1;
+    }
+
+    public function getBuildingBonus($player)
+    {
+        return $this->getVPForEachIcon($player, ICON_IRON);
     }
 }

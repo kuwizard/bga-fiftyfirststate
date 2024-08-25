@@ -15,7 +15,11 @@ class Refinery extends Feature
         $this->spoils = [RESOURCE_VP, RESOURCE_VP, RESOURCE_FUEL];
         $this->icons = [ICON_FUEL, ICON_VP];
         $this->deals = [RESOURCE_FUEL];
-        $this->buildingBonus = [RESOURCE_VP]; // TODO: For each fuel icon
         $this->copies = 1;
+    }
+
+    public function getBuildingBonus($player)
+    {
+        return $this->getVPForEachIcon($player, ICON_FUEL);
     }
 }

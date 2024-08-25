@@ -2,9 +2,9 @@
 
 namespace STATE\Data\Locations;
 
-use STATE\Models\Production;
+use STATE\Models\Feature;
 
-class Museum extends Production
+class Museum extends Feature
 {
     public function __construct($params = [])
     {
@@ -15,7 +15,11 @@ class Museum extends Production
         $this->spoils = [RESOURCE_VP, RESOURCE_CARD];
         $this->icons = [ICON_CHURCH];
         $this->deals = [RESOURCE_VP];
-        $this->product = [RESOURCE_VP]; // TODO: For each church icon
         $this->copies = 1;
+    }
+
+    public function getBuildingBonus($player)
+    {
+        return $this->getVPForEachIcon($player, ICON_CHURCH);
     }
 }

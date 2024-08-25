@@ -58,6 +58,7 @@
     display: grid;
     gap: 15px;
     flex-grow: 1;
+    grid-template-rows: 1fr 1fr 1fr;
 
     .cardsBlock {
       display: flex;
