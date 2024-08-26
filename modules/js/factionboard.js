@@ -13,8 +13,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 this.addResourcesToDeals(player.id, player.dealsResources);
                 this.forEachFactionRow((row) => {
                     const rowElement = factionBoard.querySelector(`.${row}`);
-                    player.locations[row].forEach((card) => {
-                        dojo.place(this.format_block('jstpl_location', card), rowElement);
+                    player.locations[row].forEach((location) => {
+                        dojo.place(this.format_block('jstpl_location', location), rowElement);
+                        if (location.resourceType) {
+                            this.placeResourcesOnLocation(location.id, location.resourceType, location.resourceAmount);
+                        }
                     });
                 });
 
@@ -42,14 +45,18 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         placeResourceOnFactionAction(element, resource) {
             const res = dojo.place(this.format_block('jstpl_resource_icon', { type: resource }), element);
-            const getRandomNumber = (min, max) => {
-                return Math.floor(Math.random() * (max - min) + min);
-            }
-            dojo.style(res, 'margin-left', `${getRandomNumber(-7, 7)}px`);
-            dojo.style(res, 'margin-top', `${getRandomNumber(-7, 7)}px`);
-            dojo.style(res, 'transform', `rotate(${getRandomNumber(-20, 20)}deg)`);
+            this.addSomeRandomMargins(res);
         },
 
+        placeResourcesOnLocation(id, resourceType, resourceAmount) {
+            for (let i = 0; i < resourceAmount; i++) {
+                const resource = dojo.place(
+                    this.format_block('jstpl_resource_icon', { type: resourceType }),
+                    this.querySingle(`#location_${id} .resources`)
+                );
+                this.addSomeRandomMargins(resource);
+            }
+        },
 
         //
         // notif_resourcesChanged(n) {

@@ -141,7 +141,10 @@ trait PhaseThreeActionTrait
             }
             if (!empty($location->getBuildingBonus($player))) {
                 $resourcesChangedAgain =
-                    $this->increaseResourcesAfterAction($player, array_count_values($location->getBuildingBonus($player)));
+                    $this->increaseResourcesAfterAction(
+                        $player,
+                        array_count_values($location->getBuildingBonus($player))
+                    );
                 $resourcesChanged = array_unique(array_merge($resourcesChanged, $resourcesChangedAgain));
             }
             Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));
@@ -149,6 +152,12 @@ trait PhaseThreeActionTrait
         // Place resources on a card
         if ($location instanceof Feature && $location->getFeatureType() === FEATURE_PLACE_RESOURCES) {
             $location->placeResources($location->getResourceStartAmount());
+            Notifications::resourcesPlacedOnLocation(
+                $player,
+                $locationId,
+                Resources::getResourceName($location->getResourceType()),
+                $location->getResourceStartAmount()
+            );
         }
     }
 
@@ -198,7 +207,10 @@ trait PhaseThreeActionTrait
         $player->decreaseResource($decrease, $location->getDistance());
         $resourcesChanged = [$decrease];
         if ($increase) {
-            $moreResourcesChanged = $this->increaseResourcesAfterAction($player, array_count_values($location->{$increase}()));
+            $moreResourcesChanged = $this->increaseResourcesAfterAction(
+                $player,
+                array_count_values($location->{$increase}())
+            );
             $resourcesChanged = array_unique(array_merge($resourcesChanged, $moreResourcesChanged));
         }
         Locations::move($location->getId(), [$whereToMove, $player->getId()]);

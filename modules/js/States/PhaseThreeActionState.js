@@ -3,6 +3,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         constructor() {
             this._notifications.push(['locationBuilt', 1]);
             this._notifications.push(['locationDealMade', 1]);
+            this._notifications.push(['resourcesPlacedOnLocation', 1]);
         },
 
         onEnteringStatePhaseThreeAction(args) {
@@ -87,6 +88,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             } else {
                 this.addResourcesToDeals(n.args.player_id, { [n.args.resource]: 1 });
             }
+        },
+
+        notif_resourcesPlacedOnLocation(n) {
+            debug('Notif: resourcesPlacedOnLocation', n);
+            this.placeResourcesOnLocation(n.args.id, n.args.resourceType, n.args.resourceAmount);
         },
     });
 });

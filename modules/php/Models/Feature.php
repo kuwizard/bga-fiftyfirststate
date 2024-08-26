@@ -49,6 +49,11 @@ class Feature extends Location
         return $this->resourceStartAmount;
     }
 
+    public function getResourceType(): int
+    {
+        return $this->resourceType;
+    }
+
     /**
      * @param Player $player
      * @param int $icon

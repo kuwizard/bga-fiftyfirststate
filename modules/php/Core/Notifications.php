@@ -86,6 +86,23 @@ class Notifications
         ]);
     }
 
+    /**
+     * @param Player $player
+     * @param int $id
+     * @param string $resourceType
+     * @param int $resourceAmount
+     * @return void
+     */
+    public static function resourcesPlacedOnLocation($player, $id, $resourceType, $resourceAmount)
+    {
+        self::notifyAll('resourcesPlacedOnLocation', '', [
+            'player' => $player,
+            'id' => $id,
+            'resourceType' => $resourceType,
+            'resourceAmount' => $resourceAmount,
+        ]);
+    }
+
     /*********************
      **** UPDATE ARGS ****
      *********************/

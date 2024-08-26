@@ -5,6 +5,7 @@
   height: 250px;
   box-shadow: rgba(0, 0, 0, 0.55) 0 2px 4px;
   border-radius: 8px;
+  position: relative;
 
   @for $sprite from 0 through 9 {
     &[data-sprite="#{$sprite}"] {
@@ -24,5 +25,15 @@
     cursor: pointer;
     outline: 2px solid red;
     transform: scale(1.04);
+  }
+
+  .resources {
+    width: 100%;
+    height: 30%;
+    top: 23%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
   }
 }
