@@ -14,8 +14,11 @@ class CityGuards extends Feature
         $this->distance = 1;
         $this->spoils = [RESOURCE_GUN, RESOURCE_GUN];
         $this->icons = [ICON_GUN];
-        $this->buildingBonus = []; // TODO: place 3 guns here
         $this->deals = [RESOURCE_GUN];
         $this->copies = 1;
+
+        $this->featureType = FEATURE_PLACE_RESOURCES;
+        $this->resourceType = RESOURCE_GUN;
+        $this->resourceStartAmount = 3;
     }
 }

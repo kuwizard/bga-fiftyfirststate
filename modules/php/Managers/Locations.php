@@ -16,7 +16,7 @@ class Locations extends Pieces
     protected static $table = 'locations';
     protected static $primary = 'location_id';
     protected static $prefix = 'location_';
-    protected static $customFields = ['type', 'activated_times'];
+    protected static $customFields = ['type', 'activated_times', 'resource_amount'];
 
     protected static function cast($row)
     {
@@ -211,6 +211,14 @@ class Locations extends Pieces
     {
         self::DB()
             ->update(['activated_times' => 0])
+            ->run();
+    }
+
+    public static function updateResources(int $id, int $amount)
+    {
+        self::DB()
+            ->update(['resource_amount' => $amount])
+            ->where('location_id', $id)
             ->run();
     }
 }

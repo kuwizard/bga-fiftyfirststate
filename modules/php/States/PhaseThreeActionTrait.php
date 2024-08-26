@@ -9,6 +9,7 @@ use STATE\Managers\Factions;
 use STATE\Managers\Locations;
 use STATE\Managers\Players;
 use STATE\Models\Act;
+use STATE\Models\Feature;
 use STATE\Models\Location;
 use STATE\Models\Player;
 use STATE\Models\Production;
@@ -131,6 +132,7 @@ trait PhaseThreeActionTrait
         $player = Players::getActive();
         $this->razeBuildDealCommon($player, $location, RESOURCE_ARROW_GREY, LOCATION_BOARD);
         Notifications::locationBuilt($player, $location, $location->getFactionRow());
+        // Gain resources (production or building bonus)
         if ($location instanceof Production || !empty($location->getBuildingBonus($player))) {
             $resourcesChanged = [];
             if ($location instanceof Production) {
@@ -143,6 +145,10 @@ trait PhaseThreeActionTrait
                 $resourcesChanged = array_unique(array_merge($resourcesChanged, $resourcesChangedAgain));
             }
             Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));
+        }
+        // Place resources on a card
+        if ($location instanceof Feature && $location->getFeatureType() === FEATURE_PLACE_RESOURCES) {
+            $location->placeResources($location->getResourceStartAmount());
         }
     }
 

@@ -14,8 +14,11 @@ class MethaneStorage extends Feature
         $this->distance = 1;
         $this->spoils = [RESOURCE_FUEL, RESOURCE_FUEL];
         $this->icons = [ICON_FUEL];
-        $this->buildingBonus = []; // TODO: place 3 fuel here
         $this->deals = [RESOURCE_FUEL];
         $this->copies = 1;
+
+        $this->featureType = FEATURE_PLACE_RESOURCES;
+        $this->resourceType = RESOURCE_FUEL;
+        $this->resourceStartAmount = 3;
     }
 }

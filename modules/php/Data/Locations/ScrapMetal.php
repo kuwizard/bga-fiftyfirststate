@@ -14,8 +14,11 @@ class ScrapMetal extends Feature
         $this->distance = 1;
         $this->spoils = [RESOURCE_IRON, RESOURCE_IRON];
         $this->icons = [ICON_IRON];
-        $this->buildingBonus = []; // TODO: place 3 Iron here
         $this->deals = [RESOURCE_IRON];
         $this->copies = 1;
+
+        $this->featureType = FEATURE_PLACE_RESOURCES;
+        $this->resourceType = RESOURCE_IRON;
+        $this->resourceStartAmount = 3;
     }
 }

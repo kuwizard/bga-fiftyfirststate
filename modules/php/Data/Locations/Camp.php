@@ -14,8 +14,11 @@ class Camp extends Feature
         $this->distance = 1;
         $this->spoils = [RESOURCE_WORKER, RESOURCE_WORKER];
         $this->icons = [ICON_WORKER];
-        $this->buildingBonus = []; // TODO: Place 3 workers here
         $this->deals = [RESOURCE_WORKER];
         $this->copies = 1;
+
+        $this->featureType = FEATURE_PLACE_RESOURCES;
+        $this->resourceType = RESOURCE_WORKER;
+        $this->resourceStartAmount = 3;
     }
 }

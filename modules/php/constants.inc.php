@@ -152,6 +152,7 @@ define('ICON_AMMO', 9);
  * Features
  */
 define('FEATURE_NONE', 0);
+define('FEATURE_PLACE_RESOURCES', 1);
 
 /*
  * Action types

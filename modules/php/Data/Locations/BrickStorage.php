@@ -14,8 +14,11 @@ class BrickStorage extends Feature
         $this->distance = 1;
         $this->spoils = [RESOURCE_BRICK, RESOURCE_BRICK];
         $this->icons = [ICON_BRICK];
-        $this->buildingBonus = []; // TODO: place 3 bricks here
         $this->deals = [RESOURCE_BRICK];
         $this->copies = 1;
+
+        $this->featureType = FEATURE_PLACE_RESOURCES;
+        $this->resourceType = RESOURCE_BRICK;
+        $this->resourceStartAmount = 3;
     }
 }
