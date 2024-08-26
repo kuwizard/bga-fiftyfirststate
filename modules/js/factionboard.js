@@ -15,8 +15,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     const rowElement = factionBoard.querySelector(`.${row}`);
                     player.locations[row].forEach((location) => {
                         dojo.place(this.format_block('jstpl_location', location), rowElement);
-                        if (location.resourceType) {
-                            this.placeResourcesOnLocation(location.id, location.resourceType, location.resourceAmount);
+                        if (location.resources) {
+                            this.placeResourcesOnLocation(location.id, location.resources);
                         }
                     });
                 });
@@ -48,14 +48,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this.addSomeRandomMargins(res);
         },
 
-        placeResourcesOnLocation(id, resourceType, resourceAmount) {
-            for (let i = 0; i < resourceAmount; i++) {
-                const resource = dojo.place(
-                    this.format_block('jstpl_resource_icon', { type: resourceType }),
+        placeResourcesOnLocation(id, resources) {
+            resources.forEach((resource) => {
+                const resourceElement = dojo.place(
+                    this.format_block('jstpl_resource_icon', { type: resource }),
                     this.querySingle(`#location_${id} .resources`)
                 );
-                this.addSomeRandomMargins(resource);
-            }
+                this.addSomeRandomMargins(resourceElement);
+            });
         },
 
         //

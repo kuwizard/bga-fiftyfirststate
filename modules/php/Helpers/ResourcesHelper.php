@@ -2,7 +2,7 @@
 
 namespace STATE\Helpers;
 
-class Resources
+class ResourcesHelper
 {
     static $mapping = [
         RESOURCE_FUEL => 'fuel',

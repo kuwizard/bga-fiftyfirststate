@@ -92,7 +92,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         notif_resourcesPlacedOnLocation(n) {
             debug('Notif: resourcesPlacedOnLocation', n);
-            this.placeResourcesOnLocation(n.args.id, n.args.resourceType, n.args.resourceAmount);
+            this.placeResourcesOnLocation(n.args.id, n.args.resources);
         },
     });
 });

@@ -5,7 +5,7 @@ namespace STATE\Models;
 use JsonSerializable;
 use STATE\Core\Preferences;
 use STATE\Helpers\DB_Manager;
-use STATE\Helpers\Resources;
+use STATE\Helpers\ResourcesHelper;
 use STATE\Managers\Factions;
 use STATE\Managers\Locations;
 use STATE\Managers\Players;
@@ -285,7 +285,7 @@ class Player extends DB_Manager implements JsonSerializable
     {
         $result = [];
         foreach ($resources as $resource) {
-            $result[Resources::getResourceName($resource)] = $this->getResource($resource);
+            $result[ResourcesHelper::getResourceName($resource)] = $this->getResource($resource);
         }
         return $result;
     }
@@ -296,7 +296,7 @@ class Player extends DB_Manager implements JsonSerializable
      */
     public function getResource($resource)
     {
-        $resourceName = Resources::getResourceName($resource);
+        $resourceName = ResourcesHelper::getResourceName($resource);
         return $resource === RESOURCE_CARD ? $this->getHandAmount() : $this->$resourceName;
     }
 
@@ -351,10 +351,12 @@ class Player extends DB_Manager implements JsonSerializable
     public function getBoardIcons(int $icon)
     {
         $board = Locations::getBoard($this->id);
-        $allIcons = array_merge(...$board->map(function ($location) {
+        $allIcons = array_merge(
+            ...$board->map(function ($location) {
             /** @var Location $location */
             return $location->getIcons();
-        })->toArray());
+        })->toArray()
+        );
         return array_intersect($allIcons, [$icon]);
     }
 
@@ -376,13 +378,13 @@ class Player extends DB_Manager implements JsonSerializable
      */
     public function increaseResource($type, $amount = 1)
     {
-        $name = Resources::getResourceName($type);
+        $name = ResourcesHelper::getResourceName($type);
         if ($type === RESOURCE_CARD) {
             Locations::draw($this);
         } else {
             $newAmount = $this->{$name} + $amount;
             $this->{$name} = $newAmount;
-            $this->updateResource(Resources::getDBName($type), $newAmount);
+            $this->updateResource(ResourcesHelper::getDBName($type), $newAmount);
         }
     }
 
@@ -393,7 +395,7 @@ class Player extends DB_Manager implements JsonSerializable
      */
     public function decreaseResource($type, $amount = 1)
     {
-        $name = Resources::getResourceName($type);
+        $name = ResourcesHelper::getResourceName($type);
         $resourceAmount = $this->{$name};
         $newAmount = $resourceAmount - $amount;
         if ($newAmount < 0) {
@@ -402,7 +404,7 @@ class Player extends DB_Manager implements JsonSerializable
             );
         }
         $this->{$name} = $newAmount;
-        $this->updateResource(Resources::getDBName($type), $newAmount);
+        $this->updateResource(ResourcesHelper::getDBName($type), $newAmount);
     }
 
     /**

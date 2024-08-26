@@ -34,7 +34,7 @@ class Act implements \JsonSerializable
 
     public function getSpendRequirementsUI(): array
     {
-        return array_map('STATE\Helpers\Resources::getResourceName', $this->spendRequirements);
+        return array_map('STATE\Helpers\ResourcesHelper::getResourceName', $this->spendRequirements);
     }
 
     public function getSpendRequirementsUIRemoveCard(): array
@@ -43,7 +43,7 @@ class Act implements \JsonSerializable
         if (in_array(RESOURCE_CARD, $requirements)) {
             $requirements = array_diff($requirements, [RESOURCE_CARD]);
         }
-        return array_map('STATE\Helpers\Resources::getResourceName', $requirements);
+        return array_map('STATE\Helpers\ResourcesHelper::getResourceName', $requirements);
     }
 
     /**
@@ -73,7 +73,7 @@ class Act implements \JsonSerializable
     {
         return [
             'spendRequirements' => $this->getSpendRequirementsUI(),
-            'bonus' => array_map('STATE\Helpers\Resources::getResourceName', $this->bonus),
+            'bonus' => array_map('STATE\Helpers\ResourcesHelper::getResourceName', $this->bonus),
         ];
     }
 }

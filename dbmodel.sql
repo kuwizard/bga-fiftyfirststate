@@ -47,7 +47,6 @@ CREATE TABLE IF NOT EXISTS `locations`
     `location_location` varchar(16)       NOT NULL,
     `location_state`    tinyint           NOT NULL,
     `activated_times`   tinyint           NOT NULL DEFAULT 0,
-    `resource_amount`   tinyint           NOT NULL DEFAULT 0,
     PRIMARY KEY (`location_id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -68,6 +67,15 @@ CREATE TABLE IF NOT EXISTS `factions`
     `faction`       tinyint           NOT NULL,
     `action_number` tinyint           NOT NULL,
     `used`          tinyint           NOT NULL DEFAULT 0,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+CREATE TABLE IF NOT EXISTS `resources`
+(
+    `id`          smallint unsigned NOT NULL AUTO_INCREMENT,
+    `location_id` tinyint           NOT NULL,
+    `type`        tinyint           NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;

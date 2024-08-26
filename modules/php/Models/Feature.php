@@ -2,8 +2,7 @@
 
 namespace STATE\Models;
 
-use STATE\Helpers\Resources;
-use STATE\Managers\Locations;
+use STATE\Managers\Resources;
 
 class Feature extends Location
 {
@@ -16,9 +15,9 @@ class Feature extends Location
      */
     protected $resourceType;
     /**
-     * @var int
+     * @var int[]
      */
-    protected $resourceAmount;
+    protected $resources;
     /**
      * @var int
      */
@@ -28,7 +27,8 @@ class Feature extends Location
     {
         parent::__construct($params);
         $this->featureType = FEATURE_NONE;
-        $this->resourceAmount = (int) $params['resource_amount'] ?? null;
+        $this->resourceStartAmount = 0;
+        $this->resources = Resources::get($this->id);
     }
 
     /**
@@ -54,6 +54,11 @@ class Feature extends Location
         return $this->resourceType;
     }
 
+    public function getResourcesUI(): array
+    {
+        return array_map('STATE\Helpers\ResourcesHelper::getResourceName', $this->resources);
+    }
+
     /**
      * @param Player $player
      * @param int $icon
@@ -70,16 +75,17 @@ class Feature extends Location
      * @param int $amount
      * @return void
      */
-    public function placeResources($amount)
+    public function placeResourcesOneType($type, $amount)
     {
-        Locations::updateResources($this->id, $amount);
+        $resources = array_fill(0, $amount, $type);
+        Resources::place($this->id, $resources);
+        $this->resources = $resources;
     }
 
     public function jsonSerialize()
     {
         return array_merge(parent::jsonSerialize(), [
-            'resourceType' => Resources::getResourceName($this->resourceType),
-            'resourceAmount' => $this->resourceAmount,
+            'resources' => array_map('STATE\Helpers\ResourcesHelper::getResourceName', $this->resources),
         ]);
     }
 }

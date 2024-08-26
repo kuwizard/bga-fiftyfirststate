@@ -4,7 +4,7 @@ namespace STATE\States;
 
 use STATE\Core\Notifications;
 use STATE\Core\Stack;
-use STATE\Helpers\Resources;
+use STATE\Helpers\ResourcesHelper;
 use STATE\Managers\Factions;
 use STATE\Managers\Locations;
 use STATE\Managers\Players;
@@ -74,10 +74,14 @@ trait PhaseThreeActionTrait
     {
         self::checkAction('actGainResourceForWorkers');
         $player = Players::getActive();
-        $resourceType = Resources::getResourceType($resourceName);
+        $resourceType = ResourcesHelper::getResourceType($resourceName);
         $player->increaseResource($resourceType);
         $player->decreaseResource(RESOURCE_WORKER, 2);
-        $notificationData = [Resources::getResourceName(RESOURCE_WORKER) => $player->getResource(RESOURCE_WORKER)];
+        $notificationData = [
+            ResourcesHelper::getResourceName(RESOURCE_WORKER) => $player->getResource(
+                RESOURCE_WORKER
+            ),
+        ];
         if ($resourceType === RESOURCE_CARD) {
             $notificationData[$resourceName] = $player->getHandAmount();
             Notifications::handChanged($player);
@@ -151,12 +155,11 @@ trait PhaseThreeActionTrait
         }
         // Place resources on a card
         if ($location instanceof Feature && $location->getFeatureType() === FEATURE_PLACE_RESOURCES) {
-            $location->placeResources($location->getResourceStartAmount());
+            $location->placeResourcesOneType($location->getResourceType(), $location->getResourceStartAmount());
             Notifications::resourcesPlacedOnLocation(
                 $player,
                 $locationId,
-                Resources::getResourceName($location->getResourceType()),
-                $location->getResourceStartAmount()
+                $location->getResourcesUI()
             );
         }
     }
@@ -190,7 +193,11 @@ trait PhaseThreeActionTrait
         if (count($location->getDeals()) > 1) {
             throw new BgaVisibleSystemException('More than 1 resource in deals, that should be impossible');
         }
-        Notifications::locationDealMade($player, $locationId, Resources::getResourceName($location->getDeals()[0]));
+        Notifications::locationDealMade(
+            $player,
+            $locationId,
+            ResourcesHelper::getResourceName($location->getDeals()[0])
+        );
     }
 
     /**

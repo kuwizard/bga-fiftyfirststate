@@ -4,7 +4,7 @@ namespace STATE\Managers;
 
 use STATE\Helpers\Collection;
 use STATE\Helpers\Pieces;
-use STATE\Helpers\Resources;
+use STATE\Helpers\ResourcesHelper;
 use STATE\Models\Action;
 use STATE\Models\Feature;
 use STATE\Models\Location;
@@ -16,7 +16,7 @@ class Locations extends Pieces
     protected static $table = 'locations';
     protected static $primary = 'location_id';
     protected static $prefix = 'location_';
-    protected static $customFields = ['type', 'activated_times', 'resource_amount'];
+    protected static $customFields = ['type', 'activated_times'];
 
     protected static function cast($row)
     {
@@ -200,7 +200,7 @@ class Locations extends Pieces
         $locationsInDeals = self::getInLocation([LOCATION_DEALS, $pId]);
         foreach ($locationsInDeals as $location) {
             foreach (array_count_values($location->getDeals()) as $resource => $amount) {
-                $resourceName = Resources::getResourceName($resource);
+                $resourceName = ResourcesHelper::getResourceName($resource);
                 $resources[$resourceName] = isset($resources[$resourceName]) ? $resources[$resourceName] + $amount : $amount;
             }
         }
