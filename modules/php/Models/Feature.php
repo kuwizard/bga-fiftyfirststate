@@ -2,6 +2,7 @@
 
 namespace STATE\Models;
 
+use STATE\Helpers\ResourcesHelper;
 use STATE\Managers\Resources;
 
 class Feature extends Location
@@ -28,7 +29,7 @@ class Feature extends Location
         parent::__construct($params);
         $this->featureType = FEATURE_NONE;
         $this->resourceStartAmount = 0;
-        $this->resources = Resources::get($this->id);
+        $this->resources = is_null($this->id) ? null : Resources::get($this->id);
     }
 
     /**
@@ -56,7 +57,7 @@ class Feature extends Location
 
     public function getResourcesUI(): array
     {
-        return array_map('STATE\Helpers\ResourcesHelper::getResourceName', $this->resources);
+        return ResourcesHelper::getResourceNames($this->resources);
     }
 
     /**
@@ -85,7 +86,7 @@ class Feature extends Location
     public function jsonSerialize()
     {
         return array_merge(parent::jsonSerialize(), [
-            'resources' => array_map('STATE\Helpers\ResourcesHelper::getResourceName', $this->resources),
+            'resources' => ResourcesHelper::getResourceNames($this->resources),
         ]);
     }
 }

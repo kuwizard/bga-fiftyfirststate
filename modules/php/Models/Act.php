@@ -4,6 +4,7 @@ namespace STATE\Models;
 
 use STATE\Core\Notifications;
 use STATE\Core\Stack;
+use STATE\Helpers\ResourcesHelper;
 
 class Act implements \JsonSerializable
 {
@@ -34,7 +35,7 @@ class Act implements \JsonSerializable
 
     public function getSpendRequirementsUI(): array
     {
-        return array_map('STATE\Helpers\ResourcesHelper::getResourceName', $this->spendRequirements);
+        return ResourcesHelper::getResourceNames($this->spendRequirements);
     }
 
     public function getSpendRequirementsUIRemoveCard(): array
@@ -43,7 +44,7 @@ class Act implements \JsonSerializable
         if (in_array(RESOURCE_CARD, $requirements)) {
             $requirements = array_diff($requirements, [RESOURCE_CARD]);
         }
-        return array_map('STATE\Helpers\ResourcesHelper::getResourceName', $requirements);
+        return ResourcesHelper::getResourceNames($requirements);
     }
 
     /**
@@ -73,7 +74,7 @@ class Act implements \JsonSerializable
     {
         return [
             'spendRequirements' => $this->getSpendRequirementsUI(),
-            'bonus' => array_map('STATE\Helpers\ResourcesHelper::getResourceName', $this->bonus),
+            'bonus' => ResourcesHelper::getResourceNames($this->bonus),
         ];
     }
 }

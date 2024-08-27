@@ -31,6 +31,15 @@ class ResourcesHelper
     }
 
     /**
+     * @param int[] $types
+     * @return string[]
+     */
+    public static function getResourceNames($types)
+    {
+        return array_map('self::getResourceName', $types);
+    }
+
+    /**
      * @param string $resourceName
      * @return int
      */
