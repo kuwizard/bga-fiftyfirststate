@@ -251,7 +251,7 @@ class Player extends DB_Manager implements JsonSerializable
             $isAvailable = true;
             $requirements = array_count_values($action->getSpendRequirements());
             foreach ($requirements as $requirement => $amount) {
-                if ($this->getResource($requirement) < $amount) {
+                if ($this->getResource($requirement, false) < $amount) {
                     $isAvailable = false;
                     break;
                 }
@@ -300,7 +300,7 @@ class Player extends DB_Manager implements JsonSerializable
      * @param boolean $factionOnly
      * @return int
      */
-    public function getResource($resource, $factionOnly = false)
+    public function getResource($resource, $factionOnly = true)
     {
         $resourceName = ResourcesHelper::getResourceName($resource);
         if ($resource === RESOURCE_CARD) {
@@ -345,13 +345,13 @@ class Player extends DB_Manager implements JsonSerializable
     {
         $availableActions = [];
         /** @var Location $location */
-        if ($this->getResource(RESOURCE_ARROW_RED) >= $location->getDistance()) {
+        if ($this->getResource(RESOURCE_ARROW_RED, false) >= $location->getDistance()) {
             $availableActions[] = 'raze';
         }
-        if ($this->getResource(RESOURCE_ARROW_GREY) >= $location->getDistance()) {
+        if ($this->getResource(RESOURCE_ARROW_GREY, false) >= $location->getDistance()) {
             $availableActions[] = 'build';
         }
-        if ($this->getResource(RESOURCE_ARROW_BLUE) >= $location->getDistance()) {
+        if ($this->getResource(RESOURCE_ARROW_BLUE, false) >= $location->getDistance()) {
             $availableActions[] = 'deal';
         }
         return $availableActions;
@@ -411,7 +411,7 @@ class Player extends DB_Manager implements JsonSerializable
     /**
      * @param int $type
      * @param int $amount
-     * @return int
+     * @return void
      */
     public function decreaseResource($type, $amount = 1)
     {
@@ -425,7 +425,6 @@ class Player extends DB_Manager implements JsonSerializable
         }
         $this->{$name} = $newAmount;
         $this->updateResource(ResourcesHelper::getDBName($type), $newAmount);
-        return $newAmount;
     }
 
     /**

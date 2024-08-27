@@ -20,7 +20,7 @@ trait PhaseThreeActionTrait
     public function argPhaseThreeAction()
     {
         $player = Players::getActive();
-        $spendWorkers = $player->getResource(RESOURCE_WORKER) >= 2;
+        $spendWorkers = $player->getResource(RESOURCE_WORKER, false) >= 2;
         return [
             'spendWorkers' => $spendWorkers,
             'factionActions' => !empty($player->getAvailableFactionActions()),
@@ -84,7 +84,7 @@ trait PhaseThreeActionTrait
             $notificationData[$resourceName] = $player->getHandAmount();
             Notifications::handChanged($player);
         } else {
-            $notificationData[$resourceName] = $player->getResource($resourceType);
+            $notificationData[$resourceName] = $player->getResource($resourceType, false);
         }
         Notifications::resourcesChanged($player, $notificationData);
         Stack::finishState();

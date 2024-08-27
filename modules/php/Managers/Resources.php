@@ -56,11 +56,17 @@ class Resources extends DB_Manager
             ->toArray();
     }
 
-    public static function delete($locationId)
+    /**
+     * @param int $locationId
+     * @param int $resource
+     * @return void
+     */
+    public static function delete($locationId, $resource)
     {
-        return self::DB()
+        self::DB()
             ->deleteSingle()
             ->where('location_id', $locationId)
+            ->where('type', $resource)
             ->run();
     }
 

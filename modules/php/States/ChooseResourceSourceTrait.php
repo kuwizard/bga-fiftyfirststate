@@ -15,7 +15,7 @@ trait ChooseResourceSourceTrait
         $resource = Stack::getCtx()['spend'][0];
         $player = Players::getActive();
         return [
-            'faction' => $player->getResource($resource, true) === 0 ? null : ResourcesHelper::getResourceName(
+            'faction' => $player->getResource($resource) === 0 ? null : ResourcesHelper::getResourceName(
                 $resource
             ),
             'locations' => $this->getPlayerLocationsWithResource($resource, $player),
@@ -31,7 +31,8 @@ trait ChooseResourceSourceTrait
 
     public function stChooseSource()
     {
-        $spend = Stack::getCtx()['spend'];
+        $ctx = Stack::getCtx();
+        $spend = $ctx['spend'];
         $player = Players::getActive();
         $isResourcesOnLocations = false;
         foreach (array_keys(array_count_values($spend)) as $resource) {
@@ -45,7 +46,7 @@ trait ChooseResourceSourceTrait
                 $player->decreaseResource($spendRequirement, $amount);
                 $resourcesChanged[] = $spendRequirement;
             }
-            Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));
+            $this->addBonus($resourcesChanged, $player);
             Stack::finishState();
         }
     }
@@ -57,23 +58,42 @@ trait ChooseResourceSourceTrait
     public function actChooseSource($id)
     {
         self::checkAction('actChooseSource');
-        $spend = Stack::getCtx()['spend'];
+        $ctx = Stack::getCtx();
+        $spend = $ctx['spend'];
         $resource = array_shift($spend);
         $player = Players::getActive();
         $resourceName = ResourcesHelper::getResourceName($resource);
+        $resourcesChanged = [];
         if ($id === 0) {
-            $newAmount = $player->decreaseResource($resource);
-            Notifications::resourcesChanged($player, [$resourceName => $newAmount]);
+            $player->decreaseResource($resource);
+            $resourcesChanged[] = $resource;
         } else {
-            Resources::delete($id);
+            Resources::delete($id, $resource);
             Notifications::resourcesLocationChanged($player, $id, $resourceName);
         }
         if (count($spend) > 0) {
             Stack::insertOnTopAndFinish(ST_CHOOSE_RESOURCE_SOURCE, [
                 'spend' => $spend,
+                'bonus' => $ctx['bonus'] ?? null,
             ]);
+            Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));
         } else {
+            $this->addBonus($resourcesChanged, $player);
             Stack::finishState();
+        }
+    }
+
+    private function addBonus($resourcesChanged, $player)
+    {
+        $ctx = Stack::getCtx();
+        if (isset($ctx['bonus']) && $ctx['bonus']) {
+            foreach (array_count_values($ctx['bonus']) as $bonus => $amount) {
+                $player->increaseResource($bonus, $amount);
+                $resourcesChanged[] = $bonus;
+            }
+        }
+        if (!empty($resourcesChanged)) {
+            Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));
         }
     }
 }
