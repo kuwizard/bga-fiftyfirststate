@@ -43,4 +43,42 @@ class Resources extends DB_Manager
             })
             ->toArray();
     }
+
+    public static function getMultiple(array $ids)
+    {
+        return self::DB()
+            ->select(['type'])
+            ->whereIn('location_id', $ids)
+            ->get()
+            ->map(function ($resource) {
+                return (int) $resource['type'];
+            })
+            ->toArray();
+    }
+
+    public static function delete($locationId)
+    {
+        return self::DB()
+            ->deleteSingle()
+            ->where('location_id', $locationId)
+            ->run();
+    }
+
+    /**
+     * @param int $resource
+     * @return int[]
+     */
+    public static function getLocationIdsByResource($resource)
+    {
+        return array_unique(
+            self::DB()
+                ->select(['location_id'])
+                ->where('type', $resource)
+                ->get()
+                ->map(function ($resource) {
+                    return (int) $resource['location_id'];
+                })
+                ->toArray()
+        );
+    }
 }

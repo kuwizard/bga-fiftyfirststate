@@ -4,11 +4,13 @@ namespace STATE\Models;
 
 use JsonSerializable;
 use STATE\Core\Preferences;
+use STATE\Helpers\Collection;
 use STATE\Helpers\DB_Manager;
 use STATE\Helpers\ResourcesHelper;
 use STATE\Managers\Factions;
 use STATE\Managers\Locations;
 use STATE\Managers\Players;
+use STATE\Managers\Resources;
 
 /*
  * Player: all utility functions concerning a player
@@ -272,9 +274,12 @@ class Player extends DB_Manager implements JsonSerializable
         return Locations::countInLocation([LOCATION_HAND, $this->id]);
     }
 
+    /**
+     * @return Collection
+     */
     public function getHand()
     {
-        return Locations::getInLocation([LOCATION_HAND, $this->id])->toArray();
+        return Locations::getInLocation([LOCATION_HAND, $this->id]);
     }
 
     /**
@@ -292,12 +297,20 @@ class Player extends DB_Manager implements JsonSerializable
 
     /**
      * @param int $resource
+     * @param boolean $factionOnly
      * @return int
      */
-    public function getResource($resource)
+    public function getResource($resource, $factionOnly = false)
     {
         $resourceName = ResourcesHelper::getResourceName($resource);
-        return $resource === RESOURCE_CARD ? $this->getHandAmount() : $this->$resourceName;
+        if ($resource === RESOURCE_CARD) {
+            return $this->getHandAmount();
+        } else {
+            $playerResource = $this->$resourceName;
+            $allCardsResources = array_count_values(Resources::getMultiple(Locations::getBoard($this->id)->getIds()));
+            $cardResource = !isset($allCardsResources[$resource]) || $factionOnly ? 0 : $allCardsResources[$resource];
+            return $playerResource + $cardResource;
+        }
     }
 
     /**
@@ -305,7 +318,7 @@ class Player extends DB_Manager implements JsonSerializable
      */
     private function getPlayableLocations()
     {
-        $hand = $this->getHand();
+        $hand = $this->getHand()->toArray();
         $result = [];
         foreach ($hand as $location) {
             $availableActions = $this->getAvailableLocationActions($location);
@@ -350,14 +363,21 @@ class Player extends DB_Manager implements JsonSerializable
      */
     public function getBoardIcons(int $icon)
     {
-        $board = Locations::getBoard($this->id);
         $allIcons = array_merge(
-            ...$board->map(function ($location) {
+            ...$this->getBoard()->map(function ($location) {
             /** @var Location $location */
             return $location->getIcons();
         })->toArray()
         );
         return array_intersect($allIcons, [$icon]);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getBoard()
+    {
+        return Locations::getBoard($this->id);
     }
 
     /**
@@ -391,7 +411,7 @@ class Player extends DB_Manager implements JsonSerializable
     /**
      * @param int $type
      * @param int $amount
-     * @return void
+     * @return int
      */
     public function decreaseResource($type, $amount = 1)
     {
@@ -405,6 +425,7 @@ class Player extends DB_Manager implements JsonSerializable
         }
         $this->{$name} = $newAmount;
         $this->updateResource(ResourcesHelper::getDBName($type), $newAmount);
+        return $newAmount;
     }
 
     /**
@@ -445,7 +466,7 @@ class Player extends DB_Manager implements JsonSerializable
             if ($location === LOCATION_DEALS) {
                 $resources = $locationCard->getDeals();
             } else if ($location === LOCATION_BOARD) {
-                $resources = $locationCard->getProduct();
+                $resources = $locationCard->getProduct($this);
             } else {
                 throw new \BgaVisibleSystemException(
                     'Trying to get resources from unknown location (' . $location . ')'

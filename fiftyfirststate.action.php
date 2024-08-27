@@ -131,5 +131,11 @@ class action_fiftyfirststate extends APP_GameAction
         self::ajaxResponse();
     }
 
+    public function actChooseSource()
+    {
+        self::setAjaxMode();
+        $this->game->actChooseSource($this->getId());
+        self::ajaxResponse();
+    }
 
 }

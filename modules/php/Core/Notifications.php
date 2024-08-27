@@ -35,11 +35,26 @@ class Notifications
 
     /**
      * @param Player $player
+     * @param array $resources
+     * @param string $resourceName
+     * @return void
+     */
+    public static function resourcesLocationChanged($player, $locationId, $resourceName)
+    {
+        self::notifyAll(
+            'resourcesLocationChanged',
+            '',
+            ['player' => $player, 'locationId' => $locationId, 'resourceName' => $resourceName]
+        );
+    }
+
+    /**
+     * @param Player $player
      * @return void
      */
     public static function handChanged($player)
     {
-        $resources = ['player' => $player, 'hand' => $player->getHand()];
+        $resources = ['player' => $player, 'hand' => $player->getHand()->toArray()];
         self::notify($player, 'handChanged', '', $resources);
     }
 

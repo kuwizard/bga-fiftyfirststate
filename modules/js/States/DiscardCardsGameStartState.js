@@ -1,7 +1,6 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     return declare('state.discardCardsGameStart', null, {
         constructor() {
-            this._notifications.push(['handChanged', 1]);
         },
 
         onEnteringStateDiscardCardsGameStart(args) {

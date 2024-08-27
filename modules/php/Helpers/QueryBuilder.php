@@ -113,6 +113,13 @@ class QueryBuilder extends APP_DbObject
         return $this->run($id);
     }
 
+    public function deleteSingle()
+    {
+        $this->sql = "DELETE FROM `{$this->table}`";
+        $this->operation = 'delete';
+        return $this->limit(1);
+    }
+
     /*
      * Update: $fields array structure is the same as the one for insert
      *    optional parameter $id adds a where clause on primary key

@@ -40,14 +40,6 @@ $machinestates = [
         'transitions' => [],
     ],
 
-    98 => [
-        'name' => 'debug',
-        'description' => clienttranslate('Waiting for ${actplayer}'),
-        'descriptionmyturn' => clienttranslate('${you} must decide'),
-        'type' => 'activeplayer',
-        'possibleactions' => ['actTest'],
-    ],
-
     ST_NEXT_ROUND => [
         'name' => 'nextRound',
         'description' => '',
@@ -135,6 +127,16 @@ $machinestates = [
         'descriptionmyturn' => clienttranslate('${you} must choose a location to discard'),
         'type' => 'activeplayer',
         'possibleactions' => ['actDiscardLocation'],
+    ],
+
+    ST_CHOOSE_RESOURCE_SOURCE => [
+        'name' => 'chooseResourceSource',
+        'description' => clienttranslate('${actplayer} must choose where to spend a resource ({resourceIcon}) from'),
+        'descriptionmyturn' => clienttranslate('${you} must choose where to spend a resource ({resourceIcon}) from'),
+        'args' => 'argChooseResourceSource',
+        'action' => 'stChooseSource',
+        'type' => 'activeplayer',
+        'possibleactions' => ['actChooseSource'],
     ],
 
     ST_PHASE_FOUR_CLEANUP => [

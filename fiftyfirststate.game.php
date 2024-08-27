@@ -48,6 +48,7 @@ class Fiftyfirststate extends Table
     use STATE\States\PhaseTwoProductionTrait;
     use STATE\States\PhaseThreeActionTrait;
     use STATE\States\PhaseFourCleanupTrait;
+    use STATE\States\ChooseResourceSourceTrait;
 
     public static $instance = null;
 
