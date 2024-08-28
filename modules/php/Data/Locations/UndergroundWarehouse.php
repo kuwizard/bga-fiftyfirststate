@@ -16,7 +16,9 @@ class UndergroundWarehouse extends Feature
         $this->icons = [ICON_FUEL, ICON_AMMO];
         $this->deals = [RESOURCE_FUEL];
         $this->copies = 1;
-    }
 
-    // TODO: You may store resources here
+        $this->featureType = FEATURE_STORE_RESOURCES;
+        $this->resourceLimit = 3;
+        $this->resourcesOptions = [RESOURCE_FUEL, RESOURCE_GUN, RESOURCE_IRON, RESOURCE_BRICK];
+    }
 }

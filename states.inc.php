@@ -139,6 +139,17 @@ $machinestates = [
         'possibleactions' => ['actChooseSource'],
     ],
 
+    ST_CHOOSE_RESOURCE_TO_STORE => [
+        'name' => 'chooseResourceToStore',
+        'description' => clienttranslate('Other players must choose a resource to store'),
+        'descriptionmyturn' => clienttranslate('${you} must choose a resource to store'),
+        'args' => 'argChooseResourceToStore',
+        'action' => 'stChooseResourceToStore',
+        'type' => 'multipleactiveplayer',
+        'possibleactions' => ['actChooseResourceToStore', 'actPassStoringResource'],
+        'transitions' => ['' => ST_PHASE_FOUR_CLEANUP],
+    ],
+
     ST_PHASE_FOUR_CLEANUP => [
         'name' => 'phaseFourCleanup',
         'description' => '',

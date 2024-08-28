@@ -19,6 +19,6 @@ class CityGuards extends Feature
 
         $this->featureType = FEATURE_PLACE_RESOURCES;
         $this->resourceType = RESOURCE_GUN;
-        $this->resourceStartAmount = 3;
+        $this->resourceLimit = 3;
     }
 }

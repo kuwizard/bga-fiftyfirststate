@@ -30,6 +30,17 @@ class Resources extends DB_Manager
 
     /**
      * @param int $locationId
+     * @param int $resource
+     * @return void
+     */
+    public static function add($locationId, $resource)
+    {
+        self::DB()
+            ->insert(['location_id' => $locationId, 'type' => $resource]);
+    }
+
+    /**
+     * @param int $locationId
      * @return int[]
      */
     public static function get($locationId)

@@ -26,6 +26,7 @@ define([
     g_gamethemeurl + 'modules/js/States/PhaseThreeActionState.js',
     g_gamethemeurl + 'modules/js/States/FactionActions.js',
     g_gamethemeurl + 'modules/js/States/ChooseResourceSourceState.js',
+    g_gamethemeurl + 'modules/js/States/ChooseResourceToStoreState.js',
     g_gamethemeurl + 'modules/js/playerboard.js',
     g_gamethemeurl + 'modules/js/factionboard.js',
     g_gamethemeurl + 'modules/js/hand.js',
@@ -44,6 +45,7 @@ define([
             state.common,
             state.factionActions,
             state.chooseResourceSource,
+            state.chooseResourceToStore,
         ],
         {
             constructor() {

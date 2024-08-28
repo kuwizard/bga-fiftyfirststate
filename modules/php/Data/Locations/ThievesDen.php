@@ -16,7 +16,11 @@ class ThievesDen extends Feature
         $this->icons = [ICON_WORKER, ICON_AMMO];
         $this->deals = [RESOURCE_AMMO];
         $this->copies = 1;
+
+        $this->featureType = FEATURE_STORE_RESOURCES;
+        $this->resourceLimit = 2;
+        $this->resourcesOptions = [RESOURCE_FUEL, RESOURCE_GUN, RESOURCE_IRON, RESOURCE_BRICK];
     }
 
-    // TODO: You may store resources and workers here
+    // TODO: You may store workers here
 }

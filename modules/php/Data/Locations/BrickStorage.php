@@ -19,6 +19,6 @@ class BrickStorage extends Feature
 
         $this->featureType = FEATURE_PLACE_RESOURCES;
         $this->resourceType = RESOURCE_BRICK;
-        $this->resourceStartAmount = 3;
+        $this->resourceLimit = 3;
     }
 }

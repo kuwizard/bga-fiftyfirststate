@@ -153,7 +153,7 @@ trait PhaseThreeActionTrait
         }
         // Place resources on a card
         if ($location instanceof Feature && $location->getFeatureType() === FEATURE_PLACE_RESOURCES) {
-            $location->placeResourcesOneType($location->getResourceType(), $location->getResourceStartAmount());
+            $location->placeResourcesOneType($location->getResourceType(), $location->getResourceLimit());
             Notifications::resourcesPlacedOnLocation(
                 $player,
                 $locationId,
@@ -208,6 +208,7 @@ trait PhaseThreeActionTrait
      */
     private function razeBuildDealCommon($player, $location, $decrease, $whereToMove, $increase = null)
     {
+        // TODO: Expansions: Add a layer with ST_CHOOSE_RESOURCE_SOURCE here
         /** @var Location $location */
         $player->decreaseResource($decrease, $location->getDistance());
         $resourcesChanged = [$decrease];

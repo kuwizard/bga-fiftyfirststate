@@ -22,14 +22,19 @@ class Feature extends Location
     /**
      * @var int
      */
-    protected $resourceStartAmount;
+    protected $resourceLimit;
+    /**
+     * @var int[]
+     */
+    protected $resourcesOptions;
 
     public function __construct($params = [])
     {
         parent::__construct($params);
         $this->featureType = FEATURE_NONE;
-        $this->resourceStartAmount = 0;
+        $this->resourceLimit = 0;
         $this->resources = is_null($this->id) ? null : Resources::get($this->id);
+        $this->resourcesOptions = [];
     }
 
     /**
@@ -45,14 +50,19 @@ class Feature extends Location
         return $this->featureType;
     }
 
-    public function getResourceStartAmount(): int
+    public function getResourceLimit(): int
     {
-        return $this->resourceStartAmount;
+        return $this->resourceLimit;
     }
 
     public function getResourceType(): int
     {
         return $this->resourceType;
+    }
+
+    public function getResourcesAmount(): int
+    {
+        return count($this->resources);
     }
 
     public function getResourcesUI(): array
@@ -81,6 +91,12 @@ class Feature extends Location
         $resources = array_fill(0, $amount, $type);
         Resources::place($this->id, $resources);
         $this->resources = $resources;
+    }
+
+    public function addResource(int $resource)
+    {
+        $this->resources[] = $resource;
+        Resources::add($this->id, $resource);
     }
 
     public function jsonSerialize()

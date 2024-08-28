@@ -22,6 +22,7 @@ trait RoundTrait
             ST_PHASE_ONE_LOOKOUT_SETUP,
             ST_PHASE_TWO_PRODUCTION,
             ST_PHASE_THREE_ACTION,
+            ST_CHOOSE_RESOURCE_TO_STORE,
             ST_PHASE_FOUR_CLEANUP,
             ST_NEXT_ROUND,
         ];

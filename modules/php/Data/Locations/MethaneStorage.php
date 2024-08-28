@@ -19,6 +19,6 @@ class MethaneStorage extends Feature
 
         $this->featureType = FEATURE_PLACE_RESOURCES;
         $this->resourceType = RESOURCE_FUEL;
-        $this->resourceStartAmount = 3;
+        $this->resourceLimit = 3;
     }
 }

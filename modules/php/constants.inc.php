@@ -17,6 +17,7 @@ define('ST_FACTION_ACTIONS', 32);
 define('ST_LOCATION_ACTIONS', 33);
 define('ST_DISCARD_LOCATION_FOR_RESOURCES', 34);
 define('ST_CHOOSE_RESOURCE_SOURCE', 35);
+define('ST_CHOOSE_RESOURCE_TO_STORE', 36);
 define('ST_PHASE_FOUR_CLEANUP', 95);
 
 define('ST_END_GAME', 99);
@@ -154,6 +155,7 @@ define('ICON_AMMO', 9);
  */
 define('FEATURE_NONE', 0);
 define('FEATURE_PLACE_RESOURCES', 1);
+define('FEATURE_STORE_RESOURCES', 2);
 
 /*
  * Action types

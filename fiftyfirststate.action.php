@@ -138,4 +138,18 @@ class action_fiftyfirststate extends APP_GameAction
         self::ajaxResponse();
     }
 
+    public function actPassStoringResource()
+    {
+        self::setAjaxMode();
+        $this->game->actPassStoringResource();
+        self::ajaxResponse();
+    }
+
+    public function actChooseResourceToStore()
+    {
+        self::setAjaxMode();
+        $resource = self::getArg('resource', AT_alphanum, true);
+        $this->game->actChooseResourceToStore($resource);
+        self::ajaxResponse();
+    }
 }

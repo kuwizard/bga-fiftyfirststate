@@ -16,7 +16,9 @@ class RuinedLibrary extends Feature
         $this->icons = [ICON_GUN, ICON_AMMO];
         $this->deals = [RESOURCE_GUN];
         $this->copies = 1;
-    }
 
-    // TODO: You may store resources here
+        $this->featureType = FEATURE_STORE_RESOURCES;
+        $this->resourceLimit = 3;
+        $this->resourcesOptions = [RESOURCE_FUEL, RESOURCE_GUN, RESOURCE_IRON, RESOURCE_BRICK];
+    }
 }
