@@ -37,6 +37,7 @@ $machinestates = [
     ST_RESOLVE_STACK => [
         'name' => 'resolveStack',
         'type' => 'game',
+        'args' => 'argNoNotify',
         'transitions' => [],
     ],
 

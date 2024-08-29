@@ -8,6 +8,13 @@ use STATE\Managers\Players;
 
 trait RoundTrait
 {
+    public function argNoNotify()
+    {
+        return [
+            '_no_notify' => true,
+        ];
+    }
+
     public function stNextRound()
     {
         $firstPlayer = Globals::getFirstPlayerId();
