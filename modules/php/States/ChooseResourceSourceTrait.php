@@ -90,6 +90,9 @@ trait ChooseResourceSourceTrait
             foreach (array_count_values($ctx['bonus']) as $bonus => $amount) {
                 $player->increaseResource($bonus, $amount);
                 $resourcesChanged[] = $bonus;
+                if ($bonus === RESOURCE_CARD) {
+                    Notifications::handChanged($player);
+                }
             }
         }
         if (!empty($resourcesChanged)) {

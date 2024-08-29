@@ -61,10 +61,7 @@ trait PhaseThreeActionTrait
     public function actSpendWorkers()
     {
         self::checkAction('actSpendWorkers');
-        Stack::insertOnTop(ST_SPEND_WORKERS);
-        Stack::insertOnTopAndFinish(ST_CHOOSE_RESOURCE_SOURCE, [
-            'spend' => [RESOURCE_WORKER, RESOURCE_WORKER],
-        ]);
+        Stack::insertOnTopAndFinish(ST_SPEND_WORKERS);
     }
 
     public function actUndo()
@@ -76,17 +73,10 @@ trait PhaseThreeActionTrait
     public function actGainResourceForWorkers($resourceName)
     {
         self::checkAction('actGainResourceForWorkers');
-        $player = Players::getActive();
-        $resourceType = ResourcesHelper::getResourceType($resourceName);
-        $player->increaseResource($resourceType);
-        $notificationData = [];
-        if ($resourceType === RESOURCE_CARD) {
-            $notificationData[$resourceName] = $player->getHandAmount();
-            Notifications::handChanged($player);
-        } else {
-            $notificationData[$resourceName] = $player->getResource($resourceType, false);
-        }
-        Notifications::resourcesChanged($player, $notificationData);
+        Stack::insertOnTopAndFinish(ST_CHOOSE_RESOURCE_SOURCE, [
+            'spend' => [RESOURCE_WORKER, RESOURCE_WORKER],
+            'bonus' => [ResourcesHelper::getResourceType($resourceName)],
+        ]);
         Stack::finishState();
     }
 
