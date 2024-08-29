@@ -21,6 +21,6 @@ class WeaponTrader extends Action
             [RESOURCE_GUN],
             [RESOURCE_VP],
         );
-        $this->activateTimes = 2;
+        $this->activationsMax = 2;
     }
 }

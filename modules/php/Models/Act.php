@@ -2,7 +2,6 @@
 
 namespace STATE\Models;
 
-use STATE\Core\Notifications;
 use STATE\Core\Stack;
 use STATE\Helpers\ResourcesHelper;
 

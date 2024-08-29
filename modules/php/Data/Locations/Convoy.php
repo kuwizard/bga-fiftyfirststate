@@ -21,6 +21,6 @@ class Convoy extends Action
             [RESOURCE_FUEL],
             [RESOURCE_ARROW_BLUE],
         );
-        $this->activateTimes = 2;
+        $this->activationsMax = 2;
     }
 }

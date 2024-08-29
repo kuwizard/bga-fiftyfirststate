@@ -21,6 +21,6 @@ class CornerShop extends Action
             [RESOURCE_WORKER], // TODO: Add choice between gun/fuel/iron/brick
             [RESOURCE_VP],
         );
-        $this->activateTimes = 2;
+        $this->activationsMax = 2;
     }
 }

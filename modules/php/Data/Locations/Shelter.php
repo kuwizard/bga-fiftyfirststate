@@ -21,6 +21,6 @@ class Shelter extends Action
             [RESOURCE_IRON, RESOURCE_IRON],
             [RESOURCE_VP, RESOURCE_VP],
         );
-        $this->activateTimes = 2;
+        $this->activationsMax = 2;
     }
 }

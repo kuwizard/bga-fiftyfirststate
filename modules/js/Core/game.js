@@ -543,6 +543,9 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
         },
 
         addUnselectableClass(elements) {
+            if (!Array.isArray(elements)) {
+                elements = [elements];
+            }
             elements.forEach((element) => {
                 dojo.addClass(element, 'unselectable');
             });

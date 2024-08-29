@@ -21,6 +21,6 @@ class ThievesCaravan extends Action
             [RESOURCE_WORKER, RESOURCE_WORKER],
             [], // TODO: Choose between any resource
         );
-        $this->activateTimes = 2;
+        $this->activationsMax = 2;
     }
 }

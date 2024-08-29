@@ -152,4 +152,11 @@ class action_fiftyfirststate extends APP_GameAction
         $this->game->actChooseResourceToStore($resource);
         self::ajaxResponse();
     }
+
+    public function actActivateLocation()
+    {
+        self::setAjaxMode();
+        $this->game->actActivateLocation($this->getId());
+        self::ajaxResponse();
+    }
 }

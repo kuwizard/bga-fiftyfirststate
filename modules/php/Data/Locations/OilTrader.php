@@ -21,6 +21,6 @@ class OilTrader extends Action
             [RESOURCE_FUEL],
             [RESOURCE_VP],
         );
-        $this->activateTimes = 2;
+        $this->activationsMax = 2;
     }
 }

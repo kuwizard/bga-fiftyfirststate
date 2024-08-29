@@ -21,6 +21,6 @@ class Gunsmith extends Action
             [RESOURCE_GUN],
             [RESOURCE_ARROW_RED],
         );
-        $this->activateTimes = 2;
+        $this->activationsMax = 2;
     }
 }

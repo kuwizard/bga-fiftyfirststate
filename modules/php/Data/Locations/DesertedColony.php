@@ -21,6 +21,6 @@ class DesertedColony extends Action
             [RESOURCE_WORKER],
             [RESOURCE_AMMO],
         );
-        $this->activateTimes = 2;
+        $this->activationsMax = 2;
     }
 }

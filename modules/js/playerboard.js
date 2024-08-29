@@ -24,8 +24,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             Object.keys(data).forEach((resource) => {
                 if (resource === 'score') {
                     this.scoreCtrl[n.args.player_id].toValue(data[resource]);
+                } else {
+                    this.querySingle(`#player_board_${n.args.player_id} .${resource}Value`).innerText = data[resource];
                 }
-                this.querySingle(`#player_board_${n.args.player_id} .${resource}Value`).innerText = data[resource];
             });
         },
     });

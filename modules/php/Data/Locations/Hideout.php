@@ -21,6 +21,6 @@ class Hideout extends Action
             [], // TODO: Discard a deal to gain VP
             [RESOURCE_VP],
         );
-        $this->activateTimes = 2;
+        $this->activationsMax = 2;
     }
 }

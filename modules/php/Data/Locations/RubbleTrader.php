@@ -21,6 +21,6 @@ class RubbleTrader extends Action
             [RESOURCE_BRICK],
             [RESOURCE_VP],
         );
-        $this->activateTimes = 2;
+        $this->activationsMax = 2;
     }
 }

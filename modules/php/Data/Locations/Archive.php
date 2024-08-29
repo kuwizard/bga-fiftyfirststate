@@ -21,6 +21,6 @@ class Archive extends Action
             [RESOURCE_WORKER],
             [RESOURCE_VP],
         );
-        $this->activateTimes = 2;
+        $this->activationsMax = 2;
     }
 }

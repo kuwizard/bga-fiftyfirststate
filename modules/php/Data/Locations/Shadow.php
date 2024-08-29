@@ -21,6 +21,6 @@ class Shadow extends Action
             [RESOURCE_ARROW_RED],
             [RESOURCE_VP],
         );
-        $this->activateTimes = 2;
+        $this->activationsMax = 2;
     }
 }

@@ -92,7 +92,13 @@ $machinestates = [
         'args' => 'argPhaseThreeAction',
         'type' => 'activeplayer',
         'updateGameProgression' => true,
-        'possibleactions' => ['actActionPass', 'actSpendWorkers', 'actEnableFactionActions', 'actUseLocation'],
+        'possibleactions' => [
+            'actActionPass',
+            'actSpendWorkers',
+            'actEnableFactionActions',
+            'actUseLocation',
+            'actActivateLocation',
+        ],
     ],
 
     ST_SPEND_WORKERS => [

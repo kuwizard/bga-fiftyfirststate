@@ -213,4 +213,12 @@ class Locations extends Pieces
             ->update(['activated_times' => 0])
             ->run();
     }
+
+    public static function increaseActivatedTimes(int $id, int $newAmount)
+    {
+        self::DB()
+            ->update(['activated_times' => $newAmount])
+            ->where('location_id', $id)
+            ->run();
+    }
 }

@@ -31,6 +31,17 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                         dojo.addClass(location, 'unselectable');
                     }
                 });
+                dojo.query(`#faction_${this.player_id} .location`).forEach((location) => {
+                    const id = this.extractId(location, 'location');
+                    if (args.locations.includes(id)) {
+                        this.addSelectableClass(location);
+                        this.dojoConnect(location, () => {
+                            this.takeAction('actActivateLocation', { id: id });
+                        })
+                    } else {
+                        this.addUnselectableClass(location);
+                    }
+                });
             }
         },
 

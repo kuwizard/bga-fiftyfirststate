@@ -21,6 +21,6 @@ class Motel extends Action
             [RESOURCE_WORKER],
             [RESOURCE_CARD],
         );
-        $this->activateTimes = 2;
+        $this->activationsMax = 2;
     }
 }

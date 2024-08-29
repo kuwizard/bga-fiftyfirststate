@@ -21,6 +21,6 @@ class Confessor extends Action
             [RESOURCE_GUN, RESOURCE_GUN],
             [RESOURCE_VP, RESOURCE_VP],
         );
-        $this->activateTimes = 2;
+        $this->activationsMax = 2;
     }
 }

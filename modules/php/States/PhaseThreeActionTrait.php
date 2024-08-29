@@ -106,7 +106,7 @@ trait PhaseThreeActionTrait
         $player = Players::getActive();
         /** @var Act $actionChosen */
         $actionChosen = $player->getAvailableFactionActions()[$id];
-        $actionChosen->activate($player);
+        $actionChosen->activate();
         Factions::setAsUsed($player->getFaction(), $id);
         Notifications::resourcesSpentFaction($player, $actionChosen->getSpendRequirementsUIRemoveCard(), $id);
         Stack::finishState();
@@ -252,4 +252,17 @@ trait PhaseThreeActionTrait
         }
         return $resourcesChanged;
     }
+
+    /**
+     * @param int $id
+     * @return void
+     */
+    public function actActivateLocation($id)
+    {
+        self::checkAction('actActivateLocation');
+        $location = Locations::get($id);
+        $location->activate(Players::getActive());
+        Stack::finishState();
+    }
+
 }

@@ -21,6 +21,6 @@ class GasolineCultist extends Action
             [RESOURCE_ARROW_BLUE],
             [RESOURCE_VP],
         );
-        $this->activateTimes = 2;
+        $this->activationsMax = 2;
     }
 }
