@@ -136,4 +136,9 @@ class Globals extends DB_Manager
         }
         return null;
     }
+
+    public static function enabledStackLogger()
+    {
+        return false;
+    }
 }

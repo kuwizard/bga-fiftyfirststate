@@ -4,6 +4,7 @@ namespace STATE\Managers;
 
 use STATE\Core\Game;
 use STATE\Core\Globals;
+use STATE\Helpers\Collection;
 use STATE\Helpers\DB_Manager;
 use STATE\Models\Player;
 
@@ -74,9 +75,18 @@ class Players extends DB_Manager
         return (int) Game::get()->getCurrentPId();
     }
 
-    public static function getAll()
+    /**
+     * @param int $exceptId
+     * @return Collection
+     */
+    public static function getAll($exceptId = null)
     {
-        return self::DB()->get();
+        $all = self::DB()->get();
+        return $exceptId
+            ? $all->filter(function ($player) use ($exceptId) {
+                return $player->getId() !== $exceptId;
+            })
+            : $all;
     }
 
     /**
@@ -195,5 +205,20 @@ class Players extends DB_Manager
         return self::getAll()->map(function ($player) use ($pId) {
             return $player->jsonSerialize($pId);
         });
+    }
+
+    /**
+     * @param int $id
+     * @return Player|null
+     */
+    public static function getOwner(int $id)
+    {
+        /** @var Player $player */
+        foreach (self::getAll() as $player) {
+            if (in_array($id, $player->getBoard()->getIds())) {
+                return $player;
+            }
+        }
+        return null;
     }
 }

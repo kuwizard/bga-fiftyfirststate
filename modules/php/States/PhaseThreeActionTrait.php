@@ -4,6 +4,7 @@ namespace STATE\States;
 
 use STATE\Core\Notifications;
 use STATE\Core\Stack;
+use STATE\Helpers\Collection;
 use STATE\Helpers\ResourcesHelper;
 use STATE\Managers\Factions;
 use STATE\Managers\Locations;
@@ -21,10 +22,19 @@ trait PhaseThreeActionTrait
     {
         $player = Players::getActive();
         $spendWorkers = $player->getResource(RESOURCE_WORKER, false) >= 2;
+        $allOtherLocations = new Collection();
+        /** @var Player $otherPlayer */
+        foreach (Players::getAll($player->getId()) as $otherPlayer) {
+            $allOtherLocations = $allOtherLocations->merge($otherPlayer->getBoard());
+        }
+        $openProductions = $allOtherLocations->filter(function ($location) {
+            return $location instanceof Production && $location->isOpen() && $location->isActivatable();
+        });
         return [
             'spendWorkers' => $spendWorkers,
             'factionActions' => !empty($player->getAvailableFactionActions()),
             'locations' => $player->getPlayableLocationsIds(),
+            'openProductions' => $openProductions->getIds(),
         ];
     }
 
@@ -77,7 +87,6 @@ trait PhaseThreeActionTrait
             'spend' => [RESOURCE_WORKER, RESOURCE_WORKER],
             'bonus' => [ResourcesHelper::getResourceType($resourceName)],
         ]);
-        Stack::finishState();
     }
 
     public function actEnableFactionActions()
@@ -122,8 +131,8 @@ trait PhaseThreeActionTrait
         $locationId = Stack::getCtx()['locationId'];
         $location = Locations::get($locationId);
         $player = Players::getActive();
-        $this->razeBuildDealCommon($player, $location, RESOURCE_ARROW_GREY, LOCATION_BOARD);
         Notifications::locationBuilt($player, $location, $location->getFactionRow());
+        $this->razeBuildDealCommon($player, $location, RESOURCE_ARROW_GREY, LOCATION_BOARD);
         // Gain resources (production or building bonus)
         if ($location instanceof Production || !empty($location->getBuildingBonus($player))) {
             $resourcesChanged = [];
@@ -255,4 +264,15 @@ trait PhaseThreeActionTrait
         Stack::finishState();
     }
 
+    /**
+     * @param int $id
+     * @return void
+     */
+    public function actOpenProduction($id)
+    {
+        self::checkAction('actOpenProduction');
+        $location = Locations::get($id);
+        $location->activate(Players::getActive());
+        Stack::finishState();
+    }
 }

@@ -8,7 +8,9 @@ class Collection extends ArrayObject
 {
     public function getIds()
     {
-        return array_keys($this->getArrayCopy());
+        return array_map(function ($item) {
+            return $item->getId();
+        }, $this->toArray());
     }
 
     public function empty()

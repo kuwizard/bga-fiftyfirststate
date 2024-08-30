@@ -2,6 +2,7 @@
 
 namespace STATE\Models;
 
+use STATE\Helpers\ResourcesHelper;
 use STATE\Managers\Locations;
 
 class Location implements \JsonSerializable
@@ -41,6 +42,14 @@ class Location implements \JsonSerializable
     /**
      * @var int
      */
+    protected $activationsMax;
+    /**
+     * @var int
+     */
+    protected $activatedTimes;
+    /**
+     * @var int
+     */
     protected $copies;
 
     public function __construct($params = [])
@@ -52,6 +61,8 @@ class Location implements \JsonSerializable
         $this->id = isset($params['id']) ? (int) $params['id'] : null;
         $this->type = $params['type'] ?? null;
         $this->buildingBonus = [];
+        $this->activationsMax = 1;
+        $this->activatedTimes = isset($params['activated_times']) ? (int) $params['activated_times'] : null;
         $this->copies = 1;
     }
 
@@ -122,11 +133,32 @@ class Location implements \JsonSerializable
         return '';
     }
 
+    /**
+     * @return int[]
+     */
+    public function getSpendRequirements()
+    {
+        return [];
+    }
+
+    public function activate($player)
+    {
+    }
+
     public function jsonSerialize()
     {
-        return [
+        $data = [
             'id' => $this->id,
             'sprite' => Locations::getSprite($this->type),
         ];
+        if ($this->activatedTimes > 0) {
+            $requirements = ResourcesHelper::getResourceNames($this->getSpendRequirements());
+            $requirementsSingle = $requirements;
+            for ($i = 0; $i < $this->activatedTimes - 1; $i++) {
+                $requirements = array_merge($requirements, $requirementsSingle);
+            }
+            $data['resources'] = $requirements;
+        }
+        return $data;
     }
 }

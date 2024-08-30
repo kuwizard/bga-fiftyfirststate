@@ -20,29 +20,32 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 if (args.factionActions) {
                     this.makeAreaSelectable('actionsArea', 'actEnableFactionActions');
                 }
-                dojo.query(`#hand .location`).forEach((location) => {
-                    const id = this.extractId(location, 'location');
-                    if (args.locations.includes(id)) {
-                        this.addSelectableClass(location);
-                        this.dojoConnect(location, () => {
-                            this.takeAction('actUseLocation', { id: id });
-                        })
-                    } else {
-                        dojo.addClass(location, 'unselectable');
-                    }
-                });
-                dojo.query(`#faction_${this.player_id} .location`).forEach((location) => {
-                    const id = this.extractId(location, 'location');
-                    if (args.locations.includes(id)) {
-                        this.addSelectableClass(location);
-                        this.dojoConnect(location, () => {
-                            this.takeAction('actActivateLocation', { id: id });
-                        })
-                    } else {
-                        this.addUnselectableClass(location);
-                    }
-                });
+                this.makeLocationSelectableAndClickable('#hand .location', args.locations, 'actUseLocation');
+                this.makeLocationSelectableAndClickable(
+                    `#faction_${this.player_id} .location`,
+                    args.locations,
+                    'actActivateLocation'
+                );
+                this.makeLocationSelectableAndClickable(
+                    `.factionBoard:not(#faction_${this.player_id}) .location`,
+                    args.openProductions,
+                    'actOpenProduction'
+                );
             }
+        },
+
+        makeLocationSelectableAndClickable(locator, allowedList, action) {
+            dojo.query(locator).forEach((location) => {
+                const id = this.extractId(location, 'location');
+                if (allowedList.includes(id)) {
+                    this.addSelectableClass(location);
+                    this.dojoConnect(location, () => {
+                        this.takeAction(action, { id: id });
+                    })
+                } else {
+                    this.addUnselectableClass(location);
+                }
+            });
         },
 
         makeAreaSelectable(locator, action) {
