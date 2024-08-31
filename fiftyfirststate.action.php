@@ -160,10 +160,10 @@ class action_fiftyfirststate extends APP_GameAction
         self::ajaxResponse();
     }
 
-    public function actOpenProduction()
+    public function actUseOtherPlayerLocation()
     {
         self::setAjaxMode();
-        $this->game->actOpenProduction($this->getId());
+        $this->game->actUseOtherPlayerLocation($this->getId());
         self::ajaxResponse();
     }
 

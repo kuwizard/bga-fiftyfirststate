@@ -28,11 +28,16 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             }
         },
 
+        enrichLocationObject(location) {
+            location.additionalClass = location.isRuined ? ' ruined' : '';
+            return location;
+        },
+
         notif_handChanged(n) {
             debug('Notif: handChanged', n);
             this.destroyAll('#hand .location');
             n.args.hand.forEach((location) => {
-                dojo.place(this.format_block('jstpl_location', location), 'hand');
+                dojo.place(this.format_block('jstpl_location', this.enrichLocationObject(location)), 'hand');
             });
         },
     });

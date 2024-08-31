@@ -8,7 +8,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             dojo.style('lookoutBlock', 'display', 'flex');
             this.destroyAll('#lookoutBlock .location');
             args.forEach((location) => {
-                const locationElement = dojo.place(this.format_block('jstpl_location', location), 'lookoutBlock');
+                const locationElement = dojo.place(this.format_block(
+                    'jstpl_location',
+                    this.enrichLocationObject(location)
+                ), 'lookoutBlock');
                 if (this.isCurrentPlayerActive()) {
                     this.addSelectableClass(locationElement);
                     this.dojoConnect(

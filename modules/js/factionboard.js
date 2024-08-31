@@ -1,6 +1,7 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     return declare('state.factionboard', null, {
         constructor() {
+            this._notifications.push(['locationRuined', 1]);
         },
 
         addBoard() {
@@ -14,7 +15,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 this.forEachFactionRow((row) => {
                     const rowElement = factionBoard.querySelector(`.${row}`);
                     player.locations[row].forEach((location) => {
-                        dojo.place(this.format_block('jstpl_location', location), rowElement);
+                        dojo.place(
+                            this.format_block('jstpl_location', this.enrichLocationObject(location)),
+                            rowElement
+                        );
                         if (location.resources) {
                             this.placeResourcesOnLocation(location.id, location.resources);
                         }
@@ -58,13 +62,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             });
         },
 
-        //
-        // notif_resourcesChanged(n) {
-        //     debug('Notif: resourcesChanged', n);
-        //     const data = n.args.resources;
-        //     Object.keys(data).forEach((resource) => {
-        //         this.querySingle(`#player_board_${n.args.player_id} .${resource}Value`).innerText = data[resource];
-        //     });
-        // },
+        notif_locationRuined(n) {
+            debug('Notif: locationRuined', n);
+            dojo.addClass(`location_${n.args.id}`, 'ruined');
+            this.destroyAll(`#location_${n.args.id} .resourceIcon`);
+        },
     });
 });

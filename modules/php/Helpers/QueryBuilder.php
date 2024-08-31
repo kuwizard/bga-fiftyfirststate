@@ -110,7 +110,7 @@ class QueryBuilder extends APP_DbObject
     {
         $this->sql = "DELETE FROM `{$this->table}`";
         $this->operation = 'delete';
-        return $this->run($id);
+        return $this;
     }
 
     public function deleteSingle()

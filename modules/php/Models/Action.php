@@ -33,7 +33,7 @@ class Action extends Location
      */
     public function isActivatable()
     {
-        return $this->activatedTimes < $this->activationsMax;
+        return !$this->isRuined() && $this->activatedTimes < $this->activationsMax;
     }
 
     /**
@@ -47,5 +47,10 @@ class Action extends Location
         Locations::increaseActivatedTimes($this->id, $this->activatedTimes);
         $actionRequirements = $this->action->getSpendRequirementsUI();
         Notifications::resourcesPlacedOnLocation($player, $this->id, $actionRequirements);
+    }
+
+    public function getDefenceValue()
+    {
+        return 5;
     }
 }

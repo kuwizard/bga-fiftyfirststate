@@ -2,6 +2,8 @@
 
 namespace STATE\Helpers;
 
+use STATE\Models\Player;
+
 class ResourcesHelper
 {
     static $mapping = [
@@ -64,5 +66,20 @@ class ResourcesHelper
         } else {
             return 'player_' . self::getResourceName($type);
         }
+    }
+
+    /**
+     * @param Player $player
+     * @param array $resources
+     * @return array
+     */
+    public static function increaseResourcesAfterAction($player, $resources)
+    {
+        $resourcesChanged = [];
+        foreach (array_count_values($resources) as $resource => $amount) {
+            $resourcesChanged[] = $resource;
+            $player->increaseResource($resource, $amount);
+        }
+        return $resourcesChanged;
     }
 }

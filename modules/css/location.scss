@@ -1,15 +1,26 @@
 .location {
-  background-image: url(img/locations10.jpg);
-  background-size: cover;
   width: 169px;
   height: 250px;
   box-shadow: rgba(0, 0, 0, 0.55) 0 2px 4px;
   border-radius: 8px;
   position: relative;
 
-  @for $sprite from 0 through 9 {
-    &[data-sprite="#{$sprite}"] {
-      background-position: 0% + (100% / 9 * $sprite) 0;
+  &:not(.ruined) {
+    background-image: url(img/locations10.jpg);
+    background-size: cover;
+
+    @for $sprite from 0 through 9 {
+      &[data-sprite="#{$sprite}"] {
+        background-position: 0% + (100% / 9 * $sprite) 0;
+      }
+    }
+  }
+
+  &.ruined {
+    background-color: gray;
+
+    &.unselectable {
+      opacity: 1;
     }
   }
 

@@ -105,7 +105,7 @@
         </div>
     </div>
     `;
-    var jstpl_location = `<div id="location_\${id}" class="location" data-sprite="\${sprite}">
+    var jstpl_location = `<div id="location_\${id}" class="location\${additionalClass}" data-sprite="\${sprite}">
         <div class="resources"></div>
     </div>`
     var jstpl_hand = `<div id="hand"></div>`

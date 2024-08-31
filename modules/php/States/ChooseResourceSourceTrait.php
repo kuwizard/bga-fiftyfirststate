@@ -104,10 +104,12 @@ trait ChooseResourceSourceTrait
             $newLocation = Locations::get($newLocationId);
 
             if ($oldLocation instanceof Feature && $oldLocation->getResourcesAmount() > 0) {
-                foreach (array_count_values($oldLocation->getResources()) as $resource => $amount) {
-                    $resourcesChanged[] = $resource;
-                    $player->increaseResource($resource, $amount);
-                };
+                $resourcesFromOldLocation = ResourcesHelper::increaseResourcesAfterAction(
+                    $player,
+                    $oldLocation->getResources()
+                );
+                Resources::deleteAll($oldLocation->getId());
+                $resourcesChanged = array_merge($resourcesChanged, $resourcesFromOldLocation);
             }
             $player->discard($oldLocationId);
             Locations::move($newLocationId, [LOCATION_BOARD, $player->getId()]);

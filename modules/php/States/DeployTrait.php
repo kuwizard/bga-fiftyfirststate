@@ -13,17 +13,21 @@ trait DeployTrait
     public function argDeployChooseFromHand()
     {
         $player = Players::getActive();
-        $iconsOnBoard = array_merge(
-            ...$player->getBoard()->map(function (Location $location) {
-            return $location->getIcons();
-        })->toArray()
-        );
-        if (Stack::getCtx()['resource'] === RESOURCE_BRICK) {
-            $possibleHandLocations = $player->getHand()->filter(function (Location $location) use ($iconsOnBoard) {
+        $board = $player->getBoard();
+        $isRuins = !$board->filter(function (Location $location) {
+            return $location->isRuined();
+        })->empty();
+        if (Stack::getCtx()['resource'] === RESOURCE_DEVELOPMENT || $isRuins) {
+            $possibleHandLocations = $player->getHand();
+        } else {
+            $possibleHandLocations = $player->getHand()->filter(function (Location $location) use ($board) {
+                $iconsOnBoard = array_merge(
+                    ...$board->map(function (Location $location) {
+                    return $location->getIcons();
+                })->toArray()
+                );
                 return !empty(array_intersect($location->getIcons(), $iconsOnBoard));
             });
-        } else {
-            $possibleHandLocations = $player->getHand();
         }
         return ['possibleHandIds' => $possibleHandLocations->getIds()];
     }
@@ -35,7 +39,7 @@ trait DeployTrait
         if (Stack::getCtx()['resource'] === RESOURCE_BRICK) {
             $possibleDestinations = Players::getActive()->getBoard()->filter(
                 function (Location $location) use ($fromLocation) {
-                    return !empty(array_intersect($location->getIcons(), $fromLocation->getIcons()));
+                    return $location->isRuined() || !empty(array_intersect($location->getIcons(), $fromLocation->getIcons()));
                 }
             );
         } else {

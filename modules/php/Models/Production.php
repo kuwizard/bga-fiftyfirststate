@@ -30,7 +30,7 @@ class Production extends Location
      */
     public function getProduct($player)
     {
-        return $this->product;
+        return $this->isRuined() ? [] : $this->product;
     }
 
     public function isOpen(): bool
@@ -45,7 +45,12 @@ class Production extends Location
 
     public function isActivatable()
     {
-        return $this->activatedTimes < 1;
+        return !$this->isRuined() && $this->activatedTimes < 1;
+    }
+
+    public function getDefenceValue()
+    {
+        return 3;
     }
 
     public function activate($player)

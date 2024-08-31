@@ -48,6 +48,10 @@ class Location implements \JsonSerializable
      */
     protected $activatedTimes;
     /**
+     * @var bool
+     */
+    protected $isRuined;
+    /**
      * @var int
      */
     protected $copies;
@@ -63,6 +67,7 @@ class Location implements \JsonSerializable
         $this->buildingBonus = [];
         $this->activationsMax = 1;
         $this->activatedTimes = isset($params['activated_times']) ? (int) $params['activated_times'] : null;
+        $this->isRuined = isset($params['is_ruined']) && (int) $params['is_ruined'] === 1 ?? false;
         $this->copies = 1;
     }
 
@@ -141,6 +146,28 @@ class Location implements \JsonSerializable
         return [];
     }
 
+    /**
+     * @return int
+     */
+    public function getDefenceValue()
+    {
+        return 0;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRuined()
+    {
+        return $this->isRuined;
+    }
+
+    public function ruin()
+    {
+        $this->isRuined = true;
+        Locations::ruin($this);
+    }
+
     public function activate($player)
     {
     }
@@ -149,9 +176,10 @@ class Location implements \JsonSerializable
     {
         $data = [
             'id' => $this->id,
-            'sprite' => Locations::getSprite($this->type),
+            'sprite' => $this->isRuined ? 0 : Locations::getSprite($this->type),
+            'isRuined' => $this->isRuined,
         ];
-        if ($this->activatedTimes > 0) {
+        if (!$this->isRuined && $this->activatedTimes > 0) {
             $requirements = ResourcesHelper::getResourceNames($this->getSpendRequirements());
             $requirementsSingle = $requirements;
             for ($i = 0; $i < $this->activatedTimes - 1; $i++) {

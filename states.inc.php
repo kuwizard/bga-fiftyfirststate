@@ -99,7 +99,7 @@ $machinestates = [
             'actEnableFactionActions',
             'actUseLocation',
             'actActivateLocation',
-            'actOpenProduction',
+            'actUseOtherPlayerLocation',
             'actDeploy',
         ],
     ],

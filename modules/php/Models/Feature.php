@@ -78,6 +78,11 @@ class Feature extends Location
         return ResourcesHelper::getResourceNames($this->resources);
     }
 
+    public function getDefenceValue()
+    {
+        return 4;
+    }
+
     /**
      * @param Player $player
      * @param int $icon

@@ -2,6 +2,7 @@
 
 namespace STATE\Managers;
 
+use STATE\Core\Notifications;
 use STATE\Helpers\Collection;
 use STATE\Helpers\Pieces;
 use STATE\Helpers\ResourcesHelper;
@@ -16,7 +17,7 @@ class Locations extends Pieces
     protected static $table = 'locations';
     protected static $primary = 'location_id';
     protected static $prefix = 'location_';
-    protected static $customFields = ['type', 'activated_times'];
+    protected static $customFields = ['type', 'activated_times', 'is_ruined'];
 
     protected static function cast($row)
     {
@@ -222,6 +223,24 @@ class Locations extends Pieces
         self::DB()
             ->update(['activated_times' => $newAmount])
             ->where('location_id', $id)
+            ->run();
+    }
+
+    /**
+     * @param Location $location
+     * @return void
+     */
+    public static function ruin($location)
+    {
+        if ($location instanceof Feature && $location->getResourcesAmount() > 0) {
+            $owner = Players::getOwner($location->getId());
+            $resourcesChanged = ResourcesHelper::increaseResourcesAfterAction($owner, $location->getResources());
+            Resources::deleteAll($location->getId());
+            Notifications::resourcesChanged($owner, $owner->getResourcesWithNames($resourcesChanged));
+        }
+        self::DB()
+            ->update(['is_ruined' => 1])
+            ->where('location_id', $location->getId())
             ->run();
     }
 }

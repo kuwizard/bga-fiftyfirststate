@@ -82,6 +82,19 @@ class Resources extends DB_Manager
     }
 
     /**
+     * @param int $locationId
+     * @param int $resource
+     * @return void
+     */
+    public static function deleteAll($locationId)
+    {
+        self::DB()
+            ->delete()
+            ->where('location_id', $locationId)
+            ->run();
+    }
+
+    /**
      * @param int $resource
      * @return int[]
      */

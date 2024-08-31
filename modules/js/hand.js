@@ -7,7 +7,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         addHand() {
             dojo.place(this.format_block('jstpl_hand', {}), 'board');
             this.gamedatas.players[this.player_id].hand.forEach((location) => {
-                dojo.place(this.format_block('jstpl_location', location), 'hand');
+                dojo.place(this.format_block('jstpl_location', this.enrichLocationObject(location)), 'hand');
             });
         },
 

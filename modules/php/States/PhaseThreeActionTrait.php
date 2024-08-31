@@ -26,14 +26,17 @@ trait PhaseThreeActionTrait
         foreach (Players::getAll($player->getId()) as $otherPlayer) {
             $allOtherLocations = $allOtherLocations->merge($otherPlayer->getBoard());
         }
-        $openProductions = $allOtherLocations->filter(function ($location) {
-            return $location instanceof Production && $location->isOpen() && $location->isActivatable();
+        $otherPlayersLocations = $allOtherLocations->filter(function ($location) use ($player) {
+            $isOpenProduction = $location instanceof Production && $location->isOpen() && $location->isActivatable();
+            $razeReachable = $location->getDefenceValue() <= $player->getResource(RESOURCE_ARROW_RED);
+            return !$location->isRuined() && ($isOpenProduction || $razeReachable);
         });
+
         return [
             'spendWorkers' => $player->getResource(RESOURCE_WORKER, false) >= 2,
             'factionActions' => !empty($player->getAvailableFactionActions()),
             'locations' => $player->getPlayableLocationsIds(),
-            'openProductions' => $openProductions->getIds(),
+            'otherPlayersLocations' => $otherPlayersLocations->getIds(),
             'deploy' => [
                 'brick' => $player->getResource(RESOURCE_BRICK, false) >= 1,
                 'development' => $player->getResource(RESOURCE_DEVELOPMENT, false) >= 1,
@@ -140,15 +143,16 @@ trait PhaseThreeActionTrait
         if ($location instanceof Production || !empty($location->getBuildingBonus($player))) {
             $resourcesChanged = [];
             if ($location instanceof Production) {
-                $resourcesChanged =
-                    $this->increaseResourcesAfterAction($player, array_count_values($location->getProduct($player)));
+                $resourcesChanged = ResourcesHelper::increaseResourcesAfterAction(
+                    $player,
+                    $location->getProduct($player)
+                );
             }
             if (!empty($location->getBuildingBonus($player))) {
-                $resourcesChangedAgain =
-                    $this->increaseResourcesAfterAction(
-                        $player,
-                        array_count_values($location->getBuildingBonus($player))
-                    );
+                $resourcesChangedAgain = ResourcesHelper::increaseResourcesAfterAction(
+                    $player,
+                    $location->getBuildingBonus($player)
+                );
                 $resourcesChanged = array_unique(array_merge($resourcesChanged, $resourcesChangedAgain));
             }
             Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));
@@ -215,10 +219,7 @@ trait PhaseThreeActionTrait
         $player->decreaseResource($decrease, $location->getDistance());
         $resourcesChanged = [$decrease];
         if ($increase) {
-            $moreResourcesChanged = $this->increaseResourcesAfterAction(
-                $player,
-                array_count_values($location->{$increase}())
-            );
+            $moreResourcesChanged = ResourcesHelper::increaseResourcesAfterAction($player, $location->{$increase}());
             $resourcesChanged = array_unique(array_merge($resourcesChanged, $moreResourcesChanged));
         }
         Locations::move($location->getId(), [$whereToMove, $player->getId()]);
@@ -241,21 +242,6 @@ trait PhaseThreeActionTrait
     }
 
     /**
-     * @param Player $player
-     * @param array $resources
-     * @return array
-     */
-    private function increaseResourcesAfterAction($player, $resources)
-    {
-        $resourcesChanged = [];
-        foreach ($resources as $resource => $amount) {
-            $resourcesChanged[] = $resource;
-            $player->increaseResource($resource, $amount);
-        }
-        return $resourcesChanged;
-    }
-
-    /**
      * @param int $id
      * @return void
      */
@@ -271,12 +257,43 @@ trait PhaseThreeActionTrait
      * @param int $id
      * @return void
      */
-    public function actOpenProduction($id)
+    public function actUseOtherPlayerLocation($id)
     {
-        self::checkAction('actOpenProduction');
+        self::checkAction('actUseOtherPlayerLocation');
         $location = Locations::get($id);
-        $location->activate(Players::getActive());
+        $player = Players::getActive();
+        $locationIsOpenProduction = $location instanceof Production && $location->isOpen();
+        $couldBeRazed = $player->getResource(RESOURCE_ARROW_RED) >= $location->getDefenceValue();
+        if ($locationIsOpenProduction && $couldBeRazed) {
+            // TODO: Add a new state with a choice of those 2 actions
+        } elseif ($locationIsOpenProduction) {
+            $location->activate($player);
+        } elseif ($couldBeRazed) {
+            $this->razeOtherPlayersLocation($player, $location);
+        } else {
+            throw new BgaVisibleSystemException(
+                'Something went wrong during activating other player location. Is open production: ' . $locationIsOpenProduction . ', could be razed: ' . $couldBeRazed
+            );
+        }
         Stack::finishState();
+    }
+
+    /**
+     * @param Player $attacker
+     * @param Location $location
+     * @return void
+     */
+    private function razeOtherPlayersLocation($attacker, $location)
+    {
+        $owner = Players::getOwner($location->getId());
+        $ownerResourcesChanged = ResourcesHelper::increaseResourcesAfterAction($owner, $location->getDeals());
+        Notifications::resourcesChanged($owner, $owner->getResourcesWithNames($ownerResourcesChanged));
+        $attackerResourcesChanged = ResourcesHelper::increaseResourcesAfterAction($attacker, $location->getSpoils());
+        $attacker->decreaseResource(RESOURCE_ARROW_RED, $location->getDefenceValue());
+        $attackerResourcesChanged[] = RESOURCE_ARROW_RED;
+        Notifications::resourcesChanged($attacker, $attacker->getResourcesWithNames($attackerResourcesChanged));
+        $location->ruin();
+        Notifications::locationRuined($owner, $location->getId());
     }
 
     public function actDeploy($resource)

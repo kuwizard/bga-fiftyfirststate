@@ -130,6 +130,14 @@ class Notifications
         ]);
     }
 
+    public static function locationRuined(Player $player, int $id)
+    {
+        self::notifyAll('locationRuined', '', [
+            'player' => $player,
+            'id' => $id,
+        ]);
+    }
+
     /*********************
      **** UPDATE ARGS ****
      *********************/

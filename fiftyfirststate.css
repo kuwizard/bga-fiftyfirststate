@@ -202,43 +202,51 @@
 }
 
 .location {
-  background-image: url(img/locations10.jpg);
-  background-size: cover;
   width: 169px;
   height: 250px;
   box-shadow: rgba(0, 0, 0, 0.55) 0 2px 4px;
   border-radius: 8px;
   position: relative;
 }
-.location[data-sprite="0"] {
+.location:not(.ruined) {
+  background-image: url(img/locations10.jpg);
+  background-size: cover;
+}
+.location:not(.ruined)[data-sprite="0"] {
   background-position: 0% 0;
 }
-.location[data-sprite="1"] {
+.location:not(.ruined)[data-sprite="1"] {
   background-position: 11.1111111111% 0;
 }
-.location[data-sprite="2"] {
+.location:not(.ruined)[data-sprite="2"] {
   background-position: 22.2222222222% 0;
 }
-.location[data-sprite="3"] {
+.location:not(.ruined)[data-sprite="3"] {
   background-position: 33.3333333333% 0;
 }
-.location[data-sprite="4"] {
+.location:not(.ruined)[data-sprite="4"] {
   background-position: 44.4444444444% 0;
 }
-.location[data-sprite="5"] {
+.location:not(.ruined)[data-sprite="5"] {
   background-position: 55.5555555556% 0;
 }
-.location[data-sprite="6"] {
+.location:not(.ruined)[data-sprite="6"] {
   background-position: 66.6666666667% 0;
 }
-.location[data-sprite="7"] {
+.location:not(.ruined)[data-sprite="7"] {
   background-position: 77.7777777778% 0;
 }
-.location[data-sprite="8"] {
+.location:not(.ruined)[data-sprite="8"] {
   background-position: 88.8888888889% 0;
 }
-.location[data-sprite="9"] {
+.location:not(.ruined)[data-sprite="9"] {
   background-position: 100% 0;
+}
+.location.ruined {
+  background-color: gray;
+}
+.location.ruined.unselectable {
+  opacity: 1;
 }
 .location.selectable {
   outline: unset;
