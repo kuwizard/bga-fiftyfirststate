@@ -65,6 +65,14 @@ class Feature extends Location
         return count($this->resources);
     }
 
+    /**
+     * @return int[]|null
+     */
+    public function getResources()
+    {
+        return $this->resources;
+    }
+
     public function getResourcesUI(): array
     {
         return ResourcesHelper::getResourceNames($this->resources);

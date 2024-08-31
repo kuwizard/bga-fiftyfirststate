@@ -36,6 +36,9 @@ class Locations extends Pieces
 
     public static function discard($cardIds)
     {
+        if (!is_array($cardIds)) {
+            $cardIds = [$cardIds];
+        }
         foreach ($cardIds as $cardId) {
             self::insertOnTop($cardId, LOCATION_DISCARD);
         }

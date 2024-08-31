@@ -99,6 +99,8 @@ $machinestates = [
             'actEnableFactionActions',
             'actUseLocation',
             'actActivateLocation',
+            'actOpenProduction',
+            'actDeploy',
         ],
     ],
 
@@ -155,6 +157,24 @@ $machinestates = [
         'type' => 'multipleactiveplayer',
         'possibleactions' => ['actChooseResourceToStore', 'actPassStoringResource'],
         'transitions' => ['' => ST_PHASE_FOUR_CLEANUP],
+    ],
+
+    ST_DEPLOY_CHOOSE_FROM_HAND => [
+        'name' => 'deployChooseFromHand',
+        'description' => clienttranslate('${actplayer} must choose which card to deploy'),
+        'descriptionmyturn' => clienttranslate('${you} must choose which card to deploy'),
+        'args' => 'argDeployChooseFromHand',
+        'type' => 'activeplayer',
+        'possibleactions' => ['actDeployChooseFromHand', 'actUndo'],
+    ],
+
+    ST_DEPLOY_CHOOSE_DESTINATION => [
+        'name' => 'deployChooseDestination',
+        'description' => clienttranslate('${actplayer} must choose which card to replace'),
+        'descriptionmyturn' => clienttranslate('${you} must choose which card to replace'),
+        'args' => 'argDeployChooseDestination',
+        'type' => 'activeplayer',
+        'possibleactions' => ['actDeployChooseDestination', 'actUndo'],
     ],
 
     ST_PHASE_FOUR_CLEANUP => [

@@ -9,35 +9,50 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         onEnteringStatePhaseThreeAction(args) {
             debug('Phase Three Action state', args);
             if (this.isCurrentPlayerActive()) {
-                this.addPrimaryActionButton(
-                    'buttonActionPass',
-                    _('Pass'),
-                    () => this.takeAction('actActionPass')
-                );
+                if (args.deploy.brick) {
+                    this.addDeployButton('brick')
+                }
+                if (args.deploy.development) {
+                    this.addDeployButton('devel')
+                }
                 if (args.spendWorkers) {
                     this.makeAreaSelectable('spendWorkersArea', 'actSpendWorkers');
                 }
                 if (args.factionActions) {
                     this.makeAreaSelectable('actionsArea', 'actEnableFactionActions');
                 }
-                this.makeLocationSelectableAndClickable('#hand .location', args.locations, 'actUseLocation');
-                this.makeLocationSelectableAndClickable(
+                this.makeLocationsSelectableAndClickable('#hand .location', 'actUseLocation', args.locations);
+                this.makeLocationsSelectableAndClickable(
                     `#faction_${this.player_id} .location`,
-                    args.locations,
-                    'actActivateLocation'
+                    'actActivateLocation',
+                    args.locations
                 );
-                this.makeLocationSelectableAndClickable(
+                this.makeLocationsSelectableAndClickable(
                     `.factionBoard:not(#faction_${this.player_id}) .location`,
+                    'actOpenProduction',
                     args.openProductions,
-                    'actOpenProduction'
+                );
+                this.addPrimaryActionButton(
+                    'buttonActionPass',
+                    _('Pass'),
+                    () => this.takeAction('actActionPass')
                 );
             }
         },
 
-        makeLocationSelectableAndClickable(locator, allowedList, action) {
+        addDeployButton(postfix) {
+            this.addPrimaryActionButton(
+                `buttonDeploy${postfix}`,
+                this.replaceWithResourceIcon((_('Deploy (spend {icon})')).replace('{icon}', `{${postfix}Icon}`)),
+                () => this.takeAction('actDeploy', { resource: postfix })
+            );
+            dojo.addClass(`buttonDeploy${postfix}`, 'resourceButton');
+        },
+
+        makeLocationsSelectableAndClickable(locator, action, allowedList = null) {
             dojo.query(locator).forEach((location) => {
                 const id = this.extractId(location, 'location');
-                if (allowedList.includes(id)) {
+                if (allowedList === null || allowedList.includes(id)) {
                     this.addSelectableClass(location);
                     this.dojoConnect(location, () => {
                         this.takeAction(action, { id: id });
@@ -46,6 +61,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     this.addUnselectableClass(location);
                 }
             });
+        },
+
+        makeLocationsUnselectable(locator) {
+            this.makeLocationsSelectableAndClickable(locator, '', []);
         },
 
         makeAreaSelectable(locator, action) {
@@ -69,7 +88,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     if (args.actions.includes(action)) {
                         this.addPrimaryActionButton(
                             `button${action}`,
-                            args.locationActionsLexemes[action],
+                            _(args.locationActionsLexemes[action]),
                             () => this.takeAction(`actLocation${action.replace(/^./, action[0].toUpperCase())}`)
                         );
                     }

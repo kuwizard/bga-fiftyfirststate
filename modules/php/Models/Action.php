@@ -29,6 +29,14 @@ class Action extends Location
     }
 
     /**
+     * @return bool
+     */
+    public function isActivatable()
+    {
+        return $this->activatedTimes < $this->activationsMax;
+    }
+
+    /**
      * @param Player $player
      * @return void
      */

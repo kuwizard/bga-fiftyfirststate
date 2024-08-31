@@ -21,7 +21,6 @@ trait PhaseThreeActionTrait
     public function argPhaseThreeAction()
     {
         $player = Players::getActive();
-        $spendWorkers = $player->getResource(RESOURCE_WORKER, false) >= 2;
         $allOtherLocations = new Collection();
         /** @var Player $otherPlayer */
         foreach (Players::getAll($player->getId()) as $otherPlayer) {
@@ -31,10 +30,14 @@ trait PhaseThreeActionTrait
             return $location instanceof Production && $location->isOpen() && $location->isActivatable();
         });
         return [
-            'spendWorkers' => $spendWorkers,
+            'spendWorkers' => $player->getResource(RESOURCE_WORKER, false) >= 2,
             'factionActions' => !empty($player->getAvailableFactionActions()),
             'locations' => $player->getPlayableLocationsIds(),
             'openProductions' => $openProductions->getIds(),
+            'deploy' => [
+                'brick' => $player->getResource(RESOURCE_BRICK, false) >= 1,
+                'development' => $player->getResource(RESOURCE_DEVELOPMENT, false) >= 1,
+            ],
         ];
     }
 
@@ -273,6 +276,13 @@ trait PhaseThreeActionTrait
         self::checkAction('actOpenProduction');
         $location = Locations::get($id);
         $location->activate(Players::getActive());
+        Stack::finishState();
+    }
+
+    public function actDeploy($resource)
+    {
+        self::checkAction('actDeploy');
+        Stack::insertOnTop(ST_DEPLOY_CHOOSE_FROM_HAND, ['resource' => $resource]);
         Stack::finishState();
     }
 }

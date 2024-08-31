@@ -104,6 +104,20 @@ class Notifications
     /**
      * @param Player $player
      * @param int $id
+     * @param int $resource
+     * @return void
+     */
+    public static function locationRedeployed($player, $id)
+    {
+        self::notifyAll('locationRedeployed', '', [
+            'player' => $player,
+            'id' => $id,
+        ]);
+    }
+
+    /**
+     * @param Player $player
+     * @param int $id
      * @param array $resources
      * @return void
      */

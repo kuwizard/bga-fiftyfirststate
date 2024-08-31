@@ -50,6 +50,7 @@ class Fiftyfirststate extends Table
     use STATE\States\PhaseFourCleanupTrait;
     use STATE\States\ChooseResourceSourceTrait;
     use STATE\States\ChooseResourceToStoreTrait;
+    use STATE\States\DeployTrait;
 
     public static $instance = null;
 

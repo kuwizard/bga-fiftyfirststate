@@ -5,8 +5,10 @@ namespace STATE\States;
 use STATE\Core\Notifications;
 use STATE\Core\Stack;
 use STATE\Helpers\ResourcesHelper;
+use STATE\Managers\Locations;
 use STATE\Managers\Players;
 use STATE\Managers\Resources;
+use STATE\Models\Feature;
 
 trait ChooseResourceSourceTrait
 {
@@ -95,8 +97,26 @@ trait ChooseResourceSourceTrait
                 }
             }
         }
+        if (isset($ctx['deploy'])) {
+            $oldLocationId = $ctx['deploy']['old'];
+            $newLocationId = $ctx['deploy']['new'];
+            $oldLocation = Locations::get($oldLocationId);
+            $newLocation = Locations::get($newLocationId);
+
+            if ($oldLocation instanceof Feature && $oldLocation->getResourcesAmount() > 0) {
+                foreach (array_count_values($oldLocation->getResources()) as $resource => $amount) {
+                    $resourcesChanged[] = $resource;
+                    $player->increaseResource($resource, $amount);
+                };
+            }
+            $player->discard($oldLocationId);
+            Locations::move($newLocationId, [LOCATION_BOARD, $player->getId()]);
+            Notifications::handChanged($player);
+            Notifications::locationRedeployed($player, $oldLocationId);
+            Notifications::locationBuilt($player, $newLocation, $newLocation->getFactionRow());
+        }
         if (!empty($resourcesChanged)) {
-            Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));
+            Notifications::resourcesChanged($player, $player->getResourcesWithNames(array_unique($resourcesChanged)));
         }
     }
 }
