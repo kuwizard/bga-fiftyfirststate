@@ -1,3 +1,5 @@
+@import "variables";
+
 #page-title {
   min-height: 34px;
 }
@@ -9,12 +11,6 @@
 
 .unselectable {
   opacity: 0.5;
-}
-
-#lookoutBlock {
-  justify-content: center;
-  gap: 5px;
-  align-items: center;
 }
 
 .resourceValue {
@@ -55,4 +51,52 @@
     width: 21px;
     height: 21px;
   }
+}
+
+.connection {
+  width: 250px;
+  height: 169px;
+  box-shadow: rgba(0, 0, 0, 0.55) 0 2px 4px;
+  border-radius: 8px;
+
+  @for $sprite from 0 through 3 {
+    &[data-sprite="#{$sprite}"] {
+      background-position: 0 0% + (100% / 3 * $sprite);
+    }
+  }
+
+  &.selectable {
+    outline: unset;
+
+    &:hover {
+      transform: scale(1.04);
+    }
+  }
+
+  &.selected {
+    cursor: pointer;
+    outline: 2px solid red;
+    transform: scale(1.04);
+  }
+
+  &:not(.flipped) {
+    background-image: url(img/connections.jpg);
+    background-size: cover;
+  }
+
+  &.flipped {
+    background-color: gray;
+  }
+}
+
+#connections, #lookout {
+  display: flex;
+  align-items: center;
+  width: calc(100% - $deckDiscardSize);
+  justify-content: space-evenly;
+}
+
+#connections {
+  justify-content: center;
+  gap: 20px;
 }

@@ -7,6 +7,7 @@ use STATE\Core\Preferences;
 use STATE\Helpers\Collection;
 use STATE\Helpers\DB_Manager;
 use STATE\Helpers\ResourcesHelper;
+use STATE\Managers\Connections;
 use STATE\Managers\Factions;
 use STATE\Managers\Locations;
 use STATE\Managers\Players;
@@ -350,6 +351,23 @@ class Player extends DB_Manager implements JsonSerializable
     public function getPlayableLocationsIds()
     {
         return array_keys($this->getPlayableLocations());
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getPlayableConnectionsIds()
+    {
+        $connections = Connections::getBothAvailable();
+        return $connections->filter(function (Connection $connection) {
+            $requirements = $connection->getSpendRequirements();
+            foreach (array_count_values($requirements) as $requirement => $amount) {
+                if ($this->getResource($requirement) < $amount) {
+                    return false;
+                }
+            }
+            return true;
+        })->getIds();
     }
 
     /**

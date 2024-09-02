@@ -2,6 +2,7 @@
 
 namespace STATE\Data\Connections;
 
+use STATE\Models\Act;
 use STATE\Models\Connection;
 
 class JunkTrain extends Connection
@@ -11,7 +12,10 @@ class JunkTrain extends Connection
         parent::__construct($params);
         $this->type = CONNECTION_JUNK_TRAIN;
         $this->name = clienttranslate("Junk Train");
-        $this->buildingBonus = [RESOURCE_ARROW_BLUE, RESOURCE_ARROW_BLUE, RESOURCE_ARROW_BLUE];
+        $this->action = new Act(
+            [RESOURCE_WORKER, RESOURCE_WORKER],
+            [RESOURCE_ARROW_BLUE, RESOURCE_ARROW_BLUE, RESOURCE_ARROW_BLUE],
+        );
         $this->copies = 2;
     }
 }

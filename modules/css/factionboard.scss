@@ -17,7 +17,7 @@
 
     @each $faction in 0, 1, 2, 3 {
       &[data-faction="#{$faction}"] {
-        background-position: 0% + (100% / 3 * $faction) 0;
+        background-position: 0% + calc(100% / 3 * $faction) 0;
       }
     }
 

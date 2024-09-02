@@ -54,7 +54,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             this.addResourcesTable();
             this.addBoard();
             this.addHand();
-            this.addLookoutElement();
+            this.addDeckConnectionsElement(gamedatas);
             this.addFactionBoards();
             dojo.connect(this.notifqueue, 'addToLog', () => {
                 this.checkLogCancel(this._last_notif);

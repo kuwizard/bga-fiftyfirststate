@@ -14,7 +14,11 @@ trait ChooseResourceSourceTrait
 {
     public function argChooseResourceSource()
     {
-        $resource = Stack::getCtx()['spend'][0];
+        $spend = Stack::getCtx()['spend'] ?? [];
+        if (empty($spend)) {
+            return [];
+        }
+        $resource = $spend[0];
         $player = Players::getActive();
         return [
             'faction' => $player->getResource($resource) === 0 ? null : ResourcesHelper::getResourceName(
@@ -36,6 +40,10 @@ trait ChooseResourceSourceTrait
         $ctx = Stack::getCtx();
         $spend = $ctx['spend'];
         $player = Players::getActive();
+        if (empty($spend)) {
+            $this->addBonus([], $player);
+            Stack::finishState();
+        }
         $isResourcesOnLocations = false;
         foreach (array_keys(array_count_values($spend)) as $resource) {
             if ($this->getPlayerLocationsWithResource($resource, $player) !== []) {

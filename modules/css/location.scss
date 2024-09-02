@@ -11,7 +11,7 @@
 
     @for $sprite from 0 through 9 {
       &[data-sprite="#{$sprite}"] {
-        background-position: 0% + (100% / 9 * $sprite) 0;
+        background-position: 0% + calc(100% / 9 * $sprite) 0;
       }
     }
   }

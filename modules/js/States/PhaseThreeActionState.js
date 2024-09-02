@@ -4,6 +4,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this._notifications.push(['locationBuilt', 1]);
             this._notifications.push(['locationDealMade', 1]);
             this._notifications.push(['resourcesPlacedOnLocation', 1]);
+            this._notifications.push(['connectionActivated', 1]);
         },
 
         onEnteringStatePhaseThreeAction(args) {
@@ -21,6 +22,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 if (args.factionActions) {
                     this.makeAreaSelectable('actionsArea', 'actEnableFactionActions');
                 }
+                this.makeConnectionsSelectableAndClickable(args.connections);
                 this.makeLocationsSelectableAndClickable('#hand .location', 'actUseLocation', args.locations);
                 this.makeLocationsSelectableAndClickable(
                     `#faction_${this.player_id} .location`,
@@ -59,6 +61,20 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     })
                 } else {
                     this.addUnselectableClass(location);
+                }
+            });
+        },
+
+        makeConnectionsSelectableAndClickable(allowedList) {
+            dojo.query('.connection:not(.flipped)').forEach((connection) => {
+                const id = this.extractId(connection, 'connection');
+                if (allowedList.includes(id)) {
+                    this.addSelectableClass(connection);
+                    this.dojoConnect(connection, () => {
+                        this.takeAction('actActivateConnection', { id: id });
+                    })
+                } else {
+                    this.addUnselectableClass(connection);
                 }
             });
         },
@@ -126,6 +142,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         notif_resourcesPlacedOnLocation(n) {
             debug('Notif: resourcesPlacedOnLocation', n);
             this.placeResourcesOnLocation(n.args.id, n.args.resources);
+        },
+
+        notif_connectionActivated(n) {
+            debug('Notif: connectionActivated', n);
+            dojo.addClass(`connection_${n.args.id}`, 'flipped');
         },
     });
 });

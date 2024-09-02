@@ -138,6 +138,14 @@ class Notifications
         ]);
     }
 
+    public static function connectionActivated($player, $id)
+    {
+        self::notifyAll('connectionActivated', '', [
+            'player' => $player,
+            'id' => $id,
+        ]);
+    }
+
     /*********************
      **** UPDATE ARGS ****
      *********************/

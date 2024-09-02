@@ -109,6 +109,13 @@ class Fiftyfirststate extends Table
         return [
             'players' => Players::getUiData($currentPlayerId),
             'firstPlayerId' => Globals::getFirstPlayerId(),
+            'deck' => Locations::countInLocation(LOCATION_DECK),
+            'discard' => Locations::countInLocation(LOCATION_DISCARD),
+            'discardLastLocation' => Locations::getTopOf(LOCATION_DISCARD),
+            'connections' => [
+                Connections::getTopOf(LOCATION_CONNECTIONS_RED_FLIPPED),
+                Connections::getTopOf(LOCATION_CONNECTIONS_BLUE_FLIPPED),
+            ],
         ];
     }
 

@@ -269,8 +269,7 @@
   gap: 5px;
 }
 
-#hand, #lookoutBlock {
-  height: 270px;
+#hand, #deckConnectionsBlock {
   background: hsla(0, 0%, 100%, 0.733);
   margin-bottom: 6px;
   border-radius: 14px;
@@ -278,8 +277,10 @@
   margin-left: 3px;
 }
 
-#lookoutBlock {
-  display: none;
+#deckConnectionsBlock {
+  display: flex;
+  justify-content: flex-start;
+  height: 300px;
 }
 
 #hand {
@@ -287,6 +288,21 @@
   justify-content: center;
   gap: 5px;
   align-items: center;
+  height: 270px;
+}
+
+#deckDiscard {
+  width: 375px;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+#deckDiscard #deckBlock, #deckDiscard #discardBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
 }
 
 #page-title {
@@ -300,12 +316,6 @@
 
 .unselectable {
   opacity: 0.5;
-}
-
-#lookoutBlock {
-  justify-content: center;
-  gap: 5px;
-  align-items: center;
 }
 
 .resourceValue {
@@ -376,6 +386,55 @@
 #page-title #generalactions .resourceIcon {
   width: 21px;
   height: 21px;
+}
+
+.connection {
+  width: 250px;
+  height: 169px;
+  box-shadow: rgba(0, 0, 0, 0.55) 0 2px 4px;
+  border-radius: 8px;
+}
+.connection[data-sprite="0"] {
+  background-position: 0 0%;
+}
+.connection[data-sprite="1"] {
+  background-position: 0 33.3333333333%;
+}
+.connection[data-sprite="2"] {
+  background-position: 0 66.6666666667%;
+}
+.connection[data-sprite="3"] {
+  background-position: 0 100%;
+}
+.connection.selectable {
+  outline: unset;
+}
+.connection.selectable:hover {
+  transform: scale(1.04);
+}
+.connection.selected {
+  cursor: pointer;
+  outline: 2px solid red;
+  transform: scale(1.04);
+}
+.connection:not(.flipped) {
+  background-image: url(img/connections.jpg);
+  background-size: cover;
+}
+.connection.flipped {
+  background-color: gray;
+}
+
+#connections, #lookout {
+  display: flex;
+  align-items: center;
+  width: calc(100% - 375px);
+  justify-content: space-evenly;
+}
+
+#connections {
+  justify-content: center;
+  gap: 20px;
 }
 
 /*# sourceMappingURL=fiftyfirststate.css.map */

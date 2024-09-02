@@ -2,6 +2,7 @@
 
 namespace STATE\Data\Connections;
 
+use STATE\Models\Act;
 use STATE\Models\Connection;
 
 class Thugs extends Connection
@@ -11,8 +12,10 @@ class Thugs extends Connection
         parent::__construct($params);
         $this->type = CONNECTION_THUGS;
         $this->name = clienttranslate("Thugs");
-        $this->spendRequirements = [RESOURCE_GUN];
-        $this->buildingBonus = [RESOURCE_ARROW_RED, RESOURCE_ARROW_RED, RESOURCE_ARROW_RED];
+        $this->action = new Act(
+            [RESOURCE_GUN, RESOURCE_WORKER, RESOURCE_WORKER],
+            [RESOURCE_ARROW_RED, RESOURCE_ARROW_RED, RESOURCE_ARROW_RED],
+        );
         $this->copies = 2;
     }
 }

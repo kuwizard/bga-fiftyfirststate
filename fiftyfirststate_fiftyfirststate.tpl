@@ -108,8 +108,26 @@
     var jstpl_location = `<div id="location_\${id}" class="location\${additionalClass}" data-sprite="\${sprite}">
         <div class="resources"></div>
     </div>`
+    var jstpl_connection = `<div id="connection_\${id}" class="connection\${additionalClass}" data-sprite="\${sprite}"></div>`
     var jstpl_hand = `<div id="hand"></div>`
-    var jstpl_lookout = `<div id="lookoutBlock"></div>`
+    var jstpl_deck_connections = `<div id="deckConnectionsBlock">
+        <div id="deckDiscard">
+            <div id="deckBlock">
+                <div id="deckHeader"></div>
+                <div id="deck"></div>
+            </div>
+            <div id="discardBlock">
+                <div id="discardHeader"></div>
+                <div id="discard"></div>
+            </div>
+        </div>
+        <div id="connections"></div>
+        <div id="lookout"></div>
+    </div>`
+    var jstpl_header = `<span class="header">
+        <span class="headerText">\${text}</span>
+        <span class="headerValue">\${value}</span>
+    </span>`
     var jstpl_resource_icon = `<span class="\${type}Icon resourceIcon"></span>`
     var jstpl_resource_block = `<span class="\${type}Block resourceBlock"></span>`
 </script>

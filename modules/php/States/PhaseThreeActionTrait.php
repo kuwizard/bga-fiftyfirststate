@@ -6,6 +6,7 @@ use STATE\Core\Notifications;
 use STATE\Core\Stack;
 use STATE\Helpers\Collection;
 use STATE\Helpers\ResourcesHelper;
+use STATE\Managers\Connections;
 use STATE\Managers\Factions;
 use STATE\Managers\Locations;
 use STATE\Managers\Players;
@@ -41,6 +42,7 @@ trait PhaseThreeActionTrait
                 'brick' => $player->getResource(RESOURCE_BRICK, false) >= 1,
                 'development' => $player->getResource(RESOURCE_DEVELOPMENT, false) >= 1,
             ],
+            'connections' => $player->getPlayableConnectionsIds(),
         ];
     }
 
@@ -300,6 +302,14 @@ trait PhaseThreeActionTrait
     {
         self::checkAction('actDeploy');
         Stack::insertOnTop(ST_DEPLOY_CHOOSE_FROM_HAND, ['resource' => $resource]);
+        Stack::finishState();
+    }
+
+    public function actActivateConnection($id)
+    {
+        self::checkAction('actActivateConnection');
+        Connections::get($id)->activate();
+        Notifications::connectionActivated(Players::getActive(), $id);
         Stack::finishState();
     }
 }

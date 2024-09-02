@@ -2,9 +2,9 @@
 
 namespace STATE\Managers;
 
+use STATE\Helpers\Collection;
 use STATE\Helpers\Pieces;
 use STATE\Models\Connection;
-use STATE\Models\Player;
 
 class Connections extends Pieces
 {
@@ -15,17 +15,17 @@ class Connections extends Pieces
 
     protected static function cast($row)
     {
-        return new Connection($row);
+        return self::getByType($row);
     }
 
     private static $blueCardTypes = [
-        'JunkTrain',
-        'Merchants',
+        CONNECTION_JUNK_TRAIN => 'JunkTrain',
+        CONNECTION_MERCHANTS => 'Merchants',
     ];
 
     private static $redCardTypes = [
-        'Punks',
-        'Thugs',
+        CONNECTION_PUNKS => 'Punks',
+        CONNECTION_THUGS => 'Thugs',
     ];
 
     public static function setupNewGame()
@@ -34,7 +34,7 @@ class Connections extends Pieces
             'blueCardTypes' => LOCATION_CONNECTIONS_BLUE_DECK,
             'redCardTypes' => LOCATION_CONNECTIONS_RED_DECK,
         ] as $deck => $location) {
-            foreach (self::$$deck as $class) {
+            foreach (array_values(self::$$deck) as $class) {
                 $name = "STATE\Data\Connections\\" . $class;
                 /** @var Connection $card */
                 $card = new $name();
@@ -50,16 +50,43 @@ class Connections extends Pieces
         }
     }
 
+    /**
+     * @param array $params
+     * @return Connection
+     */
+    private static function getByType($params)
+    {
+        $params['location'] = $params['location'] ?? $params['connection_location'];
+        $deck = in_array($params['location'], [LOCATION_CONNECTIONS_BLUE_DECK, LOCATION_CONNECTIONS_BLUE_FLIPPED]
+        ) ? self::$blueCardTypes : self::$redCardTypes;
+        $name = "STATE\Data\Connections\\" . $deck[$params['type']];
+        return new $name($params);
+    }
+
     public static function getAll()
     {
         return self::DB()->get();
     }
 
+    /**
+     * @param int $id
+     * @param bool $raiseExceptionIfNotEnough
+     * @return Connection
+     */
     public static function get($id = null, $raiseExceptionIfNotEnough = true)
     {
         return self::DB()
             ->where($id)
             ->getSingle();
+    }
+
+    /**
+     * @return Collection
+     */
+    public static function getBothAvailable()
+    {
+        $available = [self::getTopOf(LOCATION_CONNECTIONS_BLUE_FLIPPED), self::getTopOf(LOCATION_CONNECTIONS_RED_FLIPPED)];
+        return new Collection(array_filter($available));
     }
 
     public static function discardFlippedEndOfRound()
@@ -70,21 +97,12 @@ class Connections extends Pieces
     }
 
     /**
-     * @param Player $player
      * @param boolean $isBlue
      * @return void
      */
-    public static function draw($player, $isBlue)
+    public static function discard($id)
     {
-        $top = $isBlue ?
-            self::getTopOf(LOCATION_CONNECTIONS_BLUE_FLIPPED) :
-            self::getTopOf(LOCATION_CONNECTIONS_RED_DECK);
-        if (!$top) {
-            throw new \BgaVisibleSystemException("Tried to get a top of flipped deck (is blue: $isBlue) but it's empty");
-        }
-        $top->action($player);
-        self::move($top->getId(), LOCATION_DISCARD);
-//        Notifications::connectionDrawn($player);
+        self::move($id, LOCATION_DISCARD);
     }
 
     public static function flipForNewRound()
@@ -94,7 +112,16 @@ class Connections extends Pieces
             LOCATION_CONNECTIONS_RED_DECK => LOCATION_CONNECTIONS_RED_FLIPPED,
         ] as $location => $flipped) {
             self::move(self::getTopOf($location)->getId(), $flipped);
-
         }
+    }
+
+    public static function getSprite($type): int
+    {
+        return [
+            CONNECTION_JUNK_TRAIN => 0,
+            CONNECTION_MERCHANTS => 1,
+            CONNECTION_PUNKS => 2,
+            CONNECTION_THUGS => 3,
+        ][$type];
     }
 }

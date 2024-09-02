@@ -2,6 +2,8 @@
 
 namespace STATE\Models;
 
+use STATE\Managers\Connections;
+
 class Connection implements \JsonSerializable
 {
     /**
@@ -17,13 +19,9 @@ class Connection implements \JsonSerializable
      */
     protected $name;
     /**
-     * @var int[]
+     * @var Act
      */
-    protected $spendRequirements;
-    /**
-     * @var int[]
-     */
-    protected $buildingBonus;
+    protected $action;
     /**
      * @var int
      */
@@ -31,8 +29,11 @@ class Connection implements \JsonSerializable
 
     public function __construct($params = [])
     {
+        if (isset($params['connection_id'])) {
+            $params['id'] = $params['connection_id'];
+        }
         $this->id = isset($params['id']) ? (int) $params['id'] : null;
-        $this->spendRequirements = [];
+        $this->type = $params['type'] ?? null;
     }
 
     /**
@@ -59,10 +60,25 @@ class Connection implements \JsonSerializable
         return $this->copies;
     }
 
+    /**
+     * @return int[]
+     */
+    public function getSpendRequirements()
+    {
+        return $this->action->getSpendRequirements();
+    }
+
+    public function activate()
+    {
+        $this->action->activate();
+        Connections::discard($this->id);
+    }
+
     public function jsonSerialize()
     {
         return [
             'id' => $this->id,
+            'sprite' => Connections::getSprite($this->type),
         ];
     }
 }

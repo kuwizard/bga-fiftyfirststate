@@ -5,13 +5,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         onEnteringStatePhaseOneLookoutChoose(args) {
             debug('phaseOneLookoutChoose state', args);
-            dojo.style('lookoutBlock', 'display', 'flex');
-            this.destroyAll('#lookoutBlock .location');
+            dojo.style('lookout', 'display', 'flex');
+            dojo.style('connections', 'display', 'none');
+            this.destroyAll('#lookout .location');
             args.forEach((location) => {
                 const locationElement = dojo.place(this.format_block(
                     'jstpl_location',
                     this.enrichLocationObject(location)
-                ), 'lookoutBlock');
+                ), 'lookout');
                 if (this.isCurrentPlayerActive()) {
                     this.addSelectableClass(locationElement);
                     this.dojoConnect(
@@ -23,11 +24,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         },
 
         onLeavingStatePhaseOneLookoutChoose() {
-            dojo.style('lookoutBlock', 'display', 'none');
-        },
-
-        addLookoutElement() {
-            dojo.place(this.format_block('jstpl_lookout', {}), 'board');
+            dojo.style('lookout', 'display', 'none');
+            dojo.style('connections', 'display', 'flex');
         },
 
         clickLocationLookout(id) {

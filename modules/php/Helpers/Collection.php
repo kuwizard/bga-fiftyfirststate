@@ -6,6 +6,11 @@ use ArrayObject;
 
 class Collection extends ArrayObject
 {
+    public function __construct($array = [])
+    {
+        parent::__construct($array);
+    }
+
     public function getIds()
     {
         return array_map(function ($item) {

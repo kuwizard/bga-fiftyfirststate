@@ -1,5 +1,6 @@
-#hand, #lookoutBlock {
-  height: 270px;
+@import "variables";
+
+#hand, #deckConnectionsBlock {
   background: hsla(0, 0%, 100%, 0.733);
   margin-bottom: 6px;
   border-radius: 14px;
@@ -7,8 +8,10 @@
   margin-left: 3px;
 }
 
-#lookoutBlock {
-  display: none;
+#deckConnectionsBlock {
+  display: flex;
+  justify-content: flex-start;
+  height: 300px;
 }
 
 #hand {
@@ -16,4 +19,20 @@
   justify-content: center;
   gap: 5px;
   align-items: center;
+  height: 270px;
+}
+
+#deckDiscard {
+  width: $deckDiscardSize;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  #deckBlock, #discardBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
 }

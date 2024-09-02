@@ -188,4 +188,11 @@ class action_fiftyfirststate extends APP_GameAction
         $this->game->actDeployChooseDestination($this->getId());
         self::ajaxResponse();
     }
+
+    public function actActivateConnection()
+    {
+        self::setAjaxMode();
+        $this->game->actActivateConnection($this->getId());
+        self::ajaxResponse();
+    }
 }

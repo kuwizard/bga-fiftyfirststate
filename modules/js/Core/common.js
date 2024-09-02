@@ -28,9 +28,39 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             }
         },
 
-        enrichLocationObject(location) {
-            location.additionalClass = location.isRuined ? ' ruined' : '';
+        enrichLocationObject(location = {}) {
+            const defaultValues = {
+                id: 0,
+                sprite: 0,
+                additionalClass: '',
+            };
+            location = { ...defaultValues, ...location };
+            location.additionalClass = location.isRuined || location.id === 0 ? ' ruined' : '';
             return location;
+        },
+
+        addDeckConnectionsElement(gamedatas) {
+            dojo.place(this.format_block('jstpl_deck_connections', {}), 'board');
+            dojo.place(this.format_block('jstpl_header', { text: _('Deck: '), value: gamedatas.deck }), 'deckHeader');
+            dojo.place(
+                this.format_block('jstpl_header', { text: _('Discard: '), value: gamedatas.discard }),
+                'discardHeader'
+            );
+            dojo.place(this.format_block('jstpl_location', this.enrichLocationObject()), 'deck');
+            if (gamedatas.discardLastLocation === null) {
+                dojo.place(this.format_block('jstpl_location', this.enrichLocationObject()), 'discard');
+            }
+            gamedatas.connections.forEach((connection) => {
+                if (connection === null) {
+                    connection = { id: 0, sprite: 0, additionalClass: ' flipped' }
+                } else {
+                    connection = { ...connection, additionalClass: '' }
+                }
+                dojo.place(
+                    this.format_block('jstpl_connection', connection),
+                    'connections'
+                );
+            });
         },
 
         notif_handChanged(n) {
