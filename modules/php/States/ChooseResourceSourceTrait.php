@@ -122,7 +122,7 @@ trait ChooseResourceSourceTrait
             $player->discard($oldLocationId);
             Locations::move($newLocationId, [LOCATION_BOARD, $player->getId()]);
             Notifications::handChanged($player);
-            Notifications::locationRedeployed($player, $oldLocationId);
+            Notifications::locationDiscarded($player, $oldLocationId);
             Notifications::locationBuilt($player, $newLocation, $newLocation->getFactionRow());
         }
         if (!empty($resourcesChanged)) {

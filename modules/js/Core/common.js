@@ -2,6 +2,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     return declare('state.common', null, {
         constructor() {
             this._notifications.push(['handChanged', 1]);
+            this._notifications.push(['locationDiscarded', 1]);
         },
 
         forEachFactionRow(callback) {
@@ -48,8 +49,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             );
             dojo.place(this.format_block('jstpl_location', this.enrichLocationObject()), 'deck');
             if (gamedatas.discardLastLocation === null) {
-                dojo.place(this.format_block('jstpl_location', this.enrichLocationObject()), 'discard');
+                gamedatas.discardLastLocation = {};
             }
+            dojo.place(
+                this.format_block('jstpl_location', this.enrichLocationObject(gamedatas.discardLastLocation)),
+                'discard'
+            );
             gamedatas.connections.forEach((connection) => {
                 if (connection === null) {
                     connection = { id: 0, sprite: 0, additionalClass: ' flipped' }
@@ -68,6 +73,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this.destroyAll('#hand .location');
             n.args.hand.forEach((location) => {
                 dojo.place(this.format_block('jstpl_location', this.enrichLocationObject(location)), 'hand');
+            });
+        },
+
+        notif_locationDiscarded(n) {
+            debug('Notif: locationDiscarded', n);
+            this.slide(`location_${n.args.id}`, 'discard').then(() => {
+                this.destroyAll(`#discard .location:not(#location_${n.args.id})`);
+                this.querySingle(`#discardHeader .headerValue`).innerText = n.args.newDiscardCount;
             });
         },
     });

@@ -219,7 +219,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
         slide(mobileElt, targetElt, options = {}) {
             let config = Object.assign(
                 {
-                    duration: 800,
+                    duration: 700,
                     delay: 0,
                     destroy: false,
                     attach: true,
@@ -230,7 +230,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                     clearPos: true,
                     phantom: false,
                 },
-                options,
+                options
             );
             config.phantomStart = config.phantomStart || config.phantom;
             config.phantomEnd = config.phantomEnd || config.phantom;
@@ -260,11 +260,11 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             const newParent = config.attach ? targetId : $(mobile).parentNode;
             dojo.style(mobile, 'zIndex', 5000);
             dojo.addClass(mobile, config.className);
-            if (config.changeParent) this.changeParent(mobile, 'game_play_area');
+            if (config.changeParent) this.changeParent(mobile, 'game_play_area', config.relation);
             if (config.from != null) this.placeOnObject(mobile, config.from);
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve, _) => {
                 const animation =
-                    config.pos === null
+                    config.pos == null
                         ? this.slideToObject(mobile, targetId, config.duration, config.delay)
                         : this.slideToObjectPos(
                             mobile,
@@ -285,13 +285,15 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                     }
                     if (config.changeParent) {
                         if (config.phantomEnd) dojo.place(mobile, targetId, 'replace');
-                        else this.changeParent(mobile, newParent);
+                        else this.changeParent(mobile, newParent, config.relation);
                     }
                     if (config.destroy) dojo.destroy(mobile);
-                    if (config.clearPos && !config.destroy) dojo.style(
-                        mobile,
-                        { top: null, left: null, position: null }
-                    );
+                    if (config.clearPos && !config.destroy)
+                        dojo.style(mobile, {
+                            top: null,
+                            left: null,
+                            position: null,
+                        });
                     resolve();
                 });
                 animation.play();

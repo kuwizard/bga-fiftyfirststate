@@ -93,10 +93,10 @@
   display: flex;
   align-items: center;
   width: calc(100% - $deckDiscardSize);
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: 5px;
 }
 
 #connections {
-  justify-content: center;
   gap: 20px;
 }

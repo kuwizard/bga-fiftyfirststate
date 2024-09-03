@@ -1,7 +1,6 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     return declare('state.deploy', null, {
         constructor() {
-            this._notifications.push(['locationRedeployed', 1]);
         },
 
         onEnteringStateDeployChooseFromHand(args) {
@@ -28,11 +27,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 );
                 this.addUndoButton();
             }
-        },
-
-        notif_locationRedeployed(n) {
-            debug('Notif: locationRedeployed', n);
-            dojo.destroy(`location_${n.args.id}`);
         },
     });
 });

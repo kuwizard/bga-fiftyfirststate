@@ -104,14 +104,15 @@ class Notifications
     /**
      * @param Player $player
      * @param int $id
-     * @param int $resource
+     * @param int $newDiscardCount
      * @return void
      */
-    public static function locationRedeployed($player, $id)
+    public static function locationDiscarded($player, $id, $newDiscardCount)
     {
-        self::notifyAll('locationRedeployed', '', [
+        self::notifyAll('locationDiscarded', '', [
             'player' => $player,
             'id' => $id,
+            'newDiscardCount' => $newDiscardCount,
         ]);
     }
 
