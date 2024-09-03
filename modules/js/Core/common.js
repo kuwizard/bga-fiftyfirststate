@@ -55,7 +55,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 this.format_block('jstpl_location', this.enrichLocationObject(gamedatas.discardLastLocation)),
                 'discard'
             );
-            gamedatas.connections.forEach((connection) => {
+            this.addConnections(gamedatas.connections);
+        },
+
+        addConnections(connections) {
+            connections.forEach((connection) => {
                 if (connection === null) {
                     connection = { id: 0, sprite: 0, additionalClass: ' flipped' }
                 } else {

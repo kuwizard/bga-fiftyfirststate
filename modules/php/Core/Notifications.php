@@ -147,6 +147,20 @@ class Notifications
         ]);
     }
 
+    public static function newConnections(array $connections)
+    {
+        self::notifyAll('newConnections', '', [
+            'connections' => $connections,
+        ]);
+    }
+
+    public static function playerPassed($player)
+    {
+        self::notifyAll('playerPassed', '', [
+            'player' => $player,
+        ]);
+    }
+
     /*********************
      **** UPDATE ARGS ****
      *********************/

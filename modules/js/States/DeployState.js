@@ -5,7 +5,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         onEnteringStateDeployChooseFromHand(args) {
             if (this.isCurrentPlayerActive()) {
-                this.makeLocationsUnselectable(`.factionBoard .location`);
+                this.makeLocationsUnselectable('.factionBoard .location');
+                this.makeLocationsUnselectable('#connections .connection');
                 this.makeLocationsSelectableAndClickable(
                     '#hand .location',
                     'actDeployChooseFromHand',

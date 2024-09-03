@@ -71,7 +71,9 @@ trait PhaseThreeActionTrait
     public function actActionPass()
     {
         self::checkAction('actActionPass');
-        Players::getActive()->markAsPassed();
+        $player = Players::getActive();
+        $player->markAsPassed();
+        Notifications::playerPassed($player);
         if (Players::isAllPassed()) {
             Stack::unsuspendNext(ST_PHASE_THREE_ACTION);
         }

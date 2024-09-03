@@ -5,6 +5,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this._notifications.push(['locationDealMade', 1]);
             this._notifications.push(['resourcesPlacedOnLocation', 1]);
             this._notifications.push(['connectionActivated', 1]);
+            this._notifications.push(['playerPassed', 1]);
         },
 
         onEnteringStatePhaseThreeAction(args) {
@@ -147,6 +148,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         notif_connectionActivated(n) {
             debug('Notif: connectionActivated', n);
             dojo.addClass(`connection_${n.args.id}`, 'flipped');
+        },
+
+        notif_playerPassed(n) {
+            debug('Notif: playerPassed', n);
+            dojo.addClass(`overall_player_board_${n.args.player_id}`, 'passed');
         },
     });
 });

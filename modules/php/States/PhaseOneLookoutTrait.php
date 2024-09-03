@@ -19,6 +19,7 @@ trait PhaseOneLookoutTrait
     public function stPhaseOneLookoutSetup()
     {
         Connections::flipForNewRound();
+        Notifications::newConnections(Connections::getBothAvailable()->toArray());
         $firstPlayer = Players::get(Globals::getFirstPlayerId());
         $players = Players::getPlayerIdsSortedByNo($firstPlayer);
         Stack::insertOnTop(ST_PHASE_ONE_LOOKOUT_DISCARD);
