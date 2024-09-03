@@ -91,6 +91,17 @@ class Players extends DB_Manager
     }
 
     /**
+     * @param int $exceptId
+     * @return Collection
+     */
+    public static function getAllNonPassed($exceptId)
+    {
+        return self::getAll($exceptId)->filter(function ($player) {
+            return !$player->isPassed();
+        });
+    }
+
+    /**
      * @param Player $startWith
      * @return int[]
      */

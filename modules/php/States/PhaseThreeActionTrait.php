@@ -23,7 +23,7 @@ trait PhaseThreeActionTrait
         $player = Players::getActive();
         $allOtherLocations = new Collection();
         /** @var Player $otherPlayer */
-        foreach (Players::getAll($player->getId()) as $otherPlayer) {
+        foreach (Players::getAllNonPassed($player->getId()) as $otherPlayer) {
             $allOtherLocations = $allOtherLocations->merge($otherPlayer->getBoard());
         }
         $otherPlayersLocations = $allOtherLocations->filter(function ($location) use ($player) {
