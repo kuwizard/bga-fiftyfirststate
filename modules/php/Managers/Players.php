@@ -6,6 +6,7 @@ use STATE\Core\Game;
 use STATE\Core\Globals;
 use STATE\Helpers\Collection;
 use STATE\Helpers\DB_Manager;
+use STATE\Helpers\ResourcesHelper;
 use STATE\Models\Player;
 
 /*
@@ -194,6 +195,31 @@ class Players extends DB_Manager
     {
         self::DB()
             ->update(['player_passed' => 0])
+            ->run();
+    }
+
+    public static function removeAllResources(int $pId)
+    {
+        $resources = [
+            RESOURCE_FUEL,
+            RESOURCE_GUN,
+            RESOURCE_IRON,
+            RESOURCE_BRICK,
+            RESOURCE_WORKER,
+            RESOURCE_ARROW_GREY,
+            RESOURCE_ARROW_RED,
+            RESOURCE_ARROW_BLUE,
+            RESOURCE_ARROW_UNIVERSAL,
+            RESOURCE_AMMO,
+            RESOURCE_DEFENCE,
+            RESOURCE_DEVELOPMENT,
+        ];
+        $resourcesWithNames = array_map(function ($resource) {
+            return ResourcesHelper::getDBName($resource);
+        }, $resources);
+        self::DB()
+            ->wherePlayer($pId)
+            ->update(array_fill_keys($resourcesWithNames, 0))
             ->run();
     }
 

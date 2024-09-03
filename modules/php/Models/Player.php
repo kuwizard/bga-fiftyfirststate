@@ -225,6 +225,9 @@ class Player extends DB_Manager implements JsonSerializable
      */
     private function getUsedFactionActions()
     {
+        if ($this->isPassed()) {
+            return [];
+        }
         $actions = $this->getFactionActions();
         $dbActions = Factions::getAllForFaction($this->faction);
         $used = [];
@@ -512,6 +515,8 @@ class Player extends DB_Manager implements JsonSerializable
     public function markAsPassed()
     {
         Players::markAsPassed($this->id);
+        Players::removeAllResources($this->id);
+        Locations::resetActivatedTimes($this->getBoard()->getIds());
     }
 
     public function jsonSerialize($currentPlayerId = null)

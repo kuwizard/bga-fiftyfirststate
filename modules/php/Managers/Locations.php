@@ -211,10 +211,15 @@ class Locations extends Pieces
         return $resources;
     }
 
-    public static function resetActivatedTimes()
+    /**
+     * @param int[] $ids
+     * @return void
+     */
+    public static function resetActivatedTimes($ids)
     {
         self::DB()
             ->update(['activated_times' => 0])
+            ->whereIn('location_id', $ids)
             ->run();
     }
 

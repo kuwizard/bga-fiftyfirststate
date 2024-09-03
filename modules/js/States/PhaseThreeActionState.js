@@ -153,6 +153,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         notif_playerPassed(n) {
             debug('Notif: playerPassed', n);
             dojo.addClass(`overall_player_board_${n.args.player_id}`, 'passed');
+            this.destroyAll('.spentArea .resourceIcon');
+            this.destroyAll(`#faction_${n.args.player_id} .actions .resourceIcon`);
+            dojo.query(`#overall_player_board_${n.args.player_id} .resourceValue:not(.cardValue)`).forEach((resource) => {
+                resource.innerText = 0;
+            })
         },
     });
 });
