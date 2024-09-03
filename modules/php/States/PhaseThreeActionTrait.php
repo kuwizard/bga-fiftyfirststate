@@ -18,7 +18,6 @@ use STATE\Models\Production;
 
 trait PhaseThreeActionTrait
 {
-
     public function argPhaseThreeAction()
     {
         $player = Players::getActive();
@@ -32,15 +31,18 @@ trait PhaseThreeActionTrait
             $razeReachable = $location->getDefenceValue() <= $player->getResource(RESOURCE_ARROW_RED);
             return !$location->isRuined() && ($isOpenProduction || $razeReachable);
         });
-
+        $canUseBrick = !$this->getLocationsAvailableToDeploy(RESOURCE_BRICK)->empty()
+            && $player->getResource(RESOURCE_BRICK, false) >= 1;
+        $canUseDevel = !$this->getLocationsAvailableToDeploy(RESOURCE_DEVELOPMENT)->empty()
+            && $player->getResource(RESOURCE_DEVELOPMENT, false) >= 1;
         return [
             'spendWorkers' => $player->getResource(RESOURCE_WORKER, false) >= 2,
             'factionActions' => !empty($player->getAvailableFactionActions()),
             'locations' => $player->getPlayableLocationsIds(),
             'otherPlayersLocations' => $otherPlayersLocations->getIds(),
             'deploy' => [
-                'brick' => $player->getResource(RESOURCE_BRICK, false) >= 1,
-                'development' => $player->getResource(RESOURCE_DEVELOPMENT, false) >= 1,
+                'brick' => $canUseBrick,
+                'development' => $canUseDevel,
             ],
             'connections' => $player->getPlayableConnectionsIds(),
         ];

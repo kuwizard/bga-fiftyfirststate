@@ -3,6 +3,7 @@
 namespace STATE\States;
 
 use STATE\Core\Stack;
+use STATE\Helpers\Collection;
 use STATE\Helpers\ResourcesHelper;
 use STATE\Managers\Locations;
 use STATE\Managers\Players;
@@ -12,12 +13,20 @@ trait DeployTrait
 {
     public function argDeployChooseFromHand()
     {
+        return ['possibleHandIds' => $this->getLocationsAvailableToDeploy(Stack::getCtx()['resource'])->getIds()];
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getLocationsAvailableToDeploy($resource)
+    {
         $player = Players::getActive();
         $board = $player->getBoard();
         $isRuins = !$board->filter(function (Location $location) {
             return $location->isRuined();
         })->empty();
-        if (Stack::getCtx()['resource'] === RESOURCE_DEVELOPMENT || $isRuins) {
+        if ($resource === RESOURCE_DEVELOPMENT || $isRuins) {
             $possibleHandLocations = $player->getHand();
         } else {
             $possibleHandLocations = $player->getHand()->filter(function (Location $location) use ($board) {
@@ -29,7 +38,7 @@ trait DeployTrait
                 return !empty(array_intersect($location->getIcons(), $iconsOnBoard));
             });
         }
-        return ['possibleHandIds' => $possibleHandLocations->getIds()];
+        return $possibleHandLocations;
     }
 
     public function argDeployChooseDestination()
