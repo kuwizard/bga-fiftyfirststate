@@ -101,6 +101,7 @@ $machinestates = [
             'actActivateLocation',
             'actUseOtherPlayerLocation',
             'actDeploy',
+            'actActivateConnection',
         ],
     ],
 
