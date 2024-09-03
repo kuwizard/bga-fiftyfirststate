@@ -68,6 +68,11 @@ trait PhaseThreeActionTrait
         ];
     }
 
+    public function argOpenProductionOrRaze()
+    {
+        return ['locationId' => Stack::getCtx()['locationId']];
+    }
+
     public function actActionPass()
     {
         self::checkAction('actActionPass');
@@ -271,7 +276,7 @@ trait PhaseThreeActionTrait
         $locationIsOpenProduction = $location instanceof Production && $location->isOpen();
         $couldBeRazed = $player->getResource(RESOURCE_ARROW_RED) >= $location->getDefenceValue();
         if ($locationIsOpenProduction && $couldBeRazed) {
-            // TODO: Add a new state with a choice of those 2 actions
+            Stack::insertOnTop(ST_OPEN_PRODUCTION_OR_RAZE, ['locationId' => $id]);
         } elseif ($locationIsOpenProduction) {
             $location->activate($player);
         } elseif ($couldBeRazed) {
@@ -314,6 +319,20 @@ trait PhaseThreeActionTrait
         self::checkAction('actActivateConnection');
         Connections::get($id)->activate();
         Notifications::connectionActivated(Players::getActive(), $id);
+        Stack::finishState();
+    }
+
+    public function actOptionOpenProduction()
+    {
+        self::checkAction('actOptionOpenProduction');
+        Locations::get(Stack::getCtx()['locationId'])->activate(Players::getActive());
+        Stack::finishState();
+    }
+
+    public function actOptionRaze()
+    {
+        self::checkAction('actOptionRaze');
+        $this->razeOtherPlayersLocation(Players::getActive(), Locations::get(Stack::getCtx()['locationId']));
         Stack::finishState();
     }
 }

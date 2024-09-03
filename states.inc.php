@@ -178,6 +178,15 @@ $machinestates = [
         'possibleactions' => ['actDeployChooseDestination', 'actUndo'],
     ],
 
+    ST_OPEN_PRODUCTION_OR_RAZE => [
+        'name' => 'openProductionOrRaze',
+        'description' => clienttranslate('${actplayer} must choose what to do with the chosen location'),
+        'descriptionmyturn' => clienttranslate('${you} must choose what to do with the chosen location'),
+        'args' => 'argOpenProductionOrRaze',
+        'type' => 'activeplayer',
+        'possibleactions' => ['actOptionOpenProduction', 'actOptionRaze', 'actUndo'],
+    ],
+
     ST_PHASE_FOUR_CLEANUP => [
         'name' => 'phaseFourCleanup',
         'description' => '',

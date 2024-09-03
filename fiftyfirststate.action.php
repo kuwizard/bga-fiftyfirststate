@@ -195,4 +195,18 @@ class action_fiftyfirststate extends APP_GameAction
         $this->game->actActivateConnection($this->getId());
         self::ajaxResponse();
     }
+
+    public function actOptionOpenProduction()
+    {
+        self::setAjaxMode();
+        $this->game->actOptionOpenProduction();
+        self::ajaxResponse();
+    }
+
+    public function actOptionRaze()
+    {
+        self::setAjaxMode();
+        $this->game->actOptionRaze();
+        self::ajaxResponse();
+    }
 }

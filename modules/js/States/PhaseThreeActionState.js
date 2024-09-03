@@ -114,6 +114,19 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             }
         },
 
+        onEnteringStateOpenProductionOrRaze(args) {
+            if (this.isCurrentPlayerActive()) {
+                this.addSelectedClass(this.querySingle(`#location_${args.locationId}`));
+                this.addPrimaryActionButton('buttonOpenProd', _('Use it as open production'),
+                    () => this.takeAction('actOptionOpenProduction', {})
+                );
+                this.addPrimaryActionButton('buttonRazeIt', _('Raze it'),
+                    () => this.takeAction('actOptionRaze', {})
+                );
+                this.addUndoButton();
+            }
+        },
+
         addUndoButton() {
             this.addSecondaryActionButton(
                 'buttonActionUndo',
