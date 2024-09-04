@@ -27,13 +27,13 @@
 .resourceIcon {
   display: block;
   background-image: url(img/icons.jpg);
-  background-size: 1300% 100%;
+  background-size: 1400% 100%;
   width: 45px;
   height: 45px;
 
   @each $xShift, $name in $resources {
     &.#{$name}Icon {
-      background-position-x: (100%/12 * $xShift);
+      background-position-x: (100%/13 * $xShift);
     }
   }
 }
@@ -103,4 +103,24 @@
 
 #lookout {
   display: none;
+}
+
+#lastRound {
+  background-color: #c10707;
+  color: #fff;
+  font-weight: 700;
+  padding: 5px;
+  text-align: center;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  margin-bottom: 5px;
+  margin-top: -5px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, .3);
+}
+
+.logIcon {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  vertical-align: bottom;
 }

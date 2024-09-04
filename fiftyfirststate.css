@@ -332,7 +332,7 @@
 .resourceIcon {
   display: block;
   background-image: url(img/icons.jpg);
-  background-size: 1300% 100%;
+  background-size: 1400% 100%;
   width: 45px;
   height: 45px;
 }
@@ -340,39 +340,42 @@
   background-position-x: 0%;
 }
 .resourceIcon.gunIcon {
-  background-position-x: 8.3333333333%;
+  background-position-x: 7.6923076923%;
 }
 .resourceIcon.ironIcon {
-  background-position-x: 16.6666666667%;
+  background-position-x: 15.3846153846%;
 }
 .resourceIcon.brickIcon {
-  background-position-x: 25%;
+  background-position-x: 23.0769230769%;
 }
 .resourceIcon.workerIcon {
-  background-position-x: 33.3333333333%;
+  background-position-x: 30.7692307692%;
 }
 .resourceIcon.arrowGreyIcon {
-  background-position-x: 41.6666666667%;
+  background-position-x: 38.4615384615%;
 }
 .resourceIcon.arrowRedIcon {
-  background-position-x: 50%;
+  background-position-x: 46.1538461538%;
 }
 .resourceIcon.arrowBlueIcon {
-  background-position-x: 58.3333333333%;
+  background-position-x: 53.8461538462%;
 }
 .resourceIcon.arrowUniIcon {
-  background-position-x: 66.6666666667%;
+  background-position-x: 61.5384615385%;
 }
 .resourceIcon.ammoIcon {
-  background-position-x: 75%;
+  background-position-x: 69.2307692308%;
 }
 .resourceIcon.defenceIcon {
-  background-position-x: 83.3333333333%;
+  background-position-x: 76.9230769231%;
 }
 .resourceIcon.develIcon {
-  background-position-x: 91.6666666667%;
+  background-position-x: 84.6153846154%;
 }
 .resourceIcon.cardIcon {
+  background-position-x: 92.3076923077%;
+}
+.resourceIcon.scoreIcon {
   background-position-x: 100%;
 }
 
@@ -439,6 +442,26 @@
 
 #lookout {
   display: none;
+}
+
+#lastRound {
+  background-color: #c10707;
+  color: #fff;
+  font-weight: 700;
+  padding: 5px;
+  text-align: center;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  margin-bottom: 5px;
+  margin-top: -5px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.logIcon {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  vertical-align: bottom;
 }
 
 /*# sourceMappingURL=fiftyfirststate.css.map */

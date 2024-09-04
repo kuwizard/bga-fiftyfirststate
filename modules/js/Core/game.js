@@ -425,6 +425,43 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             }
         },
 
+        format_string_recursive(log, args) {
+            try {
+                if (log && args && !args.processed) {
+                    args.processed = true;
+
+                    const resourcesIcons = [
+                        'fuelIcon',
+                        'gunIcon',
+                        'ironIcon',
+                        'brickIcon',
+                        'workerIcon',
+                        'arrowGreyIcon',
+                        'arrowRedIcon',
+                        'arrowBlueIcon',
+                        'arrowUniIcon',
+                        'ammoIcon',
+                        'defenceIcon',
+                        'develIcon',
+                        'cardIcon',
+                        'scoreIcon',
+                    ];
+                    resourcesIcons.forEach((resourceName) => {
+                        if (Object.keys(args).includes(resourceName)) {
+                            args[resourceName] = this.format_block(
+                                'jstpl_resource_icon_log',
+                                { type: resourceName.replace('Icon', '') }
+                            );
+                        }
+                    });
+                }
+            } catch (e) {
+                console.error(log, args, 'Exception thrown', e.stack);
+            }
+
+            return this.inherited({ callee: this.format_string_recursive }, arguments);
+        },
+
         cancelLogs(notifIds) {
             if (!this.canceledNotifFeature) return;
 
@@ -453,21 +490,6 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             }
         },
 
-        fadeOutAndDestroyAll(locators, duration = 1000, delay = 0) {
-            const promises = [];
-            if (!Array.isArray(locators)) {
-                locators = [locators];
-            }
-            locators.forEach((locator) => {
-                dojo.query(locator).forEach((item) => {
-                    this.fadeOutAndDestroy(item, duration, delay);
-                    dojo.addClass(item, 'destroying');
-                });
-                promises.push(this.waitForDisappearance(locator));
-            });
-            return Promise.all(promises);
-        },
-
         waitForDisappearance(locator) {
             return new Promise(function (resolve, reject) {
                 (function waitFor() {
@@ -478,10 +500,6 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                     }
                 })();
             });
-        },
-
-        waitTillDestroyed() {
-            return this.waitForDisappearance('.destroying');
         },
 
         dojoConnect(element, func) {
