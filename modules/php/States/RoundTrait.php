@@ -5,6 +5,7 @@ namespace STATE\States;
 use STATE\Core\Globals;
 use STATE\Core\Stack;
 use STATE\Managers\Players;
+use STATE\Models\Player;
 
 trait RoundTrait
 {
@@ -34,9 +35,24 @@ trait RoundTrait
             ST_NEXT_ROUND,
         ];
 
-        $this->gamestate->changeActivePlayer($nextPlayer);
-        self::giveExtraTime($nextPlayer);
+        if (Globals::isLastRound()) {
+            $this->setTieBreakers();
+            $stack = [ST_END_GAME];
+        } else {
+            $this->gamestate->changeActivePlayer($nextPlayer);
+            self::giveExtraTime($nextPlayer);
+        }
         Stack::setup($stack);
         Stack::finishState();
+    }
+
+    private function setTieBreakers()
+    {
+        /** @var Player $player */
+        foreach (Players::getAll() as $player) {
+            $resourcesCount = $player->getTotalResourcesCount();
+            $locationsCount = $player->getBoard()->count();
+            $player->setTieBreaker(intval(strval($resourcesCount) . strval($locationsCount)));
+        }
     }
 }

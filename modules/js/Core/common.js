@@ -3,6 +3,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         constructor() {
             this._notifications.push(['handChanged', 1]);
             this._notifications.push(['locationDiscarded', 1]);
+            this._notifications.push(['lastRound', 1]);
         },
 
         forEachFactionRow(callback) {
@@ -72,6 +73,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             });
         },
 
+        addLastRound() {
+            // 11 should be a calculated parameter but when you use 1-5 - it's placed as a second child. Bug?..
+            dojo.place(
+                this.format_block('jstpl_last_round', { text: _('This is the last round!') }),
+                'game_play_area',
+                11
+            );
+        },
+
         notif_handChanged(n) {
             debug('Notif: handChanged', n);
             this.destroyAll('#hand .location');
@@ -86,6 +96,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 this.destroyAll(`#discard .location:not(#location_${n.args.id})`);
                 this.querySingle(`#discardHeader .headerValue`).innerText = n.args.newDiscardCount;
             });
+        },
+
+        notif_lastRound(n) {
+            debug('Notif: lastRound', n);
+            this.addLastRound();
         },
     });
 });

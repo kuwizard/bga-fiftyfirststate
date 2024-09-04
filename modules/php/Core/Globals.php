@@ -21,6 +21,7 @@ class Globals extends DB_Manager
         'stackCtx' => 'obj', // USED BY STACK ENGINE
 
         'firstPlayerId' => 'int',
+        'lastRound' => 'bool',
     ];
 
     protected static $table = 'global_variables';

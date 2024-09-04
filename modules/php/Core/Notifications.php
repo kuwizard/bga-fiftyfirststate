@@ -158,6 +158,15 @@ class Notifications
     {
         self::notifyAll('playerPassed', '', [
             'player' => $player,
+            'clearResources' => !Globals::isLastRound(),
+        ]);
+    }
+
+    public static function lastRound($player)
+    {
+        self::notifyAll('lastRound', clienttranslate('${player_name} reached 25 ${scoreIcon}! End of game is triggered!'), [
+            'player' => $player,
+            'scoreIcon' => '',
         ]);
     }
 

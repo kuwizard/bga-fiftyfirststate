@@ -3,6 +3,8 @@
 namespace STATE\Models;
 
 use JsonSerializable;
+use STATE\Core\Globals;
+use STATE\Core\Notifications;
 use STATE\Core\Preferences;
 use STATE\Helpers\Collection;
 use STATE\Helpers\DB_Manager;
@@ -417,6 +419,16 @@ class Player extends DB_Manager implements JsonSerializable
     }
 
     /**
+     * @return int
+     */
+    public function getTotalResourcesCount()
+    {
+        return array_sum(array_map(function ($resource) {
+            return $this->getResource($resource);
+        }, ALL_RESOURCES_LIST));
+    }
+
+    /**
      * @param array $resources
      * @return void
      */
@@ -441,6 +453,10 @@ class Player extends DB_Manager implements JsonSerializable
             $newAmount = $this->{$name} + $amount;
             $this->{$name} = $newAmount;
             $this->updateResource(ResourcesHelper::getDBName($type), $newAmount);
+            if ($type === RESOURCE_VP && $newAmount >= GLOBAL_END_OF_GAME_VP) {
+                Globals::setLastRound(true);
+                Notifications::lastRound($this);
+            }
         }
     }
 
@@ -515,8 +531,15 @@ class Player extends DB_Manager implements JsonSerializable
     public function markAsPassed()
     {
         Players::markAsPassed($this->id);
-        Players::removeAllResources($this->id);
+        if (!Globals::isLastRound()) {
+            Players::removeAllResources($this->id);
+        }
         Locations::resetActivatedTimes($this->getBoard()->getIds());
+    }
+
+    public function setTieBreaker(int $value)
+    {
+        Players::setScoreAux($this->id, $value);
     }
 
     public function jsonSerialize($currentPlayerId = null)

@@ -116,6 +116,7 @@ class Fiftyfirststate extends Table
                 Connections::getTopOf(LOCATION_CONNECTIONS_RED_FLIPPED),
                 Connections::getTopOf(LOCATION_CONNECTIONS_BLUE_FLIPPED),
             ],
+            'lastRound' => Globals::isLastRound(),
         ];
     }
 

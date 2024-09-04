@@ -211,37 +211,13 @@ class Players extends DB_Manager
 
     public static function removeAllResources(int $pId)
     {
-        $resources = [
-            RESOURCE_FUEL,
-            RESOURCE_GUN,
-            RESOURCE_IRON,
-            RESOURCE_BRICK,
-            RESOURCE_WORKER,
-            RESOURCE_ARROW_GREY,
-            RESOURCE_ARROW_RED,
-            RESOURCE_ARROW_BLUE,
-            RESOURCE_ARROW_UNIVERSAL,
-            RESOURCE_AMMO,
-            RESOURCE_DEFENCE,
-            RESOURCE_DEVELOPMENT,
-        ];
         $resourcesWithNames = array_map(function ($resource) {
             return ResourcesHelper::getDBName($resource);
-        }, $resources);
+        }, ALL_RESOURCES_LIST);
         self::DB()
             ->wherePlayer($pId)
             ->update(array_fill_keys($resourcesWithNames, 0))
             ->run();
-    }
-
-    /*
-     * getUiData : get all ui data of all players
-     */
-    public static function getUiData($pId)
-    {
-        return self::getAll()->map(function ($player) use ($pId) {
-            return $player->jsonSerialize($pId);
-        });
     }
 
     /**
@@ -257,5 +233,29 @@ class Players extends DB_Manager
             }
         }
         return null;
+    }
+
+    /**
+     * @param int $pId
+     * @param int $value
+     * @return void
+     */
+    public static function setScoreAux($pId, $value)
+    {
+        self::DB()
+            ->update(['player_score_aux' => $value])
+            ->wherePlayer($pId)
+            ->run();
+    }
+
+    /**
+     * @param $pId
+     * @return Collection
+     */
+    public static function getUiData($pId)
+    {
+        return self::getAll()->map(function ($player) use ($pId) {
+            return $player->jsonSerialize($pId);
+        });
     }
 }
