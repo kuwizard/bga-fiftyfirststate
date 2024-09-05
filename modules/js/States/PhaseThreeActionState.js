@@ -8,9 +8,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this._notifications.push(['playerPassed', 1]);
         },
 
-        onEnteringStatePhaseThreeAction(args) {
+        async onEnteringStatePhaseThreeAction(args) {
             debug('Phase Three Action state', args);
             if (this.isCurrentPlayerActive()) {
+                await this.waitForDisappearance('.moving');
                 if (args.deploy.brick) {
                     this.addDeployButton('brick')
                 }

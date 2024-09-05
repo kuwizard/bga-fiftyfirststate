@@ -90,12 +90,23 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             });
         },
 
-        notif_locationDiscarded(n) {
+        async notif_locationDiscarded(n) {
             debug('Notif: locationDiscarded', n);
-            this.slide(`location_${n.args.id}`, 'discard').then(() => {
-                this.destroyAll(`#discard .location:not(#location_${n.args.id})`);
-                this.querySingle(`#discardHeader .headerValue`).innerText = n.args.newDiscardCount;
+            const locationLocator = `location_${n.args.id}`;
+            dojo.query(`#${locationLocator} .resourceIcon`).forEach((element) => {
+                const resourceType = [...element.classList].find((clazz) => {
+                    return clazz !== 'resourceIcon'
+                }).replace('Icon', '');
+                this.slide(
+                    element,
+                    this.querySingle(`#overall_player_board_${n.args.player_id} .${resourceType}`),
+                    { destroy: true }
+                );
             });
+            await this.waitForDisappearance('.moving');
+            await this.slide(locationLocator, 'discard')
+            this.destroyAll(`#discard .location:not(#${locationLocator})`);
+            this.querySingle(`#discardHeader .headerValue`).innerText = n.args.newDiscardCount;
         },
 
         notif_lastRound(n) {
