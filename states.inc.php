@@ -139,12 +139,29 @@ $machinestates = [
         'possibleactions' => ['actDiscardLocation'],
     ],
 
+    ST_CREATE_RESOURCE_SOURCE_MAP => [
+        'name' => 'createResourceSourceMap',
+        'description' => '',
+        'args' => 'argNoNotify',
+        'action' => 'stCreateResourceSourceMap',
+        'type' => 'game',
+    ],
+
+    ST_PROCESS_SOURCE_MAP => [
+        'name' => 'processSourceMap',
+        'description' => '',
+        'args' => 'argNoNotify',
+        'action' => 'stProcessSourceMap',
+        'type' => 'game',
+    ],
+
     ST_CHOOSE_RESOURCE_SOURCE => [
         'name' => 'chooseResourceSource',
-        'description' => clienttranslate('${actplayer} must choose where to spend a resource ({resourceIcon}) from'),
-        'descriptionmyturn' => clienttranslate('${you} must choose where to spend a resource ({resourceIcon}) from'),
+        'description' => clienttranslate('${actplayer} must choose resources to spend'),
+        'descriptionmyturn' => clienttranslate(
+            '${you} need to spend ${resourcesList}. Choose where to spend ${resourceIcon} from'
+        ),
         'args' => 'argChooseResourceSource',
-        'action' => 'stChooseSource',
         'type' => 'activeplayer',
         'possibleactions' => ['actChooseSource'],
     ],

@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `connections`
 CREATE TABLE IF NOT EXISTS `factions`
 (
     `id`            smallint unsigned NOT NULL AUTO_INCREMENT,
-    `faction`       tinyint           NOT NULL,
+    `faction`       smallint          NOT NULL,
     `action_number` tinyint           NOT NULL,
     `used`          tinyint           NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`)
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `resources`
 (
     `id`          smallint unsigned NOT NULL AUTO_INCREMENT,
     `location_id` tinyint           NOT NULL,
-    `type`        tinyint           NOT NULL,
+    `type`        smallint          NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;

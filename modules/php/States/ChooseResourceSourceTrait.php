@@ -9,22 +9,24 @@ use STATE\Managers\Locations;
 use STATE\Managers\Players;
 use STATE\Managers\Resources;
 use STATE\Models\Feature;
+use STATE\Models\Player;
 
 trait ChooseResourceSourceTrait
 {
     public function argChooseResourceSource()
     {
-        $spend = Stack::getCtx()['spend'] ?? [];
-        if (empty($spend)) {
-            return [];
+        $ctx = Stack::getCtx();
+        $resource = $ctx['resourceIcon'];
+        $toSpend = empty($ctx['sourcesRaw']) ? [$resource] : array_merge([$resource],
+            array_merge(array_keys(...$ctx['sourcesRaw'])));
+        $sources = $ctx['sources'];
+        if (isset($sources['joker'])) {
+            $sources['jokerIcon'] = ResourcesHelper::getResourceName($sources['joker']);
         }
-        $resource = $spend[0];
-        $player = Players::getActive();
         return [
-            'faction' => $player->getResource($resource) === 0 ? null : ResourcesHelper::getResourceName(
-                $resource
-            ),
-            'locations' => $this->getPlayerLocationsWithResource($resource, $player),
+            'resourceIcon' => ResourcesHelper::getResourceName($resource),
+            'resourcesList' => ResourcesHelper::getResourceNames($toSpend),
+            'sources' => $sources,
         ];
     }
 
@@ -35,28 +37,70 @@ trait ChooseResourceSourceTrait
         return array_intersect($locations, $playerLocations);
     }
 
-    public function stChooseSource()
+    public function stCreateResourceSourceMap()
     {
         $ctx = Stack::getCtx();
         $spend = $ctx['spend'];
         $player = Players::getActive();
-        if (empty($spend)) {
-            $this->addBonus([], $player);
-            Stack::finishState();
+        $sources = [];
+        foreach ($spend as $resource) {
+            $joker = Resources::getJokerFor($resource);
+            $sourcesSingle = [
+                'faction' => $player->getResource($resource) === 0 ? null : true,
+                'locations' => $this->getPlayerLocationsWithResource($resource, $player),
+                'joker' => is_null($joker) || $player->getResource($joker) === 0 ? null : $joker,
+            ];
+            foreach (array_keys($sourcesSingle) as $source) {
+                if (!$sourcesSingle[$source]) {
+                    unset($sourcesSingle[$source]);
+                }
+            }
+            $sources[] = [$resource => $sourcesSingle];
         }
-        $isResourcesOnLocations = false;
-        foreach (array_keys(array_count_values($spend)) as $resource) {
-            if ($this->getPlayerLocationsWithResource($resource, $player) !== []) {
-                $isResourcesOnLocations = true;
+        Stack::insertOnTopAndFinish(ST_PROCESS_SOURCE_MAP, [
+            'sourcesRaw' => $sources,
+            'bonus' => $ctx['bonus'],
+            'deploy' => $ctx['deploy'] ?? null,
+            'activatorId' => $ctx['activatorId'] ?? null,
+            'processed' => $ctx['processed'] ?? null,
+        ]);
+    }
+
+    public function stProcessSourceMap()
+    {
+        $ctx = Stack::getCtx();
+        $sourcesRaw = $ctx['sourcesRaw'] ?? null;
+        $processed = $ctx['processed'] ?? [];
+        while (count($sourcesRaw) > 0) {
+            $sourceRaw = array_shift($sourcesRaw);
+            $resource = array_key_first($sourceRaw);
+            $sources = $sourceRaw[$resource];
+
+            $onlyNotLocation = count($sources) === 1 && !isset($sources['locations']);
+            $onlyLocation = count($sources) === 1 && isset($sources['locations']) && count($sources['locations']) === 1;
+            if ($onlyNotLocation || $onlyLocation) {
+                $processed[] = $resource;
+                if (isset($sources['faction'])) {
+                    $whereId = 0;
+                } else {
+                    $whereId = isset($sources['locations']) ? $sources['locations'][0] : $sources['joker'];
+                }
+                $this->decreaseResource($whereId, Players::getActive(), $resource, $ctx['activatorId']);
+            } else {
+                Stack::insertOnTopAndFinish(ST_CHOOSE_RESOURCE_SOURCE, [
+                    'resourceIcon' => $resource,
+                    'sources' => $sources,
+                    'bonus' => $ctx['bonus'],
+                    'deploy' => $ctx['deploy'],
+                    'sourcesRaw' => $sourcesRaw,
+                    'processed' => $processed,
+                    'activatorId' => $ctx['activatorId'],
+                ]);
+                break;
             }
         }
-        if (!$isResourcesOnLocations) {
-            $resourcesChanged = [];
-            foreach (array_count_values($spend) as $spendRequirement => $amount) {
-                $player->decreaseResource($spendRequirement, $amount);
-                $resourcesChanged[] = $spendRequirement;
-            }
-            $this->addBonus($resourcesChanged, $player);
+        if (empty($sourcesRaw) && !Stack::isAtomIn(ST_CHOOSE_RESOURCE_SOURCE)) {
+            $this->addBonus(Players::getActive());
             Stack::finishState();
         }
     }
@@ -69,33 +113,51 @@ trait ChooseResourceSourceTrait
     {
         self::checkAction('actChooseSource');
         $ctx = Stack::getCtx();
-        $spend = $ctx['spend'];
-        $resource = array_shift($spend);
-        $player = Players::getActive();
-        $resourceName = ResourcesHelper::getResourceName($resource);
-        $resourcesChanged = [];
-        if ($id === 0) {
+        $this->decreaseResource(
+            $id,
+            Players::getActive(),
+            in_array($id, ALL_RESOURCES_LIST) ? $id : $ctx['resourceIcon'],
+            $ctx['activatorId']
+        );
+
+        Stack::insertOnTopAndFinish(ST_CREATE_RESOURCE_SOURCE_MAP, [
+            'bonus' => $ctx['bonus'],
+            'deploy' => $ctx['deploy'],
+            'spend' => empty($ctx['sourcesRaw']) ? [] : array_merge(array_keys(...$ctx['sourcesRaw'])),
+            'processed' => array_merge($ctx['processed'], [$ctx['resourceIcon']]),
+            'activatorId' => $ctx['activatorId'],
+        ]);
+    }
+
+    /**
+     * @param int $whereId
+     * @param int $resource
+     * @param Player $player
+     * @return void
+     */
+    private function decreaseResource($whereId, $player, $resource, $activatorId)
+    {
+        if ($whereId === 0 || in_array($whereId, ALL_RESOURCES_LIST)) {
             $player->decreaseResource($resource);
-            $resourcesChanged[] = $resource;
+            Notifications::resourcesChanged($player, $player->getResourcesWithNames([$resource]));
         } else {
-            Resources::delete($id, $resource);
-            Notifications::resourcesLocationChanged($player, $id, $resourceName);
+            Resources::delete($whereId, $resource);
+            Notifications::resourcesLocationChanged($player, $whereId, ResourcesHelper::getResourceName($resource));
         }
-        if (count($spend) > 0) {
-            Stack::insertOnTopAndFinish(ST_CHOOSE_RESOURCE_SOURCE, [
-                'spend' => $spend,
-                'bonus' => $ctx['bonus'] ?? null,
-            ]);
-            Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));
-        } else {
-            $this->addBonus($resourcesChanged, $player);
-            Stack::finishState();
+        if ($activatorId >= FACTION_NEW_YORK && $activatorId <= FACTION_MERCHANTS + 3) {
+            $actionId = $activatorId - $player->getFaction();
+            // We need to show a token from requirements there, not ammo
+            $actionChosen = $player->getFactionActions()[$actionId];
+            Notifications::resourcesSpentFaction($player, [$actionChosen->getSpendRequirementsUIRemoveCard()[0]], $actionId);
+        } else if (!is_null($activatorId)) {
+            Notifications::resourcesPlacedOnLocation($player, $activatorId, [ResourcesHelper::getResourceName($resource)]);
         }
     }
 
-    private function addBonus($resourcesChanged, $player)
+    private function addBonus($player)
     {
         $ctx = Stack::getCtx();
+        $resourcesChanged = [];
         if (isset($ctx['bonus']) && $ctx['bonus']) {
             foreach (array_count_values($ctx['bonus']) as $bonus => $amount) {
                 $player->increaseResource($bonus, $amount);
@@ -122,7 +184,7 @@ trait ChooseResourceSourceTrait
             $player->discard($oldLocationId);
             Locations::move($newLocationId, [LOCATION_BOARD, $player->getId()]);
             Notifications::handChanged($player);
-            Notifications::locationDiscarded($player, $oldLocationId);
+            Notifications::locationDiscarded($player, $oldLocationId, Locations::countInLocation(LOCATION_DISCARD));
             Notifications::locationBuilt($player, $newLocation, $newLocation->getFactionRow());
         }
         if (!empty($resourcesChanged)) {

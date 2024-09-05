@@ -55,7 +55,7 @@ class Production extends Location
 
     public function activate($player)
     {
-        (new Act($this->getSpendRequirements(), $this->getProduct($player)))->activate();
+        (new Act($this->getSpendRequirements(), $this->getProduct($player)))->activate($this->id);
         $this->activatedTimes = $this->activatedTimes + 1;
         Locations::increaseActivatedTimes($this->id, $this->activatedTimes);
         Notifications::resourcesPlacedOnLocation(

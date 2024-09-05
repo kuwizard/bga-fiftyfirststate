@@ -457,12 +457,27 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                             );
                         }
                     });
+                    if (args.resourceIcon && log.includes('${resourceIcon}')) {
+                        args.resourceIcon = this.getLogIcon(args['resourceIcon']);
+                    }
+                    if (args.resourcesList && log.includes('${resourcesList}')) {
+                        args.resourcesList = args.resourcesList.map((resource) => {
+                            return this.getLogIcon(resource);
+                        }).join(', ');
+                    }
                 }
             } catch (e) {
                 console.error(log, args, 'Exception thrown', e.stack);
             }
 
             return this.inherited({ callee: this.format_string_recursive }, arguments);
+        },
+
+        getLogIcon(type) {
+            return this.format_block(
+                'jstpl_resource_icon_log',
+                { type: type }
+            );
         },
 
         cancelLogs(notifIds) {

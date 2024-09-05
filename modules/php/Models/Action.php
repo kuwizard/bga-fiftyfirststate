@@ -42,11 +42,9 @@ class Action extends Location
      */
     public function activate($player)
     {
-        $this->action->activate();
+        $this->action->activate($this->id);
         $this->activatedTimes = $this->activatedTimes + 1;
         Locations::increaseActivatedTimes($this->id, $this->activatedTimes);
-        $actionRequirements = $this->action->getSpendRequirementsUI();
-        Notifications::resourcesPlacedOnLocation($player, $this->id, $actionRequirements);
     }
 
     public function getDefenceValue()

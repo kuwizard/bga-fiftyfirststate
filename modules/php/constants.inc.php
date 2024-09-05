@@ -16,11 +16,13 @@ define('ST_SPEND_WORKERS', 31);
 define('ST_FACTION_ACTIONS', 32);
 define('ST_LOCATION_ACTIONS', 33);
 define('ST_DISCARD_LOCATION_FOR_RESOURCES', 34);
-define('ST_CHOOSE_RESOURCE_SOURCE', 35);
-define('ST_CHOOSE_RESOURCE_TO_STORE', 36);
-define('ST_DEPLOY_CHOOSE_FROM_HAND', 37);
-define('ST_DEPLOY_CHOOSE_DESTINATION', 38);
-define('ST_OPEN_PRODUCTION_OR_RAZE', 39);
+define('ST_CREATE_RESOURCE_SOURCE_MAP', 35);
+define('ST_PROCESS_SOURCE_MAP', 36);
+define('ST_CHOOSE_RESOURCE_SOURCE', 37);
+define('ST_CHOOSE_RESOURCE_TO_STORE', 38);
+define('ST_DEPLOY_CHOOSE_FROM_HAND', 39);
+define('ST_DEPLOY_CHOOSE_DESTINATION', 40);
+define('ST_OPEN_PRODUCTION_OR_RAZE', 41);
 define('ST_PHASE_FOUR_CLEANUP', 95);
 
 define('ST_END_GAME', 99);
@@ -29,10 +31,10 @@ define('ST_RESOLVE_STACK', 100);
 /*
  * Factions
  */
-define('FACTION_NEW_YORK', 0);
-define('FACTION_APPALACHIAN', 1);
-define('FACTION_MUTANTS', 2);
-define('FACTION_MERCHANTS', 3);
+define('FACTION_NEW_YORK', 500);
+define('FACTION_APPALACHIAN', 510);
+define('FACTION_MUTANTS', 520);
+define('FACTION_MERCHANTS', 530);
 
 /*
  * Cards locations
@@ -124,20 +126,20 @@ define('CONNECTION_THUGS', 'thugs');
 /*
  * Resources
  */
-define('RESOURCE_FUEL', 0);
-define('RESOURCE_GUN', 1);
-define('RESOURCE_IRON', 2);
-define('RESOURCE_BRICK', 3);
-define('RESOURCE_WORKER', 4);
-define('RESOURCE_ARROW_GREY', 5);
-define('RESOURCE_ARROW_RED', 6);
-define('RESOURCE_ARROW_BLUE', 7);
-define('RESOURCE_ARROW_UNIVERSAL', 8);
-define('RESOURCE_AMMO', 9);
-define('RESOURCE_DEFENCE', 10);
-define('RESOURCE_DEVELOPMENT', 11);
-define('RESOURCE_CARD', 12);
-define('RESOURCE_VP', 13);
+define('RESOURCE_FUEL', 4400);
+define('RESOURCE_GUN', 4401);
+define('RESOURCE_IRON', 4402);
+define('RESOURCE_BRICK', 4403);
+define('RESOURCE_WORKER', 4404);
+define('RESOURCE_ARROW_GREY', 4405);
+define('RESOURCE_ARROW_RED', 4406);
+define('RESOURCE_ARROW_BLUE', 4407);
+define('RESOURCE_ARROW_UNIVERSAL', 4408);
+define('RESOURCE_AMMO', 4409);
+define('RESOURCE_DEFENCE', 4410);
+define('RESOURCE_DEVELOPMENT', 4411);
+define('RESOURCE_CARD', 4412);
+define('RESOURCE_VP', 4413);
 
 /*
  * Icons
@@ -176,7 +178,7 @@ define('LOCATION_ACTION_BUILD', 'build');
  * Global constants
  */
 define('GLOBAL_START_CARDS', 6);
-define('GLOBAL_END_OF_GAME_VP', 1);
+define('GLOBAL_END_OF_GAME_VP', 25);
 
 const ALL_RESOURCES_LIST = [
     RESOURCE_FUEL,

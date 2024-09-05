@@ -46,16 +46,21 @@ class Act implements \JsonSerializable
         return ResourcesHelper::getResourceNames($requirements);
     }
 
-    public function activate()
+    /**
+     * @param int | null $activatorId
+     * @return void
+     */
+    public function activate($activatorId)
     {
         $spendRequirements = $this->spendRequirements;
         if (in_array(RESOURCE_CARD, $spendRequirements)) {
             Stack::insertOnTop(ST_DISCARD_LOCATION_FOR_RESOURCES);
             $spendRequirements = array_diff($spendRequirements, [RESOURCE_CARD]);
         }
-        Stack::insertOnTop(ST_CHOOSE_RESOURCE_SOURCE, [
+        Stack::insertOnTop(ST_CREATE_RESOURCE_SOURCE_MAP, [
             'spend' => $spendRequirements,
             'bonus' => $this->bonus,
+            'activatorId' => $activatorId,
         ]);
     }
 

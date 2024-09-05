@@ -111,4 +111,18 @@ class Resources extends DB_Manager
                 ->toArray()
         );
     }
+
+    public static function getJokerFor($resource)
+    {
+        $jokers = [
+            RESOURCE_FUEL => RESOURCE_AMMO,
+            RESOURCE_GUN => RESOURCE_AMMO,
+            RESOURCE_IRON => RESOURCE_AMMO,
+            RESOURCE_BRICK => RESOURCE_AMMO,
+            RESOURCE_ARROW_GREY => RESOURCE_ARROW_UNIVERSAL,
+            RESOURCE_ARROW_RED => RESOURCE_ARROW_UNIVERSAL,
+            RESOURCE_ARROW_BLUE => RESOURCE_ARROW_UNIVERSAL,
+        ];
+        return $jokers[$resource] ?? null;
+    }
 }

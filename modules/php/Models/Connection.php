@@ -70,7 +70,7 @@ class Connection implements \JsonSerializable
 
     public function activate()
     {
-        $this->action->activate();
+        $this->action->activate(null);
         Connections::discard($this->id);
     }
 

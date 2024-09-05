@@ -81,7 +81,7 @@ trait DeployTrait
         if (!in_array($resource, [RESOURCE_BRICK, RESOURCE_DEVELOPMENT])) {
             throw new BgaVisibleSystemException('Unexpected resource while developing: ' . $resource);
         }
-        Stack::insertOnTopAndFinish(ST_CHOOSE_RESOURCE_SOURCE, [
+        Stack::insertOnTopAndFinish(ST_CREATE_RESOURCE_SOURCE_MAP, [
             'spend' => [$resource],
             'bonus' => [RESOURCE_VP],
             'deploy' => ['old' => $id, 'new' => Stack::getCtx()['newLocationId']],

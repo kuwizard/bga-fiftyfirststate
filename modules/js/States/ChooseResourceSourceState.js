@@ -7,21 +7,32 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         onEnteringStateChooseResourceSource(args) {
             debug('ChooseResourceSource state', args);
             if (this.isCurrentPlayerActive()) {
-                if (args.faction) {
+                if (args.sources.faction) {
                     this.addPrimaryActionButton(
                         'buttonChooseSourceFaction',
                         _('Faction'),
                         () => this.takeAction('actChooseSource', { id: 0 })
                     );
                 }
-                if (args.locations) {
-                    args.locations.forEach((locationId) => {
+                if (args.sources.locations) {
+                    args.sources.locations.forEach((locationId) => {
                         this.addPrimaryActionButton(
                             `buttonChooseSource${locationId}`,
                             locationId,
                             () => this.takeAction('actChooseSource', { id: locationId })
                         );
                     });
+                }
+                if (args.sources.joker) {
+                    this.addPrimaryActionButton(
+                        'buttonChooseSourceJoker',
+                        this.replaceWithResourceIcon(_('Use {joker} instead').replace(
+                            'joker',
+                            `${args.sources.jokerIcon}Icon`
+                        )),
+                        () => this.takeAction('actChooseSource', { id: args.sources.joker })
+                    );
+                    dojo.addClass('buttonChooseSourceJoker', 'resourceButton');
                 }
             }
         },

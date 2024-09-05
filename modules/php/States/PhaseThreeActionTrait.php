@@ -100,7 +100,7 @@ trait PhaseThreeActionTrait
     public function actGainResourceForWorkers($resourceName)
     {
         self::checkAction('actGainResourceForWorkers');
-        Stack::insertOnTopAndFinish(ST_CHOOSE_RESOURCE_SOURCE, [
+        Stack::insertOnTopAndFinish(ST_CREATE_RESOURCE_SOURCE_MAP, [
             'spend' => [RESOURCE_WORKER, RESOURCE_WORKER],
             'bonus' => [ResourcesHelper::getResourceType($resourceName)],
         ]);
@@ -122,9 +122,8 @@ trait PhaseThreeActionTrait
         $player = Players::getActive();
         /** @var Act $actionChosen */
         $actionChosen = $player->getAvailableFactionActions()[$id];
-        $actionChosen->activate();
+        $actionChosen->activate($id + $player->getFaction());
         Factions::setAsUsed($player->getFaction(), $id);
-        Notifications::resourcesSpentFaction($player, $actionChosen->getSpendRequirementsUIRemoveCard(), $id);
         Stack::finishState();
     }
 
@@ -225,7 +224,7 @@ trait PhaseThreeActionTrait
      */
     private function razeBuildDealCommon($player, $location, $decrease, $whereToMove, $increase = null)
     {
-        // TODO: Expansions: Add a layer with ST_CHOOSE_RESOURCE_SOURCE here
+        // TODO: Add a layer with ST_CHOOSE_RESOURCE_SOURCE here
         /** @var Location $location */
         $player->decreaseResource($decrease, $location->getDistance());
         $resourcesChanged = [$decrease];

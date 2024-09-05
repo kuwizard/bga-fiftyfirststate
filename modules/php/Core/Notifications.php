@@ -65,9 +65,9 @@ class Notifications
     public static function resourcesSpentFaction($player, $resources, $order)
     {
         self::notifyAll('resourcesSpentFaction', '', [
-            'resources' => $resources,
-            'order' => $order,
             'player' => $player,
+            'order' => $order,
+            'resources' => $resources,
         ]);
     }
 
