@@ -58,11 +58,6 @@ class Production extends Location
         (new Act($this->getSpendRequirements(), $this->getProduct($player)))->activate($this->id);
         $this->activatedTimes = $this->activatedTimes + 1;
         Locations::increaseActivatedTimes($this->id, $this->activatedTimes);
-        Notifications::resourcesPlacedOnLocation(
-            $player,
-            $this->id,
-            ResourcesHelper::getResourceNames($this->getSpendRequirements())
-        );
         $productionOwner = Players::getOwner($this->id);
         $productionOwner->increaseResource(RESOURCE_WORKER);
         Notifications::resourcesChanged($productionOwner, $productionOwner->getResourcesWithNames([RESOURCE_WORKER]));
