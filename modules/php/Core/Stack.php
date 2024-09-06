@@ -238,7 +238,6 @@ class Stack
             }
         }
         if ($ctxIndex == -1 && $throwOnError) {
-            debug_print_backtrace();
             throw new \BgaVisibleSystemException(
                 'Class Stack: ctxIndex == -1. Please report this to the BGA bug tracker'
             );

@@ -186,6 +186,7 @@ trait ChooseResourceSourceTrait
             Notifications::handChanged($player);
             Notifications::locationDiscarded($player, $oldLocationId, Locations::countInLocation(LOCATION_DISCARD));
             Notifications::locationBuilt($player, $newLocation, $newLocation->getFactionRow());
+            $this->getProductionAfterBuildAndPlaceResources($newLocation, $player);
         }
         if (!empty($resourcesChanged)) {
             Notifications::resourcesChanged($player, $player->getResourcesWithNames(array_unique($resourcesChanged)));
