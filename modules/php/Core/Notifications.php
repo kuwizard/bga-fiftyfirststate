@@ -170,6 +170,16 @@ class Notifications
         ]);
     }
 
+    public static function dealDiscarded(Player $player, Location $discarded, int $newDiscardCount, string $resource)
+    {
+        self::notifyAll('dealDiscarded', '', [
+            'player' => $player,
+            'discarded' => $discarded,
+            'newDiscardCount' => $newDiscardCount,
+            'resourceRemoved' => $resource,
+        ]);
+    }
+
     /*********************
      **** UPDATE ARGS ****
      *********************/

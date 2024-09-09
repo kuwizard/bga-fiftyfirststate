@@ -82,6 +82,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             );
         },
 
+        addActionButtonWithResource(resource, action) {
+            this.addPrimaryActionButton(
+                `buttonStore${resource}`,
+                this.format_block('jstpl_resource_icon', { type: resource }),
+                () => this.takeAction(action, { resource: resource })
+            );
+            dojo.addClass(`buttonStore${resource}`, 'resourceButton');
+        },
+
         notif_handChanged(n) {
             debug('Notif: handChanged', n);
             this.destroyAll('#hand .location');
@@ -90,7 +99,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             });
         },
 
-        async notif_locationDiscarded(n) {
+        notif_locationDiscarded(n) {
             debug('Notif: locationDiscarded', n);
             const locationLocator = `location_${n.args.id}`;
             dojo.query(`#${locationLocator} .resourceIcon`).forEach((element) => {
@@ -103,10 +112,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     { destroy: true }
                 );
             });
+            this.runDiscardLocationAnimation(locationLocator, n.args.newDiscardCount);
+        },
+
+        async runDiscardLocationAnimation(locationLocator, newDiscardCount) {
+            // debugger;
             await this.waitForDisappearance('.moving');
             await this.slide(locationLocator, 'discard')
             this.destroyAll(`#discard .location:not(#${locationLocator})`);
-            this.querySingle(`#discardHeader .headerValue`).innerText = n.args.newDiscardCount;
+            this.querySingle(`#discardHeader .headerValue`).innerText = newDiscardCount;
         },
 
         notif_lastRound(n) {

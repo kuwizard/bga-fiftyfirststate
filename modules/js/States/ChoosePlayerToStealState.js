@@ -21,11 +21,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             if (this.isCurrentPlayerActive()) {
                 this.selectResourcesToSteal(args.playerId, args.resources, 'actChooseResourceToSteal');
                 args.resources.forEach((resource) => {
-                    this.addPrimaryActionButton(
-                        `buttonChoose${resource}`,
-                        this.format_block('jstpl_resource_icon', { type: resource }),
-                        () => this.takeAction('actChooseResourceToSteal', { resource: resource })
-                    );
+                    this.addActionButtonWithResource(resource, 'actChooseResourceToSteal');
                 });
                 this.addUndoButton();
             }

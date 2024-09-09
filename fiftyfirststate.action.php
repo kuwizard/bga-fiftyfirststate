@@ -226,4 +226,12 @@ class action_fiftyfirststate extends APP_GameAction
         $this->game->actChoosePlayerAndResourceToSteal($resource, $pId);
         self::ajaxResponse();
     }
+
+    public function actChooseDeal()
+    {
+        self::setAjaxMode();
+        $resource = self::getArg('resource', AT_alphanum, true);
+        $this->game->actChooseDeal($resource);
+        self::ajaxResponse();
+    }
 }

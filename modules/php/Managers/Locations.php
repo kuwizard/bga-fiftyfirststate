@@ -248,4 +248,16 @@ class Locations extends Pieces
             ->where('location_id', $location->getId())
             ->run();
     }
+
+    public static function discardByDeal(int $resource, int $playerId)
+    {
+        $locationsInDeals = self::getInLocation([LOCATION_DEALS, $playerId]);
+        $firstWithDeal = $locationsInDeals->filter(function ($location) use ($resource) {
+            /** @var Location $location */
+            return $location->getDeals()[0] === $resource;
+        })->first();
+        /** @var Location $firstWithDeal */
+        self::discard($firstWithDeal->getId());
+        return $firstWithDeal;
+    }
 }

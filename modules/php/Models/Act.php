@@ -55,15 +55,25 @@ class Act implements \JsonSerializable
         switch ($this->type) {
             case ACTION_TYPE_SPEND:
                 $spendRequirements = $this->spendRequirements;
-                if (in_array(RESOURCE_CARD, $spendRequirements)) {
-                    Stack::insertOnTop(ST_DISCARD_LOCATION_FOR_RESOURCES);
+                $discardCard = in_array(RESOURCE_CARD, $spendRequirements);
+                if ($discardCard) {
                     $spendRequirements = array_diff($spendRequirements, [RESOURCE_CARD]);
+                }
+                $discardDeal = in_array(RESOURCE_DEAL, $spendRequirements);
+                if ($discardDeal) {
+                    $spendRequirements = array_diff($spendRequirements, [RESOURCE_DEAL]);
                 }
                 Stack::insertOnTop(ST_CREATE_RESOURCE_SOURCE_MAP, [
                     'spend' => $spendRequirements,
                     'bonus' => $this->bonus,
                     'activatorId' => $activatorId,
                 ]);
+                if ($discardCard) {
+                    Stack::insertOnTop(ST_DISCARD_LOCATION_FOR_RESOURCES);
+                }
+                if ($discardDeal) {
+                    Stack::insertOnTop(ST_CHOOSE_DEAL_TO_LOSE);
+                }
                 break;
             case ACTION_TYPE_STEAL_ANOTHER_PLAYER:
                 Stack::insertOnTop(ST_CHOOSE_PLAYER_TO_STEAL, [

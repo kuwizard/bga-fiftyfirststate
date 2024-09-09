@@ -343,15 +343,17 @@ class Player extends DB_Manager implements JsonSerializable
         }
         foreach ($this->getBoard() as $location) {
             if ($location instanceof Action) {
-                $available = $location->isActivatable();
-                if ($available) {
+                $isActivatable = $location->isActivatable();
+                if ($isActivatable) {
                     foreach (array_count_values($location->getSpendRequirements()) as $requirement => $amount) {
-                        if ($this->getResource($requirement) < $amount) {
-                            $available = false;
+                        if ($requirement === RESOURCE_DEAL) {
+                            $isActivatable = !empty($this->getDeals());
+                        } else if ($this->getResource($requirement) < $amount) {
+                            $isActivatable = false;
                         }
                     }
                 }
-                if ($available) {
+                if ($isActivatable) {
                     $result[$location->getId()] = 'action';
                 }
             }

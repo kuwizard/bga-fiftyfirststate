@@ -29,6 +29,7 @@ define([
     g_gamethemeurl + 'modules/js/States/ChooseResourceToStoreState.js',
     g_gamethemeurl + 'modules/js/States/DeployState.js',
     g_gamethemeurl + 'modules/js/States/ChoosePlayerToStealState.js',
+    g_gamethemeurl + 'modules/js/States/ChooseDealToLoseState.js',
     g_gamethemeurl + 'modules/js/playerboard.js',
     g_gamethemeurl + 'modules/js/factionboard.js',
     g_gamethemeurl + 'modules/js/hand.js',
@@ -50,6 +51,7 @@ define([
             state.chooseResourceToStore,
             state.deploy,
             state.choosePlayerToSteal,
+            state.chooseDealToLose,
         ],
         {
             constructor() {

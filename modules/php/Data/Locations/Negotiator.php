@@ -18,7 +18,7 @@ class Negotiator extends Action
         $this->deals = [RESOURCE_AMMO];
         $this->copies = 2;
         $this->action = new Act(
-            [RESOURCE_WORKER], // TODO: ...and discard a Deal
+            [RESOURCE_WORKER, RESOURCE_DEAL],
             [RESOURCE_VP, RESOURCE_VP],
         );
     }

@@ -7,12 +7,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         onEnteringStateSpendWorkers() {
             if (this.isCurrentPlayerActive()) {
                 ['fuel', 'gun', 'iron', 'brick', 'card'].forEach((resource) => {
-                    this.addPrimaryActionButton(
-                        `buttonGain${resource}`,
-                        this.format_block('jstpl_resource_icon', { type: resource }),
-                        () => this.takeAction('actGainResourceForWorkers', { resource: resource })
-                    );
-                    dojo.addClass(`buttonGain${resource}`, 'resourceButton');
+                    this.addActionButtonWithResource(resource, 'actGainResourceForWorkers');
                 });
                 this.addUndoButton();
             }

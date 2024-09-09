@@ -18,7 +18,7 @@ class Hideout extends Action
         $this->deals = [RESOURCE_VP];
         $this->copies = 2;
         $this->action = new Act(
-            [], // TODO: Discard a deal to gain VP
+            [RESOURCE_DEAL],
             [RESOURCE_VP],
         );
         $this->activationsMax = 2;

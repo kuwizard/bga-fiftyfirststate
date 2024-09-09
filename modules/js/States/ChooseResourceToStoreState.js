@@ -9,12 +9,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             setTimeout(() => { // Weird BGA bug, buttons do not appear
                 if (args._private) {
                     args._private.forEach((resource) => {
-                        this.addPrimaryActionButton(
-                            `buttonStore${resource}`,
-                            this.format_block('jstpl_resource_icon', { type: resource }),
-                            () => this.takeAction('actChooseResourceToStore', { resource: resource })
-                        );
-                        dojo.addClass(`buttonStore${resource}`, 'resourceButton');
+                        this.addActionButtonWithResource(resource, 'actChooseResourceToStore');
                     });
                     this.addPrimaryActionButton(
                         'buttonActionPassStoring',
