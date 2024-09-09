@@ -52,16 +52,27 @@ class Act implements \JsonSerializable
      */
     public function activate($activatorId)
     {
-        $spendRequirements = $this->spendRequirements;
-        if (in_array(RESOURCE_CARD, $spendRequirements)) {
-            Stack::insertOnTop(ST_DISCARD_LOCATION_FOR_RESOURCES);
-            $spendRequirements = array_diff($spendRequirements, [RESOURCE_CARD]);
+        switch ($this->type) {
+            case ACTION_TYPE_SPEND:
+                $spendRequirements = $this->spendRequirements;
+                if (in_array(RESOURCE_CARD, $spendRequirements)) {
+                    Stack::insertOnTop(ST_DISCARD_LOCATION_FOR_RESOURCES);
+                    $spendRequirements = array_diff($spendRequirements, [RESOURCE_CARD]);
+                }
+                Stack::insertOnTop(ST_CREATE_RESOURCE_SOURCE_MAP, [
+                    'spend' => $spendRequirements,
+                    'bonus' => $this->bonus,
+                    'activatorId' => $activatorId,
+                ]);
+                break;
+            case ACTION_TYPE_STEAL_ANOTHER_PLAYER:
+                Stack::insertOnTop(ST_CHOOSE_PLAYER_TO_STEAL, [
+                    'spend' => $this->spendRequirements,
+                    'resourcesAllowed' => $this->bonus,
+                    'activatorId' => $activatorId,
+                ]);
+                break;
         }
-        Stack::insertOnTop(ST_CREATE_RESOURCE_SOURCE_MAP, [
-            'spend' => $spendRequirements,
-            'bonus' => $this->bonus,
-            'activatorId' => $activatorId,
-        ]);
     }
 
     public function jsonSerialize()

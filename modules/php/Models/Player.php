@@ -185,6 +185,15 @@ class Player extends DB_Manager implements JsonSerializable
     }
 
     /**
+     * @param string $color
+     * @return int
+     */
+    public function getFactionUI()
+    {
+        return ($this->getFaction() / 10) - 50;
+    }
+
+    /**
      * @return int[]
      */
     public function getDeals()
@@ -429,6 +438,16 @@ class Player extends DB_Manager implements JsonSerializable
     }
 
     /**
+     * @return int[]
+     */
+    public function getResourcesNotZero($requested)
+    {
+        return array_filter($requested, function ($resource) {
+            return $this->getResource($resource) > 0;
+        });
+    }
+
+    /**
      * @param array $resources
      * @return void
      */
@@ -551,7 +570,7 @@ class Player extends DB_Manager implements JsonSerializable
             'name' => $this->name,
             'color' => $this->color,
             'score' => $this->score,
-            'faction' => $this->faction,
+            'faction' => $this->getFactionUI(),
             'fuel' => $this->fuel,
             'gun' => $this->gun,
             'iron' => $this->iron,

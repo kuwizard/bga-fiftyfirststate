@@ -51,6 +51,7 @@ class Fiftyfirststate extends Table
     use STATE\States\ChooseResourceSourceTrait;
     use STATE\States\ChooseResourceToStoreTrait;
     use STATE\States\DeployTrait;
+    use STATE\States\ChoosePlayerToStealTrait;
 
     public static $instance = null;
 

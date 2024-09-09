@@ -2,7 +2,6 @@
 
 namespace STATE\Models;
 
-use STATE\Core\Notifications;
 use STATE\Managers\Locations;
 
 class Action extends Location

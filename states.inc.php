@@ -204,6 +204,24 @@ $machinestates = [
         'possibleactions' => ['actOptionOpenProduction', 'actOptionRaze', 'actUndo'],
     ],
 
+    ST_CHOOSE_PLAYER_TO_STEAL => [
+        'name' => 'choosePlayerToSteal',
+        'description' => clienttranslate('${actplayer} must choose another player and a resource to take'),
+        'descriptionmyturn' => clienttranslate('${you} must choose another player and a resource to take'),
+        'args' => 'argChoosePlayerToSteal',
+        'type' => 'activeplayer',
+        'possibleactions' => ['actChoosePlayerToSteal', 'actChoosePlayerAndResourceToSteal', 'actUndo'],
+    ],
+
+    ST_CHOOSE_RESOURCE_TO_STEAL => [
+        'name' => 'chooseResourceToSteal',
+        'description' => clienttranslate('${actplayer} must choose a resource to take'),
+        'descriptionmyturn' => clienttranslate('${you} must choose a resource to take from ${player_name}'),
+        'args' => 'argChooseResourceToSteal',
+        'type' => 'activeplayer',
+        'possibleactions' => ['actChooseResourceToSteal', 'actUndo'],
+    ],
+
     ST_PHASE_FOUR_CLEANUP => [
         'name' => 'phaseFourCleanup',
         'description' => '',

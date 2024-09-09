@@ -23,6 +23,8 @@ define('ST_CHOOSE_RESOURCE_TO_STORE', 38);
 define('ST_DEPLOY_CHOOSE_FROM_HAND', 39);
 define('ST_DEPLOY_CHOOSE_DESTINATION', 40);
 define('ST_OPEN_PRODUCTION_OR_RAZE', 41);
+define('ST_CHOOSE_PLAYER_TO_STEAL', 42);
+define('ST_CHOOSE_RESOURCE_TO_STEAL', 43);
 define('ST_PHASE_FOUR_CLEANUP', 95);
 
 define('ST_END_GAME', 99);
@@ -166,6 +168,7 @@ define('FEATURE_STORE_RESOURCES', 2);
  * Action types
  */
 define('ACTION_TYPE_SPEND', 0);
+define('ACTION_TYPE_STEAL_ANOTHER_PLAYER', 1);
 
 /*
  * Location action types

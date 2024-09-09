@@ -465,12 +465,28 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                             return this.getLogIcon(resource);
                         }).join(', ');
                     }
+                    if (args.player_name) {
+                        args.player_name = this.coloredPlayerName(args.player_name);
+                    }
                 }
             } catch (e) {
                 console.error(log, args, 'Exception thrown', e.stack);
             }
 
             return this.inherited({ callee: this.format_string_recursive }, arguments);
+        },
+
+        coloredPlayerName(name) {
+            const player = Object.values(this.gamedatas.players).find((player) => player.name === name);
+            if (player === undefined) return '<!--PNS--><span class="playername">' + name + '</span><!--PNE-->';
+
+            const color = player.color;
+            const color_bg = player.color_back
+                ? 'background-color:#' + this.gamedatas.players[this.player_id].color_back + ';'
+                : '';
+            return (
+                '<!--PNS--><span class="playername" style="color:#' + color + ';' + color_bg + '">' + name + '</span><!--PNE-->'
+            );
         },
 
         getLogIcon(type) {
