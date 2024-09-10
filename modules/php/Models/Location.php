@@ -180,7 +180,8 @@ class Location implements \JsonSerializable
             'isRuined' => $this->isRuined,
         ];
         if (!$this->isRuined && $this->activatedTimes > 0) {
-            $requirements = array_diff([RESOURCE_DEAL], $this->getSpendRequirements());
+            $requirements = $this->getSpendRequirements();
+            unset($requirements[RESOURCE_DEAL]);
             $requirementsNames = ResourcesHelper::getResourceNames($requirements);
             $requirementsSingle = $requirementsNames;
             for ($i = 0; $i < $this->activatedTimes - 1; $i++) {

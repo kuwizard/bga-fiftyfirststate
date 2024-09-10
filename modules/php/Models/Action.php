@@ -2,6 +2,7 @@
 
 namespace STATE\Models;
 
+use STATE\Core\Stack;
 use STATE\Managers\Locations;
 
 class Action extends Location
@@ -41,9 +42,12 @@ class Action extends Location
      */
     public function activate($player)
     {
-        $this->action->activate($this->id);
         $this->activatedTimes = $this->activatedTimes + 1;
         Locations::increaseActivatedTimes($this->id, $this->activatedTimes);
+        if ($this->activatedTimes < $this->activationsMax) {
+            Stack::insertOnTop(ST_ACTIVATE_SECOND_TIME, ['locationId' => $this->id]);
+        }
+        $this->action->activate($this->id);
     }
 
     public function getDefenceValue()
