@@ -2,9 +2,10 @@
 
 namespace STATE\Data\Locations;
 
-use STATE\Models\FeatureStorageSingle;
+use STATE\Models\FeatureStorageMultiple;
+use STATE\Models\ResourceStorageOption;
 
-class BrickStorage extends FeatureStorageSingle
+class BrickStorage extends FeatureStorageMultiple
 {
     public function __construct($params = [])
     {
@@ -17,7 +18,9 @@ class BrickStorage extends FeatureStorageSingle
         $this->deals = [RESOURCE_BRICK];
         $this->copies = 1;
 
-        $this->resourceType = RESOURCE_BRICK;
-        $this->resourceLimit = 3;
+        $this->resourcesOptions = [
+            new ResourceStorageOption([RESOURCE_FUEL, RESOURCE_GUN, RESOURCE_IRON, RESOURCE_BRICK], 2),
+            new ResourceStorageOption([RESOURCE_WORKER], 2),
+        ];
     }
 }

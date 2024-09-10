@@ -552,10 +552,6 @@ class Player extends DB_Manager implements JsonSerializable
     public function markAsPassed()
     {
         Players::markAsPassed($this->id);
-        if (!Globals::isLastRound()) {
-//            Players::removeAllResources($this->id);
-        }
-        Locations::resetActivatedTimes($this->getBoard()->getIds());
     }
 
     public function setTieBreaker(int $value)

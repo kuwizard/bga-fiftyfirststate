@@ -9,7 +9,7 @@ class Notifications
     /*************************
      **** GENERIC METHODS ****
      *************************/
-    private static function notifyAll($name, $msg, $data)
+    private static function notifyAll($name, $msg, $data = [])
     {
         self::updateArgs($data);
         Game::get()->notifyAllPlayers($name, $msg, $data);
@@ -158,8 +158,21 @@ class Notifications
     {
         self::notifyAll('playerPassed', '', [
             'player' => $player,
-            'clearResources' => !Globals::isLastRound(),
         ]);
+    }
+
+    public static function playerGotResourcesFromStorage(Player $player, int $locationId, array $resources)
+    {
+        self::notifyAll('playerGotResourcesFromStorage', '', [
+            'player' => $player,
+            'locationId' => $locationId,
+            'resources' => $resources,
+        ]);
+    }
+
+    public static function playersResetAllResources()
+    {
+        self::notifyAll('playersResetAllResources', '');
     }
 
     public static function lastRound($player)

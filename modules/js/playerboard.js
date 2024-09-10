@@ -18,8 +18,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             });
         },
 
-        notif_resourcesChanged(n) {
+        async notif_resourcesChanged(n) {
             debug('Notif: resourcesChanged', n);
+            await this.waitForDisappearance('.moving');
             const data = n.args.resources;
             Object.keys(data).forEach((resource) => {
                 if (resource === 'score') {
