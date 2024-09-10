@@ -11,7 +11,7 @@ use STATE\Managers\Factions;
 use STATE\Managers\Locations;
 use STATE\Managers\Players;
 use STATE\Models\Act;
-use STATE\Models\Feature;
+use STATE\Models\FeatureStorageSingle;
 use STATE\Models\Location;
 use STATE\Models\Player;
 use STATE\Models\Production;
@@ -173,7 +173,7 @@ trait PhaseThreeActionTrait
             Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));
         }
         // Place resources on a card
-        if ($location instanceof Feature && $location->getFeatureType() === FEATURE_PLACE_RESOURCES) {
+        if ($location instanceof FeatureStorageSingle) {
             $location->placeResourcesOneType($location->getResourceType(), $location->getResourceLimit());
             Notifications::resourcesPlacedOnLocation(
                 $player,

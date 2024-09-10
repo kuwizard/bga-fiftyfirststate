@@ -553,7 +553,7 @@ class Player extends DB_Manager implements JsonSerializable
     {
         Players::markAsPassed($this->id);
         if (!Globals::isLastRound()) {
-            Players::removeAllResources($this->id);
+//            Players::removeAllResources($this->id);
         }
         Locations::resetActivatedTimes($this->getBoard()->getIds());
     }

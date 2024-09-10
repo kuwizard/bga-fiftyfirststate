@@ -2,9 +2,9 @@
 
 namespace STATE\Data\Locations;
 
-use STATE\Models\Feature;
+use STATE\Models\FeatureStorageSingle;
 
-class ScrapMetal extends Feature
+class ScrapMetal extends FeatureStorageSingle
 {
     public function __construct($params = [])
     {
@@ -17,7 +17,6 @@ class ScrapMetal extends Feature
         $this->deals = [RESOURCE_IRON];
         $this->copies = 1;
 
-        $this->featureType = FEATURE_PLACE_RESOURCES;
         $this->resourceType = RESOURCE_IRON;
         $this->resourceLimit = 3;
     }

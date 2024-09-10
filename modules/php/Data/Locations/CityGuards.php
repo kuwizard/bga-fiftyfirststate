@@ -2,9 +2,9 @@
 
 namespace STATE\Data\Locations;
 
-use STATE\Models\Feature;
+use STATE\Models\FeatureStorageSingle;
 
-class CityGuards extends Feature
+class CityGuards extends FeatureStorageSingle
 {
     public function __construct($params = [])
     {
@@ -17,7 +17,6 @@ class CityGuards extends Feature
         $this->deals = [RESOURCE_GUN];
         $this->copies = 1;
 
-        $this->featureType = FEATURE_PLACE_RESOURCES;
         $this->resourceType = RESOURCE_GUN;
         $this->resourceLimit = 3;
     }

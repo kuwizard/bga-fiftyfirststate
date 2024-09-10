@@ -222,6 +222,15 @@ $machinestates = [
         'possibleactions' => ['actChooseResourceToSteal', 'actUndo'],
     ],
 
+    ST_CHOOSE_DEAL_TO_LOSE => [
+        'name' => 'chooseDealToLose',
+        'description' => clienttranslate('${actplayer} must choose a deal to lose'),
+        'descriptionmyturn' => clienttranslate('${you} must choose a deal to lose'),
+        'args' => 'argChooseDealToLose',
+        'type' => 'activeplayer',
+        'possibleactions' => ['actChooseDeal', 'actUndo'],
+    ],
+
     ST_PHASE_FOUR_CLEANUP => [
         'name' => 'phaseFourCleanup',
         'description' => '',

@@ -2,9 +2,10 @@
 
 namespace STATE\Data\Locations;
 
-use STATE\Models\Feature;
+use STATE\Models\FeatureStorageMultiple;
+use STATE\Models\ResourceStorageOption;
 
-class RuinedLibrary extends Feature
+class RuinedLibrary extends FeatureStorageMultiple
 {
     public function __construct($params = [])
     {
@@ -17,8 +18,8 @@ class RuinedLibrary extends Feature
         $this->deals = [RESOURCE_GUN];
         $this->copies = 1;
 
-        $this->featureType = FEATURE_STORE_RESOURCES;
-        $this->resourceLimit = 3;
-        $this->resourcesOptions = [RESOURCE_FUEL, RESOURCE_GUN, RESOURCE_IRON, RESOURCE_BRICK];
+        $this->resourcesOptions = [
+            new ResourceStorageOption([RESOURCE_FUEL, RESOURCE_GUN, RESOURCE_IRON, RESOURCE_BRICK], 3),
+        ];
     }
 }

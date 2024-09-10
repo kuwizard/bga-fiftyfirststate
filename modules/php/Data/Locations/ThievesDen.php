@@ -2,9 +2,10 @@
 
 namespace STATE\Data\Locations;
 
-use STATE\Models\Feature;
+use STATE\Models\FeatureStorageMultiple;
+use STATE\Models\ResourceStorageOption;
 
-class ThievesDen extends Feature
+class ThievesDen extends FeatureStorageMultiple
 {
     public function __construct($params = [])
     {
@@ -17,10 +18,9 @@ class ThievesDen extends Feature
         $this->deals = [RESOURCE_AMMO];
         $this->copies = 1;
 
-        $this->featureType = FEATURE_STORE_RESOURCES;
-        $this->resourceLimit = 2;
-        $this->resourcesOptions = [RESOURCE_FUEL, RESOURCE_GUN, RESOURCE_IRON, RESOURCE_BRICK];
+        $this->resourcesOptions = [
+            new ResourceStorageOption([RESOURCE_FUEL, RESOURCE_GUN, RESOURCE_IRON, RESOURCE_BRICK], 2),
+            new ResourceStorageOption([RESOURCE_WORKER], 2),
+        ];
     }
-
-    // TODO: You may store workers here
 }

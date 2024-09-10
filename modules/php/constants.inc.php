@@ -160,13 +160,6 @@ define('ICON_ARROW', 8);
 define('ICON_AMMO', 9);
 
 /*
- * Features
- */
-define('FEATURE_NONE', 0);
-define('FEATURE_PLACE_RESOURCES', 1);
-define('FEATURE_STORE_RESOURCES', 2);
-
-/*
  * Action types
  */
 define('ACTION_TYPE_SPEND', 0);

@@ -2,9 +2,9 @@
 
 namespace STATE\Data\Locations;
 
-use STATE\Models\Feature;
+use STATE\Models\FeatureStorageSingle;
 
-class Camp extends Feature
+class Camp extends FeatureStorageSingle
 {
     public function __construct($params = [])
     {
@@ -17,7 +17,6 @@ class Camp extends Feature
         $this->deals = [RESOURCE_WORKER];
         $this->copies = 1;
 
-        $this->featureType = FEATURE_PLACE_RESOURCES;
         $this->resourceType = RESOURCE_WORKER;
         $this->resourceLimit = 3;
     }

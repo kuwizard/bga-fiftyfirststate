@@ -7,10 +7,9 @@ use STATE\Core\Stack;
 use STATE\Helpers\Collection;
 use STATE\Helpers\ResourcesHelper;
 use STATE\Managers\Players;
-use STATE\Managers\Resources;
-use STATE\Models\Feature;
-use STATE\Models\Location;
+use STATE\Models\FeatureStorageMultiple;
 use STATE\Models\Player;
+use STATE\Models\ResourceStorageOption;
 
 trait ChooseResourceToStoreTrait
 {
@@ -19,7 +18,7 @@ trait ChooseResourceToStoreTrait
         $args = [];
         /** @var Player $player */
         foreach ($this->getPlayersWithStoreFeatures()->toArray() as $player) {
-            $nonZeroResources = $this->getPlayersAvailableResources($player, $this->getResourcesAvailableToStore());
+            $nonZeroResources = $this->getPlayersAvailableResources($player);
             $args[$player->getId()] = ResourcesHelper::getResourceNames($nonZeroResources);
         }
         return ['_private' => $args];
@@ -41,34 +40,45 @@ trait ChooseResourceToStoreTrait
     {
         self::checkAction('actChooseResourceToStore');
         $player = Players::getCurrent();
-        $resourceType = ResourcesHelper::getResourceType($resourceName);
-        $player->decreaseResource($resourceType);
-        $notificationData = [$resourceName => $player->getResource($resourceType)];
+        $resource = ResourcesHelper::getResourceType($resourceName);
+        $player->decreaseResource($resource);
+        $notificationData = [$resourceName => $player->getResource($resource)];
         Notifications::resourcesChanged($player, $notificationData);
-        /** @var Location $location */
-        $location = $this->getFirstStorageLocation($player);
-        $location->addResource($resourceType);
+        $location = $this->getFirstStorageLocationByResource($player, $resource);
+        $location->addResource($resource);
         Notifications::resourcesPlacedOnLocation(
             $player,
             $location->getId(),
-            ResourcesHelper::getResourceNames([$resourceType])
+            ResourcesHelper::getResourceNames([$resource])
         );
-        if (!empty($this->getPlayersAvailableResources($player, $this->getResourcesAvailableToStore()))
-            && !is_null($this->getFirstStorageLocation($player))) {
+        $nonFilledStorageLocations = $this->getAllNonFilledStorageLocations($player);
+        if (!is_null($nonFilledStorageLocations)
+            && !empty($this->getPlayersAvailableResources($player, $nonFilledStorageLocations))) {
             Stack::insertOnTop(ST_CHOOSE_RESOURCE_TO_STORE);
         }
         Stack::finishState();
     }
 
     /**
-     * @param Player $player
-     * @param int[] $resourcesTypes
      * @return int[]
      */
-    private function getPlayersAvailableResources($player, $resourcesTypes)
+    private function getPlayersAvailableResources(Player $player, Collection $nonFilledStorageLocations = null): array
     {
-        /** @var Player $player */
-        return array_values(array_filter($resourcesTypes, function ($resource) use ($player) {
+        $availableOptions = [];
+        if (!$nonFilledStorageLocations) {
+            $nonFilledStorageLocations = $this->getAllNonFilledStorageLocations($player);
+        }
+        /** @var FeatureStorageMultiple $location */
+        foreach ($nonFilledStorageLocations as $location) {
+            $availableOptions = array_merge($availableOptions, $location->getResourcesOptionsNotFilled());
+        }
+
+        $availableResources = [];
+        foreach ($availableOptions as $option) {
+            /** @var ResourceStorageOption $option */
+            $availableResources = array_merge($availableResources, $option->getResources());
+        }
+        return array_values(array_filter(array_unique($availableResources), function ($resource) use ($player) {
             return $player->getResource($resource) > 0;
         }));
     }
@@ -81,31 +91,32 @@ trait ChooseResourceToStoreTrait
         return Players::getAll()->filter(function (Player $player) {
             return
                 !$player->getBoard()->filter(function ($location) {
-                    return $location instanceof Feature && $location->getFeatureType() === FEATURE_STORE_RESOURCES;
+                    return $location instanceof FeatureStorageMultiple;
                 })->empty();
         });
     }
 
     /**
-     * @return int[]
+     * @return Collection
      */
-    private function getResourcesAvailableToStore()
+    private function getAllNonFilledStorageLocations(Player $player)
     {
-        // TODO: Expansions: check which locations store what and send only those resources
-        return [RESOURCE_FUEL, RESOURCE_GUN, RESOURCE_IRON, RESOURCE_BRICK];
+        return $player->getBoard()->filter(function ($location) {
+            return $location instanceof FeatureStorageMultiple &&
+                !$location->isFullyFilled();
+        });
     }
 
     /**
-     * @param $player
-     * @return Location | null
+     * @param Player $player
+     * @param int $resource
+     * @return FeatureStorageMultiple
      */
-    private function getFirstStorageLocation($player)
+    private function getFirstStorageLocationByResource(Player $player, int $resource)
     {
         return $player->getBoard()->filter(function ($location) {
-            // TODO: Expansions: this filter should also consider a resource type, currently we don't care
-            return $location instanceof Feature &&
-                $location->getFeatureType() === FEATURE_STORE_RESOURCES &&
-                $location->getResourcesAmount() < $location->getResourceLimit();
+            return $location instanceof FeatureStorageMultiple &&
+                !$location->isFullyFilled();
         })->first();
     }
 }
