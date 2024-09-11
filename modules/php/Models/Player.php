@@ -326,8 +326,13 @@ class Player extends DB_Manager implements JsonSerializable
                 $allCardsResources = array_count_values(Resources::getMultiple(Locations::getBoard($this->id)->getIds()));
                 $cardResource = $allCardsResources[$resource] ?? 0;
             }
-            $jokers = $considerJoker ? $this->getResource(Resources::getJokerFor($resource)) : 0;
-            return $playerResource + $cardResource + $jokers;
+            if ($considerJoker) {
+                $joker = Resources::getJokerFor($resource);
+                $jokersAmount = $joker ? $this->getResource($joker) : 0;
+            } else {
+                $jokersAmount = 0;
+            }
+            return $playerResource + $cardResource + $jokersAmount;
         }
     }
 
@@ -351,7 +356,7 @@ class Player extends DB_Manager implements JsonSerializable
                     foreach (array_count_values($location->getSpendRequirements()) as $requirement => $amount) {
                         if ($requirement === RESOURCE_DEAL) {
                             $isActivatable = !empty($this->getDeals());
-                        } else if ($this->getResource($requirement) < $amount) {
+                        } else if ($this->getResource($requirement, true, true) < $amount) {
                             $isActivatable = false;
                         }
                     }

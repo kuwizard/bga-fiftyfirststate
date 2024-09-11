@@ -209,9 +209,9 @@ trait ChooseResourceSourceTrait
                     ResourcesHelper::getResourceName($location->getDeals()[0])
                 );
             }
-            if (!empty($resourcesChanged)) {
-                Notifications::resourcesChanged($player, $player->getResourcesWithNames(array_unique($resourcesChanged)));
-            }
+        }
+        if (!empty($resourcesChanged)) {
+            Notifications::resourcesChanged($player, $player->getResourcesWithNames(array_unique($resourcesChanged)));
         }
     }
 
