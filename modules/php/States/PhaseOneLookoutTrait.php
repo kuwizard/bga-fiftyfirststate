@@ -61,7 +61,7 @@ trait PhaseOneLookoutTrait
         self::checkAction('actChooseCardLookout');
         $player = Players::getActive();
         Locations::move($id, [LOCATION_HAND, $player->getId()]);
-        Notifications::handChanged($player);
+        Notifications::locationPicked($player, Locations::get($id), 'lookout');
         Notifications::resourcesChanged($player, ['card' => $player->getHandAmount()]);
         Stack::finishState();
     }

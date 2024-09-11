@@ -3,6 +3,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         constructor() {
             this._notifications.push(['handChanged', 1]);
             this._notifications.push(['locationDiscarded', 1]);
+            this._notifications.push(['locationPicked', 1]);
             this._notifications.push(['lastRound', 1]);
         },
 
@@ -92,12 +93,34 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             dojo.addClass(`buttonStore${resource}`, 'resourceButton');
         },
 
+        addLocation(location, destination, isFirst = false) {
+            const locationBlock = this.format_block('jstpl_location', this.enrichLocationObject(location));
+            const locationElement = dojo.place(locationBlock, destination, isFirst ? 'first' : 'last');
+            this.addTooltipHtml(`location_${location.id}`, locationBlock);
+            return locationElement;
+        },
+
         notif_handChanged(n) {
             debug('Notif: handChanged', n);
             this.destroyAll('#hand .location');
             n.args.hand.forEach((location) => {
                 this.addLocation(location, $('hand'));
             });
+        },
+
+        notif_locationPicked(n) {
+            debug('Notif: locationPicked', n);
+            if (n.args.source === 'lookout') {
+                if (n.args.player_id === this.player_id) {
+                    this.slide(`location_${n.args.location.id}`, 'hand', { phantom: true });
+                } else {
+                    this.slide(
+                        `location_${n.args.location.id}`,
+                        `overall_player_board_${n.args.player_id}`,
+                        { destroy: true }
+                    );
+                }
+            }
         },
 
         async notif_locationDiscarded(n) {
@@ -124,13 +147,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             await this.slide(locationElement, 'discard');
             this.destroyAll(`#discard .location:not(#location_${location.id})`);
             this.querySingle(`#discardHeader .headerValue`).innerText = newDiscardCount;
-        },
-
-        addLocation(location, destination, isFirst = false) {
-            const locationBlock = this.format_block('jstpl_location', this.enrichLocationObject(location));
-            const locationElement = dojo.place(locationBlock, destination, isFirst ? 'first' : 'last');
-            this.addTooltipHtml(`location_${location.id}`, locationBlock);
-            return locationElement;
         },
 
         notif_lastRound(n) {

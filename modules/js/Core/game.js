@@ -256,7 +256,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             if (config.phantomEnd) {
                 targetId = dojo.clone(mobileElt);
                 dojo.attr(targetId, 'id', mobileElt.id + '_afterSlide');
-                dojo.addClass(targetId, 'phantomm');
+                dojo.addClass(targetId, 'phantom');
                 dojo.place(targetId, targetElt);
             }
 
