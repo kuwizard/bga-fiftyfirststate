@@ -28,6 +28,7 @@ trait ChooseResourceSourceTrait
         return [
             'resourceIcon' => ResourcesHelper::getResourceName($resource),
             'resourcesList' => ResourcesHelper::getResourceNames($toSpend),
+            'spendText' => clienttranslate('Choose where to spend {resourceIcon} from:'),
             'sources' => $sources,
         ];
     }

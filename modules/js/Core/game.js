@@ -457,8 +457,15 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                             );
                         }
                     });
-                    if (args.resourceIcon && log.includes('${resourceIcon}')) {
-                        args.resourceIcon = this.getLogIcon(args['resourceIcon']);
+                    if (args.spendText && args.resourcesList) {
+                        if (args.resourcesList.length === 1) {
+                            args.spendText = _('Choose where to spend it from:');
+                        } else {
+                            args.spendText = args.spendText.replace(
+                                "{resourceIcon}",
+                                this.getLogIcon(args['resourceIcon'])
+                            );
+                        }
                     }
                     if (args.resourcesList && log.includes('${resourcesList}')) {
                         args.resourcesList = args.resourcesList.map((resource) => {
