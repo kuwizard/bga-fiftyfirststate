@@ -101,8 +101,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         notif_locationDiscarded(n) {
             debug('Notif: locationDiscarded', n);
-            const locationLocator = `location_${n.args.id}`;
-            dojo.query(`#${locationLocator} .resourceIcon`).forEach((element) => {
+            dojo.query(`#location_${n.args.location.id} .resourceIcon`).forEach((element) => {
                 const resourceType = [...element.classList].find((clazz) => {
                     return clazz !== 'resourceIcon'
                 }).replace('Icon', '');
@@ -112,14 +111,21 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     { destroy: true }
                 );
             });
-            this.runDiscardLocationAnimation(locationLocator, n.args.newDiscardCount);
+            this.runDiscardLocationAnimation(n.args.location, n.args.newDiscardCount, n.args.player_id);
         },
 
-        async runDiscardLocationAnimation(locationLocator, newDiscardCount) {
-            // debugger;
+        async runDiscardLocationAnimation(location, newDiscardCount, playerId) {
             await this.waitForDisappearance('.moving');
-            await this.slide(locationLocator, 'discard')
-            this.destroyAll(`#discard .location:not(#${locationLocator})`);
+            let locationElement = $(`location_${location.id}`);
+            if (!locationElement) {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                locationElement = dojo.place(
+                    this.format_block('jstpl_location', this.enrichLocationObject(location)),
+                    `overall_player_board_${playerId}`, 'first'
+                );
+            }
+            await this.slide(locationElement, 'discard');
+            this.destroyAll(`#discard .location:not(#location_${location.id})`);
             this.querySingle(`#discardHeader .headerValue`).innerText = newDiscardCount;
         },
 
