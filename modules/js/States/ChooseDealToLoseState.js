@@ -20,10 +20,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             if (dojo.query(dealIcon).length === 0) {
                 dojo.destroy(this.querySingle(`#faction_${n.args.player_id} .deals .${n.args.resourceRemoved}Block`));
             }
-            dojo.place(this.format_block(
-                'jstpl_location',
-                this.enrichLocationObject(n.args.discarded)
-            ), this.querySingle(`#faction_${n.args.player_id} .deals`));
+            this.addLocation(n.args.discarded, this.querySingle(`#faction_${n.args.player_id} .deals`));
             this.runDiscardLocationAnimation(`location_${n.args.discarded.id}`, n.args.newDiscardCount)
         }
     });

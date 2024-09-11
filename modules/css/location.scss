@@ -1,6 +1,8 @@
+@import "variables";
+
 .location {
-  width: 169px;
-  height: 250px;
+  width: $locationWidth;
+  height: $locationWidth * $locationRatio;
   box-shadow: rgba(0, 0, 0, 0.55) 0 2px 4px;
   border-radius: 8px;
   position: relative;
@@ -48,4 +50,9 @@
     gap: 5px;
     flex-wrap: wrap;
   }
+}
+
+.dijitTooltip .location {
+  width: $locationTooltipWidth;
+  height: $locationTooltipWidth * $locationRatio;
 }

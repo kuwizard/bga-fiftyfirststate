@@ -143,7 +143,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             debug('Notif: locationBuilt', n);
             dojo.destroy(`location_${n.args.location.id}`);
             const rowElement = this.querySingle(`#faction_${n.args.player_id} .${n.args.factionRow}`);
-            dojo.place(this.format_block('jstpl_location', this.enrichLocationObject(n.args.location)), rowElement);
+            this.addLocation(n.args.location, rowElement);
         },
 
         notif_locationDealMade(n) {

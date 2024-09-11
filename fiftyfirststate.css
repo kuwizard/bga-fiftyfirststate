@@ -203,7 +203,7 @@
 
 .location {
   width: 169px;
-  height: 250px;
+  height: 249.951px;
   box-shadow: rgba(0, 0, 0, 0.55) 0 2px 4px;
   border-radius: 8px;
   position: relative;
@@ -268,6 +268,11 @@
   justify-content: center;
   gap: 5px;
   flex-wrap: wrap;
+}
+
+.dijitTooltip .location {
+  width: 300px;
+  height: 443.7px;
 }
 
 #hand, #deckConnectionsBlock {
@@ -393,7 +398,7 @@
 }
 
 .connection {
-  width: 250px;
+  width: 249.951px;
   height: 169px;
   box-shadow: rgba(0, 0, 0, 0.55) 0 2px 4px;
   border-radius: 8px;
@@ -427,6 +432,11 @@
 }
 .connection.flipped {
   background-color: gray;
+}
+
+.dijitTooltip .connection {
+  width: 443.7px;
+  height: 300px;
 }
 
 #connections, #lookout {

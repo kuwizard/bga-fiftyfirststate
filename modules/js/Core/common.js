@@ -48,14 +48,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 this.format_block('jstpl_header', { text: _('Discard: '), value: gamedatas.discard }),
                 'discardHeader'
             );
-            dojo.place(this.format_block('jstpl_location', this.enrichLocationObject()), 'deck');
+            this.addLocation({}, $('deck'));
             if (gamedatas.discardLastLocation === null) {
                 gamedatas.discardLastLocation = {};
             }
-            dojo.place(
-                this.format_block('jstpl_location', this.enrichLocationObject(gamedatas.discardLastLocation)),
-                'discard'
-            );
+            this.addLocation(gamedatas.discardLastLocation, $('discard'));
             this.addConnections(gamedatas.connections);
         },
 
@@ -66,10 +63,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 } else {
                     connection = { ...connection, additionalClass: '' }
                 }
-                dojo.place(
-                    this.format_block('jstpl_connection', connection),
-                    'connections'
-                );
+                const connectionBlock = this.format_block('jstpl_connection', connection);
+                dojo.place(connectionBlock, 'connections');
+                if (connection.id !== 0) {
+                    this.addTooltipHtml(`connection_${connection.id}`, connectionBlock);
+                }
             });
         },
 
@@ -95,7 +93,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             debug('Notif: handChanged', n);
             this.destroyAll('#hand .location');
             n.args.hand.forEach((location) => {
-                dojo.place(this.format_block('jstpl_location', this.enrichLocationObject(location)), 'hand');
+                this.addLocation(location, $('hand'));
             });
         },
 
@@ -119,14 +117,18 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             let locationElement = $(`location_${location.id}`);
             if (!locationElement) {
                 await new Promise(resolve => setTimeout(resolve, 1000));
-                locationElement = dojo.place(
-                    this.format_block('jstpl_location', this.enrichLocationObject(location)),
-                    `overall_player_board_${playerId}`, 'first'
-                );
+                locationElement = this.addLocation(location, $(`overall_player_board_${playerId}`));
             }
             await this.slide(locationElement, 'discard');
             this.destroyAll(`#discard .location:not(#location_${location.id})`);
             this.querySingle(`#discardHeader .headerValue`).innerText = newDiscardCount;
+        },
+
+        addLocation(location, destination) {
+            const locationBlock = this.format_block('jstpl_location', this.enrichLocationObject(location));
+            const locationElement = dojo.place(locationBlock, destination);
+            this.addTooltipHtml(`location_${location.id}`, locationBlock);
+            return locationElement;
         },
 
         notif_lastRound(n) {

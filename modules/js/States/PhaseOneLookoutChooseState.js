@@ -15,10 +15,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this.waitForDisappearance('.moving').then(() => {
                 this.destroyAll('#lookout .location');
                 args.forEach((location) => {
-                    const locationElement = dojo.place(this.format_block(
-                        'jstpl_location',
-                        this.enrichLocationObject(location)
-                    ), 'lookout');
+                    const locationElement = this.addLocation(location, $('lookout'));
                     if (this.isCurrentPlayerActive()) {
                         this.addSelectableClass(locationElement);
                         this.dojoConnect(

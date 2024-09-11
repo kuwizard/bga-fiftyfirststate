@@ -15,10 +15,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 this.forEachFactionRow((row) => {
                     const rowElement = factionBoard.querySelector(`.${row}`);
                     player.locations[row].forEach((location) => {
-                        dojo.place(
-                            this.format_block('jstpl_location', this.enrichLocationObject(location)),
-                            rowElement
-                        );
+                        this.addLocation(location, rowElement);
                         if (location.resources) {
                             this.placeResourcesOnLocation(location.id, location.resources);
                         }
