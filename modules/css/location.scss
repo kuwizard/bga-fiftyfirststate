@@ -7,7 +7,7 @@
   border-radius: 8px;
   position: relative;
 
-  &:not(.ruined) {
+  &:not(.ruined):not(.placeholder) {
     background-image: url(img/locations10.jpg);
     background-size: cover;
 

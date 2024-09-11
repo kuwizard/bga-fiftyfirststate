@@ -3,6 +3,7 @@
 namespace STATE\States;
 
 use STATE\Core\Notifications;
+use STATE\Managers\Locations;
 use STATE\Managers\Players;
 
 trait DiscardCardsGameStartTrait
@@ -16,8 +17,14 @@ trait DiscardCardsGameStartTrait
         self::checkAction('actDiscardCardsGameStart');
         $currentPlayer = Players::getCurrent();
         $currentPlayer->discard($locationsIds);
-        Notifications::handChanged($currentPlayer);
         Notifications::resourcesChanged($currentPlayer, ['card' => $currentPlayer->getHandAmount()]);
+        foreach ($locationsIds as $locationId) {
+            Notifications::locationDiscarded(
+                $currentPlayer,
+                Locations::get($locationId),
+                Locations::countInLocation(LOCATION_DISCARD)
+            );
+        }
         $this->gamestate->setPlayerNonMultiactive($currentPlayer->getId(), '');
     }
 }

@@ -4,7 +4,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         },
 
         onEnteringStateDiscardCardsGameStart(args) {
-            debug('DiscardCardsGameStart state', args);
             if (this.isCurrentPlayerActive()) {
                 this.makeAllSelectableAndClickable(this.getHand(), this.selectLocation.bind(this));
             }
@@ -27,7 +26,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     this.addPrimaryActionButton(
                         'buttonDiscardCards',
                         _('Discard selected'),
-                        () => this.discardSelected()
+                        () => {
+                            this.discardSelected();
+                            this.clearPossible();
+                        }
                     );
                 }
             }

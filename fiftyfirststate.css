@@ -208,38 +208,38 @@
   border-radius: 8px;
   position: relative;
 }
-.location:not(.ruined) {
+.location:not(.ruined):not(.placeholder) {
   background-image: url(img/locations10.jpg);
   background-size: cover;
 }
-.location:not(.ruined)[data-sprite="0"] {
+.location:not(.ruined):not(.placeholder)[data-sprite="0"] {
   background-position: 0% 0;
 }
-.location:not(.ruined)[data-sprite="1"] {
+.location:not(.ruined):not(.placeholder)[data-sprite="1"] {
   background-position: 11.1111111111% 0;
 }
-.location:not(.ruined)[data-sprite="2"] {
+.location:not(.ruined):not(.placeholder)[data-sprite="2"] {
   background-position: 22.2222222222% 0;
 }
-.location:not(.ruined)[data-sprite="3"] {
+.location:not(.ruined):not(.placeholder)[data-sprite="3"] {
   background-position: 33.3333333333% 0;
 }
-.location:not(.ruined)[data-sprite="4"] {
+.location:not(.ruined):not(.placeholder)[data-sprite="4"] {
   background-position: 44.4444444444% 0;
 }
-.location:not(.ruined)[data-sprite="5"] {
+.location:not(.ruined):not(.placeholder)[data-sprite="5"] {
   background-position: 55.5555555556% 0;
 }
-.location:not(.ruined)[data-sprite="6"] {
+.location:not(.ruined):not(.placeholder)[data-sprite="6"] {
   background-position: 66.6666666667% 0;
 }
-.location:not(.ruined)[data-sprite="7"] {
+.location:not(.ruined):not(.placeholder)[data-sprite="7"] {
   background-position: 77.7777777778% 0;
 }
-.location:not(.ruined)[data-sprite="8"] {
+.location:not(.ruined):not(.placeholder)[data-sprite="8"] {
   background-position: 88.8888888889% 0;
 }
-.location:not(.ruined)[data-sprite="9"] {
+.location:not(.ruined):not(.placeholder)[data-sprite="9"] {
   background-position: 100% 0;
 }
 .location.ruined {

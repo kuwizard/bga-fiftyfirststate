@@ -37,7 +37,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 additionalClass: '',
             };
             location = { ...defaultValues, ...location };
-            location.additionalClass = location.isRuined || location.id === 0 ? ' ruined' : '';
+            location.additionalClass = location.isRuined ? ' ruined' : '';
             return location;
         },
 
@@ -48,7 +48,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 this.format_block('jstpl_header', { text: _('Discard: '), value: gamedatas.discard }),
                 'discardHeader'
             );
-            this.addLocation({}, $('deck'));
+            this.addLocation({ isRuined: true }, $('deck'));
             if (gamedatas.discardLastLocation === null) {
                 gamedatas.discardLastLocation = {};
             }
@@ -100,8 +100,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             });
         },
 
-        notif_locationDiscarded(n) {
+        async notif_locationDiscarded(n) {
             debug('Notif: locationDiscarded', n);
+            await this.waitForDisappearance('.moving');
             dojo.query(`#location_${n.args.location.id} .resourceIcon`).forEach((element) => {
                 const resourceType = [...element.classList].find((clazz) => {
                     return clazz !== 'resourceIcon'
@@ -116,20 +117,18 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         },
 
         async runDiscardLocationAnimation(location, newDiscardCount, playerId) {
-            await this.waitForDisappearance('.moving');
             let locationElement = $(`location_${location.id}`);
             if (!locationElement) {
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                locationElement = this.addLocation(location, $(`overall_player_board_${playerId}`));
+                locationElement = this.addLocation(location, $(`overall_player_board_${playerId}`), true);
             }
             await this.slide(locationElement, 'discard');
             this.destroyAll(`#discard .location:not(#location_${location.id})`);
             this.querySingle(`#discardHeader .headerValue`).innerText = newDiscardCount;
         },
 
-        addLocation(location, destination) {
+        addLocation(location, destination, isFirst = false) {
             const locationBlock = this.format_block('jstpl_location', this.enrichLocationObject(location));
-            const locationElement = dojo.place(locationBlock, destination);
+            const locationElement = dojo.place(locationBlock, destination, isFirst ? 'first' : 'last');
             this.addTooltipHtml(`location_${location.id}`, locationBlock);
             return locationElement;
         },
