@@ -248,6 +248,10 @@
 .location.ruined.unselectable {
   opacity: 1;
 }
+.location.placeholder {
+  background-color: gray;
+  opacity: 0.1;
+}
 .location.selectable {
   outline: unset;
 }

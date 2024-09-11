@@ -52,7 +52,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             if (gamedatas.discardLastLocation === null) {
                 gamedatas.discardLastLocation = {};
             }
-            this.addLocation(gamedatas.discardLastLocation, $('discard'));
+            const discardTop = this.addLocation(gamedatas.discardLastLocation, $('discard'));
+            if (!gamedatas.discardLastLocation.id) {
+                dojo.addClass(discardTop, 'placeholder');
+            }
             this.addConnections(gamedatas.connections);
         },
 

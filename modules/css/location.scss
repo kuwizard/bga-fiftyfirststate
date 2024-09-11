@@ -26,6 +26,11 @@
     }
   }
 
+  &.placeholder {
+    background-color: gray;
+    opacity: 0.1;
+  }
+
   &.selectable {
     outline: unset;
 
