@@ -45,7 +45,7 @@ trait DeployTrait
     {
         $newLocationId = Stack::getCtx()['newLocationId'];
         $fromLocation = Locations::get($newLocationId);
-        if (Stack::getCtx()['resource'] === RESOURCE_BRICK) {
+        if (ResourcesHelper::getResourceType(Stack::getCtx()['resource']) === RESOURCE_BRICK) {
             $possibleDestinations = Players::getActive()->getBoard()->filter(
                 function (Location $location) use ($fromLocation) {
                     return $location->isRuined() || !empty(array_intersect($location->getIcons(), $fromLocation->getIcons()));
