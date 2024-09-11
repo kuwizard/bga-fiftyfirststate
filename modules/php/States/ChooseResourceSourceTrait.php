@@ -9,7 +9,9 @@ use STATE\Managers\Locations;
 use STATE\Managers\Players;
 use STATE\Managers\Resources;
 use STATE\Models\Feature;
+use STATE\Models\FeatureStorageSingle;
 use STATE\Models\Player;
+use STATE\Models\Production;
 
 trait ChooseResourceSourceTrait
 {
@@ -60,7 +62,7 @@ trait ChooseResourceSourceTrait
         Stack::insertOnTopAndFinish(ST_PROCESS_SOURCE_MAP, [
             'sourcesRaw' => $sources,
             'bonus' => $ctx['bonus'],
-            'deploy' => $ctx['deploy'] ?? null,
+            'postActions' => $ctx['postActions'] ?? null,
             'activatorId' => $ctx['activatorId'] ?? null,
             'processed' => $ctx['processed'] ?? null,
         ]);
@@ -91,7 +93,7 @@ trait ChooseResourceSourceTrait
                     'resourceIcon' => $resource,
                     'sources' => $sources,
                     'bonus' => $ctx['bonus'],
-                    'deploy' => $ctx['deploy'],
+                    'postActions' => $ctx['postActions'],
                     'sourcesRaw' => $sourcesRaw,
                     'processed' => $processed,
                     'activatorId' => $ctx['activatorId'],
@@ -100,7 +102,7 @@ trait ChooseResourceSourceTrait
             }
         }
         if (empty($sourcesRaw) && !Stack::isAtomIn(ST_CHOOSE_RESOURCE_SOURCE)) {
-            $this->addBonus(Players::getActive());
+            $this->postActions(Players::getActive());
             Stack::finishState();
         }
     }
@@ -122,22 +124,19 @@ trait ChooseResourceSourceTrait
 
         Stack::insertOnTopAndFinish(ST_CREATE_RESOURCE_SOURCE_MAP, [
             'bonus' => $ctx['bonus'],
-            'deploy' => $ctx['deploy'],
+            'postActions' => $ctx['postActions'],
             'spend' => empty($ctx['sourcesRaw']) ? [] : array_merge(array_keys(...$ctx['sourcesRaw'])),
             'processed' => array_merge($ctx['processed'], [$ctx['resourceIcon']]),
             'activatorId' => $ctx['activatorId'],
         ]);
     }
 
-    /**
-     * @param int $whereId
-     * @param int $resource
-     * @param Player $player
-     * @return void
-     */
-    private function decreaseResource($whereId, $player, $resource, $activatorId)
+    private function decreaseResource(int $whereId, Player $player, int $resource, int|null $activatorId): void
     {
-        if ($whereId === 0 || in_array($whereId, ALL_RESOURCES_LIST)) {
+        if (in_array($whereId, ALL_RESOURCES_LIST)) {
+            $player->decreaseResource($whereId);
+            Notifications::resourcesChanged($player, $player->getResourcesWithNames([$whereId]));
+        } else if ($whereId === 0) {
             $player->decreaseResource($resource);
             Notifications::resourcesChanged($player, $player->getResourcesWithNames([$resource]));
         } else {
@@ -154,7 +153,7 @@ trait ChooseResourceSourceTrait
         }
     }
 
-    private function addBonus($player)
+    private function postActions(Player $player)
     {
         $ctx = Stack::getCtx();
         $resourcesChanged = [];
@@ -167,29 +166,82 @@ trait ChooseResourceSourceTrait
                 }
             }
         }
-        if (isset($ctx['deploy'])) {
-            $oldLocationId = $ctx['deploy']['old'];
-            $newLocationId = $ctx['deploy']['new'];
-            $oldLocation = Locations::get($oldLocationId);
-            $newLocation = Locations::get($newLocationId);
+        if (isset($ctx['postActions'])) {
+            $type = $ctx['postActions']['type'];
+            $locationId = $ctx['postActions']['id'];
+            $location = Locations::get($locationId);
+            if ($type === 'deploy') {
+                $oldLocationId = $ctx['postActions']['old'];
+                $oldLocation = Locations::get($oldLocationId);
 
-            if ($oldLocation instanceof Feature && $oldLocation->getResourcesAmount() > 0) {
-                $resourcesFromOldLocation = ResourcesHelper::increaseResourcesAfterAction(
+                if ($oldLocation instanceof Feature && $oldLocation->getResourcesAmount() > 0) {
+                    $resourcesFromOldLocation = ResourcesHelper::increaseResourcesAfterAction(
+                        $player,
+                        $oldLocation->getResources()
+                    );
+                    Resources::deleteAll($oldLocation->getId());
+                    $resourcesChanged = array_merge($resourcesChanged, $resourcesFromOldLocation);
+                }
+                $player->discard($oldLocationId);
+                Locations::move($locationId, [LOCATION_BOARD, $player->getId()]);
+                Notifications::handChanged($player);
+                Notifications::locationDiscarded($player, $oldLocation, Locations::countInLocation(LOCATION_DISCARD));
+                Notifications::locationBuilt($player, $location, $location->getFactionRow());
+                $this->getProductionAfterBuildAndPlaceResources($location, $player);
+            } elseif ($type === 'raze') {
+                Notifications::handChanged($player);
+                $resourcesChanged[] = RESOURCE_CARD;
+                Locations::move($location->getId(), LOCATION_DISCARD);
+                Notifications::locationDiscarded($player, $location, Locations::countInLocation(LOCATION_DISCARD));
+            } elseif ($type === 'build') {
+                Notifications::locationBuilt($player, $location, $location->getFactionRow());
+                Locations::move($location->getId(), [LOCATION_BOARD, $player->getId()]);
+                $this->getProductionAfterBuildAndPlaceResources($location, $player);
+            } elseif ($type === 'deal') {
+                if (count($location->getDeals()) > 1) {
+                    throw new BgaVisibleSystemException('More than 1 resource in deals, that should be impossible');
+                }
+                Locations::move($location->getId(), [LOCATION_DEALS, $player->getId()]);
+                Notifications::locationDealMade(
                     $player,
-                    $oldLocation->getResources()
+                    $locationId,
+                    ResourcesHelper::getResourceName($location->getDeals()[0])
                 );
-                Resources::deleteAll($oldLocation->getId());
-                $resourcesChanged = array_merge($resourcesChanged, $resourcesFromOldLocation);
             }
-            $player->discard($oldLocationId);
-            Locations::move($newLocationId, [LOCATION_BOARD, $player->getId()]);
-            Notifications::handChanged($player);
-            Notifications::locationDiscarded($player, $oldLocationId, Locations::countInLocation(LOCATION_DISCARD));
-            Notifications::locationBuilt($player, $newLocation, $newLocation->getFactionRow());
-            $this->getProductionAfterBuildAndPlaceResources($newLocation, $player);
+            if (!empty($resourcesChanged)) {
+                Notifications::resourcesChanged($player, $player->getResourcesWithNames(array_unique($resourcesChanged)));
+            }
         }
-        if (!empty($resourcesChanged)) {
-            Notifications::resourcesChanged($player, $player->getResourcesWithNames(array_unique($resourcesChanged)));
+    }
+
+    public function getProductionAfterBuildAndPlaceResources($location, $player)
+    {
+        // Gain resources (production or building bonus)
+        if ($location instanceof Production || !empty($location->getBuildingBonus($player))) {
+            $resourcesChanged = [];
+            if ($location instanceof Production) {
+                $resourcesChanged = ResourcesHelper::increaseResourcesAfterAction(
+                    $player,
+                    $location->getProduct($player)
+                );
+            }
+            if (!empty($location->getBuildingBonus($player))) {
+                $resourcesChangedAgain = ResourcesHelper::increaseResourcesAfterAction(
+                    $player,
+                    $location->getBuildingBonus($player)
+                );
+                $resourcesChanged = array_unique(array_merge($resourcesChanged, $resourcesChangedAgain));
+            }
+            Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));
+        }
+        // Place resources on a card
+        if ($location instanceof FeatureStorageSingle) {
+            $location->placeResourcesOneType($location->getResourceType(), $location->getResourceLimit());
+            Notifications::resourcesPlacedOnLocation(
+                $player,
+                $location->getId(),
+                $location->getResourcesUI()
+            );
         }
     }
 }

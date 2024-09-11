@@ -311,20 +311,23 @@ class Player extends DB_Manager implements JsonSerializable
     }
 
     /**
-     * @param int $resource
-     * @param boolean $factionOnly
      * @return int
      */
-    public function getResource($resource, $factionOnly = true)
+    public function getResource(int $resource, bool $factionOnly = true, bool $considerJoker = false)
     {
         $resourceName = ResourcesHelper::getResourceName($resource);
         if ($resource === RESOURCE_CARD) {
             return $this->getHandAmount();
         } else {
             $playerResource = $this->$resourceName;
-            $allCardsResources = array_count_values(Resources::getMultiple(Locations::getBoard($this->id)->getIds()));
-            $cardResource = !isset($allCardsResources[$resource]) || $factionOnly ? 0 : $allCardsResources[$resource];
-            return $playerResource + $cardResource;
+            if ($factionOnly) {
+                $cardResource = 0;
+            } else {
+                $allCardsResources = array_count_values(Resources::getMultiple(Locations::getBoard($this->id)->getIds()));
+                $cardResource = $allCardsResources[$resource] ?? 0;
+            }
+            $jokers = $considerJoker ? $this->getResource(Resources::getJokerFor($resource)) : 0;
+            return $playerResource + $cardResource + $jokers;
         }
     }
 
@@ -394,13 +397,13 @@ class Player extends DB_Manager implements JsonSerializable
     {
         $availableActions = [];
         /** @var Location $location */
-        if ($this->getResource(RESOURCE_ARROW_RED, false) >= $location->getDistance()) {
+        if ($this->getResource(RESOURCE_ARROW_RED, false, true) >= $location->getDistance()) {
             $availableActions[] = 'raze';
         }
-        if ($this->getResource(RESOURCE_ARROW_GREY, false) >= $location->getDistance()) {
+        if ($this->getResource(RESOURCE_ARROW_GREY, false, true) >= $location->getDistance()) {
             $availableActions[] = 'build';
         }
-        if ($this->getResource(RESOURCE_ARROW_BLUE, false) >= $location->getDistance()) {
+        if ($this->getResource(RESOURCE_ARROW_BLUE, false, true) >= $location->getDistance()) {
             $availableActions[] = 'deal';
         }
         return $availableActions;

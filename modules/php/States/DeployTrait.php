@@ -84,7 +84,11 @@ trait DeployTrait
         Stack::insertOnTopAndFinish(ST_CREATE_RESOURCE_SOURCE_MAP, [
             'spend' => [$resource],
             'bonus' => [RESOURCE_VP],
-            'deploy' => ['old' => $id, 'new' => Stack::getCtx()['newLocationId']],
+            'postActions' => [
+                'type' => 'deploy',
+                'old' => $id,
+                'id' => Stack::getCtx()['newLocationId'],
+            ],
         ]);
     }
 }

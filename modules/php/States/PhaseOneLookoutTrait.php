@@ -43,14 +43,14 @@ trait PhaseOneLookoutTrait
 
     public function stPhaseOneLookoutDiscard()
     {
-        $leftoverLocations = Locations::getInLocation(LOCATION_LOOKOUT)->getIds();
-        if (count($leftoverLocations) !== 1) {
-            throw new BgaVisibleSystemException('Incorrect leftover locations amount: ' . count($leftoverLocations));
+        $leftoverLocations = Locations::getInLocation(LOCATION_LOOKOUT);
+        if ($leftoverLocations->count() !== 1) {
+            throw new BgaVisibleSystemException('Incorrect leftover locations amount: ' . $leftoverLocations->count());
         }
-        Locations::move($leftoverLocations, LOCATION_DISCARD);
+        Locations::move($leftoverLocations->getIds(), LOCATION_DISCARD);
         Notifications::locationDiscarded(
             Players::getActive(),
-            $leftoverLocations[0],
+            $leftoverLocations->first(),
             Locations::countInLocation(LOCATION_DISCARD)
         );
         Stack::finishState();

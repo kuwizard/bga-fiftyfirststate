@@ -11,7 +11,6 @@ use STATE\Managers\Factions;
 use STATE\Managers\Locations;
 use STATE\Managers\Players;
 use STATE\Models\Act;
-use STATE\Models\FeatureStorageSingle;
 use STATE\Models\Location;
 use STATE\Models\Player;
 use STATE\Models\Production;
@@ -146,41 +145,7 @@ trait PhaseThreeActionTrait
         self::checkAction('actLocationBuild');
         $locationId = Stack::getCtx()['locationId'];
         $location = Locations::get($locationId);
-        $player = Players::getActive();
-        Notifications::locationBuilt($player, $location, $location->getFactionRow());
-        $this->razeBuildDealCommon($player, $location, RESOURCE_ARROW_GREY, LOCATION_BOARD);
-        $this->getProductionAfterBuildAndPlaceResources($location, $player);
-    }
-
-    public function getProductionAfterBuildAndPlaceResources($location, $player)
-    {
-        // Gain resources (production or building bonus)
-        if ($location instanceof Production || !empty($location->getBuildingBonus($player))) {
-            $resourcesChanged = [];
-            if ($location instanceof Production) {
-                $resourcesChanged = ResourcesHelper::increaseResourcesAfterAction(
-                    $player,
-                    $location->getProduct($player)
-                );
-            }
-            if (!empty($location->getBuildingBonus($player))) {
-                $resourcesChangedAgain = ResourcesHelper::increaseResourcesAfterAction(
-                    $player,
-                    $location->getBuildingBonus($player)
-                );
-                $resourcesChanged = array_unique(array_merge($resourcesChanged, $resourcesChangedAgain));
-            }
-            Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));
-        }
-        // Place resources on a card
-        if ($location instanceof FeatureStorageSingle) {
-            $location->placeResourcesOneType($location->getResourceType(), $location->getResourceLimit());
-            Notifications::resourcesPlacedOnLocation(
-                $player,
-                $location->getId(),
-                $location->getResourcesUI()
-            );
-        }
+        $this->razeBuildDealCommon($location, RESOURCE_ARROW_GREY, 'build');
     }
 
     /**
@@ -192,10 +157,7 @@ trait PhaseThreeActionTrait
         self::checkAction('actLocationRaze');
         $locationId = Stack::getCtx()['locationId'];
         $location = Locations::get($locationId);
-        $player = Players::getActive();
-        $this->razeBuildDealCommon($player, $location, RESOURCE_ARROW_RED, LOCATION_DISCARD, 'getSpoils');
-        Notifications::handChanged($player);
-        Notifications::resourcesChanged($player, ['card' => $player->getHandAmount()]);
+        $this->razeBuildDealCommon($location, RESOURCE_ARROW_RED, 'raze', 'getSpoils');
     }
 
     /**
@@ -207,38 +169,25 @@ trait PhaseThreeActionTrait
         self::checkAction('actLocationDeal');
         $locationId = Stack::getCtx()['locationId'];
         $location = Locations::get($locationId);
-        $player = Players::getActive();
-        $this->razeBuildDealCommon($player, $location, RESOURCE_ARROW_BLUE, LOCATION_DEALS, 'getDeals');
-        if (count($location->getDeals()) > 1) {
-            throw new BgaVisibleSystemException('More than 1 resource in deals, that should be impossible');
-        }
-        Notifications::locationDealMade(
-            $player,
-            $locationId,
-            ResourcesHelper::getResourceName($location->getDeals()[0])
-        );
+        $this->razeBuildDealCommon($location, RESOURCE_ARROW_BLUE, 'deal', 'getDeals');
     }
 
     /**
      * @param Player $player
      * @param Location|null $location
      * @param int $decrease
-     * @param string $whereToMove
+     * @param string $actionType
      * @param string $increase
      * @return void
      */
-    private function razeBuildDealCommon($player, $location, $decrease, $whereToMove, $increase = null)
+    private function razeBuildDealCommon($location, $decrease, $actionType, $increase = null)
     {
-        // TODO: Add a layer with ST_CHOOSE_RESOURCE_SOURCE here
-        /** @var Location $location */
-        $player->decreaseResource($decrease, $location->getDistance());
-        $resourcesChanged = [$decrease];
-        if ($increase) {
-            $moreResourcesChanged = ResourcesHelper::increaseResourcesAfterAction($player, $location->{$increase}());
-            $resourcesChanged = array_unique(array_merge($resourcesChanged, $moreResourcesChanged));
-        }
-        Locations::move($location->getId(), [$whereToMove, $player->getId()]);
-        Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));
+        $bonus = $increase ? $location->{$increase}() : [];
+        Stack::insertOnTop(ST_CREATE_RESOURCE_SOURCE_MAP, [
+            'spend' => array_fill(0, $location->getDistance(), $decrease),
+            'bonus' => $bonus,
+            'postActions' => ['type' => $actionType, 'id' => $location->getId()],
+        ]);
         Stack::finishState();
     }
 

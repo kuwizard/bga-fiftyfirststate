@@ -103,15 +103,15 @@ class Notifications
 
     /**
      * @param Player $player
-     * @param int $id
+     * @param Location $location
      * @param int $newDiscardCount
      * @return void
      */
-    public static function locationDiscarded($player, $id, $newDiscardCount)
+    public static function locationDiscarded($player, $location, $newDiscardCount)
     {
         self::notifyAll('locationDiscarded', '', [
             'player' => $player,
-            'id' => $id,
+            'location' => $location,
             'newDiscardCount' => $newDiscardCount,
         ]);
     }

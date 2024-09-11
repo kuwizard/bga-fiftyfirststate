@@ -231,6 +231,15 @@ $machinestates = [
         'possibleactions' => ['actChooseDeal', 'actUndo'],
     ],
 
+    ST_ACTIVATE_SECOND_TIME => [
+        'name' => 'activateSecondTime',
+        'description' => clienttranslate('${actplayer} may choose to activate the same location again'),
+        'descriptionmyturn' => clienttranslate('Do ${you} want to activate the same location again?'),
+        'args' => 'argActivateSecondTime',
+        'type' => 'activeplayer',
+        'possibleactions' => ['actActivateAgain', 'actDoNotActivateAgain'],
+    ],
+
     ST_PHASE_FOUR_CLEANUP => [
         'name' => 'phaseFourCleanup',
         'description' => '',
