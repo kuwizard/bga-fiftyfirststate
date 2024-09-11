@@ -30,20 +30,26 @@ trait PhaseThreeActionTrait
             $razeReachable = $location->getDefenceValue() <= $player->getResource(RESOURCE_ARROW_RED);
             return !$location->isRuined() && ($isOpenProduction || $razeReachable);
         });
-        $canUseBrick = !$this->getLocationsAvailableToDeploy(RESOURCE_BRICK)->empty()
-            && $player->getResource(RESOURCE_BRICK, false) >= 1;
-        $canUseDevel = !$this->getLocationsAvailableToDeploy(RESOURCE_DEVELOPMENT)->empty()
-            && $player->getResource(RESOURCE_DEVELOPMENT, false) >= 1;
         return [
             'spendWorkers' => $player->getResource(RESOURCE_WORKER, false) >= 2,
             'factionActions' => !empty($player->getAvailableFactionActions()),
             'locations' => $player->getPlayableLocationsIds(),
             'otherPlayersLocations' => $otherPlayersLocations->getIds(),
-            'deploy' => [
-                'brick' => $canUseBrick,
-                'development' => $canUseDevel,
-            ],
+            'deploy' => $this->whatCanBeUsedForDevel($player),
             'connections' => $player->getPlayableConnectionsIds(),
+        ];
+    }
+
+    private function whatCanBeUsedForDevel(Player $player): array
+    {
+        $locationsToDeployWithBrick = $this->getLocationsAvailableToDeploy(RESOURCE_BRICK);
+        return [
+            'brick' => !$locationsToDeployWithBrick->empty() && $player->getResource(RESOURCE_BRICK, false) >= 1,
+            'development' => $player->getResource(RESOURCE_DEVELOPMENT, false) >= 1
+                && !$this->getLocationsAvailableToDeploy(RESOURCE_DEVELOPMENT)->empty(),
+            'ammo' => !$locationsToDeployWithBrick->empty()
+                && $player->getResource(RESOURCE_AMMO, false) >= 1
+                && $player->getResource(RESOURCE_BRICK, false) === 0,
         ];
     }
 

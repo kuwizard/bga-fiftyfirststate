@@ -18,6 +18,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 if (args.deploy.development) {
                     this.addDeployButton('devel')
                 }
+                if (args.deploy.ammo) {
+                    this.addDeployButton('ammo')
+                }
                 if (args.spendWorkers) {
                     this.makeAreaSelectable('spendWorkersArea', 'actSpendWorkers');
                 }
