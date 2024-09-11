@@ -15,11 +15,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     );
                 }
                 if (args.sources.locations) {
-                    args.sources.locations.forEach((locationId) => {
+                    args.sources.locations.forEach((location) => {
                         this.addPrimaryActionButton(
-                            `buttonChooseSource${locationId}`,
-                            locationId,
-                            () => this.takeAction('actChooseSource', { id: locationId })
+                            `buttonChooseSource${location.id}`,
+                            _(location.name),
+                            () => this.takeAction('actChooseSource', { id: location.id })
                         );
                     });
                 }

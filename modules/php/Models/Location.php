@@ -178,6 +178,7 @@ class Location implements \JsonSerializable
             'id' => $this->id,
             'sprite' => $this->isRuined ? 0 : Locations::getSprite($this->type),
             'isRuined' => $this->isRuined,
+            'name' => $this->name,
         ];
         if (!$this->isRuined && $this->activatedTimes > 0) {
             $requirements = $this->getSpendRequirements();

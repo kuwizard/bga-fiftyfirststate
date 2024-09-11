@@ -37,7 +37,9 @@ trait ChooseResourceSourceTrait
     {
         $locations = Resources::getLocationIdsByResource($resource);
         $playerLocations = $player->getBoard()->getIds();
-        return array_intersect($locations, $playerLocations);
+        return array_map(function ($locationId) {
+            return Locations::get($locationId);
+        }, array_intersect($locations, $playerLocations));
     }
 
     public function stCreateResourceSourceMap()
