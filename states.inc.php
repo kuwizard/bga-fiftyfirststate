@@ -158,9 +158,7 @@ $machinestates = [
     ST_CHOOSE_RESOURCE_SOURCE => [
         'name' => 'chooseResourceSource',
         'description' => clienttranslate('${actplayer} must choose resources to spend'),
-        'descriptionmyturn' => clienttranslate(
-            '${you} need to spend ${resourcesList}. Choose where to spend ${resourceIcon} from'
-        ),
+        'descriptionmyturn' => clienttranslate('${you} need to spend ${resourcesList}. ${spendText}'),
         'args' => 'argChooseResourceSource',
         'type' => 'activeplayer',
         'possibleactions' => ['actChooseSource'],
