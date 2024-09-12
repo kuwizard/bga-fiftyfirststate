@@ -42,12 +42,17 @@ class Action extends Location
      */
     public function activate($player)
     {
-        $this->activatedTimes = $this->activatedTimes + 1;
-        Locations::increaseActivatedTimes($this->id, $this->activatedTimes);
-        if ($this->activatedTimes < $this->activationsMax) {
+        $newActivatedTimes = $this->activatedTimes + 1;
+        if ($newActivatedTimes < $this->activationsMax) {
             Stack::insertOnTop(ST_ACTIVATE_SECOND_TIME, ['locationId' => $this->id]);
         }
         $this->action->activate($this->id);
+    }
+
+    public function postActivation()
+    {
+        $this->activatedTimes = $this->activatedTimes + 1;
+        Locations::increaseActivatedTimes($this->id, $this->activatedTimes);
     }
 
     public function getDefenceValue()

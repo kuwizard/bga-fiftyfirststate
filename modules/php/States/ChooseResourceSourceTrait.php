@@ -215,6 +215,9 @@ trait ChooseResourceSourceTrait
                 );
             }
         }
+        if ($ctx['activatorId']) {
+            Locations::get($ctx['activatorId'])->postActivation();
+        }
         if (!empty($resourcesChanged)) {
             Notifications::resourcesChanged($player, $player->getResourcesWithNames(array_unique($resourcesChanged)));
         }

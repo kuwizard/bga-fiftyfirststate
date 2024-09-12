@@ -172,6 +172,10 @@ class Location implements \JsonSerializable
     {
     }
 
+    public function postActivation()
+    {
+    }
+
     public function jsonSerialize()
     {
         $data = [
