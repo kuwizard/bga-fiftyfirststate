@@ -234,6 +234,7 @@ $machinestates = [
         'description' => clienttranslate('${actplayer} may choose to activate the same location again'),
         'descriptionmyturn' => clienttranslate('Do ${you} want to activate the same location again?'),
         'args' => 'argActivateSecondTime',
+        'action' => 'stActivateSecondTime',
         'type' => 'activeplayer',
         'possibleactions' => ['actActivateAgain', 'actDoNotActivateAgain'],
     ],

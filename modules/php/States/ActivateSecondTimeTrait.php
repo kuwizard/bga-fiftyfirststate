@@ -13,6 +13,14 @@ trait ActivateSecondTimeTrait
         return ['locationId' => Stack::getCtx()['locationId']];
     }
 
+    public function stActivateSecondTime()
+    {
+        // Happens when after first activation there's not enough resources to activate second time
+        if (!in_array(Stack::getCtx()['locationId'], Players::getActive()->getPlayableLocationsIds())) {
+            Stack::finishState();
+        }
+    }
+
     public function actActivateAgain()
     {
         Locations::get(Stack::getCtx()['locationId'])->activate(Players::getActive());
