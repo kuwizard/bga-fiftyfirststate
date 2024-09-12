@@ -129,6 +129,7 @@ trait PhaseThreeActionTrait
         $actionChosen = $player->getAvailableFactionActions()[$id];
         $actionChosen->activate($id + $player->getFaction());
         Factions::setAsUsed($player->getFaction(), $id);
+        self::giveExtraTime($player->getId());
         Stack::finishState();
     }
 
@@ -139,6 +140,7 @@ trait PhaseThreeActionTrait
     public function actUseLocation($id)
     {
         self::checkAction('actUseLocation');
+        self::giveExtraTime(Players::getActiveId());
         Stack::insertOnTopAndFinish(ST_LOCATION_ACTIONS, ['locationId' => $id]);
     }
 
@@ -194,6 +196,7 @@ trait PhaseThreeActionTrait
             'bonus' => $bonus,
             'postActions' => ['type' => $actionType, 'id' => $location->getId()],
         ]);
+        self::giveExtraTime(Players::getActiveId());
         Stack::finishState();
     }
 
@@ -208,6 +211,7 @@ trait PhaseThreeActionTrait
         $player->discard([$id]);
         Notifications::handChanged($player);
         Notifications::resourcesChanged($player, ['card' => $player->getHandAmount()]);
+        self::giveExtraTime($player->getId());
         Stack::finishState();
     }
 
@@ -219,7 +223,9 @@ trait PhaseThreeActionTrait
     {
         self::checkAction('actActivateLocation');
         $location = Locations::get($id);
-        $location->activate(Players::getActive());
+        $player = Players::getActive();
+        $location->activate($player);
+        self::giveExtraTime($player->getId());
         Stack::finishState();
     }
 
@@ -232,7 +238,7 @@ trait PhaseThreeActionTrait
         self::checkAction('actUseOtherPlayerLocation');
         $location = Locations::get($id);
         $player = Players::getActive();
-        $locationIsOpenProduction = $location instanceof Production && $location->isOpen();
+        $locationIsOpenProduction = $location instanceof Production && $location->isOpen() && $location->isActivatable();
         $couldBeRazed = $player->getResource(RESOURCE_ARROW_RED) >= $location->getDefenceValue();
         if ($locationIsOpenProduction && $couldBeRazed) {
             Stack::insertOnTop(ST_OPEN_PRODUCTION_OR_RAZE, ['locationId' => $id]);
@@ -270,6 +276,7 @@ trait PhaseThreeActionTrait
     {
         self::checkAction('actDeploy');
         Stack::insertOnTop(ST_DEPLOY_CHOOSE_FROM_HAND, ['resource' => $resource]);
+        self::giveExtraTime(Players::getActiveId());
         Stack::finishState();
     }
 
@@ -277,6 +284,7 @@ trait PhaseThreeActionTrait
     {
         self::checkAction('actActivateConnection');
         Connections::get($id)->activate();
+        self::giveExtraTime(Players::getActiveId());
         Notifications::connectionActivated(Players::getActive(), $id);
         Stack::finishState();
     }
@@ -285,6 +293,7 @@ trait PhaseThreeActionTrait
     {
         self::checkAction('actOptionOpenProduction');
         Locations::get(Stack::getCtx()['locationId'])->activate(Players::getActive());
+        self::giveExtraTime(Players::getActiveId());
         Stack::finishState();
     }
 
@@ -292,6 +301,7 @@ trait PhaseThreeActionTrait
     {
         self::checkAction('actOptionRaze');
         $this->razeOtherPlayersLocation(Players::getActive(), Locations::get(Stack::getCtx()['locationId']));
+        self::giveExtraTime(Players::getActiveId());
         Stack::finishState();
     }
 }
