@@ -88,7 +88,7 @@ trait ChooseResourceSourceTrait
                 if (isset($sources['faction'])) {
                     $whereId = 0;
                 } else {
-                    $whereId = isset($sources['locations']) ? $sources['locations'][0] : $sources['joker'];
+                    $whereId = isset($sources['locations']) ? $sources['locations'][0]->getId() : $sources['joker'];
                 }
                 $this->decreaseResource($whereId, Players::getActive(), $resource, $ctx['activatorId']);
             } else {
@@ -196,7 +196,6 @@ trait ChooseResourceSourceTrait
             } elseif ($type === 'raze') {
                 Notifications::handChanged($player);
                 Notifications::deckChanged();
-                $resourcesChanged[] = RESOURCE_CARD;
                 Locations::move($location->getId(), LOCATION_DISCARD);
                 Notifications::locationDiscarded($player, $location);
             } elseif ($type === 'build') {
@@ -214,6 +213,7 @@ trait ChooseResourceSourceTrait
                     ResourcesHelper::getResourceName($location->getDeals()[0])
                 );
             }
+            $resourcesChanged[] = RESOURCE_CARD;
         }
         if (isset($ctx['activatorId']) && $ctx['activatorId'] < FACTION_NEW_YORK) {
             Locations::get($ctx['activatorId'])->postActivation();
