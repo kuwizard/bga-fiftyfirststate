@@ -20,6 +20,7 @@ trait PhaseTwoProductionTrait
             $player->increaseResources($combinedResources);
             Notifications::resourcesChanged($player, $player->getResourcesWithNames(array_keys($combinedResources)));
             Notifications::handChanged($player);
+            Notifications::deckChanged();
         }
         Stack::finishState();
     }

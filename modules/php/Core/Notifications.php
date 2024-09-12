@@ -1,6 +1,7 @@
 <?php
 namespace STATE\Core;
 
+use STATE\Managers\Locations;
 use STATE\Models\Location;
 use STATE\Models\Player;
 
@@ -53,8 +54,16 @@ class Notifications
      */
     public static function handChanged(Player $player)
     {
-        $resources = ['player' => $player, 'hand' => $player->getHand()->toArray()];
+        $resources = [
+            'player' => $player,
+            'hand' => $player->getHand()->toArray(),
+        ];
         self::notify($player, 'handChanged', '', $resources);
+    }
+
+    public static function deckChanged()
+    {
+        self::notifyAll('deckChanged', '', ['deckAmount' => Locations::countInLocation(LOCATION_DECK)]);
     }
 
     /**
@@ -115,12 +124,12 @@ class Notifications
      * @param int $newDiscardCount
      * @return void
      */
-    public static function locationDiscarded($player, $location, $newDiscardCount)
+    public static function locationDiscarded($player, $location)
     {
         self::notifyAll('locationDiscarded', '', [
             'player' => $player,
             'location' => $location,
-            'newDiscardCount' => $newDiscardCount,
+            'newDiscardCount' => Locations::countInLocation(LOCATION_DISCARD),
         ]);
     }
 

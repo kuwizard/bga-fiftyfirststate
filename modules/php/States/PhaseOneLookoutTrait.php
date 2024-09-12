@@ -13,7 +13,10 @@ trait PhaseOneLookoutTrait
 {
     public function argPhaseOneLookoutChoose()
     {
-        return Locations::getInLocation(LOCATION_LOOKOUT)->toArray();
+        return [
+            'locations' => Locations::getInLocation(LOCATION_LOOKOUT)->toArray(),
+            'deckAmount' => Locations::countInLocation(LOCATION_DECK),
+        ];
     }
 
     public function stPhaseOneLookoutSetup()
@@ -48,11 +51,7 @@ trait PhaseOneLookoutTrait
             throw new BgaVisibleSystemException('Incorrect leftover locations amount: ' . $leftoverLocations->count());
         }
         Locations::move($leftoverLocations->getIds(), LOCATION_DISCARD);
-        Notifications::locationDiscarded(
-            Players::getActive(),
-            $leftoverLocations->first(),
-            Locations::countInLocation(LOCATION_DISCARD)
-        );
+        Notifications::locationDiscarded(Players::getActive(), $leftoverLocations->first());
         Stack::finishState();
     }
 

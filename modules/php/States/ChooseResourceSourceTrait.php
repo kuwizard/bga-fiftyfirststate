@@ -166,6 +166,7 @@ trait ChooseResourceSourceTrait
                 $resourcesChanged[] = $bonus;
                 if ($bonus === RESOURCE_CARD) {
                     Notifications::handChanged($player);
+                    Notifications::deckChanged();
                 }
             }
         }
@@ -188,14 +189,16 @@ trait ChooseResourceSourceTrait
                 $player->discard($oldLocationId);
                 Locations::move($locationId, [LOCATION_BOARD, $player->getId()]);
                 Notifications::handChanged($player);
-                Notifications::locationDiscarded($player, $oldLocation, Locations::countInLocation(LOCATION_DISCARD));
+                Notifications::deckChanged();
+                Notifications::locationDiscarded($player, $oldLocation);
                 Notifications::locationBuilt($player, $location, $location->getFactionRow());
                 $this->getProductionAfterBuildAndPlaceResources($location, $player);
             } elseif ($type === 'raze') {
                 Notifications::handChanged($player);
+                Notifications::deckChanged();
                 $resourcesChanged[] = RESOURCE_CARD;
                 Locations::move($location->getId(), LOCATION_DISCARD);
-                Notifications::locationDiscarded($player, $location, Locations::countInLocation(LOCATION_DISCARD));
+                Notifications::locationDiscarded($player, $location);
             } elseif ($type === 'build') {
                 Notifications::locationBuilt($player, $location, $location->getFactionRow());
                 Locations::move($location->getId(), [LOCATION_BOARD, $player->getId()]);

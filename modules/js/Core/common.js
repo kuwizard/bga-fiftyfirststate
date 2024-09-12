@@ -2,6 +2,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     return declare('state.common', null, {
         constructor() {
             this._notifications.push(['handChanged', 1]);
+            this._notifications.push(['deckChanged', 1]);
             this._notifications.push(['locationDiscarded', 1]);
             this._notifications.push(['locationPicked', 1]);
             this._notifications.push(['lastRound', 1]);
@@ -100,12 +101,18 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             return locationElement;
         },
 
-        notif_handChanged(n) {
+        async notif_handChanged(n) {
             debug('Notif: handChanged', n);
+            await this.waitForDisappearance('.moving');
             this.destroyAll('#hand .location');
             n.args.hand.forEach((location) => {
                 this.addLocation(location, $('hand'));
             });
+        },
+
+        notif_deckChanged(n) {
+            debug('Notif: deckChanged', n);
+            this.querySingle(`#deckHeader .headerValue`).innerText = n.args.deckAmount;
         },
 
         notif_locationPicked(n) {

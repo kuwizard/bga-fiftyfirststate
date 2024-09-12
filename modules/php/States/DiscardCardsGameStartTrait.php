@@ -19,11 +19,7 @@ trait DiscardCardsGameStartTrait
         $currentPlayer->discard($locationsIds);
         Notifications::resourcesChanged($currentPlayer, ['card' => $currentPlayer->getHandAmount()]);
         foreach ($locationsIds as $locationId) {
-            Notifications::locationDiscarded(
-                $currentPlayer,
-                Locations::get($locationId),
-                Locations::countInLocation(LOCATION_DISCARD)
-            );
+            Notifications::locationDiscarded($currentPlayer, Locations::get($locationId));
         }
         $this->gamestate->setPlayerNonMultiactive($currentPlayer->getId(), '');
     }
