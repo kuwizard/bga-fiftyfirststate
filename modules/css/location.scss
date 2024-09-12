@@ -1,4 +1,5 @@
 @use "sass:string";
+@use "sass:math";
 @import "variables";
 
 .locationWrapper {
@@ -62,11 +63,11 @@
   &:not(.ruined):not(.placeholder) {
     .locationImage {
       background-image: url(img/locations10.jpg);
-      background-size: cover;
+      background-size: 1000% 300%;
 
-      @for $sprite from 0 through 9 {
+      @for $sprite from 0 through 29 {
         &[data-sprite="#{$sprite}"] {
-          background-position: 0% + calc(100% / 9 * $sprite) 0;
+          background-position: math.div(($sprite % 10) * 100%, 9) math.div(floor(math.div($sprite, 10)) * 100%, 2);
         }
       }
     }
