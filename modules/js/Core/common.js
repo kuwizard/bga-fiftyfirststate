@@ -6,6 +6,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this._notifications.push(['locationDiscarded', 1]);
             this._notifications.push(['locationPicked', 1]);
             this._notifications.push(['lastRound', 1]);
+            this._notifications.push(['reshuffle', 1]);
         },
 
         forEachFactionRow(callback) {
@@ -112,7 +113,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         notif_deckChanged(n) {
             debug('Notif: deckChanged', n);
-            this.querySingle(`#deckHeader .headerValue`).innerText = n.args.deckAmount;
+            this.querySingle(`#deckHeader .headerValue`).innerText = n.args.deckCount;
         },
 
         notif_locationPicked(n) {
@@ -128,6 +129,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     );
                 }
             }
+        },
+
+        notif_reshuffle(n) {
+            debug('Notif: reshuffle', n);
+            this.querySingle(`#deckHeader .headerValue`).innerText = n.args.deckCount;
+            this.querySingle(`#discardHeader .headerValue`).innerText = n.args.discardCount;
+            dojo.addClass(this.querySingle(`#discard .location`), 'placeholder');
         },
 
         async notif_locationDiscarded(n) {

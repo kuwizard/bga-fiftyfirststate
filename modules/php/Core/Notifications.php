@@ -63,7 +63,7 @@ class Notifications
 
     public static function deckChanged()
     {
-        self::notifyAll('deckChanged', '', ['deckAmount' => Locations::countInLocation(LOCATION_DECK)]);
+        self::notifyAll('deckChanged', '', ['deckCount' => Locations::countInLocation(LOCATION_DECK)]);
     }
 
     /**
@@ -207,6 +207,14 @@ class Notifications
             'discarded' => $discarded,
             'newDiscardCount' => $newDiscardCount,
             'resourceRemoved' => $resource,
+        ]);
+    }
+
+    public static function reshuffle()
+    {
+        self::notifyAll('reshuffle', clienttranslate('The deck have been reshuffled'), [
+            'deckCount' => Locations::countInLocation(LOCATION_DECK),
+            'discardCount' => Locations::countInLocation(LOCATION_DISCARD),
         ]);
     }
 

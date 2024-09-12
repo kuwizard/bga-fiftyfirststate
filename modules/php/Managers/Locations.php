@@ -18,6 +18,12 @@ class Locations extends Pieces
     protected static $primary = 'location_id';
     protected static $prefix = 'location_';
     protected static $customFields = ['type', 'activated_times', 'is_ruined'];
+    protected static $autoreshuffle = true;
+    protected static $autoreshuffleCustom = [LOCATION_DECK => LOCATION_DISCARD];
+    protected static $autoreshuffleListener = [
+        'obj' => 'STATE\Managers\Locations',
+        'method' => 'reshuffle',
+    ];
 
     protected static function cast($row)
     {
@@ -259,5 +265,10 @@ class Locations extends Pieces
         /** @var Location $firstWithDeal */
         self::discard($firstWithDeal->getId());
         return $firstWithDeal;
+    }
+
+    public static function reshuffle()
+    {
+        Notifications::reshuffle();
     }
 }

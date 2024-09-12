@@ -402,18 +402,20 @@ class Pieces extends DB_Manager
         $pieces = self::getTopOf($fromLocation, $nbr, false);
         $ids = $pieces->getIds();
         self::getUpdateQuery($ids, $toLocation, $state)->run();
-        $pieces = self::get($ids);
+        $pieces = self::getMany($ids);
 
         // No more pieces in deck & reshuffle is active => form another deck
         if (
             array_key_exists($fromLocation, static::$autoreshuffleCustom) &&
-            count($pieces) < $nbr &&
+            $pieces->count() < $nbr &&
             static::$autoreshuffle &&
             $deckReform
         ) {
             $missing = $nbr - count($pieces);
             self::reformDeckFromDiscard($fromLocation);
-            $pieces = $pieces->merge(self::pickForLocation($missing, $fromLocation, $toLocation, $state, false)); // Note: block another deck reform
+            $pieces = $pieces->merge(
+                self::pickForLocation($missing, $fromLocation, $toLocation, $state, false)
+            ); // Note: block another deck reform
         }
 
         return $pieces;
@@ -443,7 +445,7 @@ class Pieces extends DB_Manager
         if (static::$autoreshuffleListener) {
             $obj = static::$autoreshuffleListener['obj'];
             $method = static::$autoreshuffleListener['method'];
-            $obj->$method($fromLocation);
+            call_user_func([$obj, $method], $fromLocation);
         }
     }
 

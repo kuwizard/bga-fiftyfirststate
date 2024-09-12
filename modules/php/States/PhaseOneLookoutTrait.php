@@ -15,7 +15,7 @@ trait PhaseOneLookoutTrait
     {
         return [
             'locations' => Locations::getInLocation(LOCATION_LOOKOUT)->toArray(),
-            'deckAmount' => Locations::countInLocation(LOCATION_DECK),
+            'deckCount' => Locations::countInLocation(LOCATION_DECK),
         ];
     }
 

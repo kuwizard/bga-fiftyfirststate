@@ -24,7 +24,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     );
                 }
             });
-            this.querySingle(`#deckHeader .headerValue`).innerText = args.deckAmount;
+            this.querySingle(`#deckHeader .headerValue`).innerText = args.deckCount;
         },
 
         async onEnteringStatePhaseTwoProduction() {
