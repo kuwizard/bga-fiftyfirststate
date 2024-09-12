@@ -26,9 +26,12 @@ trait PhaseThreeActionTrait
             $allOtherLocations = $allOtherLocations->merge($otherPlayer->getBoard());
         }
         $otherPlayersLocations = $allOtherLocations->filter(function ($location) use ($player) {
-            $isOpenProduction = $location instanceof Production && $location->isOpen() && $location->isActivatable();
+            $isActivatableOpenProduction = $location instanceof Production
+                && $location->isOpen()
+                && $location->isActivatable()
+                && $player->getResource(RESOURCE_WORKER) > 0;
             $razeReachable = $location->getDefenceValue() <= $player->getResource(RESOURCE_ARROW_RED);
-            return !$location->isRuined() && ($isOpenProduction || $razeReachable);
+            return !$location->isRuined() && ($isActivatableOpenProduction || $razeReachable);
         });
         return [
             'spendWorkers' => $player->getResource(RESOURCE_WORKER, false) >= 2,
