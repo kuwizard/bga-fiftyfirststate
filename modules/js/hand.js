@@ -5,9 +5,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         addHand() {
             dojo.place(this.format_block('jstpl_hand', {}), 'board');
-            this.gamedatas.players[this.player_id].hand.forEach((location) => {
-                this.addLocation(location, $('hand'));
+            const elements = this.gamedatas.players[this.player_id].hand.map((location) => {
+                return this.addLocation(location, $('hand'));
             });
+
+            this.setMagicLocationClasses(elements);
         },
     });
 });

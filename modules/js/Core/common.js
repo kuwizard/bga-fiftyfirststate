@@ -106,9 +106,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             debug('Notif: handChanged', n);
             await this.waitForDisappearance('.moving');
             this.destroyAll('#hand .location');
-            n.args.hand.forEach((location) => {
-                this.addLocation(location, $('hand'));
+            const elements = n.args.hand.map((location) => {
+                return this.addLocation(location, $('hand'));
             });
+            this.setMagicLocationClasses(elements);
         },
 
         notif_deckChanged(n) {
@@ -152,6 +153,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 );
             });
             this.runDiscardLocationAnimation(n.args.location, n.args.newDiscardCount, n.args.player_id);
+            this.setMagicLocationClasses(dojo.query('#hand .locationWrapper'));
         },
 
         async runDiscardLocationAnimation(location, newDiscardCount, playerId) {
@@ -162,6 +164,18 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             await this.slide(locationElement, 'discard');
             this.destroyAll(`#discard .location:not(#location_${location.id})`);
             this.querySingle(`#discardHeader .headerValue`).innerText = newDiscardCount;
+        },
+
+        // Pure hacks to make sure locations are sequentially overlapped on small screens
+        setMagicLocationClasses(locations) {
+            locations.forEach((location) => {
+                dojo.attr(location, 'data-items', locations.length);
+            });
+            if (locations.length < 7) {
+                dojo.addClass('hand', 'notTooManyChildren');
+            } else {
+                dojo.removeClass('hand', 'notTooManyChildren');
+            }
         },
 
         notif_lastRound(n) {

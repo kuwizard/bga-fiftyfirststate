@@ -105,8 +105,10 @@
         </div>
     </div>
     `;
-    var jstpl_location = `<div id="location_\${id}" class="location\${additionalClass}" data-sprite="\${sprite}">
-        <div class="resources"></div>
+    var jstpl_location = `<div class="locationWrapper location\${additionalClass}" id="location_\${id}">
+        <div class="locationImage" data-sprite="\${sprite}">
+            <div class="resources"></div>
+        </div>
     </div>`
     var jstpl_connection = `<div id="connection_\${id}" class="connection\${additionalClass}" data-sprite="\${sprite}"></div>`
     var jstpl_hand = `<div id="hand"></div>`

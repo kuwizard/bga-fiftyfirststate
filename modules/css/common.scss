@@ -1,5 +1,11 @@
 @import "variables";
 
+#board {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
 #page-title {
   min-height: 34px;
 }
