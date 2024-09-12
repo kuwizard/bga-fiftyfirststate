@@ -16,7 +16,7 @@
 }
 
 .unselectable {
-  opacity: 0.5;
+  filter: contrast(calc(0.75 / (3 - 0.75))) brightness(calc(2 - 0.75)) saturate(35%);
 }
 
 .resourceValue {
@@ -140,4 +140,12 @@
   vertical-align: middle;
   width: 30px;
   height: 30px;
+}
+
+img:first-of-type {
+  filter: opacity(var(--o, 1));
+}
+
+img:last-of-type {
+
 }

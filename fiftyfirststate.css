@@ -484,7 +484,7 @@
 }
 
 .unselectable {
-  opacity: 0.5;
+  filter: contrast(0.3333333333) brightness(1.25) saturate(35%);
 }
 
 .resourceValue {
@@ -642,6 +642,10 @@
   vertical-align: middle;
   width: 30px;
   height: 30px;
+}
+
+img:first-of-type {
+  filter: opacity(var(--o, 1));
 }
 
 /*# sourceMappingURL=fiftyfirststate.css.map */

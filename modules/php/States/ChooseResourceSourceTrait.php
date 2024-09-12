@@ -215,7 +215,7 @@ trait ChooseResourceSourceTrait
                 );
             }
         }
-        if ($ctx['activatorId']) {
+        if (isset($ctx['activatorId']) && $ctx['activatorId'] < FACTION_NEW_YORK) {
             Locations::get($ctx['activatorId'])->postActivation();
         }
         if (!empty($resourcesChanged)) {
