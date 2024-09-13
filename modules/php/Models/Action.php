@@ -20,6 +20,11 @@ class Action extends Location
         return 'actions';
     }
 
+    public function getFactionRowName()
+    {
+        return clienttranslate('Actions');
+    }
+
     /**
      * @return int[]
      */

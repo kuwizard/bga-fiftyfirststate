@@ -68,6 +68,11 @@ class Production extends Location
         return 'production';
     }
 
+    public function getFactionRowName()
+    {
+        return clienttranslate('Production');
+    }
+
     public function jsonSerialize()
     {
         return array_merge(parent::jsonSerialize(), [

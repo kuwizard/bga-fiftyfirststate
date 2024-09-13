@@ -202,7 +202,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                     }
                 }
 
-                if (notif[2] != undefined) {
+                if (notif[2] !== undefined) {
                     this.notifqueue.setIgnoreNotificationCheck(notif[0], notif[2]);
                 }
             });
@@ -484,7 +484,10 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                         args.player_name = this.coloredPlayerName(args.player_name);
                     }
                     if (args.location && log.includes('${locationName}')) {
-                        args.locationName = `<span class="locationName" data-sprite="${args.location.sprite}"><b>${args.location.name}</b></span>`;
+                        args.locationName = `<span class="locationName"><b>${_(args.location.name)}</b></span>`;
+                        if (log.includes('${locationName2}')) {
+                            args.locationName2 = `<span class="locationName"><b>${_(args.location2.name)}</b></span>`;
+                        }
                     }
                 }
             } catch (e) {

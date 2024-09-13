@@ -88,6 +88,7 @@ trait DeployTrait
                 'type' => 'deploy',
                 'old' => $id,
                 'id' => Stack::getCtx()['newLocationId'],
+                'resource' => $resource,
             ],
         ]);
     }

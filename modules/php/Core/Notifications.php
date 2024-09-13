@@ -1,6 +1,7 @@
 <?php
 namespace STATE\Core;
 
+use STATE\Helpers\ResourcesHelper;
 use STATE\Managers\Locations;
 use STATE\Models\Location;
 use STATE\Models\Player;
@@ -76,6 +77,7 @@ class Notifications
             'hand' => $player->getHand()->toArray(),
             'source' => $source,
             'location' => $location,
+            'i18n' => ['locationName'],
         ];
         self::notifyAll('locationPicked', clienttranslate('${player_name} picks a location ${locationName}'), $resources);
     }
@@ -93,18 +95,19 @@ class Notifications
         ]);
     }
 
-    /**
-     * @param Player $player
-     * @param Location $location
-     * @param string $factionRow
-     * @return void
-     */
-    public static function locationBuilt($player, $location, $factionRow)
+    public static function locationBuilt(Player $player, Location $location, Location $deployed = null, int $resource = null)
     {
-        self::notifyAll('locationBuilt', '', [
+        $msg = $deployed ? clienttranslate(
+            '${player_name} spends ${resourcesList} to discard ${locationName2} and deploy ${locationName} in the ${factionRowName} row'
+        )
+            : clienttranslate('${player_name} builds ${locationName} in the ${factionRowName} row');
+        self::notifyAll('locationBuilt', $msg, [
             'player' => $player,
             'location' => $location,
-            'factionRow' => $factionRow,
+            'factionRow' => $location->getFactionRow(),
+            'factionRowName' => $location->getFactionRowName(),
+            'resourcesList' => is_null($resource) ? null : [ResourcesHelper::getResourceName($resource)],
+            'i18n' => ['locationName', 'locationName2', 'factionRowName'],
         ]);
     }
 
@@ -114,12 +117,16 @@ class Notifications
      * @param int $resource
      * @return void
      */
-    public static function locationDealMade($player, $id, $resource)
+    public static function locationDealMade(Player $player, Location $location)
     {
-        self::notifyAll('locationDealMade', '', [
+        $msg = clienttranslate('${player_name} makes a deal with ${locationName} and gets ${resourcesList}');
+        $resource = ResourcesHelper::getResourceName($location->getDeals()[0]);
+        self::notifyAll('locationDealMade', $msg, [
             'player' => $player,
-            'id' => $id,
+            'location' => $location,
             'resource' => $resource,
+            'resourcesList' => [$resource],
+            'i18n' => ['locationName'],
         ]);
     }
 
@@ -135,6 +142,24 @@ class Notifications
             'player' => $player,
             'location' => $location,
             'newDiscardCount' => Locations::countInLocation(LOCATION_DISCARD),
+        ]);
+    }
+
+    /**
+     * @param Player $player
+     * @param Location $location
+     * @param int $newDiscardCount
+     * @return void
+     */
+    public static function locationRazed($player, $location)
+    {
+        $msg = clienttranslate('${player_name} razes ${locationName} and gets ${resourcesList}');
+        self::notifyAll('locationDiscarded', $msg, [
+            'player' => $player,
+            'location' => $location,
+            'newDiscardCount' => Locations::countInLocation(LOCATION_DISCARD),
+            'resourcesList' => ResourcesHelper::getResourceNames($location->getSpoils()),
+            'i18n' => ['locationName'],
         ]);
     }
 

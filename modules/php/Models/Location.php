@@ -144,6 +144,14 @@ class Location implements \JsonSerializable
     }
 
     /**
+     * @return string
+     */
+    public function getFactionRowName()
+    {
+        return '';
+    }
+
+    /**
      * @return int[]
      */
     public function getSpendRequirements()

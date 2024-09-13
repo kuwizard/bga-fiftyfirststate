@@ -12,6 +12,11 @@ class Feature extends Location
         return 'feature';
     }
 
+    public function getFactionRowName()
+    {
+        return clienttranslate('Feature');
+    }
+
     public function getDefenceValue()
     {
         return 4;

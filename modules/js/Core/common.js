@@ -158,8 +158,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     );
                 }
             }
-            const locationBlock = this.format_block('jstpl_location', this.enrichLocationObject(n.args.location));
-            this.addTooltipHtml(this.querySingle('.log .locationName'), locationBlock);
+            this.addTooltipToLogEntry(n.args.location);
         },
 
         notif_reshuffle(n) {
@@ -184,6 +183,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             });
             this.runDiscardLocationAnimation(n.args.location, n.args.newDiscardCount, n.args.player_id);
             this.setMagicLocationClasses(dojo.query('#hand .locationWrapper'));
+            this.addTooltipToLogEntry(n.args.location);
         },
 
         async runDiscardLocationAnimation(location, newDiscardCount, playerId) {
@@ -200,6 +200,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             }
             this.destroyAll(`#discard .location:not(#location_${location.id})`);
             this.querySingle(`#discardHeader .headerValue`).innerText = newDiscardCount;
+        },
+
+        addTooltipToLogEntry(location) {
+            const locationBlock = this.format_block('jstpl_location', this.enrichLocationObject(location));
+            this.addTooltipHtml(this.querySingle('.log .locationName'), locationBlock);
         },
 
         // Pure hacks to make sure locations are sequentially overlapped on small screens

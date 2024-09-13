@@ -8,7 +8,7 @@ use STATE\Helpers\ResourcesHelper;
 use STATE\Managers\Locations;
 use STATE\Managers\Players;
 use STATE\Managers\Resources;
-use STATE\Models\Feature;
+use STATE\Models\FeatureStorage;
 use STATE\Models\FeatureStorageSingle;
 use STATE\Models\Player;
 use STATE\Models\Production;
@@ -177,8 +177,7 @@ trait ChooseResourceSourceTrait
             if ($type === 'deploy') {
                 $oldLocationId = $ctx['postActions']['old'];
                 $oldLocation = Locations::get($oldLocationId);
-
-                if ($oldLocation instanceof Feature && $oldLocation->getResourcesAmount() > 0) {
+                if ($oldLocation instanceof FeatureStorage && $oldLocation->getResourcesAmount() > 0) {
                     $resourcesFromOldLocation = ResourcesHelper::increaseResourcesAfterAction(
                         $player,
                         $oldLocation->getResources()
@@ -191,15 +190,15 @@ trait ChooseResourceSourceTrait
                 Notifications::handChanged($player);
                 Notifications::deckChanged();
                 Notifications::locationDiscarded($player, $oldLocation);
-                Notifications::locationBuilt($player, $location, $location->getFactionRow());
+                Notifications::locationBuilt($player, $location, $oldLocation, $ctx['postActions']['resource']);
                 $this->getProductionAfterBuildAndPlaceResources($location, $player);
             } elseif ($type === 'raze') {
                 Notifications::handChanged($player);
                 Notifications::deckChanged();
                 Locations::move($location->getId(), LOCATION_DISCARD);
-                Notifications::locationDiscarded($player, $location);
+                Notifications::locationRazed($player, $location);
             } elseif ($type === 'build') {
-                Notifications::locationBuilt($player, $location, $location->getFactionRow());
+                Notifications::locationBuilt($player, $location);
                 Locations::move($location->getId(), [LOCATION_BOARD, $player->getId()]);
                 $this->getProductionAfterBuildAndPlaceResources($location, $player);
             } elseif ($type === 'deal') {
@@ -209,8 +208,7 @@ trait ChooseResourceSourceTrait
                 Locations::move($location->getId(), [LOCATION_DEALS, $player->getId()]);
                 Notifications::locationDealMade(
                     $player,
-                    $locationId,
-                    ResourcesHelper::getResourceName($location->getDeals()[0])
+                    $location,
                 );
             }
             $resourcesChanged[] = RESOURCE_CARD;
