@@ -477,7 +477,9 @@ class Player extends DB_Manager implements JsonSerializable
     {
         $name = ResourcesHelper::getResourceName($type);
         if ($type === RESOURCE_CARD) {
-            Locations::draw($this);
+            for ($i = 0; $i < $amount; $i++) {
+                Locations::draw($this);
+            }
         } else {
             $newAmount = $this->{$name} + $amount;
             $this->{$name} = $newAmount;
