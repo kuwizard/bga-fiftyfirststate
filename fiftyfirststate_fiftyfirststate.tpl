@@ -123,12 +123,8 @@
                 <div id="discard"></div>
             </div>
         </div>
-        <div id="connections">
-            <div class="collapsedText">Expand this to see connections</div>
-        </div>
-        <div id="lookout" class="hidden">
-            <div class="collapsedText">Expand this to see cards to choose from</div>
-        </div>
+        <div id="connections"></div>
+        <div id="lookout" class="hidden"></div>
         <div id="collapseButton">
             <svg fill="#000000" xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 330 330" xml:space="preserve">
@@ -147,7 +143,7 @@
     var jstpl_resource_icon_log = `<span class="\${type}Icon resourceIcon logIcon"></span>`
     var jstpl_resource_block = `<span class="\${type}Block resourceBlock"></span>`
     var jstpl_last_round = `<div id="lastRound">\${text}</div>`
-    var jstpl_triangle_icon = ''
+    var jstpl_collapsed_text = '<div class="collapsedText">\${text}</div>'
 </script>
 
 {OVERALL_GAME_FOOTER}

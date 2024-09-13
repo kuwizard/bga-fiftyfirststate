@@ -56,10 +56,11 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             this.addHand();
             this.addDeckConnectionsElement(gamedatas);
             this.addFactionBoards();
+            this.addEventListenerToResize();
             if (gamedatas.lastRound) {
                 this.addLastRound();
             }
-            this.dojoConnect(this.querySingle('#collapseButton'), () => {
+            dojo.connect(this.querySingle('#collapseButton'), 'click', () => {
                 dojo.toggleClass('deckConnectionsBlock', 'collapsed')
             });
             dojo.connect(this.notifqueue, 'addToLog', () => {
@@ -266,7 +267,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             const newParent = config.attach ? targetId : $(mobile).parentNode;
             dojo.style(mobile, 'zIndex', 5000);
             dojo.addClass(mobile, config.className);
-            if (config.changeParent) this.changeParent(mobile, 'game_play_area', config.relation);
+            if (config.changeParent) this.changeParent(mobile, 'game_play_area');
             if (config.from != null) this.placeOnObject(mobile, config.from);
             return new Promise((resolve, _) => {
                 const animation =
@@ -291,7 +292,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                     }
                     if (config.changeParent) {
                         if (config.phantomEnd) dojo.place(mobile, targetId, 'replace');
-                        else this.changeParent(mobile, newParent, config.relation);
+                        else this.changeParent(mobile, newParent);
                     }
                     if (config.destroy) dojo.destroy(mobile);
                     if (config.clearPos && !config.destroy)
@@ -306,7 +307,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             });
         },
 
-        changeParent(mobile, new_parent, relation) {
+        changeParent(mobile, new_parent, clearStyles = false) {
             if (mobile === null) {
                 console.error('attachToNewParent: mobile obj is null');
                 return;
@@ -321,12 +322,9 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             if (typeof new_parent === 'string') {
                 new_parent = $(new_parent);
             }
-            if (typeof relation === 'undefined') {
-                relation = 'last';
-            }
             var src = dojo.position(mobile);
             dojo.style(mobile, 'position', 'absolute');
-            dojo.place(mobile, new_parent, relation);
+            dojo.place(mobile, new_parent, 'last');
             var tgt = dojo.position(mobile);
             var box = dojo.marginBox(mobile);
             var cbox = dojo.contentBox(mobile);
@@ -335,6 +333,13 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             this.positionObjectDirectly(mobile, left, top);
             box.l += box.w - cbox.w;
             box.t += box.h - cbox.h;
+            if (clearStyles) {
+                dojo.style(mobile, {
+                    top: null,
+                    left: null,
+                    position: null,
+                });
+            }
             return box;
         },
 

@@ -74,7 +74,7 @@
   }
 }
 
-#hand .locationWrapper {
+#hand:not(#hand.notTooManyChildren) .locationWrapper {
   @for $items from 7vw through 50vw {
     &[data-items="#{string.slice("#{$items}", 1, -3)}"] {
       width: max(1vw, calc((17vw - $items)));

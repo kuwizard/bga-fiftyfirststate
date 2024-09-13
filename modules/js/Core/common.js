@@ -52,6 +52,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 this.format_block('jstpl_header', { text: _('Discard: '), value: gamedatas.discard }),
                 'discardHeader'
             );
+            dojo.place(
+                this.format_block('jstpl_collapsed_text', { text: _('Expand this to see Connections') }),
+                'connections'
+            );
+            dojo.place(this.format_block(
+                'jstpl_collapsed_text',
+                { text: _('Expand this to see cards to choose from') }
+            ), 'lookout');
             this.addLocation({ isRuined: true }, $('deck'));
             if (gamedatas.discardLastLocation === null) {
                 gamedatas.discardLastLocation = {};
@@ -103,6 +111,24 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             return locationElement;
         },
 
+        addEventListenerToResize() {
+            window.addEventListener('resize', function () {
+                this.setCorrectClassToOverlapHand();
+            }.bind(this), true);
+        },
+
+        setCorrectClassToOverlapHand() {
+            const images = dojo.query('#hand .locationImage').map((image) => {
+                return image.offsetWidth
+            });
+            const sum = images.reduce((partialSum, a) => partialSum + a, 0) + (images.length - 1) * 5;
+            if (this.querySingle('#hand').offsetWidth <= sum) {
+                dojo.removeClass('hand', 'notTooManyChildren');
+            } else {
+                dojo.addClass('hand', 'notTooManyChildren');
+            }
+        },
+
         async notif_handChanged(n) {
             debug('Notif: handChanged', n);
             await this.waitForDisappearance('.moving');
@@ -111,6 +137,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 return this.addLocation(location, $('hand'));
             });
             this.setMagicLocationClasses(elements);
+            this.setCorrectClassToOverlapHand()
         },
 
         notif_deckChanged(n) {
@@ -164,7 +191,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             if (!locationElement) {
                 locationElement = this.addLocation(location, $(`overall_player_board_${playerId}`), true);
             }
-            await this.slide(locationElement, 'discard');
+            const discardIsCollapsed = this.querySingle('#deckConnectionsBlock.collapsed');
+            if (discardIsCollapsed) {
+                await this.slide(locationElement, 'discardHeader', { destroy: false });
+                this.changeParent(locationElement, 'discard', true);
+            } else {
+                await this.slide(locationElement, 'discard');
+            }
             this.destroyAll(`#discard .location:not(#location_${location.id})`);
             this.querySingle(`#discardHeader .headerValue`).innerText = newDiscardCount;
         },
@@ -174,11 +207,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             locations.forEach((location) => {
                 dojo.attr(location, 'data-items', locations.length);
             });
-            if (locations.length < 7) {
-                dojo.addClass('hand', 'notTooManyChildren');
-            } else {
-                dojo.removeClass('hand', 'notTooManyChildren');
-            }
         },
 
         notif_lastRound(n) {
