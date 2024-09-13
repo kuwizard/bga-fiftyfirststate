@@ -248,17 +248,47 @@ class Notifications
         ]);
     }
 
-    public static function message(Player $player, string $message, array $data)
+    public static function message(string $message, array $data)
     {
         self::notifyAll('message', $message, $data);
     }
 
     public static function discardTwoCards(Player $player)
     {
-        self::message($player, clienttranslate('${player_name} discards two locations'), [
+        self::message(clienttranslate('${player_name} discards two locations'), [
             'player' => $player,
         ]);
     }
+
+    public static function gotProductionAndOrBuildingBonuses(
+        Player $player,
+        Location $location,
+        array $product,
+        array $buildingBonus)
+    {
+        if (!empty($product)) {
+            $msg = clienttranslate('${locationName} is a Production so ${player_name} gets ${resourcesList}');
+            $resourcesList = $product;
+        }
+        if (!empty($buildingBonus)) {
+            $msg = clienttranslate('${locationName} has a building bonus so ${player_name} gets ${resourcesList}');
+            $resourcesList = $buildingBonus;
+        }
+        if (!empty($product) && !empty($buildingBonus)) {
+            $msg = clienttranslate(
+                '${locationName} is a Production with a building bonus so ${player_name} gets ${resourcesList}'
+            );
+            $resourcesList = array_merge($product, $buildingBonus);
+        }
+        self::message($msg, [
+            'player' => $player,
+            'location' => $location,
+            'resourcesList' => ResourcesHelper::getResourceNames($resourcesList),
+            'i18n' => ['locationName'],
+        ]);
+    }
+
+
 
     /*********************
      **** UPDATE ARGS ****

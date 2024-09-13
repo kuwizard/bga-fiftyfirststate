@@ -188,13 +188,11 @@ trait ChooseResourceSourceTrait
                 $player->discard($oldLocationId);
                 Locations::move($locationId, [LOCATION_BOARD, $player->getId()]);
                 Notifications::handChanged($player);
-                Notifications::deckChanged();
                 Notifications::locationDiscarded($player, $oldLocation);
                 Notifications::locationBuilt($player, $location, $oldLocation, $ctx['postActions']['resource']);
                 $this->getProductionAfterBuildAndPlaceResources($location, $player);
             } elseif ($type === 'raze') {
                 Notifications::handChanged($player);
-                Notifications::deckChanged();
                 Locations::move($location->getId(), LOCATION_DISCARD);
                 Notifications::locationRazed($player, $location);
             } elseif ($type === 'build') {
@@ -243,6 +241,12 @@ trait ChooseResourceSourceTrait
                 $resourcesChanged = array_unique(array_merge($resourcesChanged, $resourcesChangedAgain));
             }
             Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));
+            Notifications::gotProductionAndOrBuildingBonuses(
+                $player,
+                $location,
+                $location instanceof Production ? $location->getProduct($player) : [],
+                $location->getBuildingBonus($player)
+            );
         }
         // Place resources on a card
         if ($location instanceof FeatureStorageSingle) {
