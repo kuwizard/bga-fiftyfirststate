@@ -22,7 +22,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 if (selected.length === 2) {
                     this.clearPossible();
                     this.makeAllSelectedAndClickable(selected, this.selectLocation.bind(this));
-                    this.addUnselectableClass(dojo.query('.location:not(.selected)'));
+                    this.addUnselectableClass(dojo.query('#hand .location:not(.selected)'));
                     this.addPrimaryActionButton(
                         'buttonDiscardCards',
                         _('Discard selected'),
