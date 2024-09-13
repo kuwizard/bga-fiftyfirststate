@@ -501,6 +501,41 @@
   display: flex;
   justify-content: flex-start;
   height: 300px;
+  transition: height 500ms;
+  align-items: center;
+  font-weight: 700;
+}
+#deckConnectionsBlock.collapsed {
+  height: 40px;
+}
+#deckConnectionsBlock.collapsed #deck, #deckConnectionsBlock.collapsed #discard {
+  display: none;
+}
+#deckConnectionsBlock.collapsed .collapsedText {
+  display: block;
+}
+#deckConnectionsBlock.collapsed #lookout .location {
+  display: none;
+}
+#deckConnectionsBlock.collapsed #connections .connection {
+  display: none;
+}
+#deckConnectionsBlock.collapsed #collapseButton {
+  transform: rotate(90deg);
+}
+#deckConnectionsBlock .collapsedText {
+  display: none;
+}
+#deckConnectionsBlock #collapseButton {
+  width: 31px;
+  height: 30px;
+  cursor: pointer;
+  transform: rotate(270deg);
+  box-shadow: rgba(0, 0, 0, 0.55) 0 0 2px;
+  border-radius: 8px;
+  margin-right: 5px;
+  transition: transform 0.5s;
+  margin-left: auto;
 }
 
 #hand {
@@ -669,13 +704,12 @@
   justify-content: center;
   gap: 5px;
 }
+#connections.hidden, #lookout.hidden {
+  display: none;
+}
 
 #connections {
   gap: 20px;
-}
-
-#lookout {
-  display: none;
 }
 
 #lastRound {

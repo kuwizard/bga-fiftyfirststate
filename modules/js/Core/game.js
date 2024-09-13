@@ -59,6 +59,9 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             if (gamedatas.lastRound) {
                 this.addLastRound();
             }
+            this.dojoConnect(this.querySingle('#collapseButton'), () => {
+                dojo.toggleClass('deckConnectionsBlock', 'collapsed')
+            });
             dojo.connect(this.notifqueue, 'addToLog', () => {
                 this.checkLogCancel(this._last_notif);
             });

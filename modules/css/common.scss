@@ -106,14 +106,14 @@
   width: calc(100% - $deckDiscardSize);
   justify-content: center;
   gap: 5px;
+
+  &.hidden {
+    display: none;
+  }
 }
 
 #connections {
   gap: 20px;
-}
-
-#lookout {
-  display: none;
 }
 
 #lastRound {

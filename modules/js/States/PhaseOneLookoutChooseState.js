@@ -7,8 +7,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         async onEnteringStatePhaseOneLookoutChoose(args) {
             debug('phaseOneLookoutChoose state', args);
-            dojo.style('lookout', 'display', 'flex');
-            dojo.style('connections', 'display', 'none');
+            dojo.removeClass('lookout', 'hidden');
+            dojo.addClass('connections', 'hidden');
             this.forEachPlayer((player) => {
                 dojo.removeClass(`overall_player_board_${player.id}`, 'passed');
             });
@@ -29,8 +29,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         async onEnteringStatePhaseTwoProduction() {
             await this.waitForDisappearance('.moving')
-            dojo.style('lookout', 'display', 'none');
-            dojo.style('connections', 'display', 'flex');
+            dojo.addClass('lookout', 'hidden');
+            dojo.removeClass('connections', 'hidden');
         },
 
         clickLocationLookout(id) {

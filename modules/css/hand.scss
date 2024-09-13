@@ -12,6 +12,49 @@
   display: flex;
   justify-content: flex-start;
   height: 300px;
+  transition: height 500ms;
+  align-items: center;
+  font-weight: 700;
+
+  &.collapsed {
+    height: 40px;
+
+    #deck, #discard {
+      display: none;
+    }
+
+    .collapsedText {
+      display: block;
+    }
+
+    #lookout .location {
+      display: none;
+    }
+
+    #connections .connection {
+      display: none;
+    }
+
+    #collapseButton {
+      transform: rotate(90deg);
+    }
+  }
+
+  .collapsedText {
+    display: none;
+  }
+
+  #collapseButton {
+    width: 31px;
+    height: 30px;
+    cursor: pointer;
+    transform: rotate(270deg);
+    box-shadow: rgba(0, 0, 0, 0.55) 0 0 2px;
+    border-radius: 8px;
+    margin-right: 5px;
+    transition: transform 0.5s;
+    margin-left: auto;
+  }
 }
 
 #hand {
