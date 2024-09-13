@@ -15,15 +15,6 @@ $gameinfos = array(
 // Name of the game in English (will serve as the basis for translation) 
     'game_name' => '51st State',
 
-// Game designer (or game designers, separated by commas)
-    'designer' => 'Ignacy Trzewiczek',
-
-// Game artist (or game artists, separated by commas)
-    'artist' => 'Grzegorz Bobrowski',
-
-// Year of FIRST publication of this game. Can be negative.
-    'year' => 2010,
-
 // Game publisher (use empty string if there is no publisher)
     'publisher' => 'Portal Games',
 
@@ -67,7 +58,9 @@ $gameinfos = array(
 // Note: if you are NOT using any tie breaker, leave the empty string.
 //
 // Example: 'tie_breaker_description' => totranslate( "Number of remaining cards in hand" ),
-    'tie_breaker_description' => totranslate('the player with the most total Goods is the winner. If the tie persists, the player among those ties with the most Locations wins.'),
+    'tie_breaker_description' => totranslate(
+        'the player with the most total Goods is the winner. If the tie persists, the player among those ties with the most Locations wins.'
+    ),
 
 // If in the game, all losers are equal (no score to rank them or explicit in the rules that losers are not ranked between them), set this to true 
 // The game end result will display "Winner" for the 1st player and "Loser" for all other players
@@ -86,18 +79,6 @@ $gameinfos = array(
 // If an array of shortcode languages such as array( 1 => 'en', 2 => 'fr', 3 => 'it' ) then all players at the table must speak the same language, and this language must be one of the listed languages.
 // NB: the default will be the first language in this list spoken by the player, so you should list them by popularity/preference.
     'language_dependency' => false,
-
-// Complexity of the game, from 0 (extremely simple) to 5 (extremely complex)
-    'complexity' => 3,
-
-// Luck of the game, from 0 (absolutely no luck in this game) to 5 (totally luck driven)
-    'luck' => 2,
-
-// Strategy of the game, from 0 (no strategy can be setup) to 5 (totally based on strategy)
-    'strategy' => 4,
-
-// Diplomacy of the game, from 0 (no interaction in this game) to 5 (totally based on interaction and discussion between players)
-    'diplomacy' => 2,
 
 // Colors attributed to players
     'player_colors' => array("bcc6cc", "ffa500", "ff0000", "0000ff"),
@@ -125,16 +106,6 @@ $gameinfos = array(
         //  maximum possible value: unlimited
         //  minimum possible value: 740
         'max' => null,
-    ),
-
-// Game presentation
-// Short game presentation text that will appear on the game description page, structured as an array of paragraphs.
-// Each paragraph must be wrapped with totranslate() for translation and should not contain html (plain text without formatting).
-// A good length for this text is between 100 and 150 words (about 6 to 9 lines on a standard display)
-    'presentation' => array(
-//    totranslate("This wonderful game is about geometric shapes!"),
-//    totranslate("It was awarded best triangle game of the year in 2005 and nominated for the Spiel des Jahres."),
-//    ...
     ),
 
 //////// BGA SANDBOX ONLY PARAMETERS (DO NOT MODIFY)
