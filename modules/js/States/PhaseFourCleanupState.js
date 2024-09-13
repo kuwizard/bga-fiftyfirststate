@@ -14,6 +14,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             debug('Notif: playersResetAllResources', n);
             this.destroyAll('.spentArea .resourceIcon');
             this.destroyAll(`.actions .resourceIcon`);
+            this.destroyAll(`.production .resourceIcon`);
             dojo.query('.player-board .resourceValue:not(.cardValue)').forEach((resource) => {
                 resource.innerText = 0;
             });
