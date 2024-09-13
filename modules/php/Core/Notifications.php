@@ -71,8 +71,13 @@ class Notifications
      */
     public static function locationPicked(Player $player, Location $location = null, string $source = '')
     {
-        $resources = ['player' => $player, 'hand' => $player->getHand()->toArray(), 'source' => $source, 'location' => $location];
-        self::notifyAll('locationPicked', '', $resources);
+        $resources = [
+            'player' => $player,
+            'hand' => $player->getHand()->toArray(),
+            'source' => $source,
+            'location' => $location,
+        ];
+        self::notifyAll('locationPicked', clienttranslate('${player_name} picks a location ${locationName}'), $resources);
     }
 
     /**
@@ -215,6 +220,18 @@ class Notifications
         self::notifyAll('reshuffle', clienttranslate('The deck have been reshuffled'), [
             'deckCount' => Locations::countInLocation(LOCATION_DECK),
             'discardCount' => Locations::countInLocation(LOCATION_DISCARD),
+        ]);
+    }
+
+    public static function message(Player $player, string $message, array $data)
+    {
+        self::notifyAll('message', $message, $data);
+    }
+
+    public static function discardTwoCards(Player $player)
+    {
+        self::message($player, clienttranslate('${player_name} discards two locations'), [
+            'player' => $player,
         ]);
     }
 

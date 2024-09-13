@@ -475,6 +475,9 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                     if (args.player_name) {
                         args.player_name = this.coloredPlayerName(args.player_name);
                     }
+                    if (args.location && log.includes('${locationName}')) {
+                        args.locationName = `<span class="locationName" data-sprite="${args.location.sprite}"><b>${args.location.name}</b></span>`;
+                    }
                 }
             } catch (e) {
                 console.error(log, args, 'Exception thrown', e.stack);

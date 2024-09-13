@@ -95,6 +95,11 @@ class Location implements \JsonSerializable
         return $this->copies;
     }
 
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
     /**
      * @return int[]
      */

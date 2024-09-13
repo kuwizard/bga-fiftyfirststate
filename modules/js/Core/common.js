@@ -7,6 +7,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this._notifications.push(['locationPicked', 1]);
             this._notifications.push(['lastRound', 1]);
             this._notifications.push(['reshuffle', 1]);
+            this._notifications.push(['message', 1]);
         },
 
         forEachFactionRow(callback) {
@@ -130,6 +131,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     );
                 }
             }
+            const locationBlock = this.format_block('jstpl_location', this.enrichLocationObject(n.args.location));
+            this.addTooltipHtml(this.querySingle('.log .locationName'), locationBlock);
         },
 
         notif_reshuffle(n) {
@@ -181,6 +184,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         notif_lastRound(n) {
             debug('Notif: lastRound', n);
             this.addLastRound();
+        },
+
+        notif_message(n) {
+            debug('Notif: message', n);
         },
     });
 });

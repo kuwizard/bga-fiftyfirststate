@@ -21,6 +21,7 @@ trait DiscardCardsGameStartTrait
         foreach ($locationsIds as $locationId) {
             Notifications::locationDiscarded($currentPlayer, Locations::get($locationId));
         }
+        Notifications::discardTwoCards($currentPlayer);
         $this->gamestate->setPlayerNonMultiactive($currentPlayer->getId(), '');
     }
 }
