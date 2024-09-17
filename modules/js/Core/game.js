@@ -476,9 +476,10 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                         }
                     }
                     if (args.resourcesList && log.includes('${resourcesList}')) {
-                        args.resourcesList = args.resourcesList.map((resource) => {
-                            return this.getLogIcon(resource);
-                        }).join(', ');
+                        args.resourcesList = this.getLogIcons(args.resourcesList);
+                    }
+                    if (args.spendList && log.includes('${spendList}')) {
+                        args.spendList = this.getLogIcons(args.spendList);
                     }
                     if (args.player_name) {
                         args.player_name = this.coloredPlayerName(args.player_name);
@@ -495,6 +496,12 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             }
 
             return this.inherited({ callee: this.format_string_recursive }, arguments);
+        },
+
+        getLogIcons(list) {
+            return list.map((resource) => {
+                return this.getLogIcon(resource);
+            }).join(', ');
         },
 
         coloredPlayerName(name) {

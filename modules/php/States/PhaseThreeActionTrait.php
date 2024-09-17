@@ -286,9 +286,10 @@ trait PhaseThreeActionTrait
     public function actActivateConnection($id)
     {
         self::checkAction('actActivateConnection');
-        Connections::get($id)->activate();
+        $connection = Connections::get($id);
+        $connection->activate();
         self::giveExtraTime(Players::getActiveId());
-        Notifications::connectionActivated(Players::getActive(), $id);
+        Notifications::connectionActivated(Players::getActive(), $id, $connection->getBonusUi());
         Stack::finishState();
     }
 

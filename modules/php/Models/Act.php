@@ -37,6 +37,11 @@ class Act implements \JsonSerializable
         return ResourcesHelper::getResourceNames($this->spendRequirements);
     }
 
+    public function getBonusUi(): array
+    {
+        return ResourcesHelper::getResourceNames($this->bonus);
+    }
+
     public function getSpendRequirementsUIRemoveCard(): array
     {
         $requirements = $this->spendRequirements;

@@ -186,17 +186,20 @@ class Notifications
         ]);
     }
 
-    public static function connectionActivated($player, $id)
+    public static function connectionActivated(Player $player, int $id, array $bonus)
     {
-        self::notifyAll('connectionActivated', '', [
+        $msg = clienttranslate('${player_name} spends ${spendList} to take a Connection card, gaining ${resourcesList}');
+        self::notifyAll('connectionActivated', $msg, [
             'player' => $player,
             'id' => $id,
+            'resourcesList' => $bonus,
+            'spendList' => ResourcesHelper::getResourceNames([RESOURCE_WORKER, RESOURCE_WORKER]),
         ]);
     }
 
     public static function newConnections(array $connections)
     {
-        self::notifyAll('newConnections', '', [
+        self::notifyAll('newConnections', clienttranslate('New round starts. Top cards of each Connections pile are revealed'), [
             'connections' => $connections,
         ]);
     }

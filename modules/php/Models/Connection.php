@@ -68,6 +68,11 @@ class Connection implements \JsonSerializable
         return $this->action->getSpendRequirements();
     }
 
+    public function getBonusUi()
+    {
+        return $this->action->getBonusUi();
+    }
+
     public function activate()
     {
         $this->action->activate(null);
