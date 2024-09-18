@@ -119,7 +119,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         setCorrectClassToOverlapHand() {
             const images = dojo.query('#hand .locationImage').map((image) => {
-                return image.offsetWidth
+                return image.offsetWidth;
             });
             const sum = images.reduce((partialSum, a) => partialSum + a, 0) + (images.length - 1) * 5;
             if (this.querySingle('#hand').offsetWidth <= sum) {
@@ -136,8 +136,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             const elements = n.args.hand.map((location) => {
                 return this.addLocation(location, $('hand'));
             });
-            this.setMagicLocationClasses(elements);
-            this.setCorrectClassToOverlapHand()
+            this.setCorrectClassToOverlapHand();
         },
 
         notif_deckChanged(n) {
@@ -182,8 +181,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 );
             });
             this.runDiscardLocationAnimation(n.args.location, n.args.newDiscardCount, n.args.player_id);
-            this.setMagicLocationClasses(dojo.query('#hand .locationWrapper'));
             this.addTooltipToLogEntry(n.args.location);
+            this.setCorrectClassToOverlapHand();
         },
 
         async runDiscardLocationAnimation(location, newDiscardCount, playerId) {
@@ -205,13 +204,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         addTooltipToLogEntry(location) {
             const locationBlock = this.format_block('jstpl_location', this.enrichLocationObject(location));
             this.addTooltipHtml(this.querySingle('.log .locationName'), locationBlock);
-        },
-
-        // Pure hacks to make sure locations are sequentially overlapped on small screens
-        setMagicLocationClasses(locations) {
-            locations.forEach((location) => {
-                dojo.attr(location, 'data-items', locations.length);
-            });
         },
 
         notif_lastRound(n) {

@@ -348,137 +348,8 @@
   background-position: 100% 100%;
 }
 
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="7"] {
-  width: 10vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="8"] {
-  width: 9vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="9"] {
-  width: 8vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="10"] {
-  width: 7vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="11"] {
-  width: 6vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="12"] {
-  width: 5vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="13"] {
-  width: 4vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="14"] {
-  width: 3vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="15"] {
+#hand:not(#hand.notTooManyChildren) .locationWrapper {
   width: 2vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="16"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="17"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="18"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="19"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="20"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="21"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="22"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="23"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="24"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="25"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="26"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="27"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="28"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="29"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="30"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="31"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="32"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="33"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="34"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="35"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="36"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="37"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="38"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="39"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="40"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="41"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="42"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="43"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="44"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="45"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="46"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="47"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="48"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="49"] {
-  width: 1vw;
-}
-#hand:not(#hand.notTooManyChildren) .locationWrapper[data-items="50"] {
-  width: 1vw;
 }
 #hand:not(#hand.notTooManyChildren) .locationWrapper:last-child {
   width: auto;
@@ -550,11 +421,12 @@
 }
 
 #deckDiscard {
-  width: 375px;
+  width: 360px;
   height: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  margin-left: 5px;
 }
 #deckDiscard #deckBlock, #deckDiscard #discardBlock {
   display: flex;
@@ -700,7 +572,7 @@
 #connections, #lookout {
   display: flex;
   align-items: center;
-  width: calc(100% - 375px);
+  width: calc(100% - 360px - 5px);
   justify-content: center;
   gap: 5px;
 }
@@ -709,7 +581,7 @@
 }
 
 #connections {
-  gap: 20px;
+  gap: 10px;
 }
 
 #lastRound {

@@ -8,8 +8,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             const elements = this.gamedatas.players[this.player_id].hand.map((location) => {
                 return this.addLocation(location, $('hand'));
             });
-
-            this.setMagicLocationClasses(elements);
         },
     });
 });
