@@ -39,7 +39,8 @@ trait PhaseThreeActionTrait
             'locations' => $player->getPlayableLocationsIds(),
             'otherPlayersLocations' => $otherPlayersLocations->getIds(),
             'deploy' => $this->whatCanBeUsedForDevel($player),
-            'connections' => $player->getPlayableConnectionsIds(),
+            'connectionsToTake' => Connections::getBothAvailable()->getIds(),
+            'connectionsToPlay' => $player->getPlayableConnectionsIds(),
         ];
     }
 
@@ -283,13 +284,22 @@ trait PhaseThreeActionTrait
         Stack::finishState();
     }
 
-    public function actActivateConnection($id)
+    public function actTakeConnection(int $id)
     {
-        self::checkAction('actActivateConnection');
+        $player = Players::getActive();
+        Connections::move($id, [LOCATION_HAND, $player->getId()]);
+        self::giveExtraTime($player->getId());
+        Notifications::connectionTaken($player, $id, Connections::getDeckName($id));
+        Stack::finishState();
+    }
+
+    public function actPlayConnection(int $id)
+    {
         $connection = Connections::get($id);
         $connection->activate();
-        self::giveExtraTime(Players::getActiveId());
-        Notifications::connectionActivated(Players::getActive(), $id, $connection->getBonusUi());
+        $player = Players::getActive();
+        self::giveExtraTime($player->getId());
+        Notifications::connectionPlayed($player, $id, $connection);
         Stack::finishState();
     }
 

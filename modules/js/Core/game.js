@@ -651,5 +651,26 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                 this.dojoConnect(element, () => callback(element));
             });
         },
+
+        fadeOutAndDestroyAll(locators, duration = 600) {
+            const promises = [];
+            if (!Array.isArray(locators)) {
+                locators = [locators];
+            }
+            locators.forEach((locator) => {
+                dojo.query(locator).forEach((item) => {
+                    this.fadeOutAndDestroy(item, duration);
+                    dojo.addClass(item, 'destroying');
+                });
+                promises.push(this.waitForDisappearance(locator));
+            });
+            return Promise.all(promises);
+        },
+
+        async fadeOutAndDestroy(element, duration) {
+            dojo.addClass(element, 'fadeout');
+            await new Promise(resolve => setTimeout(resolve, duration));
+            dojo.destroy(element);
+        },
     });
 });

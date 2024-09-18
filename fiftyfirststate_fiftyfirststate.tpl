@@ -111,7 +111,10 @@
         </div>
     </div>`
     var jstpl_connection = `<div id="connection_\${id}" class="connection\${additionalClass}" data-sprite="\${sprite}"></div>`
-    var jstpl_hand = `<div id="hand"></div>`
+    var jstpl_hand = `<div id="hand" class="all">
+            <div id="handLocations"></div>
+            <div id="handConnections"></div>
+        </div>`
     var jstpl_deck_connections = `<div id="deckConnectionsBlock">
         <div id="deckDiscard">
             <div id="deckBlock">
@@ -144,6 +147,23 @@
     var jstpl_resource_block = `<span class="\${type}Block resourceBlock"></span>`
     var jstpl_last_round = `<div id="lastRound">\${text}</div>`
     var jstpl_collapsed_text = '<div class="collapsedText">\${text}</div>'
+    var jstpl_selector = `<div id="handSelector">
+            <div id="unselected">
+                <div class="allBlock"></div>
+                <div class="locationsBlock"></div>
+                <div class="connectionsBlock"></div>
+            </div>
+            <div id="selected">
+                <div class="allBlock"></div>
+                <div class="locationsBlock"></div>
+                <div class="connectionsBlock"></div>
+            </div>
+            <div id="clickArea">
+                <div class="allBlock"></div>
+                <div class="locationsBlock"></div>
+                <div class="connectionsBlock"></div>
+            </div>
+        </div>`
 </script>
 
 {OVERALL_GAME_FOOTER}

@@ -4,7 +4,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this._notifications.push(['locationBuilt', 1]);
             this._notifications.push(['locationDealMade', 1]);
             this._notifications.push(['resourcesPlacedOnLocation', 1]);
-            this._notifications.push(['connectionActivated', 1]);
+            this._notifications.push(['connectionTaken', 1]);
+            this._notifications.push(['connectionPlayed', 1]);
             this._notifications.push(['playerPassed', 1]);
         },
 
@@ -27,8 +28,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 if (args.factionActions) {
                     this.makeAreaSelectable('actionsArea', 'actEnableFactionActions');
                 }
-                this.makeConnectionsSelectableAndClickable(args.connections);
-                this.makeLocationsSelectableAndClickable('#hand .location', 'actUseLocation', args.locations);
+                this.makeConnectionsSelectableAndClickable(args.connectionsToTake, false, 'actTakeConnection');
+                this.makeConnectionsSelectableAndClickable(args.connectionsToPlay, true, 'actPlayConnection');
+                this.makeLocationsSelectableAndClickable('#handLocations .location', 'actUseLocation', args.locations);
                 this.makeLocationsSelectableAndClickable(
                     `#faction_${this.player_id} .location`,
                     'actActivateLocation',
@@ -70,13 +72,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             });
         },
 
-        makeConnectionsSelectableAndClickable(allowedList) {
-            dojo.query('.connection:not(.flipped)').forEach((connection) => {
+        makeConnectionsSelectableAndClickable(allowedList, isHand, action) {
+            const locator = isHand ? '#handConnections' : '#deckConnectionsBlock';
+            dojo.query(`${locator} .connection:not(.flipped)`).forEach((connection) => {
                 const id = this.extractId(connection, 'connection');
                 if (allowedList.includes(id)) {
                     this.addSelectableClass(connection);
                     this.dojoConnect(connection, () => {
-                        this.takeAction('actActivateConnection', { id: id });
+                        this.takeAction(action, { id: id });
                     })
                 } else {
                     this.addUnselectableClass(connection);
@@ -98,7 +101,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         onEnteringStateLocationActions(args) {
             if (this.isCurrentPlayerActive()) {
-                dojo.query(`#hand .location`).forEach((location) => {
+                dojo.query(`#handLocations .location`).forEach((location) => {
                     if (args.id === this.extractId(location, 'location')) {
                         this.addSelectedClass(location);
                     } else {
@@ -162,9 +165,27 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this.placeResourcesOnLocation(n.args.id, n.args.resources);
         },
 
-        notif_connectionActivated(n) {
-            debug('Notif: connectionActivated', n);
-            dojo.addClass(`connection_${n.args.id}`, 'flipped');
+        notif_connectionTaken(n) {
+            debug('Notif: connectionTaken', n);
+            if (n.args.player_id === this.player_id) {
+                const clone = dojo.clone(this.querySingle(`#connection_${n.args.id}`));
+                dojo.attr(clone, 'id', 'connection_0');
+                const firstConnectionId = this.extractId(
+                    this.querySingle('#deckConnectionsBlock .connection'),
+                    'connection'
+                );
+                const position = firstConnectionId === n.args.id ? 'first' : 'last';
+                const parent = this.querySingle(`#connection_${n.args.id}`).parentNode;
+                this.slide(`connection_${n.args.id}`, 'handConnections');
+                dojo.place(clone, parent, position);
+                dojo.addClass(clone, 'flipped');
+                dojo.removeClass(clone, 'selectable');
+            }
+        },
+
+        notif_connectionPlayed(n) {
+            debug('Notif: connectionPlayed', n);
+            this.fadeOutAndDestroyAll(`#connection_${n.args.id}`);
         },
 
         notif_playerPassed(n) {

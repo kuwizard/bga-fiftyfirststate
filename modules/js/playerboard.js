@@ -1,6 +1,7 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     return declare('state.playerboard', null, {
         constructor() {
+            this._notifications.push(['resourcesChanged', 1]);
             this.tick = false;
         },
 

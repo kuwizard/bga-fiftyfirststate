@@ -59,13 +59,117 @@
 
 #hand {
   display: flex;
-  justify-content: space-between;
-  gap: 5px;
+  flex-direction: column;
   align-items: center;
-  height: 270px;
 
-  &.notTooManyChildren {
+  &.all {
+    #handSelector #selected .allBlock {
+      visibility: visible;
+    }
+  }
+
+  &.locations {
+    #handSelector #selected .locationsBlock {
+      visibility: visible;
+    }
+
+    #handConnections {
+      max-height: 0;
+
+      .connection {
+        visibility: hidden;
+      }
+    }
+  }
+
+  &.connections {
+    #handSelector #selected .connectionsBlock {
+      visibility: visible;
+    }
+
+    #handLocations {
+      max-height: 0;
+
+      .location {
+        visibility: hidden;
+      }
+    }
+  }
+
+  #handSelector {
+    position: relative;
+    margin-top: 5px;
+    align-items: center;
+    display: flex;
+    border-style: solid;
+    border-color: black;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 8px;
+    z-index: 1;
+
+    #unselected {
+      background-color: antiquewhite;
+    }
+
+    #unselected, #selected, #clickArea {
+      display: grid;
+      grid-template-columns: 1fr 2fr 2fr;
+      justify-items: center;
+      height: 30px;
+      align-items: center;
+      width: 100%;
+
+      .allBlock, .locationsBlock, .connectionsBlock {
+        margin: 0 10px;
+        width: 100%;
+        justify-content: center;
+        height: 100%;
+        align-items: center;
+        display: flex;
+        border-style: solid;
+        border-right: none;
+      }
+    }
+
+    #clickArea {
+      position: absolute;
+    }
+
+    #selected {
+      position: absolute;
+
+      .allBlock, .locationsBlock, .connectionsBlock {
+        background-color: #4871b6;
+        color: #fff;
+        visibility: hidden;
+      }
+    }
+  }
+
+  #handLocations {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    align-items: center;
+    margin-bottom: 8px;
+    width: 100%;
+    transition: max-height 500ms;
+    max-height: 270px;
+
+    &.notTooManyChildren {
+      justify-content: center;
+    }
+  }
+
+  #handConnections {
+    margin-bottom: 5px;
+    display: flex;
     justify-content: center;
+    width: 100%;
+    transition: max-height 500ms;
+    max-height: 180px;
+    gap: 5px;
   }
 }
 

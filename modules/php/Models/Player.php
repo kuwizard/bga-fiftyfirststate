@@ -382,7 +382,7 @@ class Player extends DB_Manager implements JsonSerializable
      */
     public function getPlayableConnectionsIds()
     {
-        $connections = Connections::getBothAvailable();
+        $connections = Connections::getInLocation([LOCATION_HAND, $this->id]);
         return $connections->filter(function (Connection $connection) {
             $requirements = $connection->getSpendRequirements();
             foreach (array_count_values($requirements) as $requirement => $amount) {
@@ -597,6 +597,7 @@ class Player extends DB_Manager implements JsonSerializable
             'locations' => Locations::getBoardUI($this->id),
             'usedFactionActions' => $this->getUsedFactionActions(),
             'dealsResources' => Locations::getDealsResources($this->id),
+            'connections' => $current ? Connections::getInLocation([LOCATION_HAND, $this->id])->toArray() : [],
         ];
         return $data;
     }

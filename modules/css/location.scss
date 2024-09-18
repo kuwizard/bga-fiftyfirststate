@@ -74,7 +74,7 @@
   }
 }
 
-#hand:not(#hand.notTooManyChildren) .locationWrapper {
+#handLocations:not(#handLocations.notTooManyChildren) .locationWrapper {
   width: 2vw;
 
   &:last-child {

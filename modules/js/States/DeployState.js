@@ -8,7 +8,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 this.makeLocationsUnselectable('.factionBoard .location');
                 this.makeLocationsUnselectable('#connections .connection');
                 this.makeLocationsSelectableAndClickable(
-                    '#hand .location',
+                    '#handLocations .location',
                     'actDeployChooseFromHand',
                     args.possibleHandIds
                 );
@@ -18,7 +18,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         onEnteringStateDeployChooseDestination(args) {
             if (this.isCurrentPlayerActive()) {
-                this.makeLocationsUnselectable(`#hand .location:not(#location_${args.newLocationId})`);
+                this.makeLocationsUnselectable(`#handLocations .location:not(#location_${args.newLocationId})`);
                 this.makeLocationsUnselectable(`.factionBoard:not(#faction_${this.player_id}) .location`);
                 this.addSelectedClass(`location_${args.newLocationId}`);
                 this.makeLocationsSelectableAndClickable(

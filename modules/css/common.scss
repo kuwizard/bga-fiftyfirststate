@@ -149,3 +149,13 @@ img:first-of-type {
 .playerResourcesWrapper {
   background-color: #ebd5bd;
 }
+
+.fadeout {
+  animation: fadeout 0.6s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeout {
+  0% { opacity:1; }
+  100% { opacity:0; }
+}

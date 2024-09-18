@@ -13,7 +13,7 @@ class Merchants extends Connection
         $this->type = CONNECTION_MERCHANTS;
         $this->name = clienttranslate("Merchants");
         $this->action = new Act(
-            [RESOURCE_WORKER, RESOURCE_WORKER],
+            [],
             [RESOURCE_ARROW_BLUE, RESOURCE_ARROW_BLUE],
         );
         $this->copies = 4;

@@ -47,19 +47,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         addDeckConnectionsElement(gamedatas) {
             dojo.place(this.format_block('jstpl_deck_connections', {}), 'board');
-            dojo.place(this.format_block('jstpl_header', { text: _('Deck: '), value: gamedatas.deck }), 'deckHeader');
-            dojo.place(
-                this.format_block('jstpl_header', { text: _('Discard: '), value: gamedatas.discard }),
-                'discardHeader'
+            this.placeText('jstpl_header', "{l}: ".replace('{l}', this.getDeckLexeme()), 'deckHeader', gamedatas.deck);
+            this.placeText(
+                'jstpl_header',
+                "{l}: ".replace('{l}', this.getDiscardLexeme()),
+                'discardHeader',
+                gamedatas.discard
             );
-            dojo.place(
-                this.format_block('jstpl_collapsed_text', { text: _('Expand this to see Connections') }),
-                'connections'
-            );
-            dojo.place(this.format_block(
-                'jstpl_collapsed_text',
-                { text: _('Expand this to see cards to choose from') }
-            ), 'lookout');
+            this.placeText('jstpl_collapsed_text', this.getExpandConnectionsLexeme(), 'connections');
+            this.placeText('jstpl_collapsed_text', this.getExpandLocationsLexeme(), 'lookout');
             this.addLocation({ isRuined: true }, $('deck'));
             if (gamedatas.discardLastLocation === null) {
                 gamedatas.discardLastLocation = {};
@@ -73,17 +69,21 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         addConnections(connections) {
             connections.forEach((connection) => {
-                if (connection === null) {
-                    connection = { id: 0, sprite: 0, additionalClass: ' flipped' }
-                } else {
-                    connection = { ...connection, additionalClass: '' }
-                }
-                const connectionBlock = this.format_block('jstpl_connection', connection);
-                dojo.place(connectionBlock, 'connections');
-                if (connection.id !== 0) {
-                    this.addTooltipHtml(`connection_${connection.id}`, connectionBlock);
-                }
+                this.addConnection(connection, 'connections');
             });
+        },
+
+        addConnection(connection, destination) {
+            if (connection === null) {
+                connection = { id: 0, sprite: 0, additionalClass: ' flipped' }
+            } else {
+                connection = { ...connection, additionalClass: '' }
+            }
+            const connectionBlock = this.format_block('jstpl_connection', connection);
+            dojo.place(connectionBlock, destination);
+            if (connection.id !== 0) {
+                this.addTooltipHtml(`connection_${connection.id}`, connectionBlock);
+            }
         },
 
         addLastRound() {
@@ -118,23 +118,23 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         },
 
         setCorrectClassToOverlapHand() {
-            const images = dojo.query('#hand .locationImage').map((image) => {
+            const images = dojo.query('#handLocations .locationImage').map((image) => {
                 return image.offsetWidth;
             });
             const sum = images.reduce((partialSum, a) => partialSum + a, 0) + (images.length - 1) * 5;
-            if (this.querySingle('#hand').offsetWidth <= sum) {
-                dojo.removeClass('hand', 'notTooManyChildren');
+            if (this.querySingle('#handLocations').offsetWidth <= sum) {
+                dojo.removeClass('handLocations', 'notTooManyChildren');
             } else {
-                dojo.addClass('hand', 'notTooManyChildren');
+                dojo.addClass('handLocations', 'notTooManyChildren');
             }
         },
 
         async notif_handChanged(n) {
             debug('Notif: handChanged', n);
             await this.waitForDisappearance('.moving');
-            this.destroyAll('#hand .location');
-            const elements = n.args.hand.map((location) => {
-                return this.addLocation(location, $('hand'));
+            this.destroyAll('#handLocations .location');
+            n.args.hand.map((location) => {
+                return this.addLocation(location, $('handLocations'));
             });
             this.setCorrectClassToOverlapHand();
         },
@@ -148,7 +148,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             debug('Notif: locationPicked', n);
             if (n.args.source === 'lookout') {
                 if (n.args.player_id === this.player_id) {
-                    this.slide(`location_${n.args.location.id}`, 'hand', { phantom: true });
+                    this.slide(`location_${n.args.location.id}`, 'handLocations', { phantom: true });
                 } else {
                     this.slide(
                         `location_${n.args.location.id}`,

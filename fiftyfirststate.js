@@ -35,7 +35,8 @@ define([
     g_gamethemeurl + 'modules/js/playerboard.js',
     g_gamethemeurl + 'modules/js/factionboard.js',
     g_gamethemeurl + 'modules/js/hand.js',
-    g_gamethemeurl + 'modules/js/Core/common.js',
+    g_gamethemeurl + 'modules/js/common.js',
+    g_gamethemeurl + 'modules/js/lexemes.js',
 ], function (dojo, declare) {
     return declare(
         'bgagame.fiftyfirststate',
@@ -56,6 +57,7 @@ define([
             state.chooseDealToLose,
             state.phaseFourCleanup,
             state.activateSecondTime,
+            state.lexemes,
         ],
         {
             constructor() {

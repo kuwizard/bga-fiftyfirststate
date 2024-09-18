@@ -13,7 +13,7 @@ class Thugs extends Connection
         $this->type = CONNECTION_THUGS;
         $this->name = clienttranslate("Thugs");
         $this->action = new Act(
-            [RESOURCE_GUN, RESOURCE_WORKER, RESOURCE_WORKER],
+            [RESOURCE_GUN],
             [RESOURCE_ARROW_RED, RESOURCE_ARROW_RED, RESOURCE_ARROW_RED],
         );
         $this->copies = 2;

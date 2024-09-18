@@ -15,7 +15,12 @@ class Connections extends Pieces
 
     protected static function cast($row)
     {
-        return self::getByType($row);
+        $deck = in_array(
+            $row['type'],
+            array_keys(self::$blueCardTypes)
+        ) ? self::$blueCardTypes : self::$redCardTypes;
+        $name = "STATE\Data\Connections\\" . $deck[$row['type']];
+        return new $name($row);
     }
 
     private static $blueCardTypes = [
@@ -56,11 +61,7 @@ class Connections extends Pieces
      */
     private static function getByType($params)
     {
-        $params['location'] = $params['location'] ?? $params['connection_location'];
-        $deck = in_array($params['location'], [LOCATION_CONNECTIONS_BLUE_DECK, LOCATION_CONNECTIONS_BLUE_FLIPPED]
-        ) ? self::$blueCardTypes : self::$redCardTypes;
-        $name = "STATE\Data\Connections\\" . $deck[$params['type']];
-        return new $name($params);
+
     }
 
     public static function getAll()
@@ -123,5 +124,14 @@ class Connections extends Pieces
             CONNECTION_PUNKS => 2,
             CONNECTION_THUGS => 3,
         ][$type];
+    }
+
+    public static function getDeckName(int $id): string
+    {
+        if (in_array(self::get($id)->getType(), array_keys(self::$blueCardTypes))) {
+            return clienttranslate('Blue');
+        } else {
+            return clienttranslate('Red');
+        }
     }
 }

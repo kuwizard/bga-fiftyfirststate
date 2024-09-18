@@ -13,7 +13,7 @@ class JunkTrain extends Connection
         $this->type = CONNECTION_JUNK_TRAIN;
         $this->name = clienttranslate("Junk Train");
         $this->action = new Act(
-            [RESOURCE_WORKER, RESOURCE_WORKER],
+            [],
             [RESOURCE_ARROW_BLUE, RESOURCE_ARROW_BLUE, RESOURCE_ARROW_BLUE],
         );
         $this->copies = 2;

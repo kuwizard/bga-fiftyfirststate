@@ -13,7 +13,7 @@ class Punks extends Connection
         $this->type = CONNECTION_PUNKS;
         $this->name = clienttranslate("Punks");
         $this->action = new Act(
-            [RESOURCE_WORKER, RESOURCE_WORKER],
+            [],
             [RESOURCE_ARROW_RED, RESOURCE_ARROW_RED],
         );
         $this->copies = 4;

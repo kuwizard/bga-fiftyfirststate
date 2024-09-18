@@ -3,6 +3,7 @@ namespace STATE\Core;
 
 use STATE\Helpers\ResourcesHelper;
 use STATE\Managers\Locations;
+use STATE\Models\Connection;
 use STATE\Models\Location;
 use STATE\Models\Player;
 
@@ -186,14 +187,32 @@ class Notifications
         ]);
     }
 
-    public static function connectionActivated(Player $player, int $id, array $bonus)
+    public static function connectionTaken(Player $player, int $id, string $deckName)
     {
-        $msg = clienttranslate('${player_name} spends ${spendList} to take a Connection card, gaining ${resourcesList}');
-        self::notifyAll('connectionActivated', $msg, [
+        $msg = clienttranslate('${player_name} spends ${spendList} to take a Connection card from a ${deckName} deck');
+        self::notifyAll('connectionTaken', $msg, [
             'player' => $player,
             'id' => $id,
-            'resourcesList' => $bonus,
+            'deckName' => $deckName,
             'spendList' => ResourcesHelper::getResourceNames([RESOURCE_WORKER, RESOURCE_WORKER]),
+            'i18n' => ['deckName'],
+        ]);
+    }
+
+    public static function connectionPlayed(Player $player, int $id, Connection $connection)
+    {
+        if (empty($connection->getSpendRequirements())) {
+            $msg = clienttranslate('${player_name} plays a Connection card from hand and gets ${resourcesList}');
+        } else {
+            $msg = clienttranslate(
+                '${player_name} plays a Connection card from hand, spends ${spendList} and gets ${resourcesList}'
+            );
+        }
+        self::notifyAll('connectionPlayed', $msg, [
+            'player' => $player,
+            'id' => $id,
+            'spendList' => ResourcesHelper::getResourceNames($connection->getSpendRequirements()),
+            'resourcesList' => $connection->getBonusUi(),
         ]);
     }
 
