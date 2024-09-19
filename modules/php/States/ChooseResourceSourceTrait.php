@@ -254,7 +254,8 @@ trait ChooseResourceSourceTrait
             Notifications::resourcesPlacedOnLocation(
                 $player,
                 $location->getId(),
-                $location->getResourcesUI()
+                $location->getResourcesUI(),
+                $location
             );
         }
     }

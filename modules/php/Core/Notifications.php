@@ -4,6 +4,7 @@ namespace STATE\Core;
 use STATE\Helpers\ResourcesHelper;
 use STATE\Managers\Locations;
 use STATE\Models\Connection;
+use STATE\Models\FeatureStorageSingle;
 use STATE\Models\Location;
 use STATE\Models\Player;
 
@@ -101,7 +102,7 @@ class Notifications
         $msg = $deployed ? clienttranslate(
             '${player_name} spends ${resourcesList} to discard ${locationName2} and deploy ${locationName} in the ${factionRowName} row'
         )
-            : clienttranslate('${player_name} builds ${locationName} in the ${factionRowName} row');
+            : clienttranslate('${player_name} builds a ${locationName} in the ${factionRowName} row');
         self::notifyAll('locationBuilt', $msg, [
             'player' => $player,
             'location' => $location,
@@ -164,18 +165,20 @@ class Notifications
         ]);
     }
 
-    /**
-     * @param Player $player
-     * @param int $id
-     * @param array $resources
-     * @return void
-     */
-    public static function resourcesPlacedOnLocation($player, $id, $resources)
+    public static function resourcesPlacedOnLocation(Player $player, int $id, array $resources, $location = null)
     {
-        self::notifyAll('resourcesPlacedOnLocation', '', [
+        if ($location) {
+            $msg = clienttranslate('${player_name} places ${resourcesList} to the ${locationName} as a building bonus');
+        } else {
+            $msg = '';
+        }
+        self::notifyAll('resourcesPlacedOnLocation', $msg, [
             'player' => $player,
             'id' => $id,
-            'resources' => $resources,
+            'resourcesList' => $resources,
+            'location' => $location,
+            'locationName' => $location ? $location->getName() : null,
+            'i18n' => ['locationName'],
         ]);
     }
 
