@@ -88,6 +88,7 @@ trait ChoosePlayerToStealTrait
         $resource = ResourcesHelper::getResourceType($resourceName);
         $victim->decreaseResource($resource);
         Notifications::resourcesChanged($victim, $victim->getResourcesWithNames([$resource]));
+        Notifications::resourceStolen(Players::getActive(), $victim, $resource);
         Stack::insertOnTopAndFinish(
             ST_CREATE_RESOURCE_SOURCE_MAP, [
                 'spend' => $spend,

@@ -102,7 +102,7 @@ class Notifications
         $msg = $deployed ? clienttranslate(
             '${player_name} spends ${resourcesList} to discard ${locationName2} and deploy ${locationName} in the ${factionRowName} row'
         )
-            : clienttranslate('${player_name} builds a ${locationName} in the ${factionRowName} row');
+            : clienttranslate('${player_name} builds ${locationName} in the ${factionRowName} row');
         self::notifyAll('locationBuilt', $msg, [
             'player' => $player,
             'location' => $location,
@@ -313,7 +313,15 @@ class Notifications
         ]);
     }
 
-
+    public static function resourceStolen(Player $activePlayer, Player $victim, int $resource)
+    {
+        $msg = clienttranslate('${player_name} steals ${resourcesList} from ${victim_name}');
+        self::message($msg, [
+            'player' => $activePlayer,
+            'victim' => $victim,
+            'resourcesList' => ResourcesHelper::getResourceNames([$resource]),
+        ]);
+    }
 
     /*********************
      **** UPDATE ARGS ****
@@ -327,6 +335,12 @@ class Notifications
             $data['player_id'] = $data['player']->getId();
             $data['player_name'] = $data['player']->getName();
             unset($data['player']);
+        }
+
+        if (isset($data['victim'])) {
+            $data['victim_id'] = $data['victim']->getId();
+            $data['victim_name'] = $data['victim']->getName();
+            unset($data['victim']);
         }
     }
 }
