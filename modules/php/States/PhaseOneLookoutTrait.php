@@ -48,7 +48,7 @@ trait PhaseOneLookoutTrait
     {
         $leftoverLocations = Locations::getInLocation(LOCATION_LOOKOUT);
         if ($leftoverLocations->count() !== 1) {
-            throw new BgaVisibleSystemException('Incorrect leftover locations amount: ' . $leftoverLocations->count());
+            throw new \BgaVisibleSystemException('Incorrect leftover locations amount: ' . $leftoverLocations->count());
         }
         Locations::move($leftoverLocations->getIds(), LOCATION_DISCARD);
         Notifications::locationDiscarded(Players::getActive(), $leftoverLocations->first());

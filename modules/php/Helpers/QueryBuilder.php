@@ -263,7 +263,7 @@ class QueryBuilder extends APP_DbObject
     public function func($func, $field = null)
     {
         if (!in_array($func, ['COUNT', 'MAX', 'MIN'])) {
-            throw new BgaVisibleSystemException('QueryBuilder: func is called with unknown function');
+            throw new \BgaVisibleSystemException('QueryBuilder: func is called with unknown function');
         }
 
         $field = is_null($field) ? '*' : "`$field`";

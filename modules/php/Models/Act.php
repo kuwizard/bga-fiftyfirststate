@@ -61,9 +61,6 @@ class Act implements \JsonSerializable
             case ACTION_TYPE_SPEND:
                 $spendRequirements = $this->spendRequirements;
                 $discardCard = in_array(RESOURCE_CARD, $spendRequirements);
-                if ($discardCard) {
-                    $spendRequirements = array_diff($spendRequirements, [RESOURCE_CARD]);
-                }
                 $discardDeal = in_array(RESOURCE_DEAL, $spendRequirements);
                 if ($discardDeal) {
                     $spendRequirements = array_diff($spendRequirements, [RESOURCE_DEAL]);

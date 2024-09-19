@@ -112,6 +112,8 @@ trait PhaseThreeActionTrait
         Stack::insertOnTopAndFinish(ST_CREATE_RESOURCE_SOURCE_MAP, [
             'spend' => [RESOURCE_WORKER, RESOURCE_WORKER],
             'bonus' => [ResourcesHelper::getResourceType($resourceName)],
+            // 3 is a magic number for spending workers. 0-2 are for faction actions
+            'activatorId' => Players::getActive()->getFaction() + 3,
         ]);
     }
 
@@ -251,7 +253,7 @@ trait PhaseThreeActionTrait
         } elseif ($couldBeRazed) {
             $this->razeOtherPlayersLocation($player, $location);
         } else {
-            throw new BgaVisibleSystemException(
+            throw new \BgaVisibleSystemException(
                 'Something went wrong during activating other player location. Is open production: ' . $locationIsOpenProduction . ', could be razed: ' . $couldBeRazed
             );
         }

@@ -76,6 +76,7 @@ trait ChooseResourceSourceTrait
         $ctx = Stack::getCtx();
         $sourcesRaw = $ctx['sourcesRaw'] ?? null;
         $processed = $ctx['processed'] ?? [];
+        $player = Players::getActive();
         while (count($sourcesRaw) > 0) {
             $sourceRaw = array_shift($sourcesRaw);
             $resource = array_key_first($sourceRaw);
@@ -84,13 +85,15 @@ trait ChooseResourceSourceTrait
             $onlyNotLocation = count($sources) === 1 && !isset($sources['locations']);
             $onlyLocation = count($sources) === 1 && isset($sources['locations']) && count($sources['locations']) === 1;
             if ($onlyNotLocation || $onlyLocation) {
-                $processed[] = $resource;
                 if (isset($sources['faction'])) {
                     $whereId = 0;
                 } else {
                     $whereId = isset($sources['locations']) ? $sources['locations'][0]->getId() : $sources['joker'];
                 }
-                $this->decreaseResource($whereId, Players::getActive(), $resource, $ctx['activatorId']);
+                $processed[] = $sources['joker'] ?? $resource;
+                if ($resource !== RESOURCE_CARD) {
+                    $this->decreaseResource($whereId, $player, $resource, $ctx['activatorId']);
+                }
             } else {
                 Stack::insertOnTopAndFinish(ST_CHOOSE_RESOURCE_SOURCE, [
                     'resourceIcon' => $resource,
@@ -105,7 +108,10 @@ trait ChooseResourceSourceTrait
             }
         }
         if (empty($sourcesRaw) && !Stack::isAtomIn(ST_CHOOSE_RESOURCE_SOURCE)) {
-            $this->postActions(Players::getActive());
+            $this->postActions($player);
+            if ($ctx['activatorId']) {
+                Notifications::actionUsed($player, $ctx['activatorId'], $processed, $ctx['bonus']);
+            }
             Stack::finishState();
         }
     }
@@ -118,10 +124,11 @@ trait ChooseResourceSourceTrait
     {
         self::checkAction('actChooseSource');
         $ctx = Stack::getCtx();
+        $resourceToSpend = in_array($id, ALL_RESOURCES_LIST) ? $id : $ctx['resourceIcon'];
         $this->decreaseResource(
             $id,
             Players::getActive(),
-            in_array($id, ALL_RESOURCES_LIST) ? $id : $ctx['resourceIcon'],
+            $resourceToSpend,
             $ctx['activatorId']
         );
 
@@ -129,7 +136,7 @@ trait ChooseResourceSourceTrait
             'bonus' => $ctx['bonus'],
             'postActions' => $ctx['postActions'],
             'spend' => empty($ctx['sourcesRaw']) ? [] : array_merge(array_keys(...$ctx['sourcesRaw'])),
-            'processed' => array_merge($ctx['processed'], [$ctx['resourceIcon']]),
+            'processed' => array_merge($ctx['processed'], [$resourceToSpend]),
             'activatorId' => $ctx['activatorId'],
         ]);
     }
@@ -146,7 +153,7 @@ trait ChooseResourceSourceTrait
             Resources::delete($whereId, $resource);
             Notifications::resourcesLocationChanged($player, $whereId, ResourcesHelper::getResourceName($resource));
         }
-        if ($activatorId >= FACTION_NEW_YORK && $activatorId <= FACTION_MERCHANTS + 3) {
+        if ($activatorId >= FACTION_NEW_YORK && $activatorId <= FACTION_MERCHANTS + 2 && $activatorId % 10 <= 2) {
             $actionId = $activatorId - $player->getFaction();
             // We need to show a token from requirements there, not ammo
             $actionChosen = $player->getFactionActions()[$actionId];
@@ -201,7 +208,7 @@ trait ChooseResourceSourceTrait
                 $this->getProductionAfterBuildAndPlaceResources($location, $player);
             } elseif ($type === 'deal') {
                 if (count($location->getDeals()) > 1) {
-                    throw new BgaVisibleSystemException('More than 1 resource in deals, that should be impossible');
+                    throw new \BgaVisibleSystemException('More than 1 resource in deals, that should be impossible');
                 }
                 Locations::move($location->getId(), [LOCATION_DEALS, $player->getId()]);
                 Notifications::locationDealMade(

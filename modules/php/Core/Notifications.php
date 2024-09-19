@@ -323,6 +323,25 @@ class Notifications
         ]);
     }
 
+    public static function actionUsed(Player $player, int $activatorId, array $spend, array $bonus): void
+    {
+        if ($activatorId === 0) {
+            debug_print_backtrace();
+            throw new \BgaVisibleSystemException('$activatorId is 0');
+        }
+        $from = $activatorId >= FACTION_NEW_YORK && $activatorId <= FACTION_MERCHANTS + 3
+            ? clienttranslate('a faction action')
+            : Locations::get($activatorId)->getName();
+        $msg = clienttranslate('${player_name} uses ${from}, spends ${spendList} and gets ${resourcesList}');
+        self::message($msg, [
+            'player' => $player,
+            'from' => $from,
+            'spendList' => ResourcesHelper::getResourceNames($spend),
+            'resourcesList' => ResourcesHelper::getResourceNames($bonus),
+            'i18n' => ['from'],
+        ]);
+    }
+
     /*********************
      **** UPDATE ARGS ****
      *********************/

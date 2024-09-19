@@ -79,7 +79,7 @@ trait DeployTrait
         self::checkAction('actDeployChooseDestination');
         $resource = ResourcesHelper::getResourceType(Stack::getCtx()['resource']);
         if (!in_array($resource, [RESOURCE_BRICK, RESOURCE_DEVELOPMENT])) {
-            throw new BgaVisibleSystemException('Unexpected resource while developing: ' . $resource);
+            throw new \BgaVisibleSystemException('Unexpected resource while developing: ' . $resource);
         }
         Stack::insertOnTopAndFinish(ST_CREATE_RESOURCE_SOURCE_MAP, [
             'spend' => [$resource],
