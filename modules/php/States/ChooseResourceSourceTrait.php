@@ -109,7 +109,7 @@ trait ChooseResourceSourceTrait
         }
         if (empty($sourcesRaw) && !Stack::isAtomIn(ST_CHOOSE_RESOURCE_SOURCE)) {
             $this->postActions($player);
-            if ($ctx['activatorId']) {
+            if ($ctx['activatorId'] && $ctx['activatorId'] < FACTION_NEW_YORK) {
                 $owner = Players::getOwner($ctx['activatorId']);
                 if ($owner->getId() !== $player->getId()) {
                     $victim = $owner;
