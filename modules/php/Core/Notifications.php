@@ -4,7 +4,6 @@ namespace STATE\Core;
 use STATE\Helpers\ResourcesHelper;
 use STATE\Managers\Locations;
 use STATE\Models\Connection;
-use STATE\Models\FeatureStorageSingle;
 use STATE\Models\Location;
 use STATE\Models\Player;
 
@@ -323,21 +322,30 @@ class Notifications
         ]);
     }
 
-    public static function actionUsed(Player $player, int $activatorId, array $spend, array $bonus): void
+    public static function actionUsed(Player $player, int $activatorId, array $spend, array $bonus, Player|null $victim): void
     {
         if ($activatorId === 0) {
             debug_print_backtrace();
             throw new \BgaVisibleSystemException('$activatorId is 0');
         }
+        $location = Locations::get($activatorId);
         $from = $activatorId >= FACTION_NEW_YORK && $activatorId <= FACTION_MERCHANTS + 3
             ? clienttranslate('a faction action')
-            : Locations::get($activatorId)->getName();
-        $msg = clienttranslate('${player_name} uses ${from}, spends ${spendList} and gets ${resourcesList}');
+            : $location->getName();
+        if ($victim) {
+            $msg = clienttranslate(
+                '${player_name} uses ${from} as an Open Production, spends ${spendList} and gets ${resourcesList}. ${victim_name} gets ${spendList} as an owner'
+            );
+        } else {
+            $msg = clienttranslate('${player_name} uses ${from}, spends ${spendList} and gets ${resourcesList}');
+        }
+
         self::message($msg, [
             'player' => $player,
             'from' => $from,
             'spendList' => ResourcesHelper::getResourceNames($spend),
             'resourcesList' => ResourcesHelper::getResourceNames($bonus),
+            'victim' => $victim,
             'i18n' => ['from'],
         ]);
     }

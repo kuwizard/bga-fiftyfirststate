@@ -110,7 +110,13 @@ trait ChooseResourceSourceTrait
         if (empty($sourcesRaw) && !Stack::isAtomIn(ST_CHOOSE_RESOURCE_SOURCE)) {
             $this->postActions($player);
             if ($ctx['activatorId']) {
-                Notifications::actionUsed($player, $ctx['activatorId'], $processed, $ctx['bonus']);
+                $owner = Players::getOwner($ctx['activatorId']);
+                if ($owner->getId() !== $player->getId()) {
+                    $victim = $owner;
+                } else {
+                    $victim = null;
+                }
+                Notifications::actionUsed($player, $ctx['activatorId'], $processed, $ctx['bonus'], $victim);
             }
             Stack::finishState();
         }
