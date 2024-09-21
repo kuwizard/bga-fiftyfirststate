@@ -144,8 +144,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this.querySingle(`#deckHeader .headerValue`).innerText = n.args.deckCount;
         },
 
-        notif_locationPicked(n) {
+        async notif_locationPicked(n) {
             debug('Notif: locationPicked', n);
+            await this.waitForDisappearance('.moving');
             if (n.args.source === 'lookout') {
                 if (n.args.player_id === this.player_id) {
                     this.slide(`location_${n.args.location.id}`, 'handLocations', { phantom: true });
