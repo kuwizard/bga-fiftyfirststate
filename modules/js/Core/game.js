@@ -478,6 +478,9 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                     if (args.resourcesList && log.includes('${resourcesList}')) {
                         args.resourcesList = this.getLogIcons(args.resourcesList);
                     }
+                    if (args.resourcesList2 && log.includes('${resourcesList2}')) {
+                        args.resourcesList2 = this.getLogIcons(args.resourcesList2);
+                    }
                     if (args.spendList && log.includes('${spendList}')) {
                         args.spendList = this.getLogIcons(args.spendList);
                     }

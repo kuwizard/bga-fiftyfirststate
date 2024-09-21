@@ -172,6 +172,8 @@ define('ACTION_TYPE_STEAL_ANOTHER_PLAYER', 1);
 define('LOCATION_ACTION_RAZE', 'raze');
 define('LOCATION_ACTION_DEAL', 'deal');
 define('LOCATION_ACTION_BUILD', 'build');
+define('LOCATION_ACTION_RAZE_OTHER', 'razeOtherPlayer');
+define('LOCATION_ACTION_DEPLOY', 'deploy');
 
 /*
  * Global constants

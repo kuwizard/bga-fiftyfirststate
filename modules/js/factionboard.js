@@ -61,8 +61,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         notif_locationRuined(n) {
             debug('Notif: locationRuined', n);
-            dojo.addClass(`location_${n.args.id}`, 'ruined');
-            this.destroyAll(`#location_${n.args.id} .resourceIcon`);
+            dojo.addClass(`location_${n.args.location.id}`, 'ruined');
+            this.destroyAll(`#location_${n.args.location.id} .resourceIcon`);
         },
     });
 });

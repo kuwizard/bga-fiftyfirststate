@@ -20,7 +20,7 @@ trait ChooseResourceSourceTrait
         $ctx = Stack::getCtx();
         $resource = $ctx['resourceIcon'];
         $toSpend = empty($ctx['sourcesRaw']) ? [$resource] : array_merge([$resource],
-            array_merge(array_keys(...$ctx['sourcesRaw'])));
+            array_map('key', $ctx['sourcesRaw']));
         $sources = $ctx['sources'];
         if (isset($sources['joker'])) {
             $sources['jokerIcon'] = ResourcesHelper::getResourceName($sources['joker']);
@@ -141,7 +141,7 @@ trait ChooseResourceSourceTrait
         Stack::insertOnTopAndFinish(ST_CREATE_RESOURCE_SOURCE_MAP, [
             'bonus' => $ctx['bonus'],
             'postActions' => $ctx['postActions'],
-            'spend' => empty($ctx['sourcesRaw']) ? [] : array_merge(array_keys(...$ctx['sourcesRaw'])),
+            'spend' => empty($ctx['sourcesRaw']) ? [] : array_map('key', $ctx['sourcesRaw']),
             'processed' => array_merge($ctx['processed'], [$resourceToSpend]),
             'activatorId' => $ctx['activatorId'],
         ]);
@@ -187,42 +187,59 @@ trait ChooseResourceSourceTrait
             $type = $ctx['postActions']['type'];
             $locationId = $ctx['postActions']['id'];
             $location = Locations::get($locationId);
-            if ($type === 'deploy') {
-                $oldLocationId = $ctx['postActions']['old'];
-                $oldLocation = Locations::get($oldLocationId);
-                if ($oldLocation instanceof FeatureStorage && $oldLocation->getResourcesAmount() > 0) {
-                    $resourcesFromOldLocation = ResourcesHelper::increaseResourcesAfterAction(
+            switch ($type) {
+                case LOCATION_ACTION_DEPLOY:
+                    $oldLocationId = $ctx['postActions']['old'];
+                    $oldLocation = Locations::get($oldLocationId);
+                    if ($oldLocation instanceof FeatureStorage && $oldLocation->getResourcesAmount() > 0) {
+                        $resourcesFromOldLocation = ResourcesHelper::increaseResourcesAfterAction(
+                            $player,
+                            $oldLocation->getResources()
+                        );
+                        Resources::deleteAll($oldLocation->getId());
+                        $resourcesChanged = array_merge($resourcesChanged, $resourcesFromOldLocation);
+                    }
+                    $player->discard($oldLocationId);
+                    Locations::move($locationId, [LOCATION_BOARD, $player->getId()]);
+                    Notifications::handChanged($player);
+                    Notifications::locationDiscarded($player, $oldLocation);
+                    Notifications::locationBuilt($player, $location, $oldLocation, $ctx['postActions']['resource']);
+                    $this->getProductionAfterBuildAndPlaceResources($location, $player);
+                    $resourcesChanged[] = RESOURCE_CARD;
+                    break;
+                case LOCATION_ACTION_RAZE:
+                    Notifications::handChanged($player);
+                    Locations::move($location->getId(), LOCATION_DISCARD);
+                    Notifications::locationRazed($player, $location);
+                    $resourcesChanged[] = RESOURCE_CARD;
+                    break;
+                case LOCATION_ACTION_BUILD:
+                    Notifications::locationBuilt($player, $location);
+                    Locations::move($location->getId(), [LOCATION_BOARD, $player->getId()]);
+                    $this->getProductionAfterBuildAndPlaceResources($location, $player);
+                    $resourcesChanged[] = RESOURCE_CARD;
+                    break;
+                case LOCATION_ACTION_DEAL:
+                    if (count($location->getDeals()) > 1) {
+                        throw new \BgaVisibleSystemException('More than 1 resource in deals, that should be impossible');
+                    }
+                    Locations::move($location->getId(), [LOCATION_DEALS, $player->getId()]);
+                    Notifications::locationDealMade(
                         $player,
-                        $oldLocation->getResources()
+                        $location,
                     );
-                    Resources::deleteAll($oldLocation->getId());
-                    $resourcesChanged = array_merge($resourcesChanged, $resourcesFromOldLocation);
-                }
-                $player->discard($oldLocationId);
-                Locations::move($locationId, [LOCATION_BOARD, $player->getId()]);
-                Notifications::handChanged($player);
-                Notifications::locationDiscarded($player, $oldLocation);
-                Notifications::locationBuilt($player, $location, $oldLocation, $ctx['postActions']['resource']);
-                $this->getProductionAfterBuildAndPlaceResources($location, $player);
-            } elseif ($type === 'raze') {
-                Notifications::handChanged($player);
-                Locations::move($location->getId(), LOCATION_DISCARD);
-                Notifications::locationRazed($player, $location);
-            } elseif ($type === 'build') {
-                Notifications::locationBuilt($player, $location);
-                Locations::move($location->getId(), [LOCATION_BOARD, $player->getId()]);
-                $this->getProductionAfterBuildAndPlaceResources($location, $player);
-            } elseif ($type === 'deal') {
-                if (count($location->getDeals()) > 1) {
-                    throw new \BgaVisibleSystemException('More than 1 resource in deals, that should be impossible');
-                }
-                Locations::move($location->getId(), [LOCATION_DEALS, $player->getId()]);
-                Notifications::locationDealMade(
-                    $player,
-                    $location,
-                );
+                    $resourcesChanged[] = RESOURCE_CARD;
+                    break;
+                case LOCATION_ACTION_RAZE_OTHER:
+                    $owner = Players::getOwner($location->getId());
+                    $ownerResourcesChanged = ResourcesHelper::increaseResourcesAfterAction($owner, $location->getDeals());
+                    Notifications::resourcesChanged($owner, $owner->getResourcesWithNames($ownerResourcesChanged));
+                    $location->ruin();
+                    Notifications::locationRuined($owner, $location, $player);
+                    break;
+                default:
+                    throw new \BgaVisibleSystemException('Unknown action ' . $type);
             }
-            $resourcesChanged[] = RESOURCE_CARD;
         }
         if (isset($ctx['activatorId']) && $ctx['activatorId'] < FACTION_NEW_YORK) {
             Locations::get($ctx['activatorId'])->postActivation();

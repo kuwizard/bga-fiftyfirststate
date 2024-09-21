@@ -159,7 +159,7 @@ trait PhaseThreeActionTrait
         self::checkAction('actLocationBuild');
         $locationId = Stack::getCtx()['locationId'];
         $location = Locations::get($locationId);
-        $this->razeBuildDealCommon($location, RESOURCE_ARROW_GREY, 'build');
+        $this->razeBuildDealCommon($location, RESOURCE_ARROW_GREY, LOCATION_ACTION_BUILD);
     }
 
     /**
@@ -171,7 +171,7 @@ trait PhaseThreeActionTrait
         self::checkAction('actLocationRaze');
         $locationId = Stack::getCtx()['locationId'];
         $location = Locations::get($locationId);
-        $this->razeBuildDealCommon($location, RESOURCE_ARROW_RED, 'raze', 'getSpoils');
+        $this->razeBuildDealCommon($location, RESOURCE_ARROW_RED, LOCATION_ACTION_RAZE, 'getSpoils');
     }
 
     /**
@@ -183,7 +183,7 @@ trait PhaseThreeActionTrait
         self::checkAction('actLocationDeal');
         $locationId = Stack::getCtx()['locationId'];
         $location = Locations::get($locationId);
-        $this->razeBuildDealCommon($location, RESOURCE_ARROW_BLUE, 'deal', 'getDeals');
+        $this->razeBuildDealCommon($location, RESOURCE_ARROW_BLUE, LOCATION_ACTION_DEAL, 'getDeals');
     }
 
     /**
@@ -245,13 +245,13 @@ trait PhaseThreeActionTrait
         $location = Locations::get($id);
         $player = Players::getActive();
         $locationIsOpenProduction = $location instanceof Production && $location->isOpen() && $location->isActivatable();
-        $couldBeRazed = $player->getResource(RESOURCE_ARROW_RED) >= $location->getDefenceValue();
+        $couldBeRazed = $player->getResource(RESOURCE_ARROW_RED, false, true) >= $location->getDefenceValue();
         if ($locationIsOpenProduction && $couldBeRazed) {
             Stack::insertOnTop(ST_OPEN_PRODUCTION_OR_RAZE, ['locationId' => $id]);
         } elseif ($locationIsOpenProduction) {
             $location->activate($player);
         } elseif ($couldBeRazed) {
-            $this->razeOtherPlayersLocation($player, $location);
+            $this->razeOtherPlayersLocation($location);
         } else {
             throw new \BgaVisibleSystemException(
                 'Something went wrong during activating other player location. Is open production: ' . $locationIsOpenProduction . ', could be razed: ' . $couldBeRazed
@@ -260,22 +260,14 @@ trait PhaseThreeActionTrait
         Stack::finishState();
     }
 
-    /**
-     * @param Player $attacker
-     * @param Location $location
-     * @return void
-     */
-    private function razeOtherPlayersLocation($attacker, $location)
+    private function razeOtherPlayersLocation(Location $location)
     {
-        $owner = Players::getOwner($location->getId());
-        $ownerResourcesChanged = ResourcesHelper::increaseResourcesAfterAction($owner, $location->getDeals());
-        Notifications::resourcesChanged($owner, $owner->getResourcesWithNames($ownerResourcesChanged));
-        $attackerResourcesChanged = ResourcesHelper::increaseResourcesAfterAction($attacker, $location->getSpoils());
-        $attacker->decreaseResource(RESOURCE_ARROW_RED, $location->getDefenceValue());
-        $attackerResourcesChanged[] = RESOURCE_ARROW_RED;
-        Notifications::resourcesChanged($attacker, $attacker->getResourcesWithNames($attackerResourcesChanged));
-        $location->ruin();
-        Notifications::locationRuined($owner, $location->getId());
+        Stack::insertOnTop(ST_CREATE_RESOURCE_SOURCE_MAP, [
+            'spend' => array_fill(0, $location->getDefenceValue(), RESOURCE_ARROW_RED),
+            'bonus' => $location->getSpoils(),
+            'postActions' => ['type' => LOCATION_ACTION_RAZE_OTHER, 'id' => $location->getId()],
+        ]);
+
     }
 
     public function actDeploy($resource)
@@ -316,7 +308,7 @@ trait PhaseThreeActionTrait
     public function actOptionRaze()
     {
         self::checkAction('actOptionRaze');
-        $this->razeOtherPlayersLocation(Players::getActive(), Locations::get(Stack::getCtx()['locationId']));
+        $this->razeOtherPlayersLocation(Locations::get(Stack::getCtx()['locationId']));
         self::giveExtraTime(Players::getActiveId());
         Stack::finishState();
     }
