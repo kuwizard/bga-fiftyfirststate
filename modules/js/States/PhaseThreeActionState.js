@@ -167,20 +167,22 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         notif_connectionTaken(n) {
             debug('Notif: connectionTaken', n);
+            const connectionCard = this.querySingle(`#connection_${n.args.id}`)
+            const clone = dojo.clone(connectionCard);
+            const firstConnectionId = this.extractId(
+                this.querySingle('#deckConnectionsBlock .connection'),
+                'connection'
+            );
+            const position = firstConnectionId === n.args.id ? 'first' : 'last';
+            dojo.attr(connectionCard, 'id', 'connection_0');
+            const parent = connectionCard.parentNode;
             if (n.args.player_id === this.player_id) {
-                const clone = dojo.clone(this.querySingle(`#connection_${n.args.id}`));
-                dojo.attr(clone, 'id', 'connection_0');
-                const firstConnectionId = this.extractId(
-                    this.querySingle('#deckConnectionsBlock .connection'),
-                    'connection'
-                );
-                const position = firstConnectionId === n.args.id ? 'first' : 'last';
-                const parent = this.querySingle(`#connection_${n.args.id}`).parentNode;
-                this.slide(`connection_${n.args.id}`, 'handConnections');
-                dojo.place(clone, parent, position);
-                dojo.addClass(clone, 'flipped');
-                dojo.removeClass(clone, 'selectable');
+                this.slide(`connection_0`, 'handConnections');
+            } else {
+                this.slide(`connection_0`, `overall_player_board_${n.args.player_id}`, { destroy: true });
             }
+            dojo.place(clone, parent, position);
+            dojo.addClass(clone, 'flipped');
         },
 
         notif_connectionPlayed(n) {
