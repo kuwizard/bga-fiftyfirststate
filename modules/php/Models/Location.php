@@ -199,7 +199,9 @@ class Location implements \JsonSerializable
         ];
         if (!$this->isRuined && $this->activatedTimes > 0) {
             $requirements = $this->getSpendRequirements();
-            unset($requirements[RESOURCE_DEAL]);
+            if (in_array(RESOURCE_DEAL, $requirements)) {
+                $requirements = array_values(array_diff($requirements, [RESOURCE_DEAL]));
+            }
             $requirementsNames = ResourcesHelper::getResourceNames($requirements);
             $requirementsSingle = $requirementsNames;
             for ($i = 0; $i < $this->activatedTimes - 1; $i++) {
