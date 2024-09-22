@@ -492,9 +492,9 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                     }
                     if (args.location && log.includes('${locationName}')) {
                         args.locationName = `<span class="locationName"><b>${_(args.location.name)}</b></span>`;
-                        if (log.includes('${locationName2}')) {
-                            args.locationName2 = `<span class="locationName"><b>${_(args.location2.name)}</b></span>`;
-                        }
+                    }
+                    if (args.location2 && log.includes('${locationName2}')) {
+                        args.locationName2 = `<span class="locationName"><b>${_(args.location2.name)}</b></span>`;
                     }
                 }
             } catch (e) {

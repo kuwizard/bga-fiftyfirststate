@@ -201,7 +201,6 @@ trait ChooseResourceSourceTrait
                     }
                     $player->discard($oldLocationId);
                     Locations::move($locationId, [LOCATION_BOARD, $player->getId()]);
-                    Notifications::handChanged($player);
                     Notifications::locationDiscarded($player, $oldLocation);
                     Notifications::locationBuilt($player, $location, $oldLocation, $ctx['postActions']['resource']);
                     $this->getProductionAfterBuildAndPlaceResources($location, $player);

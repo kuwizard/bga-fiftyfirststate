@@ -96,19 +96,21 @@ class Notifications
         ]);
     }
 
-    public static function locationBuilt(Player $player, Location $location, Location $deployed = null, int $resource = null)
+    public static function locationBuilt(Player $player, Location $location, Location $oldLocation = null, int $resource = null)
     {
-        $msg = $deployed ? clienttranslate(
+        $msg = $oldLocation ? clienttranslate(
             '${player_name} spends ${resourcesList} to discard ${locationName2} and deploy ${locationName} in the ${factionRowName} row'
         )
             : clienttranslate('${player_name} builds ${locationName} in the ${factionRowName} row');
         self::notifyAll('locationBuilt', $msg, [
             'player' => $player,
             'location' => $location,
+            'location2' => $oldLocation,
             'factionRow' => $location->getFactionRow(),
             'factionRowName' => $location->getFactionRowName(),
             'resourcesList' => is_null($resource) ? null : [ResourcesHelper::getResourceName($resource)],
             'i18n' => ['locationName', 'locationName2', 'factionRowName'],
+            'preserve' => ['location2'],
         ]);
     }
 
