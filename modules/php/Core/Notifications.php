@@ -176,6 +176,7 @@ class Notifications
         self::notifyAll('resourcesPlacedOnLocation', $msg, [
             'player' => $player,
             'id' => $id,
+            'resources' => $resources,
             'resourcesList' => $resources,
             'location' => $location,
             'locationName' => $location ? $location->getName() : null,
