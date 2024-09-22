@@ -485,8 +485,10 @@ class Player extends DB_Manager implements JsonSerializable
             $this->{$name} = $newAmount;
             $this->updateResource(ResourcesHelper::getDBName($type), $newAmount);
             if ($type === RESOURCE_VP && $newAmount >= GLOBAL_END_OF_GAME_VP) {
-                Globals::setLastRound(true);
-                Notifications::lastRound($this);
+                if (!Globals::isLastRound()) {
+                    Globals::setLastRound(true);
+                    Notifications::lastRound($this);
+                }
             }
         }
     }
