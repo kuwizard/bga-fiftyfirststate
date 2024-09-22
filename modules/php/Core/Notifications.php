@@ -272,7 +272,7 @@ class Notifications
 
     public static function reshuffle()
     {
-        self::notifyAll('reshuffle', clienttranslate('The deck have been reshuffled'), [
+        self::notifyAll('reshuffle', clienttranslate('The deck has been reshuffled'), [
             'deckCount' => Locations::countInLocation(LOCATION_DECK),
             'discardCount' => Locations::countInLocation(LOCATION_DISCARD),
         ]);
@@ -340,7 +340,7 @@ class Notifications
             : $location->getName();
         if ($victim) {
             $msg = clienttranslate(
-                '${player_name} uses ${from} as an Open Production, spends ${spendList} and gets ${resourcesList}. ${victim_name} gets ${spendList} as an owner'
+                '${player_name} uses ${from} as an Open Production, spends ${spendList} and gets ${resourcesList}. ${victim_name} gets ${spendList} as the owner'
             );
         } else {
             $msg = clienttranslate('${player_name} uses ${from}, spends ${spendList} and gets ${resourcesList}');
