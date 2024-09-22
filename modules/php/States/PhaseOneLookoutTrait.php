@@ -40,7 +40,7 @@ trait PhaseOneLookoutTrait
     public function stPhaseOneLookoutDraw()
     {
         $amount = Stack::getCtx()['amount'];
-        Locations::move(Locations::getTopOf(LOCATION_DECK, $amount)->getIds(), LOCATION_LOOKOUT);
+        Locations::pickForLocation($amount, LOCATION_DECK, LOCATION_LOOKOUT);
         Stack::finishState();
     }
 
