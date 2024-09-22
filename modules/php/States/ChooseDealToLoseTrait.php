@@ -13,7 +13,7 @@ trait ChooseDealToLoseTrait
     public function argChooseDealToLose()
     {
         $resourcesOnDeals = Players::getActive()->getDeals();
-        return ResourcesHelper::getResourceNames(array_unique($resourcesOnDeals));
+        return ResourcesHelper::getResourceNames(array_values(array_unique($resourcesOnDeals)));
     }
 
     public function actChooseDeal(string $resourceName)
