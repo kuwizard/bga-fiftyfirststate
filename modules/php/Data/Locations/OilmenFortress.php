@@ -18,8 +18,8 @@ class OilmenFortress extends Action
         $this->deals = [RESOURCE_FUEL];
         $this->copies = 2;
         $this->action = new Act(
-            [RESOURCE_WORKER, RESOURCE_AMMO, RESOURCE_AMMO],
-            [RESOURCE_VP],
+            [RESOURCE_WORKER, RESOURCE_FUEL, RESOURCE_FUEL],
+            [RESOURCE_VP, RESOURCE_VP, RESOURCE_VP],
         );
     }
 }

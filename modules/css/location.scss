@@ -63,11 +63,11 @@
   &:not(.ruined):not(.placeholder) {
     .locationImage {
       background-image: url(img/locations10.jpg);
-      background-size: 1000% 300%;
+      background-size: 1000% 600%;
 
-      @for $sprite from 0 through 29 {
+      @for $sprite from 0 through 59 {
         &[data-sprite="#{$sprite}"] {
-          background-position: math.div(($sprite % 10) * 100%, 9) math.div(floor(math.div($sprite, 10)) * 100%, 2);
+          background-position: math.div(($sprite % 10) * 100%, 9) math.div(floor(math.div($sprite, 10)) * 100%, 5);
         }
       }
     }

@@ -356,7 +356,7 @@ class Player extends DB_Manager implements JsonSerializable
                     foreach (array_count_values($location->getSpendRequirements()) as $requirement => $amount) {
                         if ($requirement === RESOURCE_DEAL) {
                             $isActivatable = !empty($this->getDeals());
-                        } else if ($this->getResource($requirement, true, true) < $amount) {
+                        } else if ($this->getResource($requirement, false, true) < $amount) {
                             $isActivatable = false;
                         }
                     }
