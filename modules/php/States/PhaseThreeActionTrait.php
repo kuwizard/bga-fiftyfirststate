@@ -33,13 +33,14 @@ trait PhaseThreeActionTrait
             $razeReachable = $location->getDefenceValue() <= $player->getResource(RESOURCE_ARROW_RED);
             return !$location->isRuined() && ($isActivatableOpenProduction || $razeReachable);
         });
+        $connectionsToTake = $player->getResource(RESOURCE_WORKER) >= 2 ? Connections::getBothAvailable()->getIds() : [];
         return [
             'spendWorkers' => $player->getResource(RESOURCE_WORKER, false) >= 2,
             'factionActions' => !empty($player->getAvailableFactionActions()),
             'locations' => $player->getPlayableLocationsIds(),
             'otherPlayersLocations' => $otherPlayersLocations->getIds(),
             'deploy' => $this->whatCanBeUsedForDevel($player),
-            'connectionsToTake' => Connections::getBothAvailable()->getIds(),
+            'connectionsToTake' => $connectionsToTake,
             'connectionsToPlay' => $player->getPlayableConnectionsIds(),
         ];
     }
@@ -284,6 +285,11 @@ trait PhaseThreeActionTrait
         Connections::move($id, [LOCATION_HAND, $player->getId()]);
         self::giveExtraTime($player->getId());
         Notifications::connectionTaken($player, $id, Connections::getDeckName($id));
+        // Move all actions above to postActions block
+        Stack::insertOnTop(ST_CREATE_RESOURCE_SOURCE_MAP, [
+            'spend' => [RESOURCE_WORKER, RESOURCE_WORKER],
+            'bonus' => [],
+        ]);
         Stack::finishState();
     }
 
