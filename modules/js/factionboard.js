@@ -28,14 +28,18 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                         this.placeResourceOnFactionAction(spentArea, resource);
                     })
                 });
-                const featureTooltip = this.replaceWithResourceIcon(this.getFeatureAreaLexeme(), true);
-                this.addTooltipHtml(`featureArea_${player.id}`, featureTooltip);
-                const workersTooltip = this.replaceWithResourceIcon(this.getWorkersActionLexeme(), true);
-                this.addTooltipHtml(`spendWorkersArea_${player.id}`, workersTooltip);
-                const factionActions = this.replaceWithResourceIcon(this.getFactionActionLexeme(player.faction).join(
-                    '<br/>'), true);
-                this.addTooltipHtml(`actionsArea_${player.id}`, factionActions);
+                this.addFactionTooltips(player.id, player.faction);
             });
+        },
+
+        addFactionTooltips(playerId, faction) {
+            const featureTooltip = this.replaceWithResourceIcon(this.getFeatureAreaLexeme(), true);
+            this.addTooltipHtml(`featureArea_${playerId}`, featureTooltip);
+            const workersTooltip = this.replaceWithResourceIcon(this.getWorkersActionLexeme(), true);
+            this.addTooltipHtml(`spendWorkersArea_${playerId}`, workersTooltip);
+            const factionActions = this.replaceWithResourceIcon(this.getFactionActionLexeme(faction).join(
+                '<br/>'), true);
+            this.addTooltipHtml(`actionsArea_${playerId}`, factionActions);
         },
 
         addResourcesToDeals(playerId, resources) {

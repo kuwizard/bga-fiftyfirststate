@@ -181,6 +181,12 @@ class Location implements \JsonSerializable
         Locations::ruin($this);
     }
 
+    public function unruin()
+    {
+        $this->isRuined = false;
+        Locations::unruin($this);
+    }
+
     public function activate($player)
     {
     }
@@ -193,7 +199,7 @@ class Location implements \JsonSerializable
     {
         $data = [
             'id' => $this->id,
-            'sprite' => $this->isRuined ? 0 : Locations::getSprite($this->type),
+            'sprite' => Locations::getSprite($this->type),
             'isRuined' => $this->isRuined,
             'name' => $this->name,
         ];

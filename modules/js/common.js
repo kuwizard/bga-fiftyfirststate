@@ -110,7 +110,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         addLocation(location, destination, isFirst = false) {
             const locationBlock = this.format_block('jstpl_location', this.enrichLocationObject(location));
             const locationElement = dojo.place(locationBlock, destination, isFirst ? 'first' : 'last');
-            this.addTooltipHtml(`location_${location.id}`, locationBlock);
+            const locationNotRuinedBlock = this.format_block(
+                'jstpl_location',
+                this.enrichLocationObject({ ...location, isRuined: false })
+            );
+            this.addTooltipHtml(`location_${location.id}`, locationNotRuinedBlock);
             return locationElement;
         },
 
@@ -200,6 +204,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 this.changeParent(locationElement, 'discard', true);
             } else {
                 await this.slide(locationElement, 'discard');
+                dojo.removeClass(locationElement, 'ruined');
             }
             this.destroyAll(`#discard .location:not(#location_${location.id})`);
             this.querySingle(`#discardHeader .headerValue`).innerText = newDiscardCount;
