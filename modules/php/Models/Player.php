@@ -318,6 +318,8 @@ class Player extends DB_Manager implements JsonSerializable
         $resourceName = ResourcesHelper::getResourceName($resource);
         if ($resource === RESOURCE_CARD) {
             return $this->getHandAmount();
+        } else if ($resource === RESOURCE_DEAL) {
+            return 0;
         } else {
             $playerResource = $this->$resourceName;
             if ($factionOnly) {

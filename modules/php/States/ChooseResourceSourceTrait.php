@@ -49,18 +49,22 @@ trait ChooseResourceSourceTrait
         $player = Players::getActive();
         $sources = [];
         foreach ($spend as $resource) {
-            $joker = Resources::getJokerFor($resource);
-            $sourcesSingle = [
-                'faction' => $player->getResource($resource) === 0 ? null : true,
-                'locations' => $this->getPlayerLocationsWithResource($resource, $player),
-                'joker' => is_null($joker) || $player->getResource($joker) === 0 ? null : $joker,
-            ];
-            foreach (array_keys($sourcesSingle) as $source) {
-                if (!$sourcesSingle[$source]) {
-                    unset($sourcesSingle[$source]);
+            if ($resource === RESOURCE_DEAL) {
+                $sources[] = [$resource => ['faction' => true]];
+            } else {
+                $joker = Resources::getJokerFor($resource);
+                $sourcesSingle = [
+                    'faction' => $player->getResource($resource) === 0 ? null : true,
+                    'locations' => $this->getPlayerLocationsWithResource($resource, $player),
+                    'joker' => is_null($joker) || $player->getResource($joker) === 0 ? null : $joker,
+                ];
+                foreach (array_keys($sourcesSingle) as $source) {
+                    if (!$sourcesSingle[$source]) {
+                        unset($sourcesSingle[$source]);
+                    }
                 }
+                $sources[] = [$resource => $sourcesSingle];
             }
-            $sources[] = [$resource => $sourcesSingle];
         }
         Stack::insertOnTopAndFinish(ST_PROCESS_SOURCE_MAP, [
             'sourcesRaw' => $sources,

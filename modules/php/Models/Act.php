@@ -62,9 +62,6 @@ class Act implements \JsonSerializable
                 $spendRequirements = $this->spendRequirements;
                 $discardCard = in_array(RESOURCE_CARD, $spendRequirements);
                 $discardDeal = in_array(RESOURCE_DEAL, $spendRequirements);
-                if ($discardDeal) {
-                    $spendRequirements = array_diff($spendRequirements, [RESOURCE_DEAL]);
-                }
                 Stack::insertOnTop(ST_CREATE_RESOURCE_SOURCE_MAP, [
                     'spend' => $spendRequirements,
                     'bonus' => $this->bonus,
