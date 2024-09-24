@@ -478,8 +478,11 @@
   align-items: center;
   font-weight: 700;
 }
-#deckConnectionsBlock.collapsed {
+#deckConnectionsBlock.collapsing, #deckConnectionsBlock.collapsed {
   height: 40px;
+}
+#deckConnectionsBlock.collapsing #collapseButton, #deckConnectionsBlock.collapsed #collapseButton {
+  transform: rotate(90deg);
 }
 #deckConnectionsBlock.collapsed #deck, #deckConnectionsBlock.collapsed #discard {
   display: none;
@@ -492,9 +495,6 @@
 }
 #deckConnectionsBlock.collapsed #connections .connection {
   display: none;
-}
-#deckConnectionsBlock.collapsed #collapseButton {
-  transform: rotate(90deg);
 }
 #deckConnectionsBlock .collapsedText {
   display: none;

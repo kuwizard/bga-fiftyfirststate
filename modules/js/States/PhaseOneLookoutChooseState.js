@@ -25,6 +25,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 }
             });
             this.querySingle(`#deckHeader .headerValue`).innerText = args.deckCount;
+            this.keepLookoutUncollapsable();
         },
 
         async onEnteringStatePhaseTwoProduction() {
@@ -35,6 +36,18 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         clickLocationLookout(id) {
             this.takeAction('actChooseCardLookout', { id: id })
+        },
+
+        keepLookoutUncollapsable() {
+            dojo.removeClass('deckConnectionsBlock', 'collapsed');
+            this.dojoConnect(
+                'collapseButton',
+                () => {
+                    setTimeout(() => {
+                        dojo.removeClass('deckConnectionsBlock', 'collapsed');
+                    }, 101);
+                }
+            );
         },
 
         notif_newConnections(n) {

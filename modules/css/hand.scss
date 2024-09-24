@@ -16,9 +16,15 @@
   align-items: center;
   font-weight: 700;
 
-  &.collapsed {
+  &.collapsing, &.collapsed {
     height: 40px;
 
+    #collapseButton {
+      transform: rotate(90deg);
+    }
+  }
+
+  &.collapsed {
     #deck, #discard {
       display: none;
     }
@@ -33,10 +39,6 @@
 
     #connections .connection {
       display: none;
-    }
-
-    #collapseButton {
-      transform: rotate(90deg);
     }
   }
 
