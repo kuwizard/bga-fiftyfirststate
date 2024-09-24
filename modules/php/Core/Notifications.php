@@ -99,7 +99,7 @@ class Notifications
     public static function locationBuilt(Player $player, Location $location, Location $oldLocation = null, int $resource = null)
     {
         $msg = $oldLocation ? clienttranslate(
-            '${player_name} spends ${resourcesList} to discard ${locationName2} and deploy ${locationName} in the ${factionRowName} row'
+            '${player_name} spends ${resourcesList} to discard ${locationName2} and deploys ${locationName} in the ${factionRowName} row'
         )
             : clienttranslate('${player_name} builds ${locationName} in the ${factionRowName} row');
         self::notifyAll('locationBuilt', $msg, [
@@ -229,7 +229,7 @@ class Notifications
 
     public static function newConnections(array $connections)
     {
-        self::notifyAll('newConnections', clienttranslate('New round starts. Top cards of each Connections pile are revealed'), [
+        self::notifyAll('newConnections', clienttranslate('New round starts with a Lookout Phase. Players should choose '), [
             'connections' => $connections,
         ]);
     }
