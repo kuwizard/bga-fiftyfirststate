@@ -24,14 +24,16 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             dojo.style(element, 'transform', `rotate(${this.getRandomNumber(-rotateDelta, rotateDelta)}deg)`);
         },
 
-        replaceWithResourceIcon(lexeme) {
+        replaceWithResourceIcon(lexeme, isLogIcon = false) {
             if (/{.*}/.test(lexeme)) {
-                const match = lexeme.match(/{(.*?Icon)}/);
-                const type = match[1].replace(/Icon$/, '');
-                return lexeme.replace(/{.*}/, this.format_block('jstpl_resource_icon', { type: type }));
-            } else {
-                return lexeme;
+                while (/{.*}/.test(lexeme)) {
+                    const match = lexeme.match(/{(.*?Icon)}/);
+                    const type = match[1].replace(/Icon$/, '');
+                    const tpl = isLogIcon ? 'jstpl_resource_icon_log' : 'jstpl_resource_icon';
+                    lexeme = lexeme.replace(/{.*?}/, this.format_block(tpl, { type: type }));
+                }
             }
+            return lexeme;
         },
 
         enrichLocationObject(location = {}) {

@@ -27,7 +27,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     player.usedFactionActions[order].forEach((resource) => {
                         this.placeResourceOnFactionAction(spentArea, resource);
                     })
-                })
+                });
+                const featureTooltip = this.replaceWithResourceIcon(this.getFeatureAreaLexeme(), true);
+                this.addTooltipHtml(`featureArea_${player.id}`, featureTooltip);
+                const workersTooltip = this.replaceWithResourceIcon(this.getWorkersActionLexeme(), true);
+                this.addTooltipHtml(`spendWorkersArea_${player.id}`, workersTooltip);
+                const factionActions = this.replaceWithResourceIcon(this.getFactionActionLexeme(player.faction).join(
+                    '<br/>'), true);
+                this.addTooltipHtml(`actionsArea_${player.id}`, factionActions);
             });
         },
 

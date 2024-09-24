@@ -88,6 +88,13 @@
 .factionBoard .faction[data-faction="3"] {
   background-position: 100% 0;
 }
+.factionBoard .faction .featureArea {
+  width: 42%;
+  height: 12%;
+  top: 37%;
+  left: 28%;
+  position: absolute;
+}
 .factionBoard .faction .spentArea {
   width: 32%;
   height: 23%;
