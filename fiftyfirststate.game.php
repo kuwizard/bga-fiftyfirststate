@@ -190,6 +190,5 @@ class Fiftyfirststate extends Table
     public static function a()
     {
 //        var_dump(Stack::get());
-        Notifications::endOfGameVPGained(Players::get(2319079), 5);
     }
 }

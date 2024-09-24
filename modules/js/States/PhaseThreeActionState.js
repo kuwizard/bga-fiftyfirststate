@@ -41,6 +41,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     'actUseOtherPlayerLocation',
                     args.otherPlayersLocations,
                 );
+                this.makeLocationsUnselectable('#discard .location');
                 this.addPrimaryActionButton(
                     'buttonActionPass',
                     _('Pass'),
