@@ -21,7 +21,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 dojo.destroy(this.querySingle(`#faction_${n.args.player_id} .deals .${n.args.resourceRemoved}Block`));
             }
             this.addLocation(n.args.discarded, this.querySingle(`#faction_${n.args.player_id} .deals`));
-            this.runDiscardLocationAnimation(`location_${n.args.discarded.id}`, n.args.newDiscardCount)
+            this.runDiscardLocationAnimation(
+                n.args.discarded,
+                n.args.newDiscardCount,
+                n.args.player_id
+            );
         }
     });
 });
