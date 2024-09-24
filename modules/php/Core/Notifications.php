@@ -359,6 +359,19 @@ class Notifications
         ]);
     }
 
+    public static function endOfGameVPGained(Player $player, int $amount, int $total)
+    {
+        $msg = clienttranslate(
+            '${player_name} gets ${amount}${resourcesList} for each Location in their State increasing total to ${total}'
+        );
+        self::notifyAll('endOfGameVPGained', $msg, [
+            'player' => $player,
+            'amount' => $amount,
+            'total' => $total,
+            'resourcesList' => ResourcesHelper::getResourceNames([RESOURCE_VP]),
+        ]);
+    }
+
     /*********************
      **** UPDATE ARGS ****
      *********************/

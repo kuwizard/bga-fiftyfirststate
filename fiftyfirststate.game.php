@@ -17,6 +17,7 @@
  */
 
 use STATE\Core\Globals;
+use STATE\Core\Notifications;
 use STATE\Core\Stats;
 use STATE\Managers\Connections;
 use STATE\Managers\Factions;
@@ -189,5 +190,6 @@ class Fiftyfirststate extends Table
     public static function a()
     {
 //        var_dump(Stack::get());
+        Notifications::endOfGameVPGained(Players::get(2319079), 5);
     }
 }

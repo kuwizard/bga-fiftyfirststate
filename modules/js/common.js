@@ -6,6 +6,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this._notifications.push(['locationDiscarded', 1]);
             this._notifications.push(['locationPicked', 1]);
             this._notifications.push(['lastRound', 1]);
+            this._notifications.push(['endOfGameVPGained', 1]);
             this._notifications.push(['reshuffle', 1]);
             this._notifications.push(['message', 1]);
         },
@@ -216,6 +217,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         notif_message(n) {
             debug('Notif: message', n);
+        },
+
+        notif_endOfGameVPGained(n) {
+            debug('Notif: endOfGameVPGained', n);
+            this.scoreCtrl[n.args.player_id].toValue(n.args.total);
         },
     });
 });
