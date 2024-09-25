@@ -178,16 +178,22 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         async notif_locationDiscarded(n) {
             debug('Notif: locationDiscarded', n);
             await this.waitForDisappearance('.moving');
-            dojo.query(`#location_${n.args.location.id} .resourceIcon`).forEach((element) => {
-                const resourceType = [...element.classList].find((clazz) => {
-                    return clazz !== 'resourceIcon'
-                }).replace('Icon', '');
-                this.slide(
-                    element,
-                    this.querySingle(`#overall_player_board_${n.args.player_id} .${resourceType}`),
-                    { destroy: true }
-                );
+
+            dojo.query(`#location_${n.args.location.id} .resourceIcon`).forEach((element, index) => {
+                if (n.args.discardResources) {
+                    const resourceType = [...element.classList].find((clazz) => {
+                        return clazz !== 'resourceIcon'
+                    }).replace('Icon', '');
+                    this.slide(
+                        element,
+                        this.querySingle(`#overall_player_board_${n.args.player_id} .${resourceType}`),
+                        { delay: index * 70, destroy: true }
+                    );
+                } else {
+                    dojo.destroy(element);
+                }
             });
+            await this.waitForDisappearance('.moving');
             this.runDiscardLocationAnimation(n.args.location, n.args.newDiscardCount, n.args.player_id);
             this.addTooltipToLogEntry(n.args.location);
             this.setCorrectClassToOverlapHand();

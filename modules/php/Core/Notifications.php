@@ -133,18 +133,13 @@ class Notifications
         ]);
     }
 
-    /**
-     * @param Player $player
-     * @param Location $location
-     * @param int $newDiscardCount
-     * @return void
-     */
-    public static function locationDiscarded($player, $location)
+    public static function locationDiscarded(Player $player, Location $location, bool $discardResources = true)
     {
         self::notifyAll('locationDiscarded', '', [
             'player' => $player,
             'location' => $location,
             'newDiscardCount' => Locations::countInLocation(LOCATION_DISCARD),
+            'discardResources' => $discardResources,
         ]);
     }
 

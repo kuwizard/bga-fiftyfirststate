@@ -203,7 +203,8 @@ trait ChooseResourceSourceTrait
                 case LOCATION_ACTION_DEPLOY:
                     $oldLocationId = $ctx['postActions']['old'];
                     $oldLocation = Locations::get($oldLocationId);
-                    if ($oldLocation instanceof FeatureStorage && $oldLocation->getResourcesAmount() > 0) {
+                    $resourcesPlaced = $oldLocation instanceof FeatureStorage && $oldLocation->getResourcesAmount() > 0;
+                    if ($resourcesPlaced) {
                         $resourcesFromOldLocation = ResourcesHelper::increaseResourcesAfterAction(
                             $player,
                             $oldLocation->getResources()
@@ -214,7 +215,7 @@ trait ChooseResourceSourceTrait
                     $player->discard($oldLocationId);
                     Locations::move($locationId, [LOCATION_BOARD, $player->getId()]);
                     $oldLocation->unruin();
-                    Notifications::locationDiscarded($player, $oldLocation);
+                    Notifications::locationDiscarded($player, $oldLocation, $resourcesPlaced);
                     Notifications::locationBuilt($player, $location, $oldLocation, $ctx['postActions']['resource']);
                     $this->getProductionAfterBuildAndPlaceResources($location, $player);
                     $resourcesChanged[] = RESOURCE_CARD;
