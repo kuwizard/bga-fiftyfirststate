@@ -36,4 +36,18 @@ class FeatureStorageMultiple extends FeatureStorage
     {
         return empty($this->getResourcesOptionsNotFilled());
     }
+
+    public function isCanStoreResource(int $resource): bool
+    {
+        $availableOptions = $this->getResourcesOptionsNotFilled();
+        $optionsWithGivenResource = array_filter($availableOptions, function ($option) use ($resource) {
+            return in_array($resource, $option->getResources());
+        });
+        foreach ($this->resourcesOptions as $option) {
+            if (in_array($resource, $option->getResources()) && !empty($optionsWithGivenResource)) {
+                return true;
+            }
+        };
+        return false;
+    }
 }

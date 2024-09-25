@@ -78,19 +78,6 @@ trait ChooseResourceToStoreTrait
     /**
      * @return Collection
      */
-    private function getPlayersWithStoreFeatures()
-    {
-        return Players::getAll()->filter(function (Player $player) {
-            return
-                !$player->getBoard()->filter(function ($location) {
-                    return $location instanceof FeatureStorageMultiple;
-                })->empty();
-        });
-    }
-
-    /**
-     * @return Collection
-     */
     public function getAllNonFilledStorageLocations(Player $player)
     {
         return $player->getBoard()->filter(function ($location) {
@@ -106,9 +93,10 @@ trait ChooseResourceToStoreTrait
      */
     private function getFirstStorageLocationByResource(Player $player, int $resource)
     {
-        return $player->getBoard()->filter(function ($location) {
-            return $location instanceof FeatureStorageMultiple &&
-                !$location->isFullyFilled();
+        return $player->getBoard()->filter(function ($location) use ($resource) {
+            return $location instanceof FeatureStorageMultiple
+                && !$location->isFullyFilled()
+                && $location->isCanStoreResource($resource);
         })->first();
     }
 }
