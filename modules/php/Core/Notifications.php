@@ -224,9 +224,13 @@ class Notifications
 
     public static function newConnections(array $connections)
     {
-        self::notifyAll('newConnections', clienttranslate('New round starts with a Lookout Phase. Players should choose '), [
-            'connections' => $connections,
-        ]);
+        self::notifyAll(
+            'newConnections',
+            clienttranslate('New round starts with a Lookout Phase. Players should select new Locations'),
+            [
+                'connections' => $connections,
+            ]
+        );
     }
 
     public static function playerPassed($player)

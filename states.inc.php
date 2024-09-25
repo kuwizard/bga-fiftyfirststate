@@ -57,8 +57,8 @@ $machinestates = [
 
     ST_PHASE_ONE_LOOKOUT_CHOOSE => [
         'name' => 'phaseOneLookoutChoose',
-        'description' => clienttranslate('${actplayer} must choose a card'),
-        'descriptionmyturn' => clienttranslate('${you} must choose a card'),
+        'description' => clienttranslate('${actplayer} must choose a Location card'),
+        'descriptionmyturn' => clienttranslate('${you} must choose a Location card'),
         'args' => 'argPhaseOneLookoutChoose',
         'type' => 'activeplayer',
         'updateGameProgression' => true,
@@ -170,10 +170,8 @@ $machinestates = [
         'description' => clienttranslate('Other players must choose a resource to store'),
         'descriptionmyturn' => clienttranslate('${you} must choose a resource to store'),
         'args' => 'argChooseResourceToStore',
-        'action' => 'stChooseResourceToStore',
-        'type' => 'multipleactiveplayer',
+        'type' => 'activeplayer',
         'possibleactions' => ['actChooseResourceToStore', 'actPassStoringResource'],
-        'transitions' => ['' => ST_PHASE_FOUR_CLEANUP],
     ],
 
     ST_DEPLOY_CHOOSE_FROM_HAND => [
