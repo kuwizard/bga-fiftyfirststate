@@ -109,13 +109,15 @@ trait ChooseResourceSourceTrait
         }
         if (empty($sourcesRaw) && !Stack::isAtomIn(ST_CHOOSE_RESOURCE_SOURCE)) {
             $this->postActions($player);
-            if ($ctx['activatorId'] && $ctx['activatorId'] < FACTION_NEW_YORK) {
-                $owner = Players::getOwner($ctx['activatorId']);
-                if ($owner->getId() !== $player->getId()) {
-                    $victim = $owner;
+            if ($ctx['activatorId']) {
+                if ($ctx['activatorId'] < FACTION_NEW_YORK) {
+                    $owner = Players::getOwner($ctx['activatorId']);
+                    if ($owner->getId() !== $player->getId()) {
+                        $victim = $owner;
+                    }
                 }
+                Notifications::actionUsed($player, $ctx['activatorId'], $processed, $ctx['bonus'], $victim ?? null);
             }
-            Notifications::actionUsed($player, $ctx['activatorId'], $processed, $ctx['bonus'], $victim ?? null);
             Stack::finishState();
         }
     }
@@ -157,13 +159,15 @@ trait ChooseResourceSourceTrait
             Resources::delete($whereId, $resource);
             Notifications::resourcesLocationChanged($player, $whereId, ResourcesHelper::getResourceName($resource));
         }
-        if ($this->isFactionAction($activatorId)) {
-            $actionId = $activatorId - $player->getFaction();
-            // We need to show a token from requirements there, not ammo
-            $actionChosen = $player->getFactionActions()[$actionId];
-            Notifications::resourcesSpentFaction($player, [$actionChosen->getSpendRequirementsUIRemoveCard()[0]], $actionId);
-        } else if (!is_null($activatorId) && !$this->isWorkersAction($activatorId)) {
-            Notifications::resourcesPlacedOnLocation($player, $activatorId, [ResourcesHelper::getResourceName($resource)]);
+        if (!is_null($activatorId)) {
+            if ($this->isFactionAction($activatorId)) {
+                $actionId = $activatorId - $player->getFaction();
+                // We need to show a token from requirements there, not ammo
+                $actionChosen = $player->getFactionActions()[$actionId];
+                Notifications::resourcesSpentFaction($player, [$actionChosen->getSpendRequirementsUIRemoveCard()[0]], $actionId);
+            } else if (!$this->isWorkersAction($activatorId)) {
+                Notifications::resourcesPlacedOnLocation($player, $activatorId, [ResourcesHelper::getResourceName($resource)]);
+            }
         }
     }
 
