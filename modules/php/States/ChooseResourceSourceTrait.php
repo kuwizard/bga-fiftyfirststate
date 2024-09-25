@@ -113,11 +113,9 @@ trait ChooseResourceSourceTrait
                 $owner = Players::getOwner($ctx['activatorId']);
                 if ($owner->getId() !== $player->getId()) {
                     $victim = $owner;
-                } else {
-                    $victim = null;
                 }
-                Notifications::actionUsed($player, $ctx['activatorId'], $processed, $ctx['bonus'], $victim);
             }
+            Notifications::actionUsed($player, $ctx['activatorId'], $processed, $ctx['bonus'], $victim ?? null);
             Stack::finishState();
         }
     }
@@ -159,14 +157,24 @@ trait ChooseResourceSourceTrait
             Resources::delete($whereId, $resource);
             Notifications::resourcesLocationChanged($player, $whereId, ResourcesHelper::getResourceName($resource));
         }
-        if ($activatorId >= FACTION_NEW_YORK && $activatorId <= FACTION_MERCHANTS + 2 && $activatorId % 10 <= 2) {
+        if ($this->isFactionAction($activatorId)) {
             $actionId = $activatorId - $player->getFaction();
             // We need to show a token from requirements there, not ammo
             $actionChosen = $player->getFactionActions()[$actionId];
             Notifications::resourcesSpentFaction($player, [$actionChosen->getSpendRequirementsUIRemoveCard()[0]], $actionId);
-        } else if (!is_null($activatorId)) {
+        } else if (!is_null($activatorId) && !$this->isWorkersAction($activatorId)) {
             Notifications::resourcesPlacedOnLocation($player, $activatorId, [ResourcesHelper::getResourceName($resource)]);
         }
+    }
+
+    private function isFactionAction(int $activatorId): bool
+    {
+        return $activatorId >= FACTION_NEW_YORK && $activatorId <= FACTION_MERCHANTS + 2 && $activatorId % 10 <= 2;
+    }
+
+    private function isWorkersAction(int $activatorId): bool
+    {
+        return $activatorId >= FACTION_NEW_YORK && $activatorId <= FACTION_MERCHANTS + 3 && $activatorId % 10 === 3;
     }
 
     private function postActions(Player $player)
