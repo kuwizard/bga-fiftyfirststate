@@ -17,7 +17,7 @@ $resources: (
 
 .player-board {
   &.passed {
-    opacity: 0.4;
+    filter: contrast(calc(0.75 / (3 - 0.75))) brightness(calc(2 - 0.75)) saturate(10%);
   }
 
   .playerResourcesWrapper {
@@ -58,8 +58,12 @@ $resources: (
   }
 
   #sticky {
-    position:fixed;
-    top:0;
-    z-index:1;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+
+    &.passed {
+      filter: contrast(calc(0.75 / (3 - 0.75))) brightness(calc(2 - 0.75)) saturate(10%);
+    }
   }
 }
