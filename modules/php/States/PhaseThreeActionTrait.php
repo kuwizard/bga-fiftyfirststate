@@ -89,6 +89,11 @@ trait PhaseThreeActionTrait
         $player = Players::getActive();
         $player->markAsPassed();
         Notifications::playerPassed($player);
+        $nonFilledStorageLocations = $this->getAllNonFilledStorageLocations($player);
+        if (!is_null($nonFilledStorageLocations)
+            && !empty($this->getPlayersAvailableResources($player, $nonFilledStorageLocations))) {
+            Stack::insertOnTop(ST_CHOOSE_RESOURCE_TO_STORE, ['pId' => $player->getId()]);
+        }
         if (Players::isAllPassed()) {
             Stack::unsuspendNext(ST_PHASE_THREE_ACTION);
         }

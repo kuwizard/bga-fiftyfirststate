@@ -14,7 +14,7 @@
  *
  */
 .player-board.passed {
-  opacity: 0.4;
+  filter: contrast(0.3333333333) brightness(1.25) saturate(10%);
 }
 .player-board .playerResourcesWrapper {
   width: 100%;
@@ -53,6 +53,9 @@
   top: 0;
   z-index: 1;
 }
+.player-board #sticky.passed {
+  filter: contrast(0.3333333333) brightness(1.25) saturate(10%);
+}
 
 .factionWrapper {
   width: 312px;
@@ -87,6 +90,13 @@
 }
 .factionBoard .faction[data-faction="3"] {
   background-position: 100% 0;
+}
+.factionBoard .faction .featureArea {
+  width: 42%;
+  height: 12%;
+  top: 37%;
+  left: 28%;
+  position: absolute;
 }
 .factionBoard .faction .spentArea {
   width: 32%;
@@ -471,8 +481,11 @@
   align-items: center;
   font-weight: 700;
 }
-#deckConnectionsBlock.collapsed {
+#deckConnectionsBlock.collapsing, #deckConnectionsBlock.collapsed {
   height: 40px;
+}
+#deckConnectionsBlock.collapsing #collapseButton, #deckConnectionsBlock.collapsed #collapseButton {
+  transform: rotate(90deg);
 }
 #deckConnectionsBlock.collapsed #deck, #deckConnectionsBlock.collapsed #discard {
   display: none;
@@ -485,9 +498,6 @@
 }
 #deckConnectionsBlock.collapsed #connections .connection {
   display: none;
-}
-#deckConnectionsBlock.collapsed #collapseButton {
-  transform: rotate(90deg);
 }
 #deckConnectionsBlock .collapsedText {
   display: none;
@@ -785,10 +795,6 @@
   vertical-align: middle;
   width: 30px;
   height: 30px;
-}
-
-img:first-of-type {
-  filter: opacity(var(--o, 1));
 }
 
 .playerResourcesWrapper {

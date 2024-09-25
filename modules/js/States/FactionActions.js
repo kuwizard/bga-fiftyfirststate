@@ -31,6 +31,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     );
                     dojo.addClass(buttonId, 'resourceButton');
                 });
+                this.makeLocationsUnselectable('.location');
+                this.makeLocationsUnselectable('.connection');
                 this.addUndoButton();
             }
         },

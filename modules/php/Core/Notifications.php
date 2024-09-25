@@ -133,18 +133,13 @@ class Notifications
         ]);
     }
 
-    /**
-     * @param Player $player
-     * @param Location $location
-     * @param int $newDiscardCount
-     * @return void
-     */
-    public static function locationDiscarded($player, $location)
+    public static function locationDiscarded(Player $player, Location $location, bool $discardResources = true)
     {
         self::notifyAll('locationDiscarded', '', [
             'player' => $player,
             'location' => $location,
             'newDiscardCount' => Locations::countInLocation(LOCATION_DISCARD),
+            'discardResources' => $discardResources,
         ]);
     }
 
@@ -229,9 +224,13 @@ class Notifications
 
     public static function newConnections(array $connections)
     {
-        self::notifyAll('newConnections', clienttranslate('New round starts. Top cards of each Connections pile are revealed'), [
-            'connections' => $connections,
-        ]);
+        self::notifyAll(
+            'newConnections',
+            clienttranslate('New round starts with a Lookout Phase. Players should select new Locations'),
+            [
+                'connections' => $connections,
+            ]
+        );
     }
 
     public static function playerPassed($player)
@@ -356,6 +355,19 @@ class Notifications
             'resourcesList' => ResourcesHelper::getResourceNames($bonus),
             'victim' => $victim,
             'i18n' => ['from'],
+        ]);
+    }
+
+    public static function endOfGameVPGained(Player $player, int $amount, int $total)
+    {
+        $msg = clienttranslate(
+            '${player_name} gets ${amount}${resourcesList} for each Location in their State increasing total to ${total}'
+        );
+        self::notifyAll('endOfGameVPGained', $msg, [
+            'player' => $player,
+            'amount' => $amount,
+            'total' => $total,
+            'resourcesList' => ResourcesHelper::getResourceNames([RESOURCE_VP]),
         ]);
     }
 

@@ -12,6 +12,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     'actDeployChooseFromHand',
                     args.possibleHandIds
                 );
+                this.makeLocationsUnselectable('#discard .location');
                 this.addUndoButton();
             }
         },
@@ -26,6 +27,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     'actDeployChooseDestination',
                     args.possibleDestinationIds
                 );
+                this.makeLocationsUnselectable('#discard .location');
                 this.addUndoButton();
             }
         },

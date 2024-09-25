@@ -113,14 +113,14 @@ trait ChooseResourceSourceTrait
         }
         if (empty($sourcesRaw) && !Stack::isAtomIn(ST_CHOOSE_RESOURCE_SOURCE)) {
             $this->postActions($player);
-            if ($ctx['activatorId'] && $ctx['activatorId'] < FACTION_NEW_YORK) {
-                $owner = Players::getOwner($ctx['activatorId']);
-                if ($owner->getId() !== $player->getId()) {
-                    $victim = $owner;
-                } else {
-                    $victim = null;
+            if ($ctx['activatorId']) {
+                if ($ctx['activatorId'] < FACTION_NEW_YORK) {
+                    $owner = Players::getOwner($ctx['activatorId']);
+                    if ($owner->getId() !== $player->getId()) {
+                        $victim = $owner;
+                    }
                 }
-                Notifications::actionUsed($player, $ctx['activatorId'], $processed, $ctx['bonus'], $victim);
+                Notifications::actionUsed($player, $ctx['activatorId'], $processed, $ctx['bonus'], $victim ?? null);
             }
             Stack::finishState();
         }
@@ -163,14 +163,26 @@ trait ChooseResourceSourceTrait
             Resources::delete($whereId, $resource);
             Notifications::resourcesLocationChanged($player, $whereId, ResourcesHelper::getResourceName($resource));
         }
-        if ($activatorId >= FACTION_NEW_YORK && $activatorId <= FACTION_MERCHANTS + 2 && $activatorId % 10 <= 2) {
-            $actionId = $activatorId - $player->getFaction();
-            // We need to show a token from requirements there, not ammo
-            $actionChosen = $player->getFactionActions()[$actionId];
-            Notifications::resourcesSpentFaction($player, [$actionChosen->getSpendRequirementsUIRemoveCard()[0]], $actionId);
-        } else if (!is_null($activatorId)) {
-            Notifications::resourcesPlacedOnLocation($player, $activatorId, [ResourcesHelper::getResourceName($resource)]);
+        if (!is_null($activatorId)) {
+            if ($this->isFactionAction($activatorId)) {
+                $actionId = $activatorId - $player->getFaction();
+                // We need to show a token from requirements there, not ammo
+                $actionChosen = $player->getFactionActions()[$actionId];
+                Notifications::resourcesSpentFaction($player, [$actionChosen->getSpendRequirementsUIRemoveCard()[0]], $actionId);
+            } else if (!$this->isWorkersAction($activatorId)) {
+                Notifications::resourcesPlacedOnLocation($player, $activatorId, [ResourcesHelper::getResourceName($resource)]);
+            }
         }
+    }
+
+    private function isFactionAction(int $activatorId): bool
+    {
+        return $activatorId >= FACTION_NEW_YORK && $activatorId <= FACTION_MERCHANTS + 2 && $activatorId % 10 <= 2;
+    }
+
+    private function isWorkersAction(int $activatorId): bool
+    {
+        return $activatorId >= FACTION_NEW_YORK && $activatorId <= FACTION_MERCHANTS + 3 && $activatorId % 10 === 3;
     }
 
     private function postActions(Player $player)
@@ -195,7 +207,8 @@ trait ChooseResourceSourceTrait
                 case LOCATION_ACTION_DEPLOY:
                     $oldLocationId = $ctx['postActions']['old'];
                     $oldLocation = Locations::get($oldLocationId);
-                    if ($oldLocation instanceof FeatureStorage && $oldLocation->getResourcesAmount() > 0) {
+                    $resourcesPlaced = $oldLocation instanceof FeatureStorage && $oldLocation->getResourcesAmount() > 0;
+                    if ($resourcesPlaced) {
                         $resourcesFromOldLocation = ResourcesHelper::increaseResourcesAfterAction(
                             $player,
                             $oldLocation->getResources()
@@ -205,7 +218,8 @@ trait ChooseResourceSourceTrait
                     }
                     $player->discard($oldLocationId);
                     Locations::move($locationId, [LOCATION_BOARD, $player->getId()]);
-                    Notifications::locationDiscarded($player, $oldLocation);
+                    $oldLocation->unruin();
+                    Notifications::locationDiscarded($player, $oldLocation, $resourcesPlaced);
                     Notifications::locationBuilt($player, $location, $oldLocation, $ctx['postActions']['resource']);
                     $this->getProductionAfterBuildAndPlaceResources($location, $player);
                     $resourcesChanged[] = RESOURCE_CARD;

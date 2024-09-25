@@ -41,6 +41,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     'actUseOtherPlayerLocation',
                     args.otherPlayersLocations,
                 );
+                this.makeLocationsUnselectable('#discard .location');
                 this.addPrimaryActionButton(
                     'buttonActionPass',
                     _('Pass'),
@@ -174,15 +175,16 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 'connection'
             );
             const position = firstConnectionId === n.args.id ? 'first' : 'last';
-            dojo.attr(connectionCard, 'id', 'connection_0');
+            dojo.attr(clone, 'id', 'connection_0');
+            dojo.addClass(clone, 'flipped');
             const parent = connectionCard.parentNode;
             if (n.args.player_id === this.player_id) {
-                this.slide(`connection_0`, 'handConnections');
+                this.slide(connectionCard, 'handConnections');
             } else {
-                this.slide(`connection_0`, `overall_player_board_${n.args.player_id}`, { destroy: true });
+                this.slide(connectionCard, `overall_player_board_${n.args.player_id}`, { destroy: true });
             }
             dojo.place(clone, parent, position);
-            dojo.addClass(clone, 'flipped');
+            dojo.removeClass(clone, 'selectable');
         },
 
         notif_connectionPlayed(n) {

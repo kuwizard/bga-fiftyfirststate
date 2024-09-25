@@ -237,11 +237,7 @@ class Locations extends Pieces
             ->run();
     }
 
-    /**
-     * @param Location $location
-     * @return void
-     */
-    public static function ruin($location)
+    public static function ruin(Location $location): void
     {
         if ($location instanceof Feature && $location->getResourcesAmount() > 0) {
             $owner = Players::getOwner($location->getId());
@@ -251,6 +247,14 @@ class Locations extends Pieces
         }
         self::DB()
             ->update(['is_ruined' => 1])
+            ->where('location_id', $location->getId())
+            ->run();
+    }
+
+    public static function unruin(Location $location): void
+    {
+        self::DB()
+            ->update(['is_ruined' => 0])
             ->where('location_id', $location->getId())
             ->run();
     }

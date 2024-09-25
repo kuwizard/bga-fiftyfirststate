@@ -17,6 +17,7 @@
  */
 
 use STATE\Core\Globals;
+use STATE\Core\Notifications;
 use STATE\Core\Stats;
 use STATE\Managers\Connections;
 use STATE\Managers\Factions;

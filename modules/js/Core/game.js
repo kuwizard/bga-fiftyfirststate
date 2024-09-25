@@ -61,7 +61,11 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                 this.addLastRound();
             }
             dojo.connect(this.querySingle('#collapseButton'), 'click', () => {
-                dojo.toggleClass('deckConnectionsBlock', 'collapsed')
+                dojo.toggleClass('deckConnectionsBlock', 'collapsing');
+                setTimeout(() => { // We want to hide cards with a slight delay
+                    dojo.toggleClass('deckConnectionsBlock', 'collapsing');
+                    dojo.toggleClass('deckConnectionsBlock', 'collapsed');
+                }, 100);
             });
             dojo.connect(this.notifqueue, 'addToLog', () => {
                 this.checkLogCancel(this._last_notif);

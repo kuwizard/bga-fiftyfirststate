@@ -6,6 +6,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this._notifications.push(['locationDiscarded', 1]);
             this._notifications.push(['locationPicked', 1]);
             this._notifications.push(['lastRound', 1]);
+            this._notifications.push(['endOfGameVPGained', 1]);
             this._notifications.push(['reshuffle', 1]);
             this._notifications.push(['message', 1]);
         },
@@ -24,14 +25,16 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             dojo.style(element, 'transform', `rotate(${this.getRandomNumber(-rotateDelta, rotateDelta)}deg)`);
         },
 
-        replaceWithResourceIcon(lexeme) {
+        replaceWithResourceIcon(lexeme, isLogIcon = false) {
             if (/{.*}/.test(lexeme)) {
-                const match = lexeme.match(/{(.*?Icon)}/);
-                const type = match[1].replace(/Icon$/, '');
-                return lexeme.replace(/{.*}/, this.format_block('jstpl_resource_icon', { type: type }));
-            } else {
-                return lexeme;
+                while (/{.*}/.test(lexeme)) {
+                    const match = lexeme.match(/{(.*?Icon)}/);
+                    const type = match[1].replace(/Icon$/, '');
+                    const tpl = isLogIcon ? 'jstpl_resource_icon_log' : 'jstpl_resource_icon';
+                    lexeme = lexeme.replace(/{.*?}/, this.format_block(tpl, { type: type }));
+                }
             }
+            return lexeme;
         },
 
         enrichLocationObject(location = {}) {
@@ -107,7 +110,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         addLocation(location, destination, isFirst = false) {
             const locationBlock = this.format_block('jstpl_location', this.enrichLocationObject(location));
             const locationElement = dojo.place(locationBlock, destination, isFirst ? 'first' : 'last');
-            this.addTooltipHtml(`location_${location.id}`, locationBlock);
+            const locationNotRuinedBlock = this.format_block(
+                'jstpl_location',
+                this.enrichLocationObject({ ...location, isRuined: false })
+            );
+            this.addTooltipHtml(`location_${location.id}`, locationNotRuinedBlock);
             return locationElement;
         },
 
@@ -171,16 +178,22 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         async notif_locationDiscarded(n) {
             debug('Notif: locationDiscarded', n);
             await this.waitForDisappearance('.moving');
-            dojo.query(`#location_${n.args.location.id} .resourceIcon`).forEach((element) => {
-                const resourceType = [...element.classList].find((clazz) => {
-                    return clazz !== 'resourceIcon'
-                }).replace('Icon', '');
-                this.slide(
-                    element,
-                    this.querySingle(`#overall_player_board_${n.args.player_id} .${resourceType}`),
-                    { destroy: true }
-                );
+
+            dojo.query(`#location_${n.args.location.id} .resourceIcon`).forEach((element, index) => {
+                if (n.args.discardResources) {
+                    const resourceType = [...element.classList].find((clazz) => {
+                        return clazz !== 'resourceIcon'
+                    }).replace('Icon', '');
+                    this.slide(
+                        element,
+                        this.querySingle(`#overall_player_board_${n.args.player_id} .${resourceType}`),
+                        { delay: index * 70, destroy: true }
+                    );
+                } else {
+                    dojo.destroy(element);
+                }
             });
+            await this.waitForDisappearance('.moving');
             this.runDiscardLocationAnimation(n.args.location, n.args.newDiscardCount, n.args.player_id);
             this.addTooltipToLogEntry(n.args.location);
             this.setCorrectClassToOverlapHand();
@@ -197,6 +210,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 this.changeParent(locationElement, 'discard', true);
             } else {
                 await this.slide(locationElement, 'discard');
+                dojo.removeClass(locationElement, 'ruined');
             }
             this.destroyAll(`#discard .location:not(#location_${location.id})`);
             this.querySingle(`#discardHeader .headerValue`).innerText = newDiscardCount;
@@ -214,6 +228,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         notif_message(n) {
             debug('Notif: message', n);
+        },
+
+        notif_endOfGameVPGained(n) {
+            debug('Notif: endOfGameVPGained', n);
+            this.scoreCtrl[n.args.player_id].toValue(n.args.total);
         },
     });
 });

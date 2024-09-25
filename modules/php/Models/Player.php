@@ -470,18 +470,14 @@ class Player extends DB_Manager implements JsonSerializable
         }
     }
 
-    /**
-     * @param int $type
-     * @param int $amount
-     * @return void
-     */
-    public function increaseResource($type, $amount = 1)
+    public function increaseResource(int $type, int $amount = 1): int
     {
         $name = ResourcesHelper::getResourceName($type);
         if ($type === RESOURCE_CARD) {
             for ($i = 0; $i < $amount; $i++) {
                 Locations::draw($this);
             }
+            return 0; // We don't need it actually
         } else {
             $newAmount = $this->{$name} + $amount;
             $this->{$name} = $newAmount;
@@ -493,6 +489,7 @@ class Player extends DB_Manager implements JsonSerializable
                 }
             }
         }
+        return $newAmount;
     }
 
     /**

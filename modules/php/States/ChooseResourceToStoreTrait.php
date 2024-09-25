@@ -16,30 +16,22 @@ trait ChooseResourceToStoreTrait
     public function argChooseResourceToStore()
     {
         $args = [];
-        /** @var Player $player */
-        foreach ($this->getPlayersWithStoreFeatures()->toArray() as $player) {
-            $nonZeroResources = $this->getPlayersAvailableResources($player);
-            $args[$player->getId()] = ResourcesHelper::getResourceNames($nonZeroResources);
-        }
+        $player = Players::getActive();
+        $nonZeroResources = $this->getPlayersAvailableResources($player);
+        $args[$player->getId()] = ResourcesHelper::getResourceNames($nonZeroResources);
         return ['_private' => $args];
-    }
-
-    public function stChooseResourceToStore()
-    {
-        $players = $this->getPlayersWithStoreFeatures()->getIds();
-        $this->gamestate->setPlayersMultiactive($players, '');
     }
 
     public function actPassStoringResource()
     {
         self::checkAction('actPassStoringResource');
-        $this->gamestate->setPlayerNonMultiactive(Players::getCurrentId(), '');
+        Stack::finishState();
     }
 
     public function actChooseResourceToStore($resourceName)
     {
         self::checkAction('actChooseResourceToStore');
-        $player = Players::getCurrent();
+        $player = Players::getActive();
         $resource = ResourcesHelper::getResourceType($resourceName);
         $player->decreaseResource($resource);
         $notificationData = [$resourceName => $player->getResource($resource)];
@@ -54,7 +46,7 @@ trait ChooseResourceToStoreTrait
         $nonFilledStorageLocations = $this->getAllNonFilledStorageLocations($player);
         if (!is_null($nonFilledStorageLocations)
             && !empty($this->getPlayersAvailableResources($player, $nonFilledStorageLocations))) {
-            Stack::insertOnTop(ST_CHOOSE_RESOURCE_TO_STORE);
+            Stack::insertOnTop(ST_CHOOSE_RESOURCE_TO_STORE, ['pId' => $player->getId()]);
         }
         Stack::finishState();
     }
@@ -62,7 +54,7 @@ trait ChooseResourceToStoreTrait
     /**
      * @return int[]
      */
-    private function getPlayersAvailableResources(Player $player, Collection $nonFilledStorageLocations = null): array
+    public function getPlayersAvailableResources(Player $player, Collection $nonFilledStorageLocations = null): array
     {
         $availableOptions = [];
         if (!$nonFilledStorageLocations) {
@@ -86,20 +78,7 @@ trait ChooseResourceToStoreTrait
     /**
      * @return Collection
      */
-    private function getPlayersWithStoreFeatures()
-    {
-        return Players::getAll()->filter(function (Player $player) {
-            return
-                !$player->getBoard()->filter(function ($location) {
-                    return $location instanceof FeatureStorageMultiple;
-                })->empty();
-        });
-    }
-
-    /**
-     * @return Collection
-     */
-    private function getAllNonFilledStorageLocations(Player $player)
+    public function getAllNonFilledStorageLocations(Player $player)
     {
         return $player->getBoard()->filter(function ($location) {
             return $location instanceof FeatureStorageMultiple &&
@@ -114,9 +93,10 @@ trait ChooseResourceToStoreTrait
      */
     private function getFirstStorageLocationByResource(Player $player, int $resource)
     {
-        return $player->getBoard()->filter(function ($location) {
-            return $location instanceof FeatureStorageMultiple &&
-                !$location->isFullyFilled();
+        return $player->getBoard()->filter(function ($location) use ($resource) {
+            return $location instanceof FeatureStorageMultiple
+                && !$location->isFullyFilled()
+                && $location->isCanStoreResource($resource);
         })->first();
     }
 }
