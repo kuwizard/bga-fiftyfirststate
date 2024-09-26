@@ -320,6 +320,8 @@ class Player extends DB_Manager implements JsonSerializable
             return $this->getHandAmount();
         } else if ($resource === RESOURCE_DEAL) {
             return 0;
+        } else if ($resource === RESOURCE_ANY_OF_MAIN) {
+            return array_sum(array_map([$this, 'getResource'], MAIN_RESOURCES_LIST));
         } else {
             $playerResource = $this->$resourceName;
             if ($factionOnly) {

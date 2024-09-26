@@ -21,7 +21,8 @@ class ResourcesHelper
         RESOURCE_DEVELOPMENT => 'devel',
         RESOURCE_CARD => 'card',
         RESOURCE_VP => 'score',
-        RESOURCE_DEAL => 'deal',
+        RESOURCE_DEAL => '',
+        RESOURCE_ANY_OF_MAIN => '',
     ];
 
     /**

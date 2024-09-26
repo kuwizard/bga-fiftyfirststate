@@ -217,14 +217,20 @@ class Stack
         return self::findBy('suspended', true);
     }
 
-    /**
-     * @param int $state
-     * @return boolean
-     */
-    public static function isAtomIn($state)
+    public static function isAtomIn(int $state): bool
     {
         $foundAtom = self::findBy('state', $state, false);
         return $foundAtom > -1;
+    }
+
+    public static function isSomeAtomsIn(array $states): bool
+    {
+        foreach ($states as $state) {
+            if (self::isAtomIn($state)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static function findBy($option, $value, $throwOnError = true)

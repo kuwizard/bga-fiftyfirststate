@@ -18,7 +18,7 @@ class MercOutpost extends Action
         $this->deals = [RESOURCE_WORKER];
         $this->copies = 1;
         $this->action = new Act(
-            [RESOURCE_BRICK], // TODO: Choose from any resource
+            [RESOURCE_ANY_OF_MAIN],
             [RESOURCE_WORKER, RESOURCE_WORKER],
         );
     }

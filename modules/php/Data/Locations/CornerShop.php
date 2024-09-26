@@ -18,7 +18,7 @@ class CornerShop extends Action
         $this->deals = [RESOURCE_AMMO];
         $this->copies = 2;
         $this->action = new Act(
-            [RESOURCE_WORKER], // TODO: Add choice between gun/fuel/iron/brick
+            [RESOURCE_ANY_OF_MAIN, RESOURCE_WORKER],
             [RESOURCE_VP],
         );
         $this->activationsMax = 2;

@@ -53,8 +53,8 @@ class Fiftyfirststate extends Table
     use STATE\States\ChooseResourceToStoreTrait;
     use STATE\States\DeployTrait;
     use STATE\States\ChoosePlayerToStealTrait;
-    use STATE\States\ChooseDealToLoseTrait;
     use STATE\States\ActivateSecondTimeTrait;
+    use STATE\States\SpecificLocationsActionsTrait;
 
     public static $instance = null;
 

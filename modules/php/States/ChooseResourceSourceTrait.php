@@ -66,13 +66,10 @@ trait ChooseResourceSourceTrait
                 $sources[] = [$resource => $sourcesSingle];
             }
         }
-        Stack::insertOnTopAndFinish(ST_PROCESS_SOURCE_MAP, [
-            'sourcesRaw' => $sources,
-            'bonus' => $ctx['bonus'],
-            'postActions' => $ctx['postActions'] ?? null,
-            'activatorId' => $ctx['activatorId'] ?? null,
-            'processed' => $ctx['processed'] ?? null,
-        ]);
+        Stack::insertOnTopAndFinish(
+            ST_PROCESS_SOURCE_MAP,
+            $this->getCommonChooseResourceData($ctx, $sources, $ctx['processed'] ?? null)
+        );
     }
 
     public function stProcessSourceMap()
@@ -94,17 +91,23 @@ trait ChooseResourceSourceTrait
                 } else {
                     $whereId = isset($sources['locations']) ? $sources['locations'][0]->getId() : $sources['joker'];
                 }
-                if ($resource !== RESOURCE_DEAL) {
+                if (!in_array($resource, [RESOURCE_DEAL, RESOURCE_ANY_OF_MAIN])) {
                     $processed[] = $sources['joker'] ?? $resource;
                 }
                 if ($resource === RESOURCE_DEAL) {
-                    Stack::insertOnTopAndFinish(ST_CHOOSE_DEAL_TO_LOSE, [
-                        'bonus' => $ctx['bonus'],
-                        'postActions' => $ctx['postActions'],
-                        'sourcesRaw' => $sourcesRaw,
-                        'processed' => $processed,
-                        'activatorId' => $ctx['activatorId'],
-                    ]);
+                    Stack::insertOnTopAndFinish(
+                        ST_CHOOSE_DEAL_TO_LOSE,
+                        $this->getCommonChooseResourceData($ctx, $sourcesRaw, $processed)
+                    );
+                    break;
+                } else if ($resource === RESOURCE_ANY_OF_MAIN) {
+                    Stack::insertOnTopAndFinish(
+                        ST_CHOOSE_RESOURCE_TO_SPEND,
+                        [
+                            'resources' => MAIN_RESOURCES_LIST,
+                            ...$this->getCommonChooseResourceData($ctx, $sourcesRaw, $processed),
+                        ]
+                    );
                     break;
                 } else if ($resource !== RESOURCE_CARD) {
                     $this->decreaseResource($whereId, $player, $resource, $ctx['activatorId']);
@@ -113,16 +116,13 @@ trait ChooseResourceSourceTrait
                 Stack::insertOnTopAndFinish(ST_CHOOSE_RESOURCE_SOURCE, [
                     'resourceIcon' => $resource,
                     'sources' => $sources,
-                    'bonus' => $ctx['bonus'],
-                    'postActions' => $ctx['postActions'],
-                    'sourcesRaw' => $sourcesRaw,
-                    'processed' => $processed,
-                    'activatorId' => $ctx['activatorId'],
+                    ...$this->getCommonChooseResourceData($ctx, $sourcesRaw, $processed),
                 ]);
                 break;
             }
         }
-        if (empty($sourcesRaw) && !Stack::isAtomIn(ST_CHOOSE_RESOURCE_SOURCE) && !Stack::isAtomIn(ST_CHOOSE_DEAL_TO_LOSE)) {
+        if (empty($sourcesRaw)
+            && !Stack::isSomeAtomsIn([ST_CHOOSE_RESOURCE_SOURCE, ST_CHOOSE_DEAL_TO_LOSE, ST_CHOOSE_RESOURCE_TO_SPEND])) {
             $this->postActions($player);
             if ($ctx['activatorId']) {
                 if ($ctx['activatorId'] < FACTION_NEW_YORK) {
@@ -135,6 +135,17 @@ trait ChooseResourceSourceTrait
             }
             Stack::finishState();
         }
+    }
+
+    private function getCommonChooseResourceData(array $ctx, array $sourcesRaw, array|null $processed): array
+    {
+        return [
+            'bonus' => $ctx['bonus'],
+            'postActions' => $ctx['postActions'] ?? null,
+            'sourcesRaw' => $sourcesRaw,
+            'processed' => $processed,
+            'activatorId' => $ctx['activatorId'] ?? null,
+        ];
     }
 
     public function actChooseSource(int $id): void

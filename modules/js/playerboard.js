@@ -65,7 +65,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     this.scoreCtrl[n.args.player_id].toValue(data[resource]);
                 } else {
                     this.querySingle(`#player_board_${n.args.player_id} .${resource}Value`).innerText = data[resource];
-                    if (n.args.player_id === this.player_id) {
+                    const stickyResource = this.querySingle(`#sticky .${resource}Value`);
+                    if (stickyResource && n.args.player_id === this.player_id) {
                         this.querySingle(`#sticky .${resource}Value`).innerText = data[resource];
                     }
                 }

@@ -1,5 +1,5 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
-    return declare('state.chooseDealToLose', null, {
+    return declare('state.specificLocationActions', null, {
         constructor() {
             this._notifications.push(['dealDiscarded', 1]);
         },
@@ -8,6 +8,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             if (this.isCurrentPlayerActive()) {
                 args.forEach((resource) => {
                     this.addActionButtonWithResource(resource, 'actChooseDeal');
+                });
+                this.addUndoButton();
+            }
+        },
+
+        onEnteringStateChooseResourceToSpend(args) {
+            if (this.isCurrentPlayerActive()) {
+                args.forEach((resource) => {
+                    this.addActionButtonWithResource(resource, 'actChooseResourceToSpend');
                 });
                 this.addUndoButton();
             }
@@ -26,6 +35,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 n.args.newDiscardCount,
                 n.args.player_id
             );
-        }
+        },
     });
 });
