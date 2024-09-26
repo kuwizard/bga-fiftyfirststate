@@ -362,6 +362,7 @@ class Player extends DB_Manager implements JsonSerializable
                             $isActivatable = !empty($this->getDeals());
                         } else if ($this->getResource($requirement, false, true) < $amount) {
                             $isActivatable = false;
+                            break;
                         }
                     }
                 }
