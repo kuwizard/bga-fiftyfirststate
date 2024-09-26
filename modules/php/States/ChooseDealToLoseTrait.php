@@ -21,6 +21,6 @@ trait ChooseDealToLoseTrait
         $player = Players::getActive();
         $discarded = Locations::discardByDeal(ResourcesHelper::getResourceType($resourceName), $player->getId());
         Notifications::dealDiscarded($player, $discarded, Locations::countInLocation(LOCATION_DISCARD), $resourceName);
-        Stack::finishState();
+        $this->addAtomToContinueProcessResources(Stack::getCtx(), [$discarded]);
     }
 }

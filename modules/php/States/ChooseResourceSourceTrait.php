@@ -94,8 +94,19 @@ trait ChooseResourceSourceTrait
                 } else {
                     $whereId = isset($sources['locations']) ? $sources['locations'][0]->getId() : $sources['joker'];
                 }
-                $processed[] = $sources['joker'] ?? $resource;
-                if ($resource !== RESOURCE_CARD) {
+                if ($resource !== RESOURCE_DEAL) {
+                    $processed[] = $sources['joker'] ?? $resource;
+                }
+                if ($resource === RESOURCE_DEAL) {
+                    Stack::insertOnTopAndFinish(ST_CHOOSE_DEAL_TO_LOSE, [
+                        'bonus' => $ctx['bonus'],
+                        'postActions' => $ctx['postActions'],
+                        'sourcesRaw' => $sourcesRaw,
+                        'processed' => $processed,
+                        'activatorId' => $ctx['activatorId'],
+                    ]);
+                    break;
+                } else if ($resource !== RESOURCE_CARD) {
                     $this->decreaseResource($whereId, $player, $resource, $ctx['activatorId']);
                 }
             } else {
@@ -111,7 +122,7 @@ trait ChooseResourceSourceTrait
                 break;
             }
         }
-        if (empty($sourcesRaw) && !Stack::isAtomIn(ST_CHOOSE_RESOURCE_SOURCE)) {
+        if (empty($sourcesRaw) && !Stack::isAtomIn(ST_CHOOSE_RESOURCE_SOURCE) && !Stack::isAtomIn(ST_CHOOSE_DEAL_TO_LOSE)) {
             $this->postActions($player);
             if ($ctx['activatorId']) {
                 if ($ctx['activatorId'] < FACTION_NEW_YORK) {
@@ -126,11 +137,7 @@ trait ChooseResourceSourceTrait
         }
     }
 
-    /**
-     * @param int $id
-     * @return void
-     */
-    public function actChooseSource($id)
+    public function actChooseSource(int $id): void
     {
         self::checkAction('actChooseSource');
         $ctx = Stack::getCtx();
@@ -141,12 +148,16 @@ trait ChooseResourceSourceTrait
             $resourceToSpend,
             $ctx['activatorId']
         );
+        $this->addAtomToContinueProcessResources($ctx, [$resourceToSpend]);
+    }
 
+    public function addAtomToContinueProcessResources(array $ctx, array $newResource): void
+    {
         Stack::insertOnTopAndFinish(ST_CREATE_RESOURCE_SOURCE_MAP, [
             'bonus' => $ctx['bonus'],
             'postActions' => $ctx['postActions'],
             'spend' => empty($ctx['sourcesRaw']) ? [] : array_map('key', $ctx['sourcesRaw']),
-            'processed' => array_merge($ctx['processed'], [$resourceToSpend]),
+            'processed' => array_merge($ctx['processed'], $newResource),
             'activatorId' => $ctx['activatorId'],
         ]);
     }

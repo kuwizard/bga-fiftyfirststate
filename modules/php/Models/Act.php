@@ -61,7 +61,6 @@ class Act implements \JsonSerializable
             case ACTION_TYPE_SPEND:
                 $spendRequirements = $this->spendRequirements;
                 $discardCard = in_array(RESOURCE_CARD, $spendRequirements);
-                $discardDeal = in_array(RESOURCE_DEAL, $spendRequirements);
                 Stack::insertOnTop(ST_CREATE_RESOURCE_SOURCE_MAP, [
                     'spend' => $spendRequirements,
                     'bonus' => $this->bonus,
@@ -69,9 +68,6 @@ class Act implements \JsonSerializable
                 ]);
                 if ($discardCard) {
                     Stack::insertOnTop(ST_DISCARD_LOCATION_FOR_RESOURCES);
-                }
-                if ($discardDeal) {
-                    Stack::insertOnTop(ST_CHOOSE_DEAL_TO_LOSE);
                 }
                 break;
             case ACTION_TYPE_STEAL_ANOTHER_PLAYER:

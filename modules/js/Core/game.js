@@ -488,6 +488,9 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                     if (args.spendList && log.includes('${spendList}')) {
                         args.spendList = this.getLogIcons(args.spendList);
                     }
+                    if (args.dealResource && log.includes('${dealResource}')) {
+                        args.dealResource = this.getLogIcon(args.dealResource);
+                    }
                     if (args.player_name) {
                         args.player_name = this.coloredPlayerName(args.player_name);
                     }

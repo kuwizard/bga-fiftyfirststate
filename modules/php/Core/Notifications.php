@@ -340,20 +340,43 @@ class Notifications
         $from = $activatorId >= FACTION_NEW_YORK && $activatorId <= FACTION_MERCHANTS + 3
             ? clienttranslate('a faction action')
             : $location->getName();
+        $spendList = [];
+        $deal = null;
+        foreach ($spend as $item) {
+            if (is_integer($item)) {
+                $spendList[] = $item;
+            } else {
+                // It should be a Location containing a deal!
+                $deal = $item;
+            }
+        }
         if ($victim) {
             $msg = clienttranslate(
-                '${player_name} uses ${from} as an Open Production, spends ${spendList} and gets ${resourcesList}. ${victim_name} gets ${spendList} as the owner'
+                '${player_name} uses ${from} as an Open Production, spends ${spendList} to gain ${resourcesList}. ${victim_name} gains ${spendList} as the owner'
             );
+        } else if ($deal) {
+            if (empty($spendList)) {
+                $msg = clienttranslate(
+                    '${player_name} uses ${from}, spends a deal giving ${dealResource} to gain ${resourcesList}'
+                );
+            } else {
+                $msg = clienttranslate(
+                    '${player_name} uses ${from}, spends ${spendList} and a deal giving ${dealResource} to gain ${resourcesList}'
+                );
+            }
         } else {
-            $msg = clienttranslate('${player_name} uses ${from}, spends ${spendList} and gets ${resourcesList}');
+            $msg = clienttranslate(
+                '${player_name} uses ${from}, spends ${spendList} to gain ${resourcesList}'
+            );
         }
 
         self::message($msg, [
             'player' => $player,
             'from' => $from,
-            'spendList' => ResourcesHelper::getResourceNames($spend),
+            'spendList' => ResourcesHelper::getResourceNames($spendList),
             'resourcesList' => ResourcesHelper::getResourceNames($bonus),
             'victim' => $victim,
+            'dealResource' => $deal ? ResourcesHelper::getResourceNames($deal->getDeals()) : null,
             'i18n' => ['from'],
         ]);
     }
