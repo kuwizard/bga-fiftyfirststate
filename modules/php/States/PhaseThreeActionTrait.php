@@ -29,7 +29,7 @@ trait PhaseThreeActionTrait
             $isActivatableOpenProduction = $location instanceof Production
                 && $location->isOpen()
                 && $location->isActivatable()
-                && $player->getResource(RESOURCE_WORKER) > 0;
+                && $player->getResource(RESOURCE_WORKER, false) > 0;
             $razeReachable = $location->getDefenceValue() <= $player->getResource(RESOURCE_ARROW_RED);
             return !$location->isRuined() && ($isActivatableOpenProduction || $razeReachable);
         });
