@@ -61,8 +61,7 @@ define([
         ],
         {
             constructor() {
-                // TODO: Fix for mobile
-                // this.default_viewport = 'width=600';
+                this.default_viewport = 'width=910';
             },
 
             setup(gamedatas) {
