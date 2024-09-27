@@ -85,7 +85,6 @@ trait PhaseThreeActionTrait
 
     public function actActionPass()
     {
-        self::checkAction('actActionPass');
         $player = Players::getActive();
         $player->markAsPassed();
         Notifications::playerPassed($player);
