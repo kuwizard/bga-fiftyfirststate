@@ -273,6 +273,6 @@ class Locations extends Pieces
 
     public static function reshuffle()
     {
-        Notifications::reshuffle();
+        Notifications::locationsReshuffle();
     }
 }

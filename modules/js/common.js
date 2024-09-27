@@ -7,7 +7,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this._notifications.push(['locationPicked', 1]);
             this._notifications.push(['lastRound', 1]);
             this._notifications.push(['endOfGameVPGained', 1]);
-            this._notifications.push(['reshuffle', 1]);
+            this._notifications.push(['locationsReshuffle', 1]);
             this._notifications.push(['message', 1]);
         },
 
@@ -168,7 +168,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this.addTooltipToLogEntry(n.args.location);
         },
 
-        notif_reshuffle(n) {
+        notif_locationsReshuffle(n) {
             debug('Notif: reshuffle', n);
             this.querySingle(`#deckHeader .headerValue`).innerText = n.args.deckCount;
             this.querySingle(`#discardHeader .headerValue`).innerText = n.args.discardCount;

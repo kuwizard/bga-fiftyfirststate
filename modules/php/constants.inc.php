@@ -53,6 +53,8 @@ define('LOCATION_CONNECTIONS_BLUE_DECK', 'blue_deck');
 define('LOCATION_CONNECTIONS_RED_DECK', 'red_deck');
 define('LOCATION_CONNECTIONS_BLUE_FLIPPED', 'blue_flipped');
 define('LOCATION_CONNECTIONS_RED_FLIPPED', 'red_flipped');
+define('LOCATION_CONNECTIONS_BLUE_DISCARD', 'blue_discard');
+define('LOCATION_CONNECTIONS_RED_DISCARD', 'red_discard');
 define('LOCATION_LOOKOUT', 'lookout');
 
 /*

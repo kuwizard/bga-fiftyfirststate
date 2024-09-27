@@ -412,7 +412,7 @@ class Pieces extends DB_Manager
             $deckReform
         ) {
             $missing = $nbr - count($pieces);
-            self::reformDeckFromDiscard($fromLocation);
+            static::callReformDeckFromDiscard($fromLocation);
             $pieces = $pieces->merge(
                 self::pickForLocation($missing, $fromLocation, $toLocation, $state, false)
             ); // Note: block another deck reform
@@ -427,9 +427,17 @@ class Pieces extends DB_Manager
     }
 
     /*
-     * Reform a location from another location when enmpty
+     * Method to be overriden by children
      */
-    public static function reformDeckFromDiscard($fromLocation)
+    public static function callReformDeckFromDiscard(string $fromLocation)
+    {
+        static::reformDeckFromDiscard($fromLocation);
+    }
+
+    /*
+     * Reform a location from another location when empty
+     */
+    public static function reformDeckFromDiscard(string $fromLocation, bool $callMethod = true)
     {
         self::checkLocation($fromLocation);
         if (!array_key_exists($fromLocation, static::$autoreshuffleCustom)) {
@@ -442,7 +450,7 @@ class Pieces extends DB_Manager
         self::checkLocation($discard);
         self::moveAllInLocation($discard, $fromLocation);
         self::shuffle($fromLocation);
-        if (static::$autoreshuffleListener) {
+        if (static::$autoreshuffleListener && $callMethod) {
             $obj = static::$autoreshuffleListener['obj'];
             $method = static::$autoreshuffleListener['method'];
             call_user_func([$obj, $method], $fromLocation);

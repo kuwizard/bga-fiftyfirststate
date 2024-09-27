@@ -2,6 +2,7 @@
 
 namespace STATE\Managers;
 
+use STATE\Core\Notifications;
 use STATE\Helpers\Collection;
 use STATE\Helpers\Pieces;
 use STATE\Models\Connection;
@@ -12,6 +13,15 @@ class Connections extends Pieces
     protected static $primary = 'connection_id';
     protected static $prefix = 'connection_';
     protected static $customFields = ['type'];
+    protected static $autoreshuffle = true;
+    protected static $autoreshuffleCustom = [
+        LOCATION_CONNECTIONS_BLUE_DECK => LOCATION_CONNECTIONS_BLUE_DISCARD,
+        LOCATION_CONNECTIONS_RED_DECK => LOCATION_CONNECTIONS_RED_DISCARD,
+    ];
+    protected static $autoreshuffleListener = [
+        'obj' => 'STATE\Managers\Connections',
+        'method' => 'reshuffle',
+    ];
 
     protected static function cast($row)
     {
@@ -21,6 +31,15 @@ class Connections extends Pieces
         ) ? self::$blueCardTypes : self::$redCardTypes;
         $name = "STATE\Data\Connections\\" . $deck[$row['type']];
         return new $name($row);
+    }
+
+    public static function callReformDeckFromDiscard(string $fromLocation)
+    {
+        if ($fromLocation === LOCATION_CONNECTIONS_BLUE_DECK) {
+            self::reformDeckFromDiscard($fromLocation);
+        } else {
+            self::reformDeckFromDiscard($fromLocation, false);
+        }
     }
 
     private static $blueCardTypes = [
@@ -55,15 +74,6 @@ class Connections extends Pieces
         }
     }
 
-    /**
-     * @param array $params
-     * @return Connection
-     */
-    private static function getByType($params)
-    {
-
-    }
-
     public static function getAll()
     {
         return self::DB()->get();
@@ -92,18 +102,17 @@ class Connections extends Pieces
 
     public static function discardFlippedEndOfRound()
     {
-        foreach ([LOCATION_CONNECTIONS_BLUE_FLIPPED, LOCATION_CONNECTIONS_RED_FLIPPED] as $location) {
-            self::moveAllInLocation($location, LOCATION_DISCARD);
-        }
+        self::moveAllInLocation(LOCATION_CONNECTIONS_BLUE_FLIPPED, LOCATION_CONNECTIONS_BLUE_DISCARD);
+        self::moveAllInLocation(LOCATION_CONNECTIONS_RED_FLIPPED, LOCATION_CONNECTIONS_RED_DISCARD);
     }
 
-    /**
-     * @param boolean $isBlue
-     * @return void
-     */
     public static function discard($id)
     {
-        self::move($id, LOCATION_DISCARD);
+        if (self::getDeck($id) === LOCATION_CONNECTIONS_BLUE_DECK) {
+            self::move($id, LOCATION_CONNECTIONS_BLUE_DISCARD);
+        } else {
+            self::move($id, LOCATION_CONNECTIONS_RED_DISCARD);
+        }
     }
 
     public static function flipForNewRound()
@@ -112,7 +121,7 @@ class Connections extends Pieces
             LOCATION_CONNECTIONS_BLUE_DECK => LOCATION_CONNECTIONS_BLUE_FLIPPED,
             LOCATION_CONNECTIONS_RED_DECK => LOCATION_CONNECTIONS_RED_FLIPPED,
         ] as $location => $flipped) {
-            self::move(self::getTopOf($location)->getId(), $flipped);
+            self::pickForLocation(1, $location, $flipped);
         }
     }
 
@@ -126,12 +135,26 @@ class Connections extends Pieces
         ][$type];
     }
 
-    public static function getDeckName(int $id): string
+    public static function getDeck(int $id): string
     {
         if (in_array(self::get($id)->getType(), array_keys(self::$blueCardTypes))) {
+            return LOCATION_CONNECTIONS_RED_DECK;
+        } else {
+            return LOCATION_CONNECTIONS_BLUE_DECK;
+        }
+    }
+
+    public static function getDeckName(int $id): string
+    {
+        if (self::getDeck($id) === LOCATION_CONNECTIONS_BLUE_DECK) {
             return clienttranslate('Blue');
         } else {
             return clienttranslate('Red');
         }
+    }
+
+    public static function reshuffle()
+    {
+        Notifications::connectionsReshuffle();
     }
 }

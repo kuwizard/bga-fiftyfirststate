@@ -273,12 +273,17 @@ class Notifications
         ]);
     }
 
-    public static function reshuffle()
+    public static function locationsReshuffle()
     {
-        self::notifyAll('reshuffle', clienttranslate('The deck has been reshuffled'), [
+        self::notifyAll('locationsReshuffle', clienttranslate('Locations deck has been reshuffled'), [
             'deckCount' => Locations::countInLocation(LOCATION_DECK),
             'discardCount' => Locations::countInLocation(LOCATION_DISCARD),
         ]);
+    }
+
+    public static function connectionsReshuffle()
+    {
+        self::message(clienttranslate('Connections decks have been reshuffled'));
     }
 
     public static function message(string $message, array $data = [])
