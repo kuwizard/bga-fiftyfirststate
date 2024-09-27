@@ -226,7 +226,7 @@ class Notifications
     {
         self::notifyAll(
             'newConnections',
-            clienttranslate('New round starts with a Lookout Phase. Players should select new Locations'),
+            clienttranslate('New round starts with a phase 1: Lookout. Players should select new Locations'),
             [
                 'connections' => $connections,
             ]
@@ -240,11 +240,12 @@ class Notifications
         ]);
     }
 
-    public static function playerGotResourcesFromStorage(Player $player, int $locationId, array $resources)
+    public static function playerGotResourcesFromStorage(Player $player, Location $location, array $resources)
     {
-        self::notifyAll('playerGotResourcesFromStorage', '', [
+        $msg = clienttranslate('${player_name} gets all resources back from ${locationName}');
+        self::notifyAll('playerGotResourcesFromStorage', $msg, [
             'player' => $player,
-            'locationId' => $locationId,
+            'locationId' => $location,
             'resources' => $resources,
         ]);
     }
@@ -280,7 +281,7 @@ class Notifications
         ]);
     }
 
-    public static function message(string $message, array $data)
+    public static function message(string $message, array $data = [])
     {
         self::notifyAll('message', $message, $data);
     }
@@ -391,6 +392,33 @@ class Notifications
             'amount' => $amount,
             'total' => $total,
             'resourcesList' => ResourcesHelper::getResourceNames([RESOURCE_VP]),
+        ]);
+    }
+
+    public static function playerPhaseTwoProductionFaction($player, $factionProd)
+    {
+        $msg = clienttranslate('${player_name} gets ${resourcesList} from Faction production');
+        self::notifyAll('playerPhaseTwoProduction', $msg, [
+            'player' => $player,
+            'resourcesList' => ResourcesHelper::getResourceNames($factionProd),
+        ]);
+    }
+
+    public static function playerPhaseTwoProductionLocations($player, $prodLocations)
+    {
+        $msg = clienttranslate('Also ${player_name} gets ${resourcesList} from all Production Locations');
+        self::notifyAll('playerPhaseTwoProduction', $msg, [
+            'player' => $player,
+            'resourcesList' => ResourcesHelper::getResourceNames($prodLocations),
+        ]);
+    }
+
+    public static function playerPhaseTwoDeals($player, $dealsProd)
+    {
+        $msg = clienttranslate('Finally, ${player_name} gets ${resourcesList} from deals');
+        self::notifyAll('playerPhaseTwoProduction', $msg, [
+            'player' => $player,
+            'resourcesList' => ResourcesHelper::getResourceNames($dealsProd),
         ]);
     }
 

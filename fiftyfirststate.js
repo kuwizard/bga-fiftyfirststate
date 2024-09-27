@@ -32,6 +32,7 @@ define([
     g_gamethemeurl + 'modules/js/States/PhaseFourCleanupState.js',
     g_gamethemeurl + 'modules/js/States/ActivateSecondTimeState.js',
     g_gamethemeurl + 'modules/js/States/SpecificLocationActions.js',
+    g_gamethemeurl + 'modules/js/States/PhaseTwoProductionState.js',
     g_gamethemeurl + 'modules/js/playerboard.js',
     g_gamethemeurl + 'modules/js/factionboard.js',
     g_gamethemeurl + 'modules/js/hand.js',
@@ -57,6 +58,7 @@ define([
             state.phaseFourCleanup,
             state.activateSecondTime,
             state.specificLocationActions,
+            state.phaseTwoProduction,
             state.lexemes,
         ],
         {

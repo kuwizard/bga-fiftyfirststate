@@ -15,7 +15,10 @@ trait PhaseFourCleanupTrait
 {
     public function stPhaseFourCleanup()
     {
-        if (!Globals::isLastRound()) {
+        if (Globals::isLastRound()) {
+            Notifications::message(clienttranslate('{highlight}Phase 4: Cleanup is skipped...'));
+        } else {
+            Notifications::message(clienttranslate('{highlight}Phase 4: Cleanup'));
             /** @var Player $player */
             foreach (Players::getAll() as $player) {
                 Players::removeAllResources($player->getId());

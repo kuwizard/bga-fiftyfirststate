@@ -15,6 +15,7 @@ trait PhaseTwoProductionTrait
 {
     public function stPhaseTwoProduction()
     {
+        Notifications::message(clienttranslate('{highlight}Phase 2: Production'));
         /** @var Player $player */
         foreach (Players::getAll() as $player) {
             /** @var Location $location */
@@ -24,15 +25,17 @@ trait PhaseTwoProductionTrait
             /** @var FeatureStorageMultiple $location */
             foreach ($storageLocations as $location) {
                 $resources = $location->getResources();
-                ResourcesHelper::increaseResourcesAfterAction($player, $resources);
-                Resources::deleteAll($location->getId());
-                Notifications::playerGotResourcesFromStorage(
-                    $player,
-                    $location->getId(),
-                    $player->getResourcesWithNames(array_unique($resources))
-                );
+                if (!$resources->isEmpty()) {
+                    ResourcesHelper::increaseResourcesAfterAction($player, $resources);
+                    Resources::deleteAll($location->getId());
+                    Notifications::playerGotResourcesFromStorage(
+                        $player,
+                        $location,
+                        $player->getResourcesWithNames(array_unique($resources))
+                    );
+                }
             }
-            
+
             $factionProd = $player->getFactionProduction();
             $dealsProd = $player->getDeals();
             $prodLocations = $player->getProduction();
@@ -41,7 +44,17 @@ trait PhaseTwoProductionTrait
             Notifications::resourcesChanged($player, $player->getResourcesWithNames(array_keys($combinedResources)));
             Notifications::handChanged($player);
             Notifications::deckChanged();
+            if (!empty($factionProd)) {
+                Notifications::playerPhaseTwoProductionFaction($player, $factionProd);
+            }
+            if (!empty($prodLocations)) {
+                Notifications::playerPhaseTwoProductionLocations($player, $prodLocations);
+            }
+            if (!empty($dealsProd)) {
+                Notifications::playerPhaseTwoDeals($player, $dealsProd);
+            }
         }
+        Notifications::message(clienttranslate('{highlight}Phase 3: Action'));
         Stack::finishState();
     }
 }

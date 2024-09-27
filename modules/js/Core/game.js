@@ -503,6 +503,9 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                     if (args.location2 && log.includes('${locationName2}')) {
                         args.locationName2 = `<span class="locationName"><b>${_(args.location2.name)}</b></span>`;
                     }
+                    if (log.includes('{highlight}')) {
+                        log = log.replace('{highlight}', ''); // TODO: Add highlighting
+                    }
                 }
             } catch (e) {
                 console.error(log, args, 'Exception thrown', e.stack);
