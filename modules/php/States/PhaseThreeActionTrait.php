@@ -221,8 +221,8 @@ trait PhaseThreeActionTrait
         self::checkAction('actDiscardLocation');
         $player = Players::getActive();
         $player->discard([$id]);
-        Notifications::handChanged($player);
         Notifications::resourcesChanged($player, ['card' => $player->getHandAmount()]);
+        Notifications::locationDiscarded($player, Locations::get($id));
         self::giveExtraTime($player->getId());
         Stack::finishState();
     }
