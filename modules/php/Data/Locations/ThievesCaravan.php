@@ -2,8 +2,10 @@
 
 namespace STATE\Data\Locations;
 
+use STATE\Managers\Players;
 use STATE\Models\Act;
 use STATE\Models\Action;
+use STATE\Models\Player;
 
 class ThievesCaravan extends Action
 {
@@ -23,5 +25,14 @@ class ThievesCaravan extends Action
             ACTION_TYPE_STEAL_ANOTHER_PLAYER
         );
         $this->activationsMax = 2;
+    }
+
+    public function isActivatable(): bool
+    {
+        $otherPlayers = Players::getAll(Players::getActiveId());
+        $playersWithResources = $otherPlayers->filter(function (Player $player) {
+            return array_sum(array_values($player->getResourcesWithNames($this->action->getBonus()))) > 0;
+        });
+        return parent::isActivatable() && !$playersWithResources->empty();
     }
 }

@@ -266,7 +266,7 @@ class Player extends DB_Manager implements JsonSerializable
             $isAvailable = true;
             $requirements = array_count_values($action->getSpendRequirements());
             foreach ($requirements as $requirement => $amount) {
-                if ($this->getResource($requirement, false) < $amount) {
+                if ($this->getResource($requirement, false, true) < $amount) {
                     $isAvailable = false;
                     break;
                 }

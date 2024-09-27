@@ -33,10 +33,7 @@ class Action extends Location
         return $this->action->getSpendRequirements();
     }
 
-    /**
-     * @return bool
-     */
-    public function isActivatable()
+    public function isActivatable(): bool
     {
         return !$this->isRuined() && $this->activatedTimes < $this->activationsMax;
     }

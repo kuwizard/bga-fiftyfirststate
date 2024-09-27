@@ -37,6 +37,11 @@ class Act implements \JsonSerializable
         return ResourcesHelper::getResourceNames($this->spendRequirements);
     }
 
+    public function getBonus(): array
+    {
+        return $this->bonus;
+    }
+
     public function getBonusUi(): array
     {
         return ResourcesHelper::getResourceNames($this->bonus);
