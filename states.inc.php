@@ -116,8 +116,8 @@ $machinestates = [
 
     ST_FACTION_ACTIONS => [
         'name' => 'factionActions',
-        'description' => clienttranslate('${actplayer} must choose a faction action to activate'),
-        'descriptionmyturn' => clienttranslate('${you} must choose a faction action to activate'),
+        'description' => clienttranslate('${actplayer} must choose a Faction action to activate'),
+        'descriptionmyturn' => clienttranslate('${you} must choose a Faction action to activate'),
         'args' => 'argFactionActions',
         'type' => 'activeplayer',
         'possibleactions' => ['actFactionAct', 'actUndo'],

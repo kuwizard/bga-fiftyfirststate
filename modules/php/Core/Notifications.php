@@ -80,7 +80,7 @@ class Notifications
             'location' => $location,
             'i18n' => ['locationName'],
         ];
-        self::notifyAll('locationPicked', clienttranslate('${player_name} picks a location ${locationName}'), $resources);
+        self::notifyAll('locationPicked', clienttranslate('${player_name} picks a Location ${locationName}'), $resources);
     }
 
     /**
@@ -101,13 +101,14 @@ class Notifications
         $msg = $oldLocation ? clienttranslate(
             '${player_name} spends ${resourcesList} to discard ${locationName2} and deploy ${locationName} in the ${factionRowName} row'
         )
-            : clienttranslate('${player_name} builds ${locationName} in the ${factionRowName} row');
+            : clienttranslate('${player_name} spends ${spendList} to build ${locationName} in the ${factionRowName} row');
         self::notifyAll('locationBuilt', $msg, [
             'player' => $player,
             'location' => $location,
             'location2' => $oldLocation,
             'factionRow' => $location->getFactionRow(),
             'factionRowName' => $location->getFactionRowName(),
+            'spendList' => ResourcesHelper::getResourceNames(array_fill(0, $location->getDistance(), RESOURCE_ARROW_GREY)),
             'resourcesList' => is_null($resource) ? null : [ResourcesHelper::getResourceName($resource)],
             'i18n' => ['locationName', 'locationName2', 'factionRowName'],
             'preserve' => ['location2'],
@@ -122,11 +123,14 @@ class Notifications
      */
     public static function locationDealMade(Player $player, Location $location)
     {
-        $msg = clienttranslate('${player_name} makes a deal with ${locationName} and gets ${resourcesList}');
+        $msg = clienttranslate(
+            '${player_name} makes a deal with ${locationName}, spending ${spendList}, and gets ${resourcesList}'
+        );
         $resource = ResourcesHelper::getResourceName($location->getDeals()[0]);
         self::notifyAll('locationDealMade', $msg, [
             'player' => $player,
             'location' => $location,
+            'spendList' => ResourcesHelper::getResourceNames(array_fill(0, $location->getDistance(), RESOURCE_ARROW_BLUE)),
             'resource' => $resource,
             'resourcesList' => [$resource],
             'i18n' => ['locationName'],
@@ -151,10 +155,11 @@ class Notifications
      */
     public static function locationRazed($player, $location)
     {
-        $msg = clienttranslate('${player_name} razes ${locationName} and gets ${resourcesList}');
+        $msg = clienttranslate('${player_name} razes ${locationName}, spending ${spendList}, and gets ${resourcesList}');
         self::notifyAll('locationDiscarded', $msg, [
             'player' => $player,
             'location' => $location,
+            'spendList' => ResourcesHelper::getResourceNames(array_fill(0, $location->getDistance(), RESOURCE_ARROW_RED)),
             'newDiscardCount' => Locations::countInLocation(LOCATION_DISCARD),
             'resourcesList' => ResourcesHelper::getResourceNames($location->getSpoils()),
             'i18n' => ['locationName'],
