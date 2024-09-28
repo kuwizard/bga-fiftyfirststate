@@ -28,6 +28,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     args.possibleDestinationIds
                 );
                 this.makeLocationsUnselectable('#discard .location');
+                this.makeLocationsUnselectable('.connection');
                 this.addUndoButton();
             }
         },
