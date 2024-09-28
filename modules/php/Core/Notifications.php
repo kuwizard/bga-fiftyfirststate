@@ -75,7 +75,7 @@ class Notifications
     {
         $resources = [
             'player' => $player,
-            'hand' => $player->getHand()->toArray(),
+            'newPosition' => $player->getPositionOfLocationInHand($location),
             'source' => $source,
             'location' => $location,
             'i18n' => ['locationName'],

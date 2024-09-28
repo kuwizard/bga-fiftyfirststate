@@ -34,11 +34,8 @@
   &.selected {
     transform: scale(1.04);
     z-index: 1;
-
-    .locationImage {
-      cursor: pointer;
-      outline: 2px solid red;
-    }
+    cursor: pointer;
+    outline: 2px solid red;
   }
 
   &.phantom {
@@ -86,4 +83,39 @@
 .dijitTooltip .location .locationImage {
   width: $locationTooltipWidth;
   height: $locationTooltipWidth * $locationRatio;
+}
+
+@keyframes justPicked {
+  10%, 12% {
+    transform: translateY(-15px);
+  }
+  30% {
+    transform: translateY(-8px);
+  }
+  35% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes justPickedSlide {
+  20% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.justPicked:not(:hover) {
+  animation: justPicked 3s;
+  animation-iteration-count: 2;
+  z-index: 2;
+}
+
+.justPickedSlide:not(:hover) {
+  animation: justPickedSlide 1.5s;
+  z-index: 2;
 }

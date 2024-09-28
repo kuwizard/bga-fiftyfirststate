@@ -156,7 +156,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             await this.waitForDisappearance('.moving');
             if (n.args.source === 'lookout') {
                 if (n.args.player_id === this.player_id) {
-                    this.slide(`location_${n.args.location.id}`, 'handLocations', { phantom: true });
+                    await this.slide(
+                        `location_${n.args.location.id}`,
+                        'handLocations',
+                        { phantom: true, targetPos: n.args.newPosition }
+                    );
+                    this.addClass(`location_${n.args.location.id}`, 'justPickedSlide', true, 2000);
                 } else {
                     this.slide(
                         `location_${n.args.location.id}`,

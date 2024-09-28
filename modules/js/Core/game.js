@@ -240,6 +240,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                     from: null,
                     clearPos: true,
                     phantom: false,
+                    targetPos: 'last',
                 },
                 options
             );
@@ -265,7 +266,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                 targetId = dojo.clone(mobileElt);
                 dojo.attr(targetId, 'id', mobileElt.id + '_afterSlide');
                 dojo.addClass(targetId, 'phantom');
-                dojo.place(targetId, targetElt);
+                dojo.place(targetId, targetElt, config.targetPos);
             }
 
             const newParent = config.attach ? targetId : $(mobile).parentNode;

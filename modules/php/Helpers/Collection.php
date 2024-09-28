@@ -59,6 +59,13 @@ class Collection extends ArrayObject
         return new Collection(array_filter($this->toAssoc(), $func));
     }
 
+    public function sort($func)
+    {
+        $coll = $this->toAssoc();
+        usort($coll, $func);
+        return new Collection($coll);
+    }
+
     public function ui()
     {
         return $this->map(function ($elem) {

@@ -186,9 +186,9 @@ class Locations extends Pieces
         return ['production' => $production, 'feature' => $feature, 'actions' => $actions];
     }
 
-    public static function getHand(int $id): array
+    public static function getHand(int $id): Collection
     {
-        return self::getInLocation([LOCATION_HAND, $id])->toArray();
+        return self::getInLocation([LOCATION_HAND, $id])->sort(fn($a, $b) => strcmp($a->getDistance(), $b->getDistance()));
     }
 
     /**

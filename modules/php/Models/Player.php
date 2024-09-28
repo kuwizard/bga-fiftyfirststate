@@ -294,7 +294,7 @@ class Player extends DB_Manager implements JsonSerializable
      */
     public function getHand()
     {
-        return Locations::getInLocation([LOCATION_HAND, $this->id]);
+        return Locations::getHand($this->id);
     }
 
     /**
@@ -462,6 +462,14 @@ class Player extends DB_Manager implements JsonSerializable
         });
     }
 
+    public function getPositionOfLocationInHand($location)
+    {
+        $locatedLocation = $this->getHand()->filter(function ($loc) use ($location) {
+            return $loc->getId() === $location->getId();
+        });
+        return array_keys($locatedLocation->toAssoc())[0];
+    }
+
     /**
      * @param array $resources
      * @return void
@@ -597,7 +605,7 @@ class Player extends DB_Manager implements JsonSerializable
             'devel' => $this->devel,
             'passed' => $this->passed,
             'handAmount' => $this->getHandAmount(),
-            'hand' => $current ? Locations::getHand($this->id) : [],
+            'hand' => $current ? $this->getHand()->toArray() : [],
             'locations' => Locations::getBoardUI($this->id),
             'usedFactionActions' => $this->getUsedFactionActions(),
             'dealsResources' => Locations::getDealsResources($this->id),
