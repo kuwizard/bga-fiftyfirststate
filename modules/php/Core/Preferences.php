@@ -25,47 +25,21 @@ class Preferences extends DB_Manager
     public static function setupNewGame($players, $prefs)
     {
         // Load user preferences
-        include dirname(__FILE__) . '/../../../gameoptions.inc.php';
+        $fileName = dirname(__FILE__) . '/../../../gamepreferences.json';
+        $file = fopen($fileName, 'r');
+        $json = fread($file, filesize($fileName));
 
-        $values = [];
-        foreach ($game_preferences as $id => $data) {
-            $defaultValue = $data['default'] ?? array_keys($data['values'])[0];
+        // Decode the JSON file
+        $json_data = json_decode($json, true);
+        foreach ($json_data as $id => $data) {
+            if ($id !== 200) { // BGA injects their own id in gamepreferences.json
+                $defaultValue = $data['default'] ?? -1;
 
-            foreach ($players as $pId => $infos) {
-                $values[] = [
-                    'player_id' => $pId,
-                    'pref_id' => $id,
-                    'pref_value' => $prefs[$pId][$id] ?? $defaultValue,
-                ];
-            }
-        }
-
-        if (!empty($values)) {
-            self::DB()
-                ->multipleInsert(['player_id', 'pref_id', 'pref_value'])
-                ->values($values);
-        }
-    }
-
-    /*
-     * Check if stored user preferences match declared preferences, and create otherwise
-     */
-    public static function checkExistence()
-    {
-        // Load user preferences
-        include dirname(__FILE__) . '/../../../gameoptions.inc.php';
-
-        $playerIds = array_keys(Game::get()->loadPlayersBasicInfos());
-        $values = [];
-        foreach ($game_preferences as $id => $data) {
-            $defaultValue = $data['default'] ?? array_keys($data['values'])[0];
-
-            foreach ($playerIds as $pId) {
-                if (self::get($pId, $id) === null) {
+                foreach ($players as $pId => $infos) {
                     $values[] = [
                         'player_id' => $pId,
-                        'pref_id' => $id,
-                        'pref_value' => $defaultValue,
+                        'pref_id' => (int) $id,
+                        'pref_value' => $prefs[$pId][$id] ?? $defaultValue,
                     ];
                 }
             }
@@ -76,18 +50,6 @@ class Preferences extends DB_Manager
                 ->multipleInsert(['player_id', 'pref_id', 'pref_value'])
                 ->values($values);
         }
-    }
-
-    /**
-     * Get UI data (useful to check inconsistency)
-     */
-    public static function getUiData($pId)
-    {
-        self::checkExistence();
-        return self::DB()
-            ->where('player_id', $pId)
-            ->get()
-            ->toArray();
     }
 
     /*
