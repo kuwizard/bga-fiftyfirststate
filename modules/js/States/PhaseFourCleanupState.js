@@ -18,6 +18,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             dojo.query('.player-board .resourceValue:not(.cardValue)').forEach((resource) => {
                 resource.innerText = 0;
             });
+            dojo.query('.player-board .resourceIcon:not(.cardIcon)').forEach((resource) => {
+                dojo.addClass(resource, 'blurred');
+            });
         },
 
         async notif_playerGotResourcesFromStorage(n) {
@@ -26,9 +29,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 for (let i = 0; i < n.args.resources[resource]; i++) {
                     const resourceElement = this.querySingle(`#location_${n.args.locationId} .${resource}Icon`);
                     const playerBoardIcon = this.querySingle(`#overall_player_board_${n.args.player_id} .${resource}Icon`);
-                    this.slide(resourceElement, playerBoardIcon, { destroy: true }).then(() => {
-                        this.querySingle(`#player_board_${n.args.player_id} .${resource}Value`).innerText = n.args.resources[resource];
-                    });
+                    await this.slide(resourceElement, playerBoardIcon, { destroy: true });
+                    this.querySingle(`#player_board_${n.args.player_id} .${resource}Value`).innerText = n.args.resources[resource];
+                    dojo.removeClass(playerBoardIcon, 'blurred');
                     await new Promise(resolve => setTimeout(resolve, 200));
                 }
             }

@@ -25,16 +25,19 @@
         </div>
         <div class="playerResources">
             <div class="fuel resource">
-                <span class="fuelIcon resourceIcon"></span>
-                <span class="fuelValue resourceValue">\${fuel}</span>
+                <span class="fuelIcon resourceIcon">
+                    <span class="fuelValue resourceValue">\${fuel}</span>
+                </span>
             </div>
             <div class="gun resource">
-                <span class="gunIcon resourceIcon"></span>
-                <span class="gunValue resourceValue">\${gun}</span>
+                <span class="gunIcon resourceIcon">
+                    <span class="gunValue resourceValue">\${gun}</span>
+                </span>
             </div>
             <div class="iron resource">
-                <span class="ironIcon resourceIcon"></span>
-                <span class="ironValue resourceValue">\${iron}</span>
+                <span class="ironIcon resourceIcon">
+                    <span class="ironValue resourceValue">\${iron}</span>
+                </span>
             </div>
             <div class="brick resource">
                 <span class="brickIcon resourceIcon">

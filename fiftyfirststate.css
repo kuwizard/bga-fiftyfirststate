@@ -225,7 +225,6 @@
   position: relative;
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.55) 0 2px 4px;
-  overflow: hidden;
 }
 .locationWrapper.placeholder {
   background-color: gray;
@@ -732,6 +731,9 @@
 }
 .resourceIcon.scoreIcon {
   background-position-x: 100%;
+}
+.resourceIcon.blurred {
+  opacity: 0.3;
 }
 
 #page-title #generalactions .resourceButton {

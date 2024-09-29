@@ -15,7 +15,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         addResourcesTable() {
             this.forEachPlayer((player) => {
-                dojo.place(this.format_block('jstpl_player_board', player), 'player_board_' + player.id);
+                dojo.place(this.format_block('jstpl_player_board', player.resources), 'player_board_' + player.id);
+                Object.keys(player.resources).forEach((resource) => {
+                    if (player.resources[resource] === 0) {
+                        dojo.addClass(
+                            this.querySingle(`#overall_player_board_${player.id} .${resource}Icon`),
+                            'blurred'
+                        );
+                    }
+                });
                 if (player.id === this.player_id) {
                     this.pinOrUnpinPlayerBoard(player.passed);
                     window.addEventListener(
@@ -65,12 +73,28 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     this.scoreCtrl[n.args.player_id].toValue(data[resource]);
                 } else {
                     this.querySingle(`#player_board_${n.args.player_id} .${resource}Value`).innerText = data[resource];
+                    this.changeBlurState(
+                        this.querySingle(`#player_board_${n.args.player_id} .${resource}Icon`),
+                        data[resource]
+                    );
                     const stickyResource = this.querySingle(`#sticky .${resource}Value`);
                     if (stickyResource && n.args.player_id === this.player_id) {
                         this.querySingle(`#sticky .${resource}Value`).innerText = data[resource];
+                        this.changeBlurState(
+                            this.querySingle(`#sticky .${resource}Icon`),
+                            data[resource]
+                        );
                     }
                 }
             });
         },
+
+        changeBlurState(element, newAmount) {
+            if (newAmount === 0) {
+                dojo.addClass(element, 'blurred');
+            } else {
+                dojo.removeClass(element, 'blurred');
+            }
+        }
     });
 });

@@ -42,6 +42,10 @@
       background-position-x: (100%/13 * $xShift);
     }
   }
+
+  &.blurred {
+    opacity: 0.3;
+  }
 }
 
 #page-title #generalactions {
