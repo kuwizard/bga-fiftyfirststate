@@ -55,6 +55,7 @@
   .locationImage {
     width: $locationWidth;
     height: $locationWidth * $locationRatio;
+    border-radius: 8px;
   }
 
   &:not(.ruined):not(.placeholder) {

@@ -57,6 +57,7 @@ class Stack
             $nextPId = Players::isAllPassed() ? Players::getFirstPlayerId() : Players::getNextId();
             Game::get()->gamestate->changeActivePlayer($nextPId);
             $activePlayerId = $nextPId;
+            Game::get()->undoSavepoint();
         }
         if (isset($atom['pId']) && $activePlayerId !== $atom['pId']) {
             Game::get()->gamestate->changeActivePlayer($atom['pId']);

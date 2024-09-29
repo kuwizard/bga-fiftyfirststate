@@ -254,6 +254,14 @@ $machinestates = [
         'type' => 'game',
     ],
 
+    ST_CONFIRM_TURN_END => [
+        'name' => 'confirmTurnEnd',
+        'description' => clienttranslate('${actplayer} must confirm turn end'),
+        'descriptionmyturn' => clienttranslate('${you} must confirm turn end'),
+        'type' => 'activeplayer',
+        'possibleactions' => ['actConfirmTurnEnd', 'actResetTurn'],
+    ],
+
     // Final state.
     // Please do not modify (and do not overload action/args methods).
     ST_END_GAME => [

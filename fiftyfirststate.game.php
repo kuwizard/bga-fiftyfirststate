@@ -55,6 +55,7 @@ class Fiftyfirststate extends Table
     use STATE\States\ChoosePlayerToStealTrait;
     use STATE\States\ActivateSecondTimeTrait;
     use STATE\States\SpecificLocationsActionsTrait;
+    use STATE\States\ConfirmTurnEndTrait;
 
     public static $instance = null;
 

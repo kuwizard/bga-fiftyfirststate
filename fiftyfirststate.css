@@ -265,6 +265,7 @@
 .locationWrapper .locationImage {
   width: 169px;
   height: 249.951px;
+  border-radius: 8px;
 }
 .locationWrapper:not(.ruined):not(.placeholder) .locationImage {
   background-image: url(img/locations10.jpg);

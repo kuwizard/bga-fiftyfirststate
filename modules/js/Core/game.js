@@ -407,11 +407,14 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             debug('Timer #' + this._actionTimerId + ' ' + buttonId + ' start');
         },
 
-        stopActionTimer() {
+        stopActionTimer(buttonWithTimer = null) {
             if (this._actionTimerId != null) {
                 debug('Timer #' + this._actionTimerId + ' stop');
                 window.clearInterval(this._actionTimerId);
                 delete this._actionTimerId;
+            }
+            if (buttonWithTimer) {
+                $(buttonWithTimer).innerHTML = this._actionTimerLabel
             }
         },
 

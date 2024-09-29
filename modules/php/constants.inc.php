@@ -29,6 +29,7 @@ define('ST_CHOOSE_DEAL_TO_LOSE', 44);
 define('ST_ACTIVATE_SECOND_TIME', 45);
 define('ST_CHOOSE_RESOURCE_TO_SPEND', 46);
 define('ST_PHASE_FOUR_CLEANUP', 95);
+define('ST_CONFIRM_TURN_END', 96);
 
 define('ST_END_GAME', 99);
 define('ST_RESOLVE_STACK', 100);

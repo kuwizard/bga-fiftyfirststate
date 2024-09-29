@@ -108,6 +108,8 @@ $gameinfos = array(
         'max' => null,
     ),
 
+    'db_undo_support' => true,
+
 //////// BGA SANDBOX ONLY PARAMETERS (DO NOT MODIFY)
 
 // simple : A plays, B plays, C plays, A plays, B plays, ...

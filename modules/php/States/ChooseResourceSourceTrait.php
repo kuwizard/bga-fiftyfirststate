@@ -133,6 +133,9 @@ trait ChooseResourceSourceTrait
                 }
                 Notifications::actionUsed($player, $ctx['activatorId'], $processed, $ctx['bonus'], $victim ?? null);
             }
+            if (!in_array(RESOURCE_CARD, $ctx['bonus'])) {
+                Stack::insertOnTop(ST_CONFIRM_TURN_END);
+            }
             Stack::finishState();
         }
     }
