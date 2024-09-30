@@ -25,7 +25,7 @@ trait PhaseTwoProductionTrait
             /** @var FeatureStorageMultiple $location */
             foreach ($storageLocations as $location) {
                 $resources = $location->getResources();
-                if (!$resources->isEmpty()) {
+                if (!empty($resources)) {
                     ResourcesHelper::increaseResourcesAfterAction($player, $resources);
                     Resources::deleteAll($location->getId());
                     Notifications::playerGotResourcesFromStorage(
