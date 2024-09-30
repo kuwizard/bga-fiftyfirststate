@@ -13,7 +13,8 @@ trait DeployTrait
 {
     public function argDeployChooseFromHand()
     {
-        return ['possibleHandIds' => $this->getLocationsAvailableToDeploy(Stack::getCtx()['resource'])->getIds()];
+        $availableLocationIds = $this->getLocationsAvailableToDeploy(Stack::getCtx()['resource'])->getIds();
+        return ['possibleHandIds' => $this->getMapWithCardConfirmation($availableLocationIds, false)];
     }
 
     /**
@@ -55,11 +56,20 @@ trait DeployTrait
         } else {
             $possibleDestinations = $player->getBoard();
         }
+        $cardWarning = in_array(RESOURCE_CARD, $fromLocation->getBuildingBonus($player));
         return [
             'newLocationId' => $newLocationId,
-            'possibleDestinationIds' => $possibleDestinations->getIds(),
-            'cardWarning' => in_array(RESOURCE_CARD, $fromLocation->getBuildingBonus($player)),
+            'possibleDestinations' => $this->getMapWithCardConfirmation($possibleDestinations->getIds(), $cardWarning),
         ];
+    }
+
+    private function getMapWithCardConfirmation(array $ids, bool $confirmation)
+    {
+        $idsMapped = [];
+        foreach ($ids as $id) {
+            $idsMapped[$id] = $confirmation;
+        }
+        return $idsMapped;
     }
 
     /**

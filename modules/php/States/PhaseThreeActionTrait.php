@@ -38,11 +38,34 @@ trait PhaseThreeActionTrait
             'spendWorkers' => $player->getResource(RESOURCE_WORKER, false) >= 2,
             'factionActions' => !empty($player->getAvailableFactionActions()),
             'locations' => $player->getPlayableLocationsWithCardWarnings(),
-            'otherPlayersLocations' => $otherPlayersLocations->getIds(),
+            'otherPlayersLocations' => $this->mapLocationsWithCardGetting($otherPlayersLocations->toArray(), $player),
             'deploy' => $this->whatCanBeUsedForDevel($player),
             'connectionsToTake' => $connectionsToTake,
             'connectionsToPlay' => $player->getPlayableConnectionsIds(),
         ];
+    }
+
+    private function mapLocationsWithCardGetting(array $locations, Player $player): array
+    {
+        $locationsMapped = [];
+        foreach ($locations as $location) {
+            $locationsMapped[$location->getId()] = (
+                $this->isOpenProdProducingCards($location, $player)
+                xor $this->razeReachableCardInSpoils($location, $player)
+            );
+        }
+        return $locationsMapped;
+    }
+
+    private function isOpenProdProducingCards(Location $location, Player $player)
+    {
+        return $location instanceof Production && in_array(RESOURCE_CARD, $location->getProduct($player));
+    }
+
+    private function razeReachableCardInSpoils(Location $location, Player $player)
+    {
+        return $location->getDistance() <= $player->getResource(RESOURCE_ARROW_RED)
+            && in_array(RESOURCE_CARD, $location->getSpoils());
     }
 
     private function whatCanBeUsedForDevel(Player $player): array
@@ -80,7 +103,13 @@ trait PhaseThreeActionTrait
 
     public function argOpenProductionOrRaze()
     {
-        return ['locationId' => Stack::getCtx()['locationId']];
+        $location = Locations::get(Stack::getCtx()['locationId']);
+        $player = Players::getActive();
+        return [
+            'locationId' => $location->getId(),
+            'raze' => $this->razeReachableCardInSpoils($location, $player),
+            'openProd' => $this->razeReachableCardInSpoils($location, $player),
+        ];
     }
 
     public function actActionPass()

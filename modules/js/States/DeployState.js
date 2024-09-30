@@ -25,7 +25,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 this.makeLocationsSelectableAndClickable(
                     `#faction_${this.player_id} .location`,
                     'actDeployChooseDestination',
-                    args.possibleDestinationIds,
+                    args.possibleDestinations,
                 );
                 this.makeLocationsUnselectable('#discard .location');
                 this.makeLocationsUnselectable('.connection');

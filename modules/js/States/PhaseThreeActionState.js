@@ -133,10 +133,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             if (this.isCurrentPlayerActive()) {
                 this.addSelectedClass(this.querySingle(`#location_${args.locationId}`));
                 this.addPrimaryActionButton('buttonOpenProd', _('Use it as open production'),
-                    () => this.takeAction('actOptionOpenProduction', {})
+                    this.wrapIntoCardConfirmation(args.openProd, () => this.takeAction('actOptionOpenProduction', {}))
                 );
                 this.addPrimaryActionButton('buttonRazeIt', _('Raze it'),
-                    () => this.takeAction('actOptionRaze', {})
+                    this.wrapIntoCardConfirmation(args.raze, () => this.takeAction('actOptionRaze', {}))
                 );
                 this.addUndoButton();
             }
