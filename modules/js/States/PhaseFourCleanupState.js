@@ -27,7 +27,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             debug('Notif: playerGotResourcesFromStorage', n);
             for (const resource of Object.keys(n.args.resources)) {
                 for (let i = 0; i < n.args.resources[resource]; i++) {
-                    const resourceElement = this.querySingle(`#location_${n.args.locationId} .${resource}Icon`);
+                    const resourceElement = this.querySingle(`#location_${n.args.location.id} .${resource}Icon`);
                     const playerBoardIcon = this.querySingle(`#overall_player_board_${n.args.player_id} .${resource}Icon`);
                     await this.slide(resourceElement, playerBoardIcon, { destroy: true });
                     this.querySingle(`#player_board_${n.args.player_id} .${resource}Value`).innerText = n.args.resources[resource];

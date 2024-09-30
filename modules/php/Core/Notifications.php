@@ -250,8 +250,9 @@ class Notifications
         $msg = clienttranslate('${player_name} gets all resources back from ${locationName}');
         self::notifyAll('playerGotResourcesFromStorage', $msg, [
             'player' => $player,
-            'locationId' => $location,
+            'location' => $location,
             'resources' => $resources,
+            'i18n' => ['locationName'],
         ]);
     }
 
@@ -416,7 +417,7 @@ class Notifications
 
     public static function playerPhaseTwoProductionLocations($player, $prodLocations)
     {
-        $msg = clienttranslate('Also ${player_name} gets ${resourcesList} from all Production Locations');
+        $msg = clienttranslate('Also ${player_name} gets ${resourcesList} from Production Locations');
         self::notifyAll('playerPhaseTwoProduction', $msg, [
             'player' => $player,
             'resourcesList' => ResourcesHelper::getResourceNames($prodLocations),
