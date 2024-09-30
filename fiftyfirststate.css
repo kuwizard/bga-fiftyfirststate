@@ -224,7 +224,6 @@
 .locationWrapper {
   position: relative;
   border-radius: 8px;
-  box-shadow: rgba(0, 0, 0, 0.55) 0 2px 4px;
 }
 .locationWrapper.placeholder {
   background-color: gray;
@@ -244,8 +243,10 @@
   opacity: 1;
 }
 .locationWrapper.selected {
-  transform: scale(1.04);
   z-index: 1;
+}
+.locationWrapper.selected .locationImage {
+  transform: scale(1.04);
   cursor: pointer;
   outline: 2px solid red;
 }
@@ -266,6 +267,7 @@
   width: 169px;
   height: 249.951px;
   border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.55) 2px 2px 4px;
 }
 .locationWrapper:not(.ruined):not(.placeholder) .locationImage {
   background-image: url(img/locations10.jpg);
