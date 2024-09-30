@@ -209,11 +209,6 @@ class Stack
         return self::findBy('uid', $uid);
     }
 
-    private static function getFirstAtomIndexByState($state)
-    {
-        return self::findBy('state', $state);
-    }
-
     private static function getFirstSuspendedAtomIndex()
     {
         return self::findBy('suspended', true);
@@ -235,7 +230,7 @@ class Stack
         return false;
     }
 
-    private static function findBy($option, $value, $throwOnError = true)
+    private static function findBy($option, $value, $throwOnError = true): int
     {
         $ctxIndex = -1;
         $stack = self::get();
@@ -252,4 +247,14 @@ class Stack
         }
         return $ctxIndex;
     }
+
+    public static function removeAllAtomsWithState($state)
+    {
+        $stack = Stack::get();
+        $stack = array_values(array_filter($stack, function ($atom) use ($state) {
+            return $atom['state'] !== $state;
+        }));
+        Stack::set($stack);
+    }
+
 }

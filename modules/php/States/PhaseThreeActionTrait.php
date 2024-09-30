@@ -137,6 +137,7 @@ trait PhaseThreeActionTrait
     public function actUndo()
     {
         self::checkAction('actUndo');
+        Stack::removeAllAtomsWithState(ST_ACTIVATE_SECOND_TIME);
         Stack::insertOnTopAndFinish(ST_PHASE_THREE_ACTION);
     }
 
