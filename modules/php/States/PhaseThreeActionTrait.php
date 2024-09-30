@@ -125,7 +125,13 @@ trait PhaseThreeActionTrait
         if (Players::isAllPassed()) {
             Stack::unsuspendNext(ST_PHASE_THREE_ACTION);
         }
-        Stack::finishState();
+        Stack::finishState(false);
+        // After Undo we have 2 ST_PHASE_THREE_ACTION in the Stack, need to remove both
+        if (Stack::isAtomIn(ST_PHASE_THREE_ACTION)) {
+            Stack::finishState();
+        } else {
+            Stack::resolve();
+        }
     }
 
     public function actSpendWorkers()
