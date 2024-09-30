@@ -135,20 +135,30 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         addEventListenerToResize() {
             window.addEventListener('resize', function () {
-                this.setCorrectClassToOverlapHand();
+                this.setCorrectClassToOverlapCards();
             }.bind(this), true);
         },
 
-        setCorrectClassToOverlapHand() {
-            const images = dojo.query('#handLocations .locationImage').map((image) => {
-                return image.offsetWidth;
-            });
-            const sum = images.reduce((partialSum, a) => partialSum + a, 0) + (images.length - 1) * 5;
-            if (this.querySingle('#handLocations').offsetWidth <= sum) {
+        setCorrectClassToOverlapCards() {
+            // Hand
+            const handImages = dojo.query('#handLocations .locationImage');
+            const singleWidth = handImages[0].offsetWidth;
+            const handSum = singleWidth * handImages.length + (handImages.length - 1) * 5;
+            if (this.querySingle('#handLocations').offsetWidth <= handSum) {
                 dojo.removeClass('handLocations', 'notTooManyChildren');
             } else {
                 dojo.addClass('handLocations', 'notTooManyChildren');
             }
+
+            // Any other row
+            dojo.query('.cardsBlock').forEach((row) => {
+                const rowSum = singleWidth * row.childElementCount + (row.childElementCount - 1) * 4;
+                if (row.offsetWidth <= rowSum) {
+                    dojo.removeClass(row, 'notTooManyChildren');
+                } else {
+                    dojo.addClass(row, 'notTooManyChildren');
+                }
+            });
         },
 
         async notif_handChanged(n) {
@@ -158,7 +168,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             n.args.hand.map((location) => {
                 return this.addLocation(location, $('handLocations'));
             });
-            this.setCorrectClassToOverlapHand();
+            this.setCorrectClassToOverlapCards();
         },
 
         notif_deckChanged(n) {
@@ -216,7 +226,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             await this.waitForDisappearance('.moving');
             this.runDiscardLocationAnimation(n.args.location, n.args.newDiscardCount, n.args.player_id);
             this.addTooltipToLogEntry(n.args.location);
-            this.setCorrectClassToOverlapHand();
+            this.setCorrectClassToOverlapCards();
         },
 
         async runDiscardLocationAnimation(location, newDiscardCount, playerId) {

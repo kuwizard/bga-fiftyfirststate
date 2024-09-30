@@ -65,7 +65,7 @@ define([
         ],
         {
             constructor() {
-                this.default_viewport = 'width=910';
+                this.default_viewport = 'width=990';
             },
 
             setup(gamedatas) {

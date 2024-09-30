@@ -156,6 +156,16 @@
 }
 
 @keyframes fadeout {
-  0% { opacity:1; }
-  100% { opacity:0; }
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.mobile_version {
+  #board {
+    margin-right: 5px;
+  }
 }

@@ -31,7 +31,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                         () => {
                             if (!this.tick) {
                                 setTimeout(() => {
-                                    this.pinOrUnpinPlayerBoard(player.passed);
+                                    const isMobile = this.querySingle('.mobile_version');
+                                    this.pinOrUnpinPlayerBoard(player.passed, isMobile);
+                                    if (isMobile) {
+                                        this.fixStickedBoardForMobile();
+                                    }
                                     this.tick = false;
                                 }, 50)
                             }
@@ -42,14 +46,16 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             });
         },
 
-        pinOrUnpinPlayerBoard(isPassed) {
+        pinOrUnpinPlayerBoard(isPassed, isMobile) {
             const playerResources = this.querySingle(`#overall_player_board_${this.player_id} .playerResourcesWrapper`);
             if (playerResources.getBoundingClientRect().y < 0) {
                 if (!this.querySingle('#sticky')) {
                     let newBoard = dojo.clone(playerResources);
                     dojo.attr(newBoard, 'id', 'sticky');
-                    newBoard = dojo.place(newBoard, playerResources.parentNode)
-                    dojo.style(newBoard, 'width', `${playerResources.getBoundingClientRect().width}px`);
+                    newBoard = dojo.place(newBoard, playerResources.parentNode);
+                    const resourcesBoard = this.querySingle(`#overall_player_board_${this.player_id} .playerResourcesWrapper .playerResources`);
+                    const width = isMobile ? resourcesBoard.getBoundingClientRect().width : playerResources.getBoundingClientRect().width;
+                    dojo.style(newBoard, 'width', `${width}px`);
                     dojo.style(newBoard, 'height', `${playerResources.getBoundingClientRect().height}px`);
                     if (isPassed) {
                         dojo.addClass('sticky', 'passed');
@@ -61,6 +67,17 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     dojo.addClass(this.querySingle(`#overall_player_board_${this.player_id}`), 'passed');
                 }
                 dojo.destroy('sticky');
+            }
+        },
+
+        fixStickedBoardForMobile() {
+            const stickedBoard = this.querySingle('#sticky');
+            if (stickedBoard) {
+                if (this.querySingle('.fixed-page-title')) {
+                    dojo.addClass(stickedBoard, 'statusBar');
+                } else {
+                    dojo.removeClass(stickedBoard, 'statusBar');
+                }
             }
         },
 

@@ -56,6 +56,13 @@
 .player-board #sticky.passed {
   filter: contrast(0.3333333333) brightness(1.25) saturate(10%);
 }
+.player-board #sticky.statusBar {
+  top: 44px;
+}
+
+.mobile_version #sticky {
+  right: 0;
+}
 
 .factionWrapper {
   width: 312px;
@@ -137,6 +144,16 @@
   gap: 4px;
   margin: 4px;
   margin-left: 7px;
+  justify-content: space-between;
+}
+.factionBoard .cards .cardsBlock.notTooManyChildren {
+  justify-content: flex-start;
+}
+.factionBoard .cardsBlock:not(.cardsBlock.notTooManyChildren) .locationWrapper {
+  width: 7vw;
+}
+.factionBoard .cardsBlock:not(.cardsBlock.notTooManyChildren) .locationWrapper:last-child {
+  width: auto;
 }
 .factionBoard .deals {
   min-height: 30px;
@@ -256,7 +273,7 @@
 .locationWrapper .resources {
   width: 100%;
   height: 30%;
-  top: 23%;
+  top: 16%;
   position: absolute;
   display: flex;
   justify-content: center;
@@ -850,6 +867,9 @@
   100% {
     opacity: 0;
   }
+}
+.mobile_version #board {
+  margin-right: 5px;
 }
 
 /*# sourceMappingURL=fiftyfirststate.css.map */
