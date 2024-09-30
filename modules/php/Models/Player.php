@@ -343,14 +343,14 @@ class Player extends DB_Manager implements JsonSerializable
     /**
      * @return array
      */
-    private function getPlayableLocations()
+    public function getPlayableLocationsWithCardWarnings()
     {
         $hand = $this->getHand()->toArray();
         $result = [];
         foreach ($hand as $location) {
             $availableActions = $this->getAvailableLocationActions($location);
             if (!empty($availableActions)) {
-                $result[$location->getId()] = $availableActions;
+                $result[$location->getId()] = false; // false is showing we don't need a card warning
             }
         }
         foreach ($this->getBoard() as $location) {
@@ -367,19 +367,11 @@ class Player extends DB_Manager implements JsonSerializable
                     }
                 }
                 if ($isActivatable) {
-                    $result[$location->getId()] = 'action';
+                    $result[$location->getId()] = in_array(RESOURCE_CARD, $location->getBonus());
                 }
             }
         }
         return $result;
-    }
-
-    /**
-     * @return array
-     */
-    public function getPlayableLocationsIds()
-    {
-        return array_keys($this->getPlayableLocations());
     }
 
     /**
@@ -408,13 +400,13 @@ class Player extends DB_Manager implements JsonSerializable
         $availableActions = [];
         /** @var Location $location */
         if ($this->getResource(RESOURCE_ARROW_RED, false, true) >= $location->getDistance()) {
-            $availableActions[] = 'raze';
+            $availableActions['raze'] = in_array(RESOURCE_CARD, $location->getSpoils());
         }
         if ($this->getResource(RESOURCE_ARROW_GREY, false, true) >= $location->getDistance()) {
-            $availableActions[] = 'build';
+            $availableActions['build'] = in_array(RESOURCE_CARD, $location->getBuildingBonus($this));
         }
         if ($this->getResource(RESOURCE_ARROW_BLUE, false, true) >= $location->getDistance()) {
-            $availableActions[] = 'deal';
+            $availableActions['deal'] = in_array(RESOURCE_CARD, $location->getDeals());
         }
         return $availableActions;
     }

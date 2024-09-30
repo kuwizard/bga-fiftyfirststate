@@ -65,5 +65,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 ],
             ][faction];
         },
+
+        getCardWarningLexeme() {
+            return _(
+                'As a result of this action you\'re going to get one or more Location card(s) and, therefore, Reset Turn option will be unavailable. Your turn will end after this action.');
+        },
     });
 });

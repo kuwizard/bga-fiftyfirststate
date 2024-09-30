@@ -22,6 +22,7 @@ class Globals extends DB_Manager
 
         'firstPlayerId' => 'int',
         'lastRound' => 'bool',
+        'addConfirmTurnEnd' => 'bool',
     ];
 
     protected static $table = 'global_variables';

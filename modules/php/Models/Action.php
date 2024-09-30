@@ -38,6 +38,11 @@ class Action extends Location
         return !$this->isRuined() && $this->activatedTimes < $this->activationsMax;
     }
 
+    public function getBonus(): array
+    {
+        return $this->action->getBonus();
+    }
+
     /**
      * @param Player $player
      * @return void

@@ -12,7 +12,7 @@ class Assassin extends Production
         $this->type = CARD_ASSASSIN;
         $this->name = clienttranslate("Assassin");
         $this->distance = 1;
-        $this->spoils = [RESOURCE_GUN, RESOURCE_GUN];
+        $this->spoils = [RESOURCE_GUN, RESOURCE_GUN, RESOURCE_CARD];
         $this->icons = [ICON_GUN, ICON_AMMO];
         $this->deals = [RESOURCE_GUN];
         $this->product = [RESOURCE_GUN];

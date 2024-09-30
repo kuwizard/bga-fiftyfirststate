@@ -37,7 +37,7 @@ trait PhaseThreeActionTrait
         return [
             'spendWorkers' => $player->getResource(RESOURCE_WORKER, false) >= 2,
             'factionActions' => !empty($player->getAvailableFactionActions()),
-            'locations' => $player->getPlayableLocationsIds(),
+            'locations' => $player->getPlayableLocationsWithCardWarnings(),
             'otherPlayersLocations' => $otherPlayersLocations->getIds(),
             'deploy' => $this->whatCanBeUsedForDevel($player),
             'connectionsToTake' => $connectionsToTake,

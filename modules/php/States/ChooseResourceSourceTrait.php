@@ -2,6 +2,7 @@
 
 namespace STATE\States;
 
+use STATE\Core\Globals;
 use STATE\Core\Notifications;
 use STATE\Core\Stack;
 use STATE\Helpers\ResourcesHelper;
@@ -133,8 +134,12 @@ trait ChooseResourceSourceTrait
                 }
                 Notifications::actionUsed($player, $ctx['activatorId'], $processed, $ctx['bonus'], $victim ?? null);
             }
-            if (!in_array(RESOURCE_CARD, $ctx['bonus'])) {
-                Stack::insertOnTop(ST_CONFIRM_TURN_END);
+            if (!$this->isGoingToGetANewLocation($ctx)) {
+                if (Stack::isAtomIn(ST_ACTIVATE_SECOND_TIME)) {
+                    Globals::setAddConfirmTurnEnd(true);
+                } else {
+                    Stack::insertOnTop(ST_CONFIRM_TURN_END);
+                }
             }
             Stack::finishState();
         }
@@ -149,6 +154,16 @@ trait ChooseResourceSourceTrait
             'processed' => $processed,
             'activatorId' => $ctx['activatorId'] ?? null,
         ];
+    }
+
+    private function isGoingToGetANewLocation(array $ctx): bool
+    {
+        $location = isset($ctx['postActions']['id']) ? Locations::get($ctx['postActions']['id']) : null;
+        return (isset($ctx['postActions']['type'])
+                && in_array($ctx['postActions']['type'], [LOCATION_ACTION_BUILD, LOCATION_ACTION_DEPLOY])
+                && $location
+                && in_array(RESOURCE_CARD, $location->getBuildingBonus(Players::getActive())))
+            || in_array(RESOURCE_CARD, $ctx['bonus']);
     }
 
     public function actChooseSource(int $id): void

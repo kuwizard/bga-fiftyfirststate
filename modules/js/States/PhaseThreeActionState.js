@@ -62,10 +62,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         makeLocationsSelectableAndClickable(locator, action, allowedList = null) {
             dojo.query(locator).forEach((location) => {
                 const id = this.extractId(location, 'location');
-                if (allowedList === null || allowedList.includes(id)) {
+                const allowedIds = allowedList && Object.keys(allowedList).map((id) => parseInt(id, 10));
+                if (allowedList === null || allowedIds.includes(id)) {
                     this.addSelectableClass(location);
                     this.dojoConnect(location, () => {
-                        this.takeAction(action, { id: id });
+                        this.wrapIntoCardConfirmation(allowedList[id], () => this.takeAction(action, { id: id }))()
                     })
                 } else {
                     this.addUnselectableClass(location);
@@ -109,12 +110,18 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                         dojo.addClass(location, 'unselectable');
                     }
                 });
-                Object.keys(args.locationActionsLexemes).forEach((action) => {
-                    if (args.actions.includes(action)) {
+                Object.keys(args.locationActionsLexemes).forEach((actionName) => {
+                    if (Object.keys(args.actions).includes(actionName)) {
                         this.addPrimaryActionButton(
-                            `button${action}`,
-                            _(args.locationActionsLexemes[action]),
-                            () => this.takeAction(`actLocation${action.replace(/^./, action[0].toUpperCase())}`)
+                            `button${actionName}`,
+                            _(args.locationActionsLexemes[actionName]),
+                            this.wrapIntoCardConfirmation(
+                                args.actions[actionName],
+                                () => this.takeAction(`actLocation${actionName.replace(
+                                    /^./,
+                                    actionName[0].toUpperCase()
+                                )}`)
+                            )
                         );
                     }
                 });
@@ -141,6 +148,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 _('Undo'),
                 () => this.takeAction('actUndo')
             );
+        },
+
+        wrapIntoCardConfirmation(condition, callback) {
+            return this.wrapIntoConfirmation(condition, this.getCardWarningLexeme(), callback);
         },
 
         notif_locationBuilt(n) {

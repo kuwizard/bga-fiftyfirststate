@@ -45,16 +45,21 @@ trait DeployTrait
     {
         $newLocationId = Stack::getCtx()['newLocationId'];
         $fromLocation = Locations::get($newLocationId);
+        $player = Players::getActive();
         if (ResourcesHelper::getResourceType(Stack::getCtx()['resource']) === RESOURCE_BRICK) {
-            $possibleDestinations = Players::getActive()->getBoard()->filter(
+            $possibleDestinations = $player->getBoard()->filter(
                 function (Location $location) use ($fromLocation) {
                     return $location->isRuined() || !empty(array_intersect($location->getIcons(), $fromLocation->getIcons()));
                 }
             );
         } else {
-            $possibleDestinations = Players::getActive()->getBoard();
+            $possibleDestinations = $player->getBoard();
         }
-        return ['newLocationId' => $newLocationId, 'possibleDestinationIds' => $possibleDestinations->getIds()];
+        return [
+            'newLocationId' => $newLocationId,
+            'possibleDestinationIds' => $possibleDestinations->getIds(),
+            'cardWarning' => in_array(RESOURCE_CARD, $fromLocation->getBuildingBonus($player)),
+        ];
     }
 
     /**
