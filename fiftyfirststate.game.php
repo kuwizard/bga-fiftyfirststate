@@ -17,7 +17,7 @@
  */
 
 use STATE\Core\Globals;
-use STATE\Core\Notifications;
+use STATE\Core\Stack;
 use STATE\Core\Stats;
 use STATE\Managers\Connections;
 use STATE\Managers\Factions;
@@ -152,7 +152,22 @@ class Fiftyfirststate extends Table
      */
     public function zombieTurn($state, $activePlayer)
     {
-
+        switch ($state['name']) {
+            case 'discardCardsGameStart':
+                $this->gamestate->setPlayerNonMultiactive(Players::getCurrentId(), '');
+                break;
+            case 'phaseOneLookoutChoose':
+                $lookoutLocations = Locations::getInLocation(LOCATION_LOOKOUT)->toArray();
+                shuffle($lookoutLocations);
+                $this->actChooseCardLookout($lookoutLocations[0]->getId());
+                break;
+            case 'phaseThreeAction':
+                $this->actActionPass();
+                break;
+            default:
+                Stack::finishState();
+                break;
+        }
     }
 
     /////////////////////////////////////
