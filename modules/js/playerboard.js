@@ -1,8 +1,9 @@
-define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
+define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
     return declare('state.playerboard', null, {
         constructor() {
             this._notifications.push(['resourcesChanged', 1]);
             this.tick = false;
+            this.resourceCounters = {};
         },
 
         markPassed(players) {
@@ -16,7 +17,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         addResourcesTable() {
             this.forEachPlayer((player) => {
                 dojo.place(this.format_block('jstpl_player_board', player.resources), 'player_board_' + player.id);
+                this.resourceCounters[player.id] = {};
                 Object.keys(player.resources).forEach((resource) => {
+                    this.resourceCounters[player.id][resource] = new ebg.counter();
+                    this.resourceCounters[player.id][resource].create(this.querySingle(`#overall_player_board_${player.id} .${resource}Value`));
+                    this.resourceCounters[player.id][resource].setValue(player.resources[resource]);
                     if (player.resources[resource] === 0) {
                         dojo.addClass(
                             this.querySingle(`#overall_player_board_${player.id} .${resource}Icon`),
@@ -61,12 +66,19 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                         dojo.addClass('sticky', 'passed');
                     }
                     dojo.removeClass(this.querySingle(`#overall_player_board_${this.player_id}`), 'passed');
+                    this.resourceCounters.sticky = {};
+                    Object.keys(this.gamedatas.players[this.player_id].resources).forEach((resource) => {
+                        this.resourceCounters.sticky[resource] = new ebg.counter();
+                        this.resourceCounters.sticky[resource].create(this.querySingle(`#sticky .${resource}Value`));
+                        this.resourceCounters.sticky[resource].setValue(this.gamedatas.players[this.player_id].resources[resource]);
+                    });
                 }
             } else {
                 if (isPassed) {
                     dojo.addClass(this.querySingle(`#overall_player_board_${this.player_id}`), 'passed');
                 }
                 dojo.destroy('sticky');
+                delete this.resourceCounters.sticky;
             }
         },
 
@@ -89,14 +101,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 if (resource === 'score') {
                     this.scoreCtrl[n.args.player_id].toValue(data[resource]);
                 } else {
-                    this.querySingle(`#player_board_${n.args.player_id} .${resource}Value`).innerText = data[resource];
+                    this.resourceCounters[n.args.player_id][resource].toValue(data[resource]);
                     this.changeBlurState(
                         this.querySingle(`#player_board_${n.args.player_id} .${resource}Icon`),
                         data[resource]
                     );
                     const stickyResource = this.querySingle(`#sticky .${resource}Value`);
                     if (stickyResource && n.args.player_id === this.player_id) {
-                        this.querySingle(`#sticky .${resource}Value`).innerText = data[resource];
+                        this.resourceCounters.sticky[resource].toValue(data[resource]);
                         this.changeBlurState(
                             this.querySingle(`#sticky .${resource}Icon`),
                             data[resource]
@@ -112,6 +124,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             } else {
                 dojo.removeClass(element, 'blurred');
             }
-        }
+        },
     });
 });

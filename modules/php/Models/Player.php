@@ -596,7 +596,7 @@ class Player extends DB_Manager implements JsonSerializable
                 'ammo' => $this->ammo,
                 'defence' => $this->defence,
                 'devel' => $this->devel,
-                'handAmount' => $this->getHandAmount(),
+                'card' => $this->getHandAmount(),
             ],
             'passed' => $this->passed,
             'hand' => $current ? $this->getHand()->toArray() : [],

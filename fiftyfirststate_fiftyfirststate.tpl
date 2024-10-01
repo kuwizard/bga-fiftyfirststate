@@ -20,7 +20,7 @@
     <div class="playerResourcesWrapper">
         <div class="card resource">
             <span class="cardIcon resourceIcon">
-                <span class="cardValue resourceValue">\${handAmount}</span>
+                <span class="cardValue resourceValue">\${card}</span>
             </span>
         </div>
         <div class="playerResources">
