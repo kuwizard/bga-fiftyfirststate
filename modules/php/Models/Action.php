@@ -11,6 +11,16 @@ class Action extends Location
      * @var Act
      */
     protected $action;
+    /**
+     * @var int
+     */
+    protected $activationsMax;
+
+    public function __construct($params = [])
+    {
+        parent::__construct($params);
+        $this->activationsMax = 1;
+    }
 
     /**
      * @return string

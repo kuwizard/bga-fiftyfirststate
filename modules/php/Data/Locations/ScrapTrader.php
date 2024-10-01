@@ -21,5 +21,6 @@ class ScrapTrader extends Action
             [RESOURCE_IRON],
             [RESOURCE_VP],
         );
+        $this->activationsMax = 2;
     }
 }

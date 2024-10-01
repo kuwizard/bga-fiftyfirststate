@@ -42,10 +42,6 @@ class Location implements \JsonSerializable
     /**
      * @var int
      */
-    protected $activationsMax;
-    /**
-     * @var int
-     */
     protected $activatedTimes;
     /**
      * @var bool
@@ -65,7 +61,6 @@ class Location implements \JsonSerializable
         $this->id = isset($params['id']) ? (int) $params['id'] : null;
         $this->type = $params['type'] ?? null;
         $this->buildingBonus = [];
-        $this->activationsMax = 1;
         $this->activatedTimes = isset($params['activated_times']) ? (int) $params['activated_times'] : null;
         $this->isRuined = isset($params['is_ruined']) && (int) $params['is_ruined'] === 1 ?? false;
         $this->copies = 1;
