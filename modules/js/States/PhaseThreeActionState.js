@@ -45,7 +45,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 this.addPrimaryActionButton(
                     'buttonActionPass',
                     _('Pass'),
-                    () => this.takeAction('actActionPass')
+                    this.wrapIntoConfirmation(
+                        this.getPassWarningLexeme(),
+                        () => this.takeAction('actActionPass')
+                    ),
                 );
             }
         },
@@ -66,7 +69,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 if (allowedList === null || allowedIds.includes(id)) {
                     this.addSelectableClass(location);
                     this.dojoConnect(location, () => {
-                        this.wrapIntoCardConfirmation(allowedList[id], () => this.takeAction(action, { id: id }))()
+                        this.wrapIntoCardConfirmation(() => this.takeAction(action, { id: id }), allowedList[id])()
                     })
                 } else {
                     this.addUnselectableClass(location);
@@ -116,11 +119,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                             `button${actionName}`,
                             _(args.locationActionsLexemes[actionName]),
                             this.wrapIntoCardConfirmation(
-                                args.actions[actionName],
                                 () => this.takeAction(`actLocation${actionName.replace(
                                     /^./,
                                     actionName[0].toUpperCase()
-                                )}`)
+                                )}`),
+                                args.actions[actionName],
                             )
                         );
                     }
@@ -133,10 +136,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             if (this.isCurrentPlayerActive()) {
                 this.addSelectedClass(this.querySingle(`#location_${args.locationId}`));
                 this.addPrimaryActionButton('buttonOpenProd', _('Use it as open production'),
-                    this.wrapIntoCardConfirmation(args.openProd, () => this.takeAction('actOptionOpenProduction', {}))
+                    this.wrapIntoCardConfirmation(() => this.takeAction('actOptionOpenProduction', {}), args.openProd)
                 );
                 this.addPrimaryActionButton('buttonRazeIt', _('Raze it'),
-                    this.wrapIntoCardConfirmation(args.raze, () => this.takeAction('actOptionRaze', {}))
+                    this.wrapIntoCardConfirmation(() => this.takeAction('actOptionRaze', {}), args.raze)
                 );
                 this.addUndoButton();
             }
@@ -150,8 +153,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             );
         },
 
-        wrapIntoCardConfirmation(condition, callback) {
-            return this.wrapIntoConfirmation(condition, this.getCardWarningLexeme(), callback);
+        wrapIntoCardConfirmation(callback, condition) {
+            return this.wrapIntoConfirmation(this.getCardWarningLexeme(), callback, condition);
         },
 
         notif_locationBuilt(n) {

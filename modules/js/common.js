@@ -104,15 +104,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 this.format_block('jstpl_resource_icon', { type: resource }),
                 () => {
                     this.wrapIntoCardConfirmation(
+                        () => this.takeAction(action, { resource: resource }),
                         resource === 'card',
-                        () => this.takeAction(action, { resource: resource })
                     )();
                 }
             );
             dojo.addClass(`buttonStore${resource}`, 'resourceButton');
         },
 
-        wrapIntoConfirmation(condition, lexeme, callback) {
+        wrapIntoConfirmation(lexeme, callback, condition = true) {
             if (condition) {
                 return () => this.confirmationDialog(lexeme, () => {
                     callback();

@@ -70,5 +70,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             return _(
                 'As a result of this action you\'re going to get one or more Location card(s) and, therefore, Reset Turn option will be unavailable. Your turn will end after this action.');
         },
+
+        getPassWarningLexeme() {
+            return _(
+                'After you pass, you will not be able to take any Actions for the round. Also other players will not interact with your Locations in any way.');
+        }
     });
 });
