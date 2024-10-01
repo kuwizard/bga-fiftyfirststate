@@ -37,6 +37,8 @@ trait RoundTrait
 
         if (Globals::isLastRound()) {
             $this->setTieBreakersAndVPForLocations();
+            Globals::setLastRound(false);
+            Notifications::removeLastRound();
             $stack = [ST_END_GAME];
         } else {
             $this->gamestate->changeActivePlayer($nextPlayer);

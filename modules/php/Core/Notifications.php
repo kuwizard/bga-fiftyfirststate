@@ -261,12 +261,17 @@ class Notifications
         self::notifyAll('playersResetAllResources', '');
     }
 
-    public static function lastRound($player)
+    public static function lastRound(Player $player)
     {
         self::notifyAll('lastRound', clienttranslate('${player_name} reached 25 ${scoreIcon}! End of game is triggered!'), [
             'player' => $player,
             'scoreIcon' => '',
         ]);
+    }
+
+    public static function removeLastRound()
+    {
+        self::notifyAll('removeLastRound', '');
     }
 
     public static function dealDiscarded(Player $player, Location $discarded, int $newDiscardCount, string $resource)
