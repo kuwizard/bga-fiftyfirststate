@@ -32,10 +32,11 @@
 
 .resourceIcon {
   display: block;
-  background-image: url(img/icons.jpg);
+  background-image: url(img/icons.png);
   background-size: 1400% 100%;
   width: 45px;
   height: 45px;
+  filter: drop-shadow(1px 1px 4px #ffffff);
 
   @each $xShift, $name in $resources {
     &.#{$name}Icon {
@@ -46,6 +47,14 @@
   &.blurred {
     opacity: 0.3;
   }
+}
+
+.deals .resourceIcon, .logIcon {
+  filter: none;
+}
+
+.player-board .resourceIcon {
+  filter: drop-shadow(3px 2px 2px #000);
 }
 
 #page-title #generalactions {

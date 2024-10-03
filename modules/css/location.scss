@@ -63,7 +63,7 @@
 
   &:not(.ruined):not(.placeholder) {
     .locationImage {
-      background-image: url(img/locations10.jpg);
+      background-image: url(img/locations.jpg);
       background-size: 1000% 600%;
 
       @for $sprite from 0 through 59 {

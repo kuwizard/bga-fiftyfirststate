@@ -65,11 +65,11 @@
 }
 
 .factionWrapper {
-  width: 312px;
+  width: 2.564;
 }
 
 .factionBoard {
-  height: 830px;
+  height: 758px;
   background: hsla(0, 0%, 100%, 0.733);
   margin-bottom: 6px;
   border-radius: 14px;
@@ -79,11 +79,11 @@
   align-items: flex-end;
 }
 .factionBoard .faction {
-  background-image: url(img/factions4.jpg);
-  background-size: cover;
-  width: 312px;
-  height: 800px;
-  box-shadow: rgba(0, 0, 2, 0.55) 0 2px 5px;
+  background-image: url(img/factions.png);
+  background-size: 400% 200%;
+  width: 283.9313572543px;
+  height: 728px;
+  filter: drop-shadow(2px 2px 3px #000);
   position: relative;
 }
 .factionBoard .faction[data-faction="0"] {
@@ -133,9 +133,9 @@
   position: absolute;
 }
 .factionBoard .cards {
-  height: 96.7%;
+  height: 96.2%;
   display: grid;
-  gap: 15px;
+  gap: 4px;
   flex-grow: 1;
   grid-template-rows: 1fr 1fr 1fr;
 }
@@ -282,12 +282,12 @@
 }
 .locationWrapper .locationImage {
   width: 169px;
-  height: 249.951px;
+  height: 235.924px;
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.55) 2px 2px 4px;
 }
 .locationWrapper:not(.ruined):not(.placeholder) .locationImage {
-  background-image: url(img/locations10.jpg);
+  background-image: url(img/locations.jpg);
   background-size: 1000% 600%;
 }
 .locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="0"] {
@@ -480,7 +480,7 @@
 
 .dijitTooltip .location .locationImage {
   width: 300px;
-  height: 443.7px;
+  height: 418.8px;
 }
 
 @keyframes justPicked {
@@ -527,7 +527,7 @@
 #deckConnectionsBlock {
   display: flex;
   justify-content: flex-start;
-  height: 300px;
+  height: 275px;
   transition: height 500ms;
   align-items: center;
   font-weight: 700;
@@ -643,7 +643,7 @@
   margin-bottom: 8px;
   width: 100%;
   transition: max-height 500ms;
-  max-height: 270px;
+  max-height: 235px;
 }
 #hand #handLocations.notTooManyChildren {
   justify-content: center;
@@ -705,10 +705,11 @@
 
 .resourceIcon {
   display: block;
-  background-image: url(img/icons.jpg);
+  background-image: url(img/icons.png);
   background-size: 1400% 100%;
   width: 45px;
   height: 45px;
+  filter: drop-shadow(1px 1px 4px #ffffff);
 }
 .resourceIcon.fuelIcon {
   background-position-x: 0%;
@@ -756,6 +757,14 @@
   opacity: 0.3;
 }
 
+.deals .resourceIcon, .logIcon {
+  filter: none;
+}
+
+.player-board .resourceIcon {
+  filter: drop-shadow(3px 2px 2px #000);
+}
+
 #page-title #generalactions .resourceButton {
   display: inline-flex;
   align-items: center;
@@ -769,7 +778,7 @@
 }
 
 .connection {
-  width: 249.951px;
+  width: 235.924px;
   height: 169px;
   box-shadow: rgba(0, 0, 0, 0.55) 0 2px 4px;
   border-radius: 8px;
@@ -806,7 +815,7 @@
 }
 
 .dijitTooltip .connection {
-  width: 443.7px;
+  width: 418.8px;
   height: 300px;
 }
 

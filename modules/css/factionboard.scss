@@ -1,11 +1,11 @@
 @import "variables";
 
 .factionWrapper {
-  width: $factionWidth;
+  width: $factionRatio;
 }
 
 .factionBoard {
-  height: 830px;
+  height: $factionHeight + 30px;
   background: hsla(0, 0%, 100%, .733);
   margin-bottom: 6px;
   border-radius: 14px;
@@ -15,11 +15,11 @@
   align-items: flex-end;
 
   .faction {
-    background-image: url(img/factions4.jpg);
-    background-size: cover;
-    width: $factionWidth;
-    height: 800px;
-    box-shadow: rgba(0, 0, 2, 0.55) 0 2px 5px;
+    background-image: url(img/factions.png);
+    background-size: 400% 200%;
+    width: $factionHeight/$factionRatio;
+    height: $factionHeight;
+    filter: drop-shadow(2px 2px 3px #000);
     position: relative;
 
     @each $faction in 0, 1, 2, 3 {
@@ -69,9 +69,9 @@
   }
 
   .cards {
-    height: 96.7%;
+    height: 96.2%;
     display: grid;
-    gap: 15px;
+    gap: 4px;
     flex-grow: 1;
     grid-template-rows: 1fr 1fr 1fr;
 

@@ -11,7 +11,7 @@
 #deckConnectionsBlock {
   display: flex;
   justify-content: flex-start;
-  height: 300px;
+  height: 275px;
   transition: height 500ms;
   align-items: center;
   font-weight: 700;
@@ -157,7 +157,7 @@
     margin-bottom: 8px;
     width: 100%;
     transition: max-height 500ms;
-    max-height: 270px;
+    max-height: 235px;
 
     &.notTooManyChildren {
       justify-content: center;
