@@ -20,15 +20,6 @@
     }
   }
 
-
-  &.ruined {
-    background-color: gray;
-
-    &.unselectable {
-      opacity: 1;
-    }
-  }
-
   &.selected {
     z-index: 1;
 
@@ -61,7 +52,7 @@
     box-shadow: rgba(0, 0, 0, 0.55) 2px 2px 4px;
   }
 
-  &:not(.ruined):not(.placeholder) {
+  &:not(.back):not(.placeholder) {
     .locationImage {
       background-image: url(img/locations.jpg);
       background-size: 1000% 600%;
@@ -71,6 +62,15 @@
           background-position: math.div(($sprite % 10) * 100%, 9) math.div(floor(math.div($sprite, 10)) * 100%, 5);
         }
       }
+    }
+  }
+
+  &.back {
+    background-image: url(img/back.jpg);
+    background-size: cover;
+
+    &.unselectable {
+      opacity: 1;
     }
   }
 }

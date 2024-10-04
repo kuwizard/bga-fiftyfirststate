@@ -253,12 +253,6 @@
   transform: scale(1.04);
   z-index: 1;
 }
-.locationWrapper.ruined {
-  background-color: gray;
-}
-.locationWrapper.ruined.unselectable {
-  opacity: 1;
-}
 .locationWrapper.selected {
   z-index: 1;
 }
@@ -286,189 +280,196 @@
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.55) 2px 2px 4px;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage {
+.locationWrapper:not(.back):not(.placeholder) .locationImage {
   background-image: url(img/locations.jpg);
   background-size: 1000% 600%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="0"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="0"] {
   background-position: 0% 0%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="1"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="1"] {
   background-position: 11.1111111111% 0%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="2"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="2"] {
   background-position: 22.2222222222% 0%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="3"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="3"] {
   background-position: 33.3333333333% 0%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="4"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="4"] {
   background-position: 44.4444444444% 0%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="5"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="5"] {
   background-position: 55.5555555556% 0%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="6"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="6"] {
   background-position: 66.6666666667% 0%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="7"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="7"] {
   background-position: 77.7777777778% 0%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="8"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="8"] {
   background-position: 88.8888888889% 0%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="9"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="9"] {
   background-position: 100% 0%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="10"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="10"] {
   background-position: 0% 20%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="11"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="11"] {
   background-position: 11.1111111111% 20%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="12"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="12"] {
   background-position: 22.2222222222% 20%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="13"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="13"] {
   background-position: 33.3333333333% 20%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="14"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="14"] {
   background-position: 44.4444444444% 20%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="15"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="15"] {
   background-position: 55.5555555556% 20%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="16"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="16"] {
   background-position: 66.6666666667% 20%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="17"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="17"] {
   background-position: 77.7777777778% 20%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="18"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="18"] {
   background-position: 88.8888888889% 20%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="19"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="19"] {
   background-position: 100% 20%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="20"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="20"] {
   background-position: 0% 40%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="21"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="21"] {
   background-position: 11.1111111111% 40%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="22"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="22"] {
   background-position: 22.2222222222% 40%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="23"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="23"] {
   background-position: 33.3333333333% 40%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="24"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="24"] {
   background-position: 44.4444444444% 40%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="25"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="25"] {
   background-position: 55.5555555556% 40%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="26"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="26"] {
   background-position: 66.6666666667% 40%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="27"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="27"] {
   background-position: 77.7777777778% 40%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="28"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="28"] {
   background-position: 88.8888888889% 40%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="29"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="29"] {
   background-position: 100% 40%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="30"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="30"] {
   background-position: 0% 60%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="31"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="31"] {
   background-position: 11.1111111111% 60%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="32"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="32"] {
   background-position: 22.2222222222% 60%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="33"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="33"] {
   background-position: 33.3333333333% 60%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="34"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="34"] {
   background-position: 44.4444444444% 60%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="35"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="35"] {
   background-position: 55.5555555556% 60%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="36"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="36"] {
   background-position: 66.6666666667% 60%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="37"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="37"] {
   background-position: 77.7777777778% 60%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="38"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="38"] {
   background-position: 88.8888888889% 60%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="39"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="39"] {
   background-position: 100% 60%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="40"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="40"] {
   background-position: 0% 80%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="41"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="41"] {
   background-position: 11.1111111111% 80%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="42"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="42"] {
   background-position: 22.2222222222% 80%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="43"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="43"] {
   background-position: 33.3333333333% 80%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="44"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="44"] {
   background-position: 44.4444444444% 80%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="45"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="45"] {
   background-position: 55.5555555556% 80%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="46"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="46"] {
   background-position: 66.6666666667% 80%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="47"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="47"] {
   background-position: 77.7777777778% 80%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="48"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="48"] {
   background-position: 88.8888888889% 80%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="49"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="49"] {
   background-position: 100% 80%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="50"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="50"] {
   background-position: 0% 100%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="51"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="51"] {
   background-position: 11.1111111111% 100%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="52"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="52"] {
   background-position: 22.2222222222% 100%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="53"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="53"] {
   background-position: 33.3333333333% 100%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="54"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="54"] {
   background-position: 44.4444444444% 100%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="55"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="55"] {
   background-position: 55.5555555556% 100%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="56"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="56"] {
   background-position: 66.6666666667% 100%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="57"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="57"] {
   background-position: 77.7777777778% 100%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="58"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="58"] {
   background-position: 88.8888888889% 100%;
 }
-.locationWrapper:not(.ruined):not(.placeholder) .locationImage[data-sprite="59"] {
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="59"] {
   background-position: 100% 100%;
+}
+.locationWrapper.back {
+  background-image: url(img/back.jpg);
+  background-size: cover;
+}
+.locationWrapper.back.unselectable {
+  opacity: 1;
 }
 
 #handLocations:not(#handLocations.notTooManyChildren) .locationWrapper {
@@ -757,6 +758,10 @@
   opacity: 0.3;
 }
 
+#page-title .resourceIcon {
+  filter: drop-shadow(0px 0px 1px #ffffff);
+}
+
 .deals .resourceIcon, .logIcon {
   filter: none;
 }
@@ -782,6 +787,8 @@
   height: 169px;
   box-shadow: rgba(0, 0, 0, 0.55) 0 2px 4px;
   border-radius: 8px;
+  background-size: cover;
+  background-image: url(img/connections.jpg);
 }
 .connection[data-sprite="0"] {
   background-position: 0 0%;
@@ -806,12 +813,8 @@
   outline: 2px solid red;
   transform: scale(1.04);
 }
-.connection:not(.flipped) {
-  background-image: url(img/connections.jpg);
-  background-size: cover;
-}
-.connection.flipped {
-  background-color: gray;
+.connection.back {
+  background-image: url(img/connections_back.jpg);
 }
 
 .dijitTooltip .connection {

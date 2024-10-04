@@ -49,6 +49,10 @@
   }
 }
 
+#page-title .resourceIcon {
+  filter: drop-shadow(0px 0px 1px #ffffff);
+}
+
 .deals .resourceIcon, .logIcon {
   filter: none;
 }
@@ -77,6 +81,8 @@
   height: $locationWidth;
   box-shadow: rgba(0, 0, 0, 0.55) 0 2px 4px;
   border-radius: 8px;
+  background-size: cover;
+  background-image: url(img/connections.jpg);
 
   @for $sprite from 0 through 3 {
     &[data-sprite="#{$sprite}"] {
@@ -98,13 +104,8 @@
     transform: scale(1.04);
   }
 
-  &:not(.flipped) {
-    background-image: url(img/connections.jpg);
-    background-size: cover;
-  }
-
-  &.flipped {
-    background-color: gray;
+  &.back {
+    background-image: url(img/connections_back.jpg);
   }
 }
 

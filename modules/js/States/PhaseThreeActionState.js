@@ -79,7 +79,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         makeConnectionsSelectableAndClickable(allowedList, isHand, action) {
             const locator = isHand ? '#handConnections' : '#deckConnectionsBlock';
-            dojo.query(`${locator} .connection:not(.flipped)`).forEach((connection) => {
+            dojo.query(`${locator} .connection:not(.back)`).forEach((connection) => {
                 const id = this.extractId(connection, 'connection');
                 if (allowedList.includes(id)) {
                     this.addSelectableClass(connection);
@@ -190,7 +190,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             );
             const position = firstConnectionId === n.args.id ? 'first' : 'last';
             dojo.attr(clone, 'id', 'connection_0');
-            dojo.addClass(clone, 'flipped');
+            dojo.addClass(clone, 'back');
             const parent = connectionCard.parentNode;
             if (n.args.player_id === this.player_id) {
                 this.slide(connectionCard, 'handConnections');

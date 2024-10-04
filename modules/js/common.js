@@ -45,7 +45,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 additionalClass: '',
             };
             location = { ...defaultValues, ...location };
-            location.additionalClass = location.isRuined ? ' ruined' : '';
+            location.additionalClass = location.isRuined ? ' back' : '';
             return location;
         },
 
@@ -79,7 +79,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         addConnection(connection, destination) {
             if (connection === null) {
-                connection = { id: 0, sprite: 0, additionalClass: ' flipped' }
+                connection = { id: 0, sprite: 0, additionalClass: ' back' }
             } else {
                 connection = { ...connection, additionalClass: '' }
             }
@@ -241,7 +241,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 this.changeParent(locationElement, 'discard', true);
             } else {
                 await this.slide(locationElement, 'discard');
-                dojo.removeClass(locationElement, 'ruined');
+                dojo.removeClass(locationElement, 'back');
             }
             this.destroyAll(`#discard .location:not(#location_${location.id})`);
             this.querySingle(`#discardHeader .headerValue`).innerText = newDiscardCount;
