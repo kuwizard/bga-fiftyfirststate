@@ -141,14 +141,16 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         },
 
         setCorrectClassToOverlapCards() {
+            const singleWidth = this.querySingle('#deck .location').offsetWidth;
             // Hand
-            const handImages = dojo.query('#handLocations .locationImage');
-            const singleWidth = handImages[0].offsetWidth;
-            const handSum = singleWidth * handImages.length + (handImages.length - 1) * 5;
-            if (this.querySingle('#handLocations').offsetWidth <= handSum) {
-                dojo.removeClass('handLocations', 'notTooManyChildren');
-            } else {
-                dojo.addClass('handLocations', 'notTooManyChildren');
+            if (!this.isSpectator) {
+                const handImages = dojo.query('#handLocations .locationImage');
+                const handSum = singleWidth * handImages.length + (handImages.length - 1) * 5;
+                if (this.querySingle('#handLocations').offsetWidth <= handSum) {
+                    dojo.removeClass('handLocations', 'notTooManyChildren');
+                } else {
+                    dojo.addClass('handLocations', 'notTooManyChildren');
+                }
             }
 
             // Any other row
