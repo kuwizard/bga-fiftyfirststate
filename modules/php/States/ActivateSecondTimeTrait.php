@@ -25,7 +25,6 @@ trait ActivateSecondTimeTrait
 
     public function actActivateAgain()
     {
-        $this->addConfirmIfNeeded();
         Locations::get(Stack::getCtx()['locationId'])->activate(Players::getActive());
         Stack::finishState();
     }
