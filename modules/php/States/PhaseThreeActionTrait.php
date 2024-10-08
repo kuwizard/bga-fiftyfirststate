@@ -124,14 +124,10 @@ trait PhaseThreeActionTrait
         }
         if (Players::isAllPassed()) {
             Stack::unsuspendNext(ST_PHASE_THREE_ACTION);
+            // A hack to prevent last player passing twice after using Undo and having 2 identical atoms
+            Stack::removeSecondStateIfExists(ST_PHASE_THREE_ACTION);
         }
-        Stack::finishState(false);
-        // After Undo we have 2 ST_PHASE_THREE_ACTION in the Stack, need to remove both
-        if (Stack::isAtomIn(ST_PHASE_THREE_ACTION)) {
-            Stack::finishState();
-        } else {
-            Stack::resolve();
-        }
+        Stack::finishState();
     }
 
     public function actSpendWorkers()

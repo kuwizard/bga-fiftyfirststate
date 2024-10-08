@@ -259,4 +259,18 @@ class Stack
         Stack::set($stack);
     }
 
+    public static function removeSecondStateIfExists($state)
+    {
+        $stack = self::get();
+        $keys = [];
+        foreach ($stack as $key => $atom) {
+            if (isset($atom['state']) && $atom['state'] === $state) {
+                $keys[] = $key;
+            }
+        }
+        if (count($keys) === 2) {
+            unset($stack[$keys[1]]);
+            self::set(array_values($stack));
+        }
+    }
 }
