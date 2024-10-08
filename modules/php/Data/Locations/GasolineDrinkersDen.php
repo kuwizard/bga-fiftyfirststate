@@ -21,5 +21,6 @@ class GasolineDrinkersDen extends Action
             [RESOURCE_FUEL, RESOURCE_FUEL],
             [RESOURCE_VP, RESOURCE_VP],
         );
+        $this->activationsMax = 2;
     }
 }
