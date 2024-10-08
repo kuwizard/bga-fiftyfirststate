@@ -186,21 +186,23 @@ class Stack
     public static function unsuspendNext($state = null)
     {
         $atomIndex = self::getFirstSuspendedAtomIndex();
-        $stack = self::get();
-        $atom = $stack[$atomIndex];
-        if ($atom['state'] !== $state) {
-            throw new \BgaVisibleSystemException(
-                'First suspended atom is not of state ' . $state . ', $atomIndex: ' . $atomIndex
-            );
-        }
+        if ($atomIndex > -1) {
+            $stack = self::get();
+            $atom = $stack[$atomIndex];
+            if ($atom['state'] !== $state) {
+                throw new \BgaVisibleSystemException(
+                    'First suspended atom is not of state ' . $state . ', $atomIndex: ' . $atomIndex
+                );
+            }
 
-        $atom = array_splice($stack, $atomIndex, 1);
-        unset($atom[0]['suspended']);
-        array_splice($stack, $atomIndex, 0, $atom);
-        self::set($stack);
+            $atom = array_splice($stack, $atomIndex, 1);
+            unset($atom[0]['suspended']);
+            array_splice($stack, $atomIndex, 0, $atom);
+            self::set($stack);
 
-        if ($stack[$atomIndex]['uid'] == self::getCtx()['uid']) {
-            self::setCtx($stack[$atomIndex]);
+            if ($stack[$atomIndex]['uid'] == self::getCtx()['uid']) {
+                self::setCtx($stack[$atomIndex]);
+            }
         }
     }
 
@@ -211,7 +213,7 @@ class Stack
 
     private static function getFirstSuspendedAtomIndex()
     {
-        return self::findBy('suspended', true);
+        return self::findBy('suspended', true, false);
     }
 
     public static function isAtomIn(int $state): bool
