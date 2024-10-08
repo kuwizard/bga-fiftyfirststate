@@ -7,7 +7,6 @@ use STATE\Core\Stack;
 use STATE\Helpers\ResourcesHelper;
 use STATE\Managers\Locations;
 use STATE\Managers\Players;
-use STATE\Models\Player;
 
 trait SpecificLocationsActionsTrait
 {
@@ -31,7 +30,7 @@ trait SpecificLocationsActionsTrait
         $player = Players::getActive();
         $discarded = Locations::discardByDeal(ResourcesHelper::getResourceType($resourceName), $player->getId());
         Notifications::dealDiscarded($player, $discarded, Locations::countInLocation(LOCATION_DISCARD), $resourceName);
-        $this->addAtomToContinueProcessResources(Stack::getCtx(), [$discarded]);
+        $this->addAtomToContinueProcessResources(Stack::getCtx(), [$discarded], ['isDeal' => true]);
     }
 
     public function actChooseResourceToSpend(string $resource)

@@ -50,7 +50,7 @@ trait ChooseResourceSourceTrait
         $player = Players::getActive();
         $sources = [];
         foreach ($spend as $resource) {
-            if ($resource === RESOURCE_DEAL) {
+            if ($resource === RESOURCE_DEAL || $resource === RESOURCE_CARD) {
                 $sources[] = [$resource => ['faction' => true]];
             } else {
                 $joker = Resources::getJokerFor($resource);
@@ -110,7 +110,13 @@ trait ChooseResourceSourceTrait
                         ]
                     );
                     break;
-                } else if ($resource !== RESOURCE_CARD) {
+                } else if ($resource === RESOURCE_CARD) {
+                    Stack::insertOnTopAndFinish(
+                        ST_DISCARD_LOCATION_FOR_RESOURCES,
+                        $this->getCommonChooseResourceData($ctx, $sourcesRaw, $processed)
+                    );
+                    break;
+                } else {
                     $this->decreaseResource($whereId, $player, $resource, $ctx['activatorId']);
                 }
             } else {
@@ -123,7 +129,14 @@ trait ChooseResourceSourceTrait
             }
         }
         if (empty($sourcesRaw)
-            && !Stack::isSomeAtomsIn([ST_CHOOSE_RESOURCE_SOURCE, ST_CHOOSE_DEAL_TO_LOSE, ST_CHOOSE_RESOURCE_TO_SPEND])) {
+            && !Stack::isSomeAtomsIn(
+                [
+                    ST_CHOOSE_RESOURCE_SOURCE,
+                    ST_CHOOSE_DEAL_TO_LOSE,
+                    ST_CHOOSE_RESOURCE_TO_SPEND,
+                    ST_DISCARD_LOCATION_FOR_RESOURCES,
+                ]
+            )) {
             $this->postActions($player);
             if ($ctx['activatorId']) {
                 if ($ctx['activatorId'] < FACTION_NEW_YORK) {
@@ -132,7 +145,14 @@ trait ChooseResourceSourceTrait
                         $victim = $owner;
                     }
                 }
-                Notifications::actionUsed($player, $ctx['activatorId'], $processed, $ctx['bonus'], $victim ?? null);
+                Notifications::actionUsed(
+                    $player,
+                    $ctx['activatorId'],
+                    $processed,
+                    $ctx['bonus'],
+                    $victim ?? null,
+                    $ctx['isDeal'] ?? null
+                );
             }
             if (!$this->isGoingToGetANewLocation($ctx)) {
                 if (Stack::isAtomIn(ST_ACTIVATE_SECOND_TIME)) {
@@ -153,6 +173,7 @@ trait ChooseResourceSourceTrait
             'sourcesRaw' => $sourcesRaw,
             'processed' => $processed,
             'activatorId' => $ctx['activatorId'] ?? null,
+            'isDeal' => $ctx['isDeal'] ?? null,
         ];
     }
 
@@ -180,7 +201,7 @@ trait ChooseResourceSourceTrait
         $this->addAtomToContinueProcessResources($ctx, [$resourceToSpend]);
     }
 
-    public function addAtomToContinueProcessResources(array $ctx, array $newResource): void
+    public function addAtomToContinueProcessResources(array $ctx, array $newResource, array $additionalData = []): void
     {
         Stack::insertOnTopAndFinish(ST_CREATE_RESOURCE_SOURCE_MAP, [
             'bonus' => $ctx['bonus'],
@@ -188,6 +209,7 @@ trait ChooseResourceSourceTrait
             'spend' => empty($ctx['sourcesRaw']) ? [] : array_map('key', $ctx['sourcesRaw']),
             'processed' => array_merge($ctx['processed'], $newResource),
             'activatorId' => $ctx['activatorId'],
+            ...$additionalData,
         ]);
     }
 

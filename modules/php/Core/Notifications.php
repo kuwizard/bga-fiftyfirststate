@@ -347,7 +347,13 @@ class Notifications
         ]);
     }
 
-    public static function actionUsed(Player $player, int $activatorId, array $spend, array $bonus, Player|null $victim): void
+    public static function actionUsed(
+        Player $player,
+        int $activatorId,
+        array $spend,
+        array $bonus,
+        Player|null $victim,
+        bool|null $isDeal): void
     {
         if ($activatorId === 0) {
             debug_print_backtrace();
@@ -362,8 +368,7 @@ class Notifications
         foreach ($spend as $item) {
             if (is_integer($item)) {
                 $spendList[] = $item;
-            } else {
-                // It should be a Location containing a deal!
+            } else if ($isDeal) {
                 $deal = $item;
             }
         }
@@ -371,7 +376,7 @@ class Notifications
             $msg = clienttranslate(
                 '${player_name} uses ${from} as an Open Production, spends ${spendList} to gain ${resourcesList}. ${victim_name} gains ${spendList} as the owner'
             );
-        } else if ($deal) {
+        } else if ($isDeal) {
             if (empty($spendList)) {
                 $msg = clienttranslate(
                     '${player_name} uses ${from}, spends a deal giving ${dealResource} to gain ${resourcesList}'
@@ -393,7 +398,7 @@ class Notifications
             'spendList' => ResourcesHelper::getResourceNames($spendList),
             'resourcesList' => ResourcesHelper::getResourceNames($bonus),
             'victim' => $victim,
-            'dealResource' => $deal ? ResourcesHelper::getResourceNames($deal->getDeals()) : null,
+            'dealResource' => $isDeal ? ResourcesHelper::getResourceNames($deal->getDeals()) : null,
             'i18n' => ['from'],
         ]);
     }
