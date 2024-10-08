@@ -502,10 +502,10 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                         args.victim_name = this.coloredPlayerName(args.victim_name);
                     }
                     if (args.location && log.includes('${locationName}')) {
-                        args.locationName = `<span class="locationName"><b>${_(args.location.name)}</b></span>`;
+                        args.locationName = `<span class="locationName"><b>${_(args.locationName)}</b></span>`;
                     }
-                    if (args.location2 && log.includes('${locationName2}')) {
-                        args.locationName2 = `<span class="locationName"><b>${_(args.location2.name)}</b></span>`;
+                    if (args.location && log.includes('${locationName2}')) {
+                        args.locationName2 = `<span class="locationName"><b>${_(args.locationName2)}</b></span>`;
                     }
                     if (log.includes('{highlight}')) {
                         log = log.replace('{highlight}', ''); // TODO: Add highlighting

@@ -9,18 +9,18 @@ use STATE\Managers\Locations;
 use STATE\Managers\Players;
 use STATE\Models\Location;
 
-trait DeployTrait
+trait DevelopTrait
 {
-    public function argDeployChooseFromHand()
+    public function argDevelopChooseFromHand()
     {
-        $availableLocationIds = $this->getLocationsAvailableToDeploy(Stack::getCtx()['resource'])->getIds();
+        $availableLocationIds = $this->getLocationsAvailableToDevelop(Stack::getCtx()['resource'])->getIds();
         return ['possibleHandIds' => $this->getMapWithCardConfirmation($availableLocationIds, false)];
     }
 
     /**
      * @return Collection
      */
-    public function getLocationsAvailableToDeploy($resource)
+    public function getLocationsAvailableToDevelop($resource)
     {
         $player = Players::getActive();
         $board = $player->getBoard();
@@ -42,7 +42,7 @@ trait DeployTrait
         return $possibleHandLocations;
     }
 
-    public function argDeployChooseDestination()
+    public function argDevelopChooseDestination()
     {
         $newLocationId = Stack::getCtx()['newLocationId'];
         $fromLocation = Locations::get($newLocationId);
@@ -76,11 +76,11 @@ trait DeployTrait
      * @param int $id
      * @return void
      */
-    public function actDeployChooseFromHand($id)
+    public function actDevelopChooseFromHand($id)
     {
-        self::checkAction('actDeployChooseFromHand');
+        self::checkAction('actDevelopChooseFromHand');
         Stack::insertOnTopAndFinish(
-            ST_DEPLOY_CHOOSE_DESTINATION,
+            ST_DEVELOP_CHOOSE_DESTINATION,
             ['resource' => Stack::getCtx()['resource'], 'newLocationId' => $id]
         );
     }
@@ -89,9 +89,9 @@ trait DeployTrait
      * @param int $id
      * @return void
      */
-    public function actDeployChooseDestination($id)
+    public function actDevelopChooseDestination($id)
     {
-        self::checkAction('actDeployChooseDestination');
+        self::checkAction('actDevelopChooseDestination');
         $resource = ResourcesHelper::getResourceType(Stack::getCtx()['resource']);
         if (!in_array($resource, [RESOURCE_BRICK, RESOURCE_DEVELOPMENT, RESOURCE_AMMO])) {
             throw new \BgaVisibleSystemException('Unexpected resource while developing: ' . $resource);
@@ -100,7 +100,7 @@ trait DeployTrait
             'spend' => [$resource],
             'bonus' => [RESOURCE_VP],
             'postActions' => [
-                'type' => 'deploy',
+                'type' => 'develop',
                 'old' => $id,
                 'id' => Stack::getCtx()['newLocationId'],
                 'resource' => $resource,

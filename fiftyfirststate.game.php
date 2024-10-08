@@ -51,7 +51,7 @@ class Fiftyfirststate extends Table
     use STATE\States\PhaseFourCleanupTrait;
     use STATE\States\ChooseResourceSourceTrait;
     use STATE\States\ChooseResourceToStoreTrait;
-    use STATE\States\DeployTrait;
+    use STATE\States\DevelopTrait;
     use STATE\States\ChoosePlayerToStealTrait;
     use STATE\States\ActivateSecondTimeTrait;
     use STATE\States\SpecificLocationsActionsTrait;

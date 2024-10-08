@@ -181,7 +181,7 @@ trait ChooseResourceSourceTrait
     {
         $location = isset($ctx['postActions']['id']) ? Locations::get($ctx['postActions']['id']) : null;
         return (isset($ctx['postActions']['type'])
-                && in_array($ctx['postActions']['type'], [LOCATION_ACTION_BUILD, LOCATION_ACTION_DEPLOY])
+                && in_array($ctx['postActions']['type'], [LOCATION_ACTION_BUILD, LOCATION_ACTION_DEVELOP])
                 && $location
                 && in_array(RESOURCE_CARD, $location->getBuildingBonus(Players::getActive())))
             || in_array(RESOURCE_CARD, $ctx['bonus']);
@@ -266,7 +266,7 @@ trait ChooseResourceSourceTrait
             $locationId = $ctx['postActions']['id'];
             $location = Locations::get($locationId);
             switch ($type) {
-                case LOCATION_ACTION_DEPLOY:
+                case LOCATION_ACTION_DEVELOP:
                     $oldLocationId = $ctx['postActions']['old'];
                     $oldLocation = Locations::get($oldLocationId);
                     $resourcesPlaced = $oldLocation instanceof FeatureStorage && $oldLocation->getResourcesAmount() > 0;

@@ -100,7 +100,7 @@ $machinestates = [
             'actUseLocation',
             'actActivateLocation',
             'actUseOtherPlayerLocation',
-            'actDeploy',
+            'actDevelop',
             'actTakeConnection',
             'actPlayConnection',
         ],
@@ -174,22 +174,22 @@ $machinestates = [
         'possibleactions' => ['actChooseResourceToStore', 'actPassStoringResource'],
     ],
 
-    ST_DEPLOY_CHOOSE_FROM_HAND => [
-        'name' => 'deployChooseFromHand',
-        'description' => clienttranslate('${actplayer} must choose which card to deploy'),
-        'descriptionmyturn' => clienttranslate('${you} must choose which card to deploy'),
-        'args' => 'argDeployChooseFromHand',
+    ST_DEVELOP_CHOOSE_FROM_HAND => [
+        'name' => 'developChooseFromHand',
+        'description' => clienttranslate('${actplayer} must choose which card to develop'),
+        'descriptionmyturn' => clienttranslate('${you} must choose which card to develop'),
+        'args' => 'argDevelopChooseFromHand',
         'type' => 'activeplayer',
-        'possibleactions' => ['actDeployChooseFromHand', 'actUndo'],
+        'possibleactions' => ['actDevelopChooseFromHand', 'actUndo'],
     ],
 
-    ST_DEPLOY_CHOOSE_DESTINATION => [
-        'name' => 'deployChooseDestination',
+    ST_DEVELOP_CHOOSE_DESTINATION => [
+        'name' => 'developChooseDestination',
         'description' => clienttranslate('${actplayer} must choose which card to replace'),
         'descriptionmyturn' => clienttranslate('${you} must choose which card to replace'),
-        'args' => 'argDeployChooseDestination',
+        'args' => 'argDevelopChooseDestination',
         'type' => 'activeplayer',
-        'possibleactions' => ['actDeployChooseDestination', 'actUndo'],
+        'possibleactions' => ['actDevelopChooseDestination', 'actUndo'],
     ],
 
     ST_OPEN_PRODUCTION_OR_RAZE => [

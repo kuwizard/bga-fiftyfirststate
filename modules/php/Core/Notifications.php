@@ -99,7 +99,7 @@ class Notifications
     public static function locationBuilt(Player $player, Location $location, Location $oldLocation = null, int $resource = null)
     {
         $msg = $oldLocation ? clienttranslate(
-            '${player_name} spends ${resourcesList} to discard ${locationName2} and deploy ${locationName} in the ${factionRowName} row'
+            '${player_name} spends ${resourcesList} to discard ${locationName2} and develop ${locationName} in the ${factionRowName} row'
         )
             : clienttranslate('${player_name} spends ${spendList} to build ${locationName} in the ${factionRowName} row');
         self::notifyAll('locationBuilt', $msg, [
@@ -461,6 +461,14 @@ class Notifications
             $data['victim_id'] = $data['victim']->getId();
             $data['victim_name'] = $data['victim']->getName();
             unset($data['victim']);
+        }
+
+        if (isset($data['location'])) {
+            $data['locationName'] = $data['location']->getName();
+        }
+
+        if (isset($data['location2'])) {
+            $data['locationName2'] = $data['location2']->getName();
         }
     }
 }

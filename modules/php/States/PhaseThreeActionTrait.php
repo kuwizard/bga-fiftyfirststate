@@ -30,7 +30,7 @@ trait PhaseThreeActionTrait
                 && $location->isOpen()
                 && $location->isActivatable()
                 && $player->getResource(RESOURCE_WORKER, false) > 0;
-            $razeReachable = $location->getDefenceValue() <= $player->getResource(RESOURCE_ARROW_RED);
+            $razeReachable = $location->getDefenceValue() <= $player->getResource(RESOURCE_ARROW_RED, false, true);
             return !$location->isRuined() && ($isActivatableOpenProduction || $razeReachable);
         });
         $connectionsToTake = $player->getResource(RESOURCE_WORKER) >= 2 ? Connections::getBothAvailable()->getIds() : [];
@@ -39,7 +39,7 @@ trait PhaseThreeActionTrait
             'factionActions' => !empty($player->getAvailableFactionActions()),
             'locations' => $player->getPlayableLocationsWithCardWarnings(),
             'otherPlayersLocations' => $this->mapLocationsWithCardGetting($otherPlayersLocations->toArray(), $player),
-            'deploy' => $this->whatCanBeUsedForDevel($player),
+            'develop' => $this->whatCanBeUsedForDevel($player),
             'connectionsToTake' => $connectionsToTake,
             'connectionsToPlay' => $player->getPlayableConnectionsIds(),
         ];
@@ -70,12 +70,12 @@ trait PhaseThreeActionTrait
 
     private function whatCanBeUsedForDevel(Player $player): array
     {
-        $locationsToDeployWithBrick = $this->getLocationsAvailableToDeploy(RESOURCE_BRICK);
+        $locationsToDevelopWithBrick = $this->getLocationsAvailableToDevelop(RESOURCE_BRICK);
         return [
-            'brick' => !$locationsToDeployWithBrick->empty() && $player->getResource(RESOURCE_BRICK, false) >= 1,
+            'brick' => !$locationsToDevelopWithBrick->empty() && $player->getResource(RESOURCE_BRICK, false) >= 1,
             'development' => $player->getResource(RESOURCE_DEVELOPMENT, false) >= 1
-                && !$this->getLocationsAvailableToDeploy(RESOURCE_DEVELOPMENT)->empty(),
-            'ammo' => !$locationsToDeployWithBrick->empty()
+                && !$this->getLocationsAvailableToDevelop(RESOURCE_DEVELOPMENT)->empty(),
+            'ammo' => !$locationsToDevelopWithBrick->empty()
                 && $player->getResource(RESOURCE_AMMO, false) >= 1
                 && $player->getResource(RESOURCE_BRICK, false) === 0,
         ];
@@ -280,17 +280,18 @@ trait PhaseThreeActionTrait
         self::checkAction('actUseOtherPlayerLocation');
         $location = Locations::get($id);
         $player = Players::getActive();
-        $locationIsOpenProduction = $location instanceof Production && $location->isOpen() && $location->isActivatable();
+        $isOpenProd = $location instanceof Production && $location->isOpen();
+        $locationCouldBeUsedAsOpenProd = $isOpenProd && $location->isActivatable() && $player->getResource(RESOURCE_WORKER) > 0;
         $couldBeRazed = $player->getResource(RESOURCE_ARROW_RED, false, true) >= $location->getDefenceValue();
-        if ($locationIsOpenProduction && $couldBeRazed) {
+        if ($locationCouldBeUsedAsOpenProd && $couldBeRazed) {
             Stack::insertOnTop(ST_OPEN_PRODUCTION_OR_RAZE, ['locationId' => $id]);
-        } elseif ($locationIsOpenProduction) {
+        } elseif ($locationCouldBeUsedAsOpenProd) {
             $location->activate($player);
         } elseif ($couldBeRazed) {
             $this->razeOtherPlayersLocation($location);
         } else {
             throw new \BgaVisibleSystemException(
-                'Something went wrong during activating other player location. Is open production: ' . $locationIsOpenProduction . ', could be razed: ' . $couldBeRazed
+                'Something went wrong during activating other player location. Is open production: ' . $isOpenProd . ', could be razed: ' . $couldBeRazed
             );
         }
         Stack::finishState();
@@ -306,10 +307,10 @@ trait PhaseThreeActionTrait
 
     }
 
-    public function actDeploy($resource)
+    public function actDevelop($resource)
     {
-        self::checkAction('actDeploy');
-        Stack::insertOnTop(ST_DEPLOY_CHOOSE_FROM_HAND, ['resource' => $resource]);
+        self::checkAction('actDevelop');
+        Stack::insertOnTop(ST_DEVELOP_CHOOSE_FROM_HAND, ['resource' => $resource]);
         self::giveExtraTime(Players::getActiveId());
         Stack::finishState();
     }

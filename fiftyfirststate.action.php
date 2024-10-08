@@ -160,25 +160,25 @@ class action_fiftyfirststate extends APP_GameAction
         self::ajaxResponse();
     }
 
-    public function actDeploy()
+    public function actDevelop()
     {
         self::setAjaxMode();
         $resource = self::getArg('resource', AT_alphanum, true);
-        $this->game->actDeploy($resource);
+        $this->game->actDevelop($resource);
         self::ajaxResponse();
     }
 
-    public function actDeployChooseFromHand()
+    public function actDevelopChooseFromHand()
     {
         self::setAjaxMode();
-        $this->game->actDeployChooseFromHand($this->getId());
+        $this->game->actDevelopChooseFromHand($this->getId());
         self::ajaxResponse();
     }
 
-    public function actDeployChooseDestination()
+    public function actDevelopChooseDestination()
     {
         self::setAjaxMode();
-        $this->game->actDeployChooseDestination($this->getId());
+        $this->game->actDevelopChooseDestination($this->getId());
         self::ajaxResponse();
     }
 

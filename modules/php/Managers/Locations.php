@@ -8,6 +8,7 @@ use STATE\Helpers\Pieces;
 use STATE\Helpers\ResourcesHelper;
 use STATE\Models\Action;
 use STATE\Models\Feature;
+use STATE\Models\FeatureStorage;
 use STATE\Models\Location;
 use STATE\Models\Player;
 use STATE\Models\Production;
@@ -239,7 +240,7 @@ class Locations extends Pieces
 
     public static function ruin(Location $location): void
     {
-        if ($location instanceof Feature && $location->getResourcesAmount() > 0) {
+        if ($location instanceof FeatureStorage && $location->getResourcesAmount() > 0) {
             $owner = Players::getOwner($location->getId());
             $resourcesChanged = ResourcesHelper::increaseResourcesAfterAction($owner, $location->getResources());
             Resources::deleteAll($location->getId());

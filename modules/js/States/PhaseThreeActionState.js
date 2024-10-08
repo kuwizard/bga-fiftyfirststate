@@ -13,14 +13,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             debug('Phase Three Action state', args);
             if (this.isCurrentPlayerActive()) {
                 await this.waitForDisappearance('.moving');
-                if (args.deploy.brick) {
-                    this.addDeployButton('brick')
+                if (args.develop.brick) {
+                    this.addDevelopButton('brick')
                 }
-                if (args.deploy.development) {
-                    this.addDeployButton('devel')
+                if (args.develop.development) {
+                    this.addDevelopButton('devel')
                 }
-                if (args.deploy.ammo) {
-                    this.addDeployButton('ammo')
+                if (args.develop.ammo) {
+                    this.addDevelopButton('ammo')
                 }
                 if (args.spendWorkers) {
                     this.makeAreaSelectable('spendWorkersArea', 'actSpendWorkers');
@@ -53,13 +53,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             }
         },
 
-        addDeployButton(postfix) {
+        addDevelopButton(postfix) {
             this.addPrimaryActionButton(
-                `buttonDeploy${postfix}`,
-                this.replaceWithResourceIcon((_('Deploy (spend {icon})')).replace('{icon}', `{${postfix}Icon}`)),
-                () => this.takeAction('actDeploy', { resource: postfix })
+                `buttonDevelop${postfix}`,
+                this.replaceWithResourceIcon((_('Develop (spend {icon})')).replace('{icon}', `{${postfix}Icon}`)),
+                () => this.takeAction('actDevelop', { resource: postfix })
             );
-            dojo.addClass(`buttonDeploy${postfix}`, 'resourceButton');
+            dojo.addClass(`buttonDevelop${postfix}`, 'resourceButton');
         },
 
         makeLocationsSelectableAndClickable(locator, action, allowedList = null) {
