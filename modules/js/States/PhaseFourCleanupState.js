@@ -15,9 +15,17 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this.destroyAll('.spentArea .resourceIcon');
             this.destroyAll(`.actions .resourceIcon`);
             this.destroyAll(`.production .resourceIcon`);
-            dojo.query('.player-board .resourceValue:not(.cardValue)').forEach((resource) => {
-                resource.innerText = 0;
+            this.forEachPlayer((player) => {
+                Object.keys(this.resourceCounters[player.id]).forEach(resource => {
+                    if (resource !== 'card') this.resourceCounters[player.id][resource].toValue(0);
+                });
+                if (this.querySingle('#sticky') && n.args.player_id === this.player_id) {
+                    Object.keys(this.resourceCounters.sticky).forEach(resource => {
+                        if (resource !== 'card') this.resourceCounters.sticky[resource].toValue(0);
+                    });
+                }
             });
+
             dojo.query('.player-board .resourceIcon:not(.cardIcon)').forEach((resource) => {
                 dojo.addClass(resource, 'blurred');
             });
