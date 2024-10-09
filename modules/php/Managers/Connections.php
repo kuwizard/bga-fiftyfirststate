@@ -138,9 +138,9 @@ class Connections extends Pieces
     public static function getDeck(int $id): string
     {
         if (in_array(self::get($id)->getType(), array_keys(self::$blueCardTypes))) {
-            return LOCATION_CONNECTIONS_RED_DECK;
-        } else {
             return LOCATION_CONNECTIONS_BLUE_DECK;
+        } else {
+            return LOCATION_CONNECTIONS_RED_DECK;
         }
     }
 
