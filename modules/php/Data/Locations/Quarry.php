@@ -16,7 +16,6 @@ class Quarry extends Production
         $this->icons = [ICON_BRICK, ICON_AMMO];
         $this->deals = [RESOURCE_BRICK];
         $this->product = [RESOURCE_BRICK];
-        $this->buildingBonus = [RESOURCE_BRICK];
         $this->isOpen = true;
         $this->copies = 2;
     }
