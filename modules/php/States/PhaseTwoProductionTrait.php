@@ -28,11 +28,11 @@ trait PhaseTwoProductionTrait
                 if (!empty($resources)) {
                     ResourcesHelper::increaseResourcesAfterAction($player, $resources);
                     Resources::deleteAll($location->getId());
-                    Notifications::playerGotResourcesFromStorage(
-                        $player,
-                        $location,
-                        $player->getResourcesWithNames(array_unique($resources))
-                    );
+                    $resourcesToNotify = [];
+                    foreach (array_count_values($resources) as $resource => $amount) {
+                        $resourcesToNotify[ResourcesHelper::getResourceName($resource)] = $amount;
+                    }
+                    Notifications::playerGotResourcesFromStorage($player, $location, $resourcesToNotify);
                 }
             }
 

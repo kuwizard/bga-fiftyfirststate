@@ -210,6 +210,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         async notif_locationDiscarded(n) {
             debug('Notif: locationDiscarded', n);
+            dojo.addClass('board', 'discarding');
             await this.waitForDisappearance('.moving');
 
             dojo.query(`#location_${n.args.location.id} .resourceIcon`).forEach((element, index) => {
@@ -227,9 +228,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 }
             });
             await this.waitForDisappearance('.moving');
-            this.runDiscardLocationAnimation(n.args.location, n.args.newDiscardCount, n.args.player_id);
+            await this.runDiscardLocationAnimation(n.args.location, n.args.newDiscardCount, n.args.player_id);
             this.addTooltipToLogEntry(n.args.location);
             this.setCorrectClassToOverlapCards();
+            dojo.removeClass('board', 'discarding');
         },
 
         async runDiscardLocationAnimation(location, newDiscardCount, playerId) {
