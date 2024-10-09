@@ -136,8 +136,12 @@ class Fiftyfirststate extends Table
                 return $player->getScore();
             })->toArray()
         );
-        if ($maxVP > 25) {
-            return 99;
+        if ($maxVP >= 25) {
+            if ($this->gamestate->state()['name'] === 'gameEnd') {
+                return 100;
+            } else {
+                return 99;
+            }
         } else if ($maxVP === 0) {
             return match ($this->gamestate->state()['name']) {
                 'discardCardsGameStart' => 0,
