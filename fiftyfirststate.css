@@ -462,11 +462,11 @@
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="59"] {
   background-position: 100% 100%;
 }
-.locationWrapper.back {
+.locationWrapper.back .locationImage {
   background-image: url(img/back.jpg);
   background-size: cover;
 }
-.locationWrapper.back.unselectable {
+.locationWrapper.back .locationImage.unselectable {
   opacity: 1;
 }
 
