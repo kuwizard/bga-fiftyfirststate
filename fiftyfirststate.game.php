@@ -130,7 +130,23 @@ class Fiftyfirststate extends Table
      */
     function getGameProgression()
     {
-        return 50;
+        $players = Players::getAll();
+        $maxVP = max(
+            $players->map(function ($player) {
+                return $player->getScore();
+            })->toArray()
+        );
+        if ($maxVP > 25) {
+            return 99;
+        } else if ($maxVP === 0) {
+            return match ($this->gamestate->state()['name']) {
+                'discardCardsGameStart' => 0,
+                'phaseOneLookoutChoose' => 1,
+                default => 2,
+            };
+        } else {
+            return (100 / 25) * $maxVP;
+        }
     }
 
     function actChangePreference($pref, $value)
