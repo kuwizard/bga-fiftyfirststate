@@ -114,6 +114,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
                             data[resource]
                         );
                     }
+                    this.gamedatas.players[n.args.player_id].resources[resource] = data[resource];
                 }
             });
         },
