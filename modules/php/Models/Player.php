@@ -383,7 +383,7 @@ class Player extends DB_Manager implements JsonSerializable
         return $connections->filter(function (Connection $connection) {
             $requirements = $connection->getSpendRequirements();
             foreach (array_count_values($requirements) as $requirement => $amount) {
-                if ($this->getResource($requirement) < $amount) {
+                if ($this->getResource($requirement, false, true) < $amount) {
                     return false;
                 }
             }
