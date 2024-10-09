@@ -240,7 +240,7 @@ class Notifications
 
     public static function playerPassed($player)
     {
-        self::notifyAll('playerPassed', '', [
+        self::notifyAll('playerPassed', clienttranslate('${player_name} passes'), [
             'player' => $player,
         ]);
     }
