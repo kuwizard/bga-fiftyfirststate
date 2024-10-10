@@ -20,6 +20,8 @@
     height: $factionHeight;
     filter: drop-shadow(2px 2px 3px #000);
     position: relative;
+    z-index: 101;
+    will-change: transform;
 
     @each $faction in 0, 1, 2, 3 {
       &[data-faction="#{$faction}"] {

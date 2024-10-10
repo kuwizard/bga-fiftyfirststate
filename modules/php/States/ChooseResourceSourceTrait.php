@@ -324,9 +324,6 @@ trait ChooseResourceSourceTrait
             Locations::get($ctx['activatorId'])->postActivation();
         }
         if (!empty($resourcesChanged)) {
-            if (in_array(RESOURCE_CARD, $resourcesChanged)) {
-                Notifications::handChanged($player);
-            }
             Notifications::resourcesChanged($player, $player->getResourcesWithNames(array_unique($resourcesChanged)));
         }
     }

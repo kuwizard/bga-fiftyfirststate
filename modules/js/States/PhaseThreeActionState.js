@@ -159,15 +159,20 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         notif_locationBuilt(n) {
             debug('Notif: locationBuilt', n);
-            dojo.destroy(`location_${n.args.location.id}`);
             const rowElement = this.querySingle(`#faction_${n.args.player_id} .${n.args.factionRow}`);
-            this.addLocation(n.args.location, rowElement);
+            dojo.removeClass(this.querySingle(`#location_${n.args.location.id}`), 'selected');
+            this.slide(this.querySingle(`#location_${n.args.location.id}`), rowElement, { phantom: true });
         },
 
-        notif_locationDealMade(n) {
+        async notif_locationDealMade(n) {
             debug('Notif: locationDealMade', n);
-            dojo.destroy(`location_${n.args.location.id}`);
             const dealsResourceBlock = this.querySingle(`#faction_${n.args.player_id} .${n.args.resource}Block`);
+            const deals = this.querySingle(`#faction_${n.args.player_id} .deals`);
+            const location = this.querySingle(`#location_${n.args.location.id}`);
+            this.addClass(location, 'turnAround');
+            this.addClass(location, 'turning', true, 450);
+            await this.waitForDisappearance('.turning');
+            await this.slide(location, deals, { destroy: true, pos: { x: 50, y: 0 }, duration: 700 });
             if (dealsResourceBlock) {
                 dojo.place(this.format_block('jstpl_resource_icon', { type: n.args.resource }), dealsResourceBlock);
             } else {

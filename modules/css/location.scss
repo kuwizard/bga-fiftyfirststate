@@ -5,6 +5,7 @@
 .locationWrapper {
   position: relative;
   border-radius: 8px;
+  transition: transform 0.5s;
 
   &.placeholder {
     background-color: gray;
@@ -72,6 +73,10 @@
     &.unselectable {
       opacity: 1;
     }
+  }
+
+  &.turnAround {
+    transform: rotate(180deg);
   }
 }
 

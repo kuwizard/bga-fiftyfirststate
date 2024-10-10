@@ -270,7 +270,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             }
 
             const newParent = config.attach ? targetId : $(mobile).parentNode;
-            dojo.style(mobile, 'zIndex', 5000);
+            dojo.style(mobile, 'zIndex', 100);
             dojo.addClass(mobile, config.className);
             if (config.changeParent) this.changeParent(mobile, 'game_play_area');
             if (config.from != null) this.placeOnObject(mobile, config.from);
