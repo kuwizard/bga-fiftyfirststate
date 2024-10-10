@@ -46,6 +46,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     this.slide(resourceElement, playerBoardIcon, { destroy: true });
                     await new Promise(resolve => setTimeout(resolve, 200));
                 }
+                this.resourceCounters[n.args.player_id][resource].toValue(n.args.resources[resource]);
             }
         },
     });
