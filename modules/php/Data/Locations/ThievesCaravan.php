@@ -20,7 +20,7 @@ class ThievesCaravan extends Action
         $this->deals = [RESOURCE_AMMO];
         $this->copies = 1;
         $this->action = new Act(
-            [RESOURCE_WORKER],
+            [RESOURCE_WORKER, RESOURCE_WORKER],
             [RESOURCE_FUEL, RESOURCE_GUN, RESOURCE_IRON, RESOURCE_BRICK],
             ACTION_TYPE_STEAL_ANOTHER_PLAYER
         );
