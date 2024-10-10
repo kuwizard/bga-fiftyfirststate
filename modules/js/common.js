@@ -166,7 +166,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         async notif_handChanged(n) {
             debug('Notif: handChanged', n);
-            await this.waitForDisappearance('.moving');
+            await this.waitForDisappearance('.moving, .turnAround');
             this.destroyAll('#handLocations .location');
             n.args.hand.map((location) => {
                 return this.addLocation(location, $('handLocations'));

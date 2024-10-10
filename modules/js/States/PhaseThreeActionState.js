@@ -160,8 +160,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         notif_locationBuilt(n) {
             debug('Notif: locationBuilt', n);
             const rowElement = this.querySingle(`#faction_${n.args.player_id} .${n.args.factionRow}`);
-            dojo.removeClass(this.querySingle(`#location_${n.args.location.id}`), 'selected');
-            this.slide(this.querySingle(`#location_${n.args.location.id}`), rowElement, { phantom: true });
+            let location = this.querySingle(`#location_${n.args.location.id}`);
+            if (location) {
+                dojo.removeClass(location, 'selected');
+            } else {
+                location = this.addLocation(n.args.location, $(`overall_player_board_${n.args.player_id}`), true);
+            }
+            this.slide(location, rowElement, { phantomEnd: true });
         },
 
         async notif_locationDealMade(n) {
