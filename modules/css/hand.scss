@@ -19,6 +19,7 @@
     height: 40px;
 
     #collapseButton {
+      will-change: transform;
       transform: rotate(90deg);
     }
   }

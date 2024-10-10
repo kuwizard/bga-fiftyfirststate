@@ -84,6 +84,8 @@
   height: 728px;
   filter: drop-shadow(2px 2px 3px #000);
   position: relative;
+  z-index: 101;
+  will-change: transform;
 }
 .factionBoard .faction[data-faction="0"] {
   background-position: 0% 0;
@@ -239,6 +241,7 @@
 .locationWrapper {
   position: relative;
   border-radius: 8px;
+  transition: transform 0.5s;
 }
 .locationWrapper.placeholder {
   background-color: gray;
@@ -469,6 +472,9 @@
 .locationWrapper.back .locationImage.unselectable {
   opacity: 1;
 }
+.locationWrapper.turnAround {
+  transform: rotate(180deg);
+}
 
 #handLocations:not(#handLocations.notTooManyChildren) .locationWrapper {
   width: 2vw;
@@ -534,6 +540,7 @@
   height: 40px;
 }
 #deckConnectionsBlock.collapsing #collapseButton, #deckConnectionsBlock.collapsed #collapseButton {
+  will-change: transform;
   transform: rotate(90deg);
 }
 #deckConnectionsBlock.collapsed #deck, #deckConnectionsBlock.collapsed #discard {
@@ -689,6 +696,7 @@
 
 .unselectable {
   filter: contrast(0.3333333333) brightness(1.25) saturate(35%);
+  will-change: transform;
 }
 
 .resourceValue {
@@ -709,6 +717,7 @@
   width: 45px;
   height: 45px;
   filter: drop-shadow(2px 2px 6px #ffffff);
+  will-change: transform;
 }
 .resourceIcon.fuelIcon {
   background-position-x: 0%;
