@@ -342,6 +342,12 @@ trait ChooseResourceSourceTrait
                     $location->getProduct($player)
                 );
             }
+            Notifications::gotProductionAndOrBuildingBonuses(
+                $player,
+                $location,
+                $location instanceof Production ? $location->getProduct($player) : [],
+                $location->getBuildingBonus($player)
+            );
             if (!empty($location->getBuildingBonus($player))) {
                 $resourcesChangedAgain = ResourcesHelper::increaseResourcesAfterAction(
                     $player,
@@ -350,12 +356,6 @@ trait ChooseResourceSourceTrait
                 $resourcesChanged = array_unique(array_merge($resourcesChanged, $resourcesChangedAgain));
             }
             Notifications::resourcesChanged($player, $player->getResourcesWithNames($resourcesChanged));
-            Notifications::gotProductionAndOrBuildingBonuses(
-                $player,
-                $location,
-                $location instanceof Production ? $location->getProduct($player) : [],
-                $location->getBuildingBonus($player)
-            );
         }
         // Place resources on a card
         if ($location instanceof FeatureStorageSingle) {
