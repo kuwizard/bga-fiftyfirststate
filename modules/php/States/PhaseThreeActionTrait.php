@@ -281,7 +281,8 @@ trait PhaseThreeActionTrait
         $location = Locations::get($id);
         $player = Players::getActive();
         $isOpenProd = $location instanceof Production && $location->isOpen();
-        $locationCouldBeUsedAsOpenProd = $isOpenProd && $location->isActivatable() && $player->getResource(RESOURCE_WORKER) > 0;
+        $workersAmount = $player->getResource(RESOURCE_WORKER, false);
+        $locationCouldBeUsedAsOpenProd = $isOpenProd && $location->isActivatable() && $workersAmount > 0;
         $couldBeRazed = $player->getResource(RESOURCE_ARROW_RED, false, true) >= $location->getDefenceValue();
         if ($locationCouldBeUsedAsOpenProd && $couldBeRazed) {
             Stack::insertOnTop(ST_OPEN_PRODUCTION_OR_RAZE, ['locationId' => $id]);
