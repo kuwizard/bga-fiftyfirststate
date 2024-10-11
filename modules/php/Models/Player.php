@@ -321,7 +321,9 @@ class Player extends DB_Manager implements JsonSerializable
         } else if ($resource === RESOURCE_DEAL) {
             return 0;
         } else if ($resource === RESOURCE_ANY_OF_MAIN) {
-            return array_sum(array_map([$this, 'getResource'], MAIN_RESOURCES_LIST));
+            $arrayOfFalses = array_fill(0, count(MAIN_RESOURCES_LIST), false);
+            // for each resource it calls $this->getResource(resource, false)
+            return array_sum(array_map([$this, 'getResource'], MAIN_RESOURCES_LIST, $arrayOfFalses));
         } else {
             $playerResource = $this->$resourceName;
             if ($factionOnly) {

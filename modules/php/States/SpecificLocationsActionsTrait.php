@@ -14,7 +14,7 @@ trait SpecificLocationsActionsTrait
     {
         $player = Players::getActive();
         $filteredResources = array_filter(Stack::getCtx()['resources'], function ($resource) use ($player) {
-            return $player->getResource($resource) > 0;
+            return $player->getResource($resource, false) > 0;
         });
         return ResourcesHelper::getResourceNames(array_values($filteredResources));
     }
@@ -36,7 +36,8 @@ trait SpecificLocationsActionsTrait
     public function actChooseResourceToSpend(string $resource)
     {
         $resourceType = ResourcesHelper::getResourceType($resource);
-        $this->decreaseResource($resourceType, Players::getActive(), $resourceType, Stack::getCtx()['activatorId']);
-        $this->addAtomToContinueProcessResources(Stack::getCtx(), [$resourceType]);
+        $ctx = Stack::getCtx();
+        $spend = empty($ctx['sourcesRaw']) ? [] : array_map('key', $ctx['sourcesRaw']);
+        $this->addAtomToContinueProcessResources($ctx, [$resourceType], ['spend' => array_merge($spend, [$resourceType])]);
     }
 }
