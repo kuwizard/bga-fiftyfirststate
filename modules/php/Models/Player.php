@@ -429,9 +429,16 @@ class Player extends DB_Manager implements JsonSerializable
     /**
      * @return Collection
      */
-    public function getBoard()
+    public function getBoard($includeRuins = false)
     {
-        return Locations::getBoard($this->id);
+        $withRuins = Locations::getBoard($this->id);
+        if ($includeRuins) {
+            return $withRuins;
+        } else {
+            return Locations::getBoard($this->id)->filter(function (Location $location) {
+                return !$location->isRuined();
+            });
+        }
     }
 
     /**

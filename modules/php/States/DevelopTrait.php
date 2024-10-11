@@ -23,7 +23,7 @@ trait DevelopTrait
     public function getLocationsAvailableToDevelop($resource)
     {
         $player = Players::getActive();
-        $board = $player->getBoard();
+        $board = $player->getBoard(true);
         $isRuins = !$board->filter(function (Location $location) {
             return $location->isRuined();
         })->empty();
@@ -48,13 +48,13 @@ trait DevelopTrait
         $fromLocation = Locations::get($newLocationId);
         $player = Players::getActive();
         if (ResourcesHelper::getResourceType(Stack::getCtx()['resource']) === RESOURCE_BRICK) {
-            $possibleDestinations = $player->getBoard()->filter(
+            $possibleDestinations = $player->getBoard(true)->filter(
                 function (Location $location) use ($fromLocation) {
                     return $location->isRuined() || !empty(array_intersect($location->getIcons(), $fromLocation->getIcons()));
                 }
             );
         } else {
-            $possibleDestinations = $player->getBoard();
+            $possibleDestinations = $player->getBoard(true);
         }
         $cardWarning = in_array(RESOURCE_CARD, $fromLocation->getBuildingBonus($player));
         return [

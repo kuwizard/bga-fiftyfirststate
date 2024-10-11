@@ -22,7 +22,7 @@ trait PhaseFourCleanupTrait
             /** @var Player $player */
             foreach (Players::getAll() as $player) {
                 Players::removeAllResources($player->getId());
-                Locations::resetActivatedTimes($player->getBoard()->getIds());
+                Locations::resetActivatedTimes($player->getBoard(true)->getIds());
                 Notifications::playersResetAllResources();
             }
             Connections::discardFlippedEndOfRound();
