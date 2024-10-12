@@ -100,6 +100,10 @@ class Player extends DB_Manager implements JsonSerializable
      * @var boolean
      */
     protected $passed;
+    /**
+     * @var array
+     */
+    private $recentlyDrawnLocations;
 
     public function __construct($row)
     {
@@ -125,6 +129,7 @@ class Player extends DB_Manager implements JsonSerializable
             $this->devel = (int) $row['player_devel'];
             $this->passed = (int) $row['player_passed'] === 1;
         }
+        $this->recentlyDrawnLocations = [];
     }
 
     /*
@@ -168,6 +173,11 @@ class Player extends DB_Manager implements JsonSerializable
     public function getPref($prefId)
     {
         return Preferences::get($this->id, $prefId);
+    }
+
+    public function getRecentlyDrawnLocations(): array
+    {
+        return $this->recentlyDrawnLocations;
     }
 
     /**
@@ -486,8 +496,9 @@ class Player extends DB_Manager implements JsonSerializable
     {
         $name = ResourcesHelper::getResourceName($type);
         if ($type === RESOURCE_CARD) {
-            for ($i = 0; $i < $amount; $i++) {
-                Locations::draw($this);
+            $newLocations = $this->drawCards($amount);
+            foreach ($newLocations->toArray() as $location) {
+                $this->recentlyDrawnLocations[$this->getPositionOfLocationInHand($location)] = $location;
             }
             return 0; // We don't need it actually
         } else {
@@ -543,7 +554,7 @@ class Player extends DB_Manager implements JsonSerializable
 
     public function drawCards($amount = 1)
     {
-        Locations::draw($this, $amount);
+        return Locations::draw($this, $amount);
     }
 
     private function combineResources($location)

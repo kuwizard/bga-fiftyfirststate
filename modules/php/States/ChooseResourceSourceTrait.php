@@ -255,10 +255,6 @@ trait ChooseResourceSourceTrait
             foreach (array_count_values($ctx['bonus']) as $bonus => $amount) {
                 $player->increaseResource($bonus, $amount);
                 $resourcesChanged[] = $bonus;
-                if ($bonus === RESOURCE_CARD) {
-                    Notifications::handChanged($player);
-                    Notifications::deckChanged();
-                }
             }
         }
         if (isset($ctx['postActions'])) {
@@ -287,7 +283,7 @@ trait ChooseResourceSourceTrait
                     $resourcesChanged[] = RESOURCE_CARD;
                     break;
                 case LOCATION_ACTION_RAZE:
-                    Notifications::handChanged($player);
+                    Notifications::locationsDrawn($player);
                     Locations::move($location->getId(), LOCATION_DISCARD);
                     Notifications::locationRazed($player, $location);
                     $resourcesChanged[] = RESOURCE_CARD;
@@ -325,7 +321,8 @@ trait ChooseResourceSourceTrait
         }
         if (!empty($resourcesChanged)) {
             if (in_array(RESOURCE_CARD, $resourcesChanged)) {
-                Notifications::handChanged($player);
+                Notifications::locationsDrawn($player);
+                Notifications::deckChanged();
             }
             Notifications::resourcesChanged($player, $player->getResourcesWithNames(array_unique($resourcesChanged)));
         }

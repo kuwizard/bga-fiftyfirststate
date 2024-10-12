@@ -120,7 +120,6 @@
 .justPicked:not(:hover) {
   animation: justPicked 3s;
   animation-iteration-count: 2;
-  z-index: 2;
 }
 
 .justPickedSlide:not(:hover) {

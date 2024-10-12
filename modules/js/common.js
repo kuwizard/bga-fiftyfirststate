@@ -1,7 +1,7 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     return declare('state.common', null, {
         constructor() {
-            this._notifications.push(['handChanged', 1]);
+            this._notifications.push(['locationsDrawn', 1]);
             this._notifications.push(['deckChanged', 1]);
             this._notifications.push(['locationDiscarded', 1]);
             this._notifications.push(['locationPicked', 1]);
@@ -164,13 +164,19 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             });
         },
 
-        async notif_handChanged(n) {
-            debug('Notif: handChanged', n);
+        async notif_locationsDrawn(n) {
+            debug('Notif: locationsDrawn', n);
             await this.waitForDisappearance('.moving, .turnAround');
-            this.destroyAll('#handLocations .location');
-            n.args.hand.map((location) => {
-                return this.addLocation(location, $('handLocations'));
-            });
+            for (const position of Object.keys(n.args.new)) {
+                this.addLocation(n.args.new[position], $('deck'), true);
+                this.slide(
+                    `location_${n.args.new[position].id}`,
+                    'handLocations',
+                    { phantomEnd: true, targetPos: parseInt(position) }
+                );
+                this.addClass(`location_${n.args.new[position].id}`, 'justPicked', true, 3000);
+                await new Promise(resolve => setTimeout(resolve, 200));
+            }
             this.setCorrectClassToOverlapCards();
         },
 

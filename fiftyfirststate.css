@@ -513,7 +513,6 @@
 .justPicked:not(:hover) {
   animation: justPicked 3s;
   animation-iteration-count: 2;
-  z-index: 2;
 }
 
 .justPickedSlide:not(:hover) {
@@ -676,6 +675,10 @@
   flex-direction: column;
   align-items: center;
   gap: 5px;
+}
+
+#deck {
+  display: flex;
 }
 
 #board {

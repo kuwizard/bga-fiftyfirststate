@@ -31,18 +31,13 @@ class Locations extends Pieces
         return self::getByType($row);
     }
 
-    /**
-     * @param Player $player
-     * @param int $amount
-     * @return void
-     */
-    public static function draw($player, $amount = 1)
+    public static function draw(Player $player, int $amount = 1): Collection
     {
         $pId = $player->getId();
-        self::pickForLocation($amount, LOCATION_DECK, [LOCATION_HAND, $pId]);
+        return self::pickForLocation($amount, LOCATION_DECK, [LOCATION_HAND, $pId]);
     }
 
-    public static function discard($cardIds)
+    public static function discard(array $cardIds): void
     {
         if (!is_array($cardIds)) {
             $cardIds = [$cardIds];

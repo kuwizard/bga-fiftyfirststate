@@ -54,13 +54,13 @@ class Notifications
     /**
      * @return void
      */
-    public static function handChanged(Player $player)
+    public static function locationsDrawn(Player $player)
     {
         $resources = [
             'player' => $player,
-            'hand' => $player->getHand()->toArray(),
+            'new' => $player->getRecentlyDrawnLocations(),
         ];
-        self::notify($player, 'handChanged', '', $resources);
+        self::notify($player, 'locationsDrawn', '', $resources);
     }
 
     public static function deckChanged()
