@@ -171,13 +171,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         async notif_locationDealMade(n) {
             debug('Notif: locationDealMade', n);
-            const dealsResourceBlock = this.querySingle(`#faction_${n.args.player_id} .${n.args.resource}Block`);
             const deals = this.querySingle(`#faction_${n.args.player_id} .deals`);
-            const location = this.querySingle(`#location_${n.args.location.id}`);
-            this.addClass(location, 'turnAround');
-            this.addClass(location, 'turning', true, 450);
-            await this.waitForDisappearance('.turning');
-            await this.slide(location, deals, { destroy: true, pos: { x: 50, y: 0 }, duration: 700 });
+            if (this.player_id === n.args.player_id) {
+                const location = this.querySingle(`#location_${n.args.location.id}`);
+                this.addClass(location, 'turnAround');
+                this.addClass(location, 'turning', true, 450);
+                await this.waitForDisappearance('.turning');
+                await this.slide(location, deals, { destroy: true, pos: { x: 50, y: 0 }, duration: 700 });
+            }
+            const dealsResourceBlock = this.querySingle(`#faction_${n.args.player_id} .${n.args.resource}Block`);
             if (dealsResourceBlock) {
                 dojo.place(this.format_block('jstpl_resource_icon', { type: n.args.resource }), dealsResourceBlock);
             } else {
