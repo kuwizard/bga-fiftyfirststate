@@ -17,5 +17,6 @@ class Thugs extends Connection
             [RESOURCE_ARROW_RED, RESOURCE_ARROW_RED, RESOURCE_ARROW_RED],
         );
         $this->copies = 2;
+        $this->text[TEXT_DESCRIPTION] = clienttranslate('Spend 1 {gunIcon} to gain 3 {arrowRedIcon}');
     }
 }

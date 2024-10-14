@@ -17,5 +17,6 @@ class JunkTrain extends Connection
             [RESOURCE_ARROW_BLUE, RESOURCE_ARROW_BLUE, RESOURCE_ARROW_BLUE],
         );
         $this->copies = 2;
+        $this->text[TEXT_DESCRIPTION] = clienttranslate('Gain 3 {arrowBlueIcon}');
     }
 }

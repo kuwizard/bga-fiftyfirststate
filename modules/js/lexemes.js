@@ -90,6 +90,20 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 'jstpl_location_text',
                 { ...textArray, name: _(name).toUpperCase(), hidden: hidden, activatedHidden: activatedHidden }
             );
-        }
+        },
+
+        getConnectionText(textArray, name) {
+            if (Object.keys(textArray).length !== 2) {
+                throw new Error(`Unexpected error: getConnectionText textArray contains ${Object.keys(textArray).length} elements, expected 5`);
+            }
+            Object.keys(textArray).forEach(function (key) {
+                textArray[key] = this.replaceWithResourceIcon(_(textArray[key]), true);
+            }.bind(this));
+
+            return this.format_block(
+                'jstpl_connection_text',
+                { ...textArray, name: _(name).toUpperCase() }
+            );
+        },
     });
 });

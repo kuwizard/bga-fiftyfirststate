@@ -86,9 +86,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             } else {
                 connection = { ...connection, additionalClass: '' }
             }
-            const connectionBlock = this.format_block('jstpl_connection', connection);
+            let connectionBlock = this.format_block('jstpl_connection', connection);
             dojo.place(connectionBlock, destination);
             if (connection.id !== 0) {
+                connectionBlock = connectionBlock + this.getConnectionText(connection.text, connection.name);
                 this.addTooltipHtml(`connection_${connection.id}`, connectionBlock);
             }
         },

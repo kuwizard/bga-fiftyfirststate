@@ -177,6 +177,8 @@
     <div class="buildingBonus\${hidden}">
         <b>\${bbonus}:</b> \${bonusDescription}.
     </div>`
+    var jstpl_connection_text = `<div class="locationNameText">\${name}</div>
+    <b>\${type}:</b> \${description}.`
 </script>
 
 {OVERALL_GAME_FOOTER}

@@ -17,5 +17,6 @@ class Punks extends Connection
             [RESOURCE_ARROW_RED, RESOURCE_ARROW_RED],
         );
         $this->copies = 4;
+        $this->text[TEXT_DESCRIPTION] = clienttranslate('Gain 2 {arrowRedIcon}');
     }
 }

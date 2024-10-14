@@ -6,26 +6,12 @@ use STATE\Managers\Connections;
 
 class Connection implements \JsonSerializable
 {
-    /**
-     * @var int
-     */
-    protected $id;
-    /**
-     * @var string
-     */
-    protected $type;
-    /**
-     * @var string
-     */
-    protected $name;
-    /**
-     * @var Act
-     */
-    protected $action;
-    /**
-     * @var int
-     */
-    protected $copies;
+    protected ?int $id;
+    protected string $type;
+    protected string $name;
+    protected Act $action;
+    protected int $copies;
+    protected array $text;
 
     public function __construct($params = [])
     {
@@ -34,6 +20,10 @@ class Connection implements \JsonSerializable
         }
         $this->id = isset($params['id']) ? (int) $params['id'] : null;
         $this->type = $params['type'] ?? null;
+        $this->text = [
+            TEXT_TYPE => clienttranslate('INSTANT'),
+            TEXT_DESCRIPTION => '',
+        ];
     }
 
     /**
@@ -84,6 +74,8 @@ class Connection implements \JsonSerializable
         return [
             'id' => $this->id,
             'sprite' => Connections::getSprite($this->type),
+            'name' => $this->name,
+            'text' => $this->text,
         ];
     }
 }
