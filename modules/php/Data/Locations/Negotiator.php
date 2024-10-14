@@ -21,5 +21,9 @@ class Negotiator extends Action
             [RESOURCE_DEAL, RESOURCE_WORKER],
             [RESOURCE_VP, RESOURCE_VP],
         );
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate('Spend 1 {workerIcon} and discard 1 of your Deals to gain 2 {scoreIcon}'),
+        ];
     }
 }

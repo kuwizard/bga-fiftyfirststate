@@ -17,5 +17,9 @@ class Church extends Feature
         $this->deals = [RESOURCE_VP];
         $this->buildingBonus = [RESOURCE_VP, RESOURCE_VP];
         $this->copies = 2;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => '2 {scoreIcon}',
+        ];
     }
 }

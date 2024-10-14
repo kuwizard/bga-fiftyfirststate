@@ -1,5 +1,18 @@
 @import "variables";
 
+$icons: (
+        0: "fuel",
+        1: "gun",
+        2: "iron",
+        3: "brick",
+        4: "card",
+        5: "worker",
+        6: "score",
+        7: "church",
+        8: "arrow",
+        9: "ammo",
+);
+
 #board {
   display: flex;
   flex-direction: column;
@@ -34,7 +47,7 @@
 
 .resourceIcon {
   display: block;
-  background-image: url(img/icons.png);
+  background-image: url(img/resources.png);
   background-size: 1400% 100%;
   width: 45px;
   height: 45px;
@@ -49,6 +62,23 @@
 
   &.blurred {
     opacity: 0.3;
+  }
+}
+
+.resourceAcon {
+  background-image: url(img/icons.png);
+  background-size: 1000% 100%;
+  width: 18px;
+  height: 18px * $aconRatio;
+  display: inline-block;
+  vertical-align: bottom;
+  filter: drop-shadow(2px 2px 6px #ffffff);
+  will-change: transform;
+
+  @each $xShift, $name in $icons {
+    &.#{$name}Acon {
+      background-position-x: (100%/9 * $xShift);
+    }
   }
 }
 
@@ -181,4 +211,9 @@
   #board {
     margin-right: 5px;
   }
+}
+
+.midSizeDialog {
+  line-height: 20px;
+  width: min-content;
 }

@@ -16,6 +16,10 @@ class OilRig extends Production
         $this->icons = [ICON_FUEL, ICON_AMMO];
         $this->deals = [RESOURCE_FUEL];
         $this->copies = 2;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate('1 {fuelIcon} for each {fuelAcon} in your State. Max. 3'),
+        ];
     }
 
     public function getProduct($player)

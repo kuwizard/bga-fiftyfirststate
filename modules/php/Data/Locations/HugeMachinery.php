@@ -21,5 +21,9 @@ class HugeMachinery extends Action
             [RESOURCE_WORKER, RESOURCE_IRON],
             [RESOURCE_ARROW_GREY, RESOURCE_ARROW_GREY, RESOURCE_ARROW_GREY],
         );
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate('Spend 1 {workerIcon} and 1 {ironIcon} to gain 3 {arrowGreyIcon}'),
+        ];
     }
 }

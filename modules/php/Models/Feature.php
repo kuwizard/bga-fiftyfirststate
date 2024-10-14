@@ -12,9 +12,14 @@ class Feature extends Location
         return 'feature';
     }
 
-    public function getFactionRowName()
+    public function getFactionRowName(): string
     {
         return clienttranslate('Feature');
+    }
+
+    public function getRowText(): string
+    {
+        return clienttranslate('FEATURE');
     }
 
     public function getDefenceValue()
@@ -22,14 +27,9 @@ class Feature extends Location
         return 4;
     }
 
-    /**
-     * @param Player $player
-     * @param int $icon
-     * @return array
-     */
-    protected function getVPForEachIcon($player, $icon)
+    protected function getVPForEachIcon(?Player $player, int $icon): array
     {
-        $icons = $player->getBoardIcons($icon);
+        $icons = $player ? $player->getBoardIcons($icon) : [];
         $maxIcons = array_slice($icons, 0, 5);
         return array_fill(0, count($maxIcons), RESOURCE_VP);
     }

@@ -21,5 +21,9 @@ class Skyscraper extends Action
             [RESOURCE_WORKER, RESOURCE_BRICK, RESOURCE_BRICK],
             [RESOURCE_VP, RESOURCE_VP, RESOURCE_VP],
         );
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate('Spend 1 {workerIcon} and 2 {brickIcon} to gain 3 {scoreIcon}'),
+        ];
     }
 }

@@ -22,6 +22,14 @@ class Action extends Location
         $this->activationsMax = 1;
     }
 
+    protected function getText(bool $isBuildingBonus = false): array
+    {
+        return [
+            ...parent::getText(),
+            TEXT_MAY_BE_ACTIVATED_TWICE => $this->activationsMax === 2 ? clienttranslate('May be activated twice.') : '',
+        ];
+    }
+
     /**
      * @return string
      */
@@ -30,9 +38,14 @@ class Action extends Location
         return 'actions';
     }
 
-    public function getFactionRowName()
+    public function getFactionRowName(): string
     {
         return clienttranslate('Actions');
+    }
+
+    public function getRowText(): string
+    {
+        return clienttranslate('ACTION');
     }
 
     /**

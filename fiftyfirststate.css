@@ -520,6 +520,13 @@
   z-index: 2;
 }
 
+.locationNameText {
+  margin: 7px;
+  font-size: large;
+  font-weight: 700;
+  text-align: center;
+}
+
 #hand, #deckConnectionsBlock {
   background: hsla(0, 0%, 100%, 0.733);
   border-radius: 14px;
@@ -715,7 +722,7 @@
 
 .resourceIcon {
   display: block;
-  background-image: url(img/icons.png);
+  background-image: url(img/resources.png);
   background-size: 1400% 100%;
   width: 45px;
   height: 45px;
@@ -766,6 +773,47 @@
 }
 .resourceIcon.blurred {
   opacity: 0.3;
+}
+
+.resourceAcon {
+  background-image: url(img/icons.png);
+  background-size: 1000% 100%;
+  width: 18px;
+  height: 19.692px;
+  display: inline-block;
+  vertical-align: bottom;
+  filter: drop-shadow(2px 2px 6px #ffffff);
+  will-change: transform;
+}
+.resourceAcon.fuelAcon {
+  background-position-x: 0%;
+}
+.resourceAcon.gunAcon {
+  background-position-x: 11.1111111111%;
+}
+.resourceAcon.ironAcon {
+  background-position-x: 22.2222222222%;
+}
+.resourceAcon.brickAcon {
+  background-position-x: 33.3333333333%;
+}
+.resourceAcon.cardAcon {
+  background-position-x: 44.4444444444%;
+}
+.resourceAcon.workerAcon {
+  background-position-x: 55.5555555556%;
+}
+.resourceAcon.scoreAcon {
+  background-position-x: 66.6666666667%;
+}
+.resourceAcon.churchAcon {
+  background-position-x: 77.7777777778%;
+}
+.resourceAcon.arrowAcon {
+  background-position-x: 88.8888888889%;
+}
+.resourceAcon.ammoAcon {
+  background-position-x: 100%;
 }
 
 #page-title .resourceIcon {
@@ -892,6 +940,11 @@
 }
 .mobile_version #board {
   margin-right: 5px;
+}
+
+.midSizeDialog {
+  line-height: 20px;
+  width: min-content;
 }
 
 /*# sourceMappingURL=fiftyfirststate.css.map */

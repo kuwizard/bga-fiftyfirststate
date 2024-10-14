@@ -74,6 +74,22 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         getPassWarningLexeme() {
             return _(
                 'After you pass, you will not be able to take any Actions for the round. Also other players will not interact with your Locations in any way.');
+        },
+
+        getLocationText(textArray, name) {
+            if (Object.keys(textArray).length !== 5) {
+                throw new Error(`Unexpected error: getLocationText textArray contains ${Object.keys(textArray).length} elements, expected 5`);
+            }
+            Object.keys(textArray).forEach(function (key) {
+                textArray[key] = this.replaceWithResourceIcon(_(textArray[key]), true);
+            }.bind(this));
+
+            const hidden = textArray.bbonus === '' ? ' hidden' : '';
+            const activatedHidden = textArray.mayBeActivated === '' ? ' hidden' : '';
+            return this.format_block(
+                'jstpl_location_text',
+                { ...textArray, name: _(name).toUpperCase(), hidden: hidden, activatedHidden: activatedHidden }
+            );
         }
     });
 });

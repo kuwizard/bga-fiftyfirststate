@@ -22,5 +22,9 @@ class WeaponTrader extends Action
             [RESOURCE_VP],
         );
         $this->activationsMax = 2;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate('Spend 1 {gunIcon} to gain 1 {scoreIcon}'),
+        ];
     }
 }

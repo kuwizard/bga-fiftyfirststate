@@ -3,7 +3,6 @@
 namespace STATE\Models;
 
 use STATE\Core\Notifications;
-use STATE\Helpers\ResourcesHelper;
 use STATE\Managers\Locations;
 use STATE\Managers\Players;
 
@@ -68,9 +67,14 @@ class Production extends Location
         return 'production';
     }
 
-    public function getFactionRowName()
+    public function getFactionRowName(): string
     {
         return clienttranslate('Production');
+    }
+
+    public function getRowText(): string
+    {
+        return $this->isOpen() ? clienttranslate('OPEN PRODUCTION') : clienttranslate('PRODUCTION');
     }
 
     public function jsonSerialize()

@@ -27,11 +27,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         },
 
         replaceWithResourceIcon(lexeme, isLogIcon = false) {
-            if (/{.*}/.test(lexeme)) {
-                while (/{.*}/.test(lexeme)) {
-                    const match = lexeme.match(/{(.*?Icon)}/);
-                    const type = match[1].replace(/Icon$/, '');
-                    const tpl = isLogIcon ? 'jstpl_resource_icon_log' : 'jstpl_resource_icon';
+            if (/{.*?[IA]con}/.test(lexeme)) {
+                while (/{.*?[IA]con}/.test(lexeme)) {
+                    const match = lexeme.match(/{(.*?[IA]con)}/);
+                    const type = match[1].replace(/[IA]con$/, '');
+                    let tpl = isLogIcon ? 'jstpl_resource_icon_log' : 'jstpl_resource_icon';
+                    if (lexeme.match(/[IA]con}/)[0] === 'Acon}') {
+                        tpl = 'jstpl_resource_acon_log';
+                    }
                     lexeme = lexeme.replace(/{.*?}/, this.format_block(tpl, { type: type }));
                 }
             }
@@ -126,11 +129,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         addLocation(location, destination, isFirst = false) {
             const locationBlock = this.format_block('jstpl_location', this.enrichLocationObject(location));
             const locationElement = dojo.place(locationBlock, destination, isFirst ? 'first' : 'last');
-            const locationNotRuinedBlock = this.format_block(
+            let locationNotRuinedBlock = this.format_block(
                 'jstpl_location',
                 this.enrichLocationObject({ ...location, isRuined: false })
             );
-            this.addTooltipHtml(`location_${location.id}`, locationNotRuinedBlock);
+            if (location.text) {
+                locationNotRuinedBlock = locationNotRuinedBlock + this.getLocationText(location.text, location.name);
+                this.addTooltipHtml(`location_${location.id}`, locationNotRuinedBlock);
+            }
             return locationElement;
         },
 

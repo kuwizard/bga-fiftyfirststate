@@ -21,5 +21,9 @@ class RadioactiveFuel extends Action
             [RESOURCE_WORKER, RESOURCE_FUEL],
             [RESOURCE_VP, RESOURCE_VP],
         );
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate('Spend 1 {workerIcon} and 1 {fuelIcon} to gain 2 {scoreIcon}'),
+        ];
     }
 }

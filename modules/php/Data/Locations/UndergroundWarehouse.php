@@ -21,5 +21,11 @@ class UndergroundWarehouse extends FeatureStorageMultiple
         $this->resourcesOptions = [
             new ResourceStorageOption([RESOURCE_FUEL, RESOURCE_GUN, RESOURCE_IRON, RESOURCE_BRICK], 3),
         ];
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate(
+                'You may store up to 3 {gunIcon} / {fuelIcon} / {ironIcon} / {brickIcon} here during the Cleanup phase. Take them back during the next Production phase'
+            ),
+        ];
     }
 }

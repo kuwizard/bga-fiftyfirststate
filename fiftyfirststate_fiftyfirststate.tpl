@@ -148,6 +148,7 @@
     </span>`
     var jstpl_resource_icon = `<span class="\${type}Icon resourceIcon"></span>`
     var jstpl_resource_icon_log = `<span class="\${type}Icon resourceIcon logIcon"></span>`
+    var jstpl_resource_acon_log = `<span class="\${type}Acon resourceAcon logAcon"></span>`
     var jstpl_resource_block = `<span class="\${type}Block resourceBlock"></span>`
     var jstpl_last_round = `<div id="lastRound">\${text}</div>`
     var jstpl_collapsed_text = '<div class="collapsedText">\${text}</div>'
@@ -168,6 +169,14 @@
                 <div class="connectionsBlock"></div>
             </div>
         </div>`
+    var jstpl_location_text = `<div class="locationNameText">\${name}</div>
+    <b>\${type}:</b> \${description}.<span class="mayBeActivated \${activatedHidden}">
+        \${mayBeActivated}
+    </span>
+    <br/>
+    <div class="buildingBonus\${hidden}">
+        <b>\${bbonus}:</b> \${bonusDescription}.
+    </div>`
 </script>
 
 {OVERALL_GAME_FOOTER}

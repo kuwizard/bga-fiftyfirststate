@@ -16,6 +16,10 @@ class Arena extends Production
         $this->icons = [ICON_GUN, ICON_AMMO];
         $this->deals = [RESOURCE_GUN];
         $this->copies = 2;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate('1 {gunIcon} for each {gunAcon} in your State. Max. 3'),
+        ];
     }
 
     public function getProduct($player)

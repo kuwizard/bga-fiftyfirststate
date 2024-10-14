@@ -21,5 +21,9 @@ class GunShop extends Action
             [RESOURCE_WORKER, RESOURCE_GUN, RESOURCE_GUN],
             [RESOURCE_VP, RESOURCE_VP, RESOURCE_VP],
         );
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate('Spend 1 {workerIcon} and 2 {gunIcon} to gain 3 {scoreIcon}'),
+        ];
     }
 }

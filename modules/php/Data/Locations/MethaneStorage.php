@@ -19,5 +19,12 @@ class MethaneStorage extends FeatureStorageSingle
 
         $this->resourceType = RESOURCE_FUEL;
         $this->resourceLimit = 3;
+        $this->text = [
+            ...$this->getText(true),
+            TEXT_DESCRIPTION => '-',
+            TEXT_BONUS_DESCRIPTION => clienttranslate(
+                'Place 3 {fuelIcon} on this location. You may spend them during your turn. Do not discard them during the Cleanup phase'
+            ),
+        ];
     }
 }

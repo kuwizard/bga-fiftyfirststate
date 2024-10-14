@@ -19,5 +19,10 @@ class BoilerRoom extends Production
         $this->buildingBonus = [RESOURCE_WORKER];
         $this->copies = 1;
         $this->isOpen = true;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => '2 {workerIcon}',
+            TEXT_BONUS_DESCRIPTION => '1 {workerIcon}',
+        ];
     }
 }

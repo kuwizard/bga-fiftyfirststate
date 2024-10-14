@@ -22,5 +22,9 @@ class ScrapTrader extends Action
             [RESOURCE_VP],
         );
         $this->activationsMax = 2;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate('Spend 1 {ironIcon} to gain 1 {scoreIcon}'),
+        ];
     }
 }

@@ -21,5 +21,9 @@ class Bioweaponry extends Action
             [RESOURCE_WORKER, RESOURCE_GUN],
             [RESOURCE_VP, RESOURCE_VP],
         );
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate('Spend 1 {workerIcon} and 1 {gunIcon} to gain 2 {scoreIcon}'),
+        ];
     }
 }

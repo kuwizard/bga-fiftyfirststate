@@ -19,5 +19,10 @@ class Sharrash extends Production
         $this->isOpen = true;
         $this->buildingBonus = [RESOURCE_ARROW_UNIVERSAL];
         $this->copies = 1;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => '1 {arrowUniIcon}',
+            TEXT_BONUS_DESCRIPTION => '1 {arrowUniIcon}',
+        ];
     }
 }

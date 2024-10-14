@@ -22,5 +22,9 @@ class DesertedColony extends Action
             [RESOURCE_AMMO],
         );
         $this->activationsMax = 2;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate('Spend 1 {workerIcon} to gain 1 {ammoIcon}'),
+        ];
     }
 }

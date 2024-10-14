@@ -16,6 +16,10 @@ class ParkingLot extends Production
         $this->icons = [ICON_IRON, ICON_AMMO];
         $this->deals = [RESOURCE_IRON];
         $this->copies = 2;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate('1 {ironIcon} for each {ironAcon} in your State. Max. 3'),
+        ];
     }
 
     public function getProduct($player)

@@ -7,22 +7,10 @@ use STATE\Managers\Locations;
 
 class Location implements \JsonSerializable
 {
-    /**
-     * @var int
-     */
-    protected $id;
-    /**
-     * @var string
-     */
-    protected $type;
-    /**
-     * @var string
-     */
-    protected $name;
-    /**
-     * @var int
-     */
-    protected $distance;
+    protected int|null $id;
+    protected string|null $type;
+    protected string $name;
+    protected int $distance;
     /**
      * @var int[]
      */
@@ -39,18 +27,10 @@ class Location implements \JsonSerializable
      * @var int[]
      */
     protected $deals;
-    /**
-     * @var int
-     */
-    protected $activatedTimes;
-    /**
-     * @var bool
-     */
-    protected $isRuined;
-    /**
-     * @var int
-     */
-    protected $copies;
+    protected int|null $activatedTimes;
+    protected bool $isRuined;
+    protected int $copies;
+    protected array $text;
 
     public function __construct($params = [])
     {
@@ -64,6 +44,18 @@ class Location implements \JsonSerializable
         $this->activatedTimes = isset($params['activated_times']) ? (int) $params['activated_times'] : null;
         $this->isRuined = isset($params['is_ruined']) && (int) $params['is_ruined'] === 1 ?? false;
         $this->copies = 1;
+        $this->text = [];
+    }
+
+    protected function getText(bool $isBuildingBonus = false): array
+    {
+        return [
+            TEXT_TYPE => $this->getRowText(),
+            TEXT_DESCRIPTION => '',
+            TEXT_BUILDING_BONUS => empty($this->getBuildingBonus()) && !$isBuildingBonus ? '' : clienttranslate('BUILDING BONUS'),
+            TEXT_BONUS_DESCRIPTION => '',
+            TEXT_MAY_BE_ACTIVATED_TWICE => '',
+        ];
     }
 
     /**
@@ -114,10 +106,9 @@ class Location implements \JsonSerializable
     }
 
     /**
-     * @param Player $player
      * @return int[]
      */
-    public function getBuildingBonus($player)
+    public function getBuildingBonus(Player $player = null): array
     {
         return $this->buildingBonus;
     }
@@ -138,10 +129,12 @@ class Location implements \JsonSerializable
         return '';
     }
 
-    /**
-     * @return string
-     */
-    public function getFactionRowName()
+    public function getFactionRowName(): string
+    {
+        return '';
+    }
+
+    public function getRowText(): string
     {
         return '';
     }
@@ -197,6 +190,7 @@ class Location implements \JsonSerializable
             'sprite' => Locations::getSprite($this->type),
             'isRuined' => $this->isRuined,
             'name' => $this->name,
+            'text' => $this->text,
         ];
         if (!$this->isRuined && $this->activatedTimes > 0) {
             $requirements = $this->getSpendRequirements();

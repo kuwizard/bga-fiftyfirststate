@@ -16,6 +16,10 @@ class BrickSupplier extends Production
         $this->icons = [ICON_BRICK, ICON_AMMO];
         $this->deals = [RESOURCE_BRICK];
         $this->copies = 2;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate('1 {brickIcon} for each {brickAcon} in your State. Max. 3'),
+        ];
     }
 
     public function getProduct($player)

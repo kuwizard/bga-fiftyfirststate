@@ -19,5 +19,10 @@ class ConstructionVehicles extends Production
         $this->isOpen = true;
         $this->buildingBonus = [RESOURCE_ARROW_GREY];
         $this->copies = 3;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => '1 {arrowGreyIcon}',
+            TEXT_BONUS_DESCRIPTION => '1 {arrowGreyIcon}',
+        ];
     }
 }

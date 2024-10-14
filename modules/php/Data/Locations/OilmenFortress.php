@@ -21,5 +21,9 @@ class OilmenFortress extends Action
             [RESOURCE_WORKER, RESOURCE_FUEL, RESOURCE_FUEL],
             [RESOURCE_VP, RESOURCE_VP, RESOURCE_VP],
         );
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate('Spend 1 {workerIcon} and 2 {fuelIcon} to gain 3 {scoreIcon}'),
+        ];
     }
 }

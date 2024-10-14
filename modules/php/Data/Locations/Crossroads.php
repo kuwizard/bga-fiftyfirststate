@@ -17,5 +17,10 @@ class Crossroads extends Feature
         $this->buildingBonus = [RESOURCE_CARD, RESOURCE_CARD];
         $this->deals = [RESOURCE_CARD];
         $this->copies = 1;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => '-',
+            TEXT_BONUS_DESCRIPTION => '2 {cardIcon}',
+        ];
     }
 }

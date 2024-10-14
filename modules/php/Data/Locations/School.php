@@ -18,5 +18,10 @@ class School extends Production
         $this->product = [RESOURCE_WORKER];
         $this->buildingBonus = [RESOURCE_WORKER];
         $this->copies = 3;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => '1 {workerIcon}',
+            TEXT_BONUS_DESCRIPTION => '1 {workerIcon}',
+        ];
     }
 }

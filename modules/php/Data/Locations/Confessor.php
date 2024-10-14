@@ -22,5 +22,9 @@ class Confessor extends Action
             [RESOURCE_VP, RESOURCE_VP],
         );
         $this->activationsMax = 2;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate('Spend 2 {gunIcon} to gain 2 {scoreIcon}'),
+        ];
     }
 }

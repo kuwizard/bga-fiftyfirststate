@@ -21,5 +21,11 @@ class MercOutpost extends Action
             [RESOURCE_ANY_OF_MAIN],
             [RESOURCE_WORKER, RESOURCE_WORKER],
         );
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate(
+                'Spend 1 {gunIcon} / {fuelIcon} / {ironIcon} / {brickIcon} to gain 2 {workerIcon}'
+            ),
+        ];
     }
 }

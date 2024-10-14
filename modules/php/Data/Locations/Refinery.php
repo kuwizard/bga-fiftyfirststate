@@ -3,6 +3,7 @@
 namespace STATE\Data\Locations;
 
 use STATE\Models\Feature;
+use STATE\Models\Player;
 
 class Refinery extends Feature
 {
@@ -16,9 +17,16 @@ class Refinery extends Feature
         $this->icons = [ICON_FUEL, ICON_VP];
         $this->deals = [RESOURCE_FUEL];
         $this->copies = 1;
+        $this->text = [
+            ...$this->getText(true),
+            TEXT_DESCRIPTION => '-',
+            TEXT_BONUS_DESCRIPTION => clienttranslate(
+                '1 {scoreIcon} for each {fuelAcon} in your State. Max. 5'
+            ),
+        ];
     }
 
-    public function getBuildingBonus($player)
+    public function getBuildingBonus(Player $player = null): array
     {
         return $this->getVPForEachIcon($player, ICON_FUEL);
     }

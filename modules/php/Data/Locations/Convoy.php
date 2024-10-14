@@ -22,5 +22,9 @@ class Convoy extends Action
             [RESOURCE_ARROW_BLUE],
         );
         $this->activationsMax = 2;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate('Spend 1 {fuelIcon} to gain 1 {arrowBlueIcon}'),
+        ];
     }
 }

@@ -22,5 +22,11 @@ class ThievesDen extends FeatureStorageMultiple
             new ResourceStorageOption([RESOURCE_FUEL, RESOURCE_GUN, RESOURCE_IRON, RESOURCE_BRICK], 2),
             new ResourceStorageOption([RESOURCE_WORKER], 2),
         ];
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate(
+                'You may store up to 2 {gunIcon} / {fuelIcon} / {ironIcon} / {brickIcon} and 2 {workerIcon} here during the Cleanup phase. Take them back during the next Production phase'
+            ),
+        ];
     }
 }

@@ -181,6 +181,15 @@ define('LOCATION_ACTION_RAZE_OTHER', 'razeOtherPlayer');
 define('LOCATION_ACTION_DEVELOP', 'develop');
 
 /*
+ * Texts types
+ */
+define('TEXT_TYPE', 'type');
+define('TEXT_DESCRIPTION', 'description');
+define('TEXT_BUILDING_BONUS', 'bbonus');
+define('TEXT_BONUS_DESCRIPTION', 'bonusDescription');
+define('TEXT_MAY_BE_ACTIVATED_TWICE', 'mayBeActivated');
+
+/*
  * Global constants
  */
 define('GLOBAL_START_CARDS', 6);

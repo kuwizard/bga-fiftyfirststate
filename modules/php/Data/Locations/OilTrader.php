@@ -22,5 +22,9 @@ class OilTrader extends Action
             [RESOURCE_VP],
         );
         $this->activationsMax = 2;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate('Spend 1 {fuelIcon} to gain 1 {scoreIcon}'),
+        ];
     }
 }

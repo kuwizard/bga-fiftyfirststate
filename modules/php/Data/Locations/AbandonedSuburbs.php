@@ -22,5 +22,9 @@ class AbandonedSuburbs extends Action
             [RESOURCE_VP, RESOURCE_VP],
         );
         $this->activationsMax = 2;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate('Spend 2 {brickIcon} to gain 2 {scoreIcon}'),
+        ];
     }
 }

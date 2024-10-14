@@ -22,5 +22,9 @@ class Hideout extends Action
             [RESOURCE_VP],
         );
         $this->activationsMax = 2;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate('Discard 1 of your Deals to gain 1 {scoreIcon}'),
+        ];
     }
 }

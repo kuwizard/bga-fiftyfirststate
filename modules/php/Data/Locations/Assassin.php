@@ -18,5 +18,9 @@ class Assassin extends Production
         $this->product = [RESOURCE_GUN];
         $this->isOpen = true;
         $this->copies = 2;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => '1 {gunIcon}',
+        ];
     }
 }

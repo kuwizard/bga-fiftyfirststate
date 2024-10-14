@@ -25,6 +25,12 @@ class ThievesCaravan extends Action
             ACTION_TYPE_STEAL_ANOTHER_PLAYER
         );
         $this->activationsMax = 2;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => clienttranslate(
+                'Spend 2 {workerIcon} to take 1 {gunIcon} / {fuelIcon} / {ironIcon} / {brickIcon} from another player'
+            ),
+        ];
     }
 
     public function isActivatable(): bool

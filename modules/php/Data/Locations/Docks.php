@@ -18,5 +18,9 @@ class Docks extends Production
         $this->product = [RESOURCE_IRON];
         $this->isOpen = true;
         $this->copies = 2;
+        $this->text = [
+            ...$this->getText(),
+            TEXT_DESCRIPTION => '1 {ironIcon}',
+        ];
     }
 }
