@@ -147,22 +147,6 @@ $icons: (
   height: $locationTooltipWidth;
 }
 
-#connections, #lookout {
-  display: flex;
-  align-items: center;
-  width: calc(100% - $deckDiscardSize - 5px); // left margin is 5px
-  justify-content: center;
-  gap: 5px;
-
-  &.hidden {
-    display: none;
-  }
-}
-
-#connections {
-  gap: 10px;
-}
-
 #lastRound {
   background-color: #c10707;
   color: #fff;

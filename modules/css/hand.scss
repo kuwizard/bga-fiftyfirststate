@@ -7,58 +7,6 @@
   margin-left: 3px;
 }
 
-#deckConnectionsBlock {
-  display: flex;
-  justify-content: flex-start;
-  height: 275px;
-  transition: height 500ms;
-  align-items: center;
-  font-weight: 700;
-
-  &.collapsing, &.collapsed {
-    height: 40px;
-
-    #collapseButton {
-      will-change: transform;
-      transform: rotate(90deg);
-    }
-  }
-
-  &.collapsed {
-    #deck, #discard {
-      display: none;
-    }
-
-    .collapsedText {
-      display: block;
-    }
-
-    #lookout .location {
-      display: none;
-    }
-
-    #connections .connection {
-      display: none;
-    }
-  }
-
-  .collapsedText {
-    display: none;
-  }
-
-  #collapseButton {
-    width: 31px;
-    height: 30px;
-    cursor: pointer;
-    transform: rotate(270deg);
-    box-shadow: rgba(0, 0, 0, 0.55) 0 0 2px;
-    border-radius: 8px;
-    margin-right: 5px;
-    transition: transform 0.5s;
-    margin-left: auto;
-  }
-}
-
 #hand {
   display: flex;
   flex-direction: column;
@@ -173,24 +121,4 @@
     max-height: 180px;
     gap: 5px;
   }
-}
-
-#deckDiscard {
-  width: $deckDiscardSize;
-  height: 100%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-left: 5px;
-
-  #deckBlock, #discardBlock {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-  }
-}
-
-#deck {
-  display: flex;
 }

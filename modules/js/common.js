@@ -148,34 +148,50 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         },
 
         setCorrectClassToOverlapCards() {
-            const singleWidth = this.querySingle('#deck .location').offsetWidth;
+            let singleWidth = this.querySingle('.location').offsetWidth;
+            if (singleWidth < 169) {
+                singleWidth = 169;
+            }
             // Hand
             if (!this.isSpectator) {
                 const handImages = dojo.query('#handLocations .locationImage');
                 const handSum = singleWidth * handImages.length + (handImages.length - 1) * 5;
-                if (this.querySingle('#handLocations').offsetWidth <= handSum) {
-                    dojo.removeClass('handLocations', 'notTooManyChildren');
-                } else {
-                    dojo.addClass('handLocations', 'notTooManyChildren');
-                }
+                this.setOrRemoveClass(
+                    'handLocations',
+                    this.querySingle('#handLocations').offsetWidth > handSum,
+                    'notTooManyChildren'
+                );
             }
 
             // Any other row
             dojo.query('.cardsBlock').forEach((row) => {
                 const rowSum = singleWidth * row.childElementCount + (row.childElementCount - 1) * 4;
-                if (row.offsetWidth <= rowSum) {
-                    dojo.removeClass(row, 'notTooManyChildren');
-                } else {
-                    dojo.addClass(row, 'notTooManyChildren');
-                }
+                this.setOrRemoveClass(row, row.offsetWidth > rowSum, 'notTooManyChildren');
             });
+
+            // Lookout
+            const lookout = this.querySingle('#lookout');
+            if (!lookout.classList.contains('hidden')) {
+                const locations = dojo.query('#lookout .location');
+                const lookoutWidth = singleWidth * locations.length + (locations.length - 1) * 5;
+                this.setOrRemoveClass(lookout, window.innerWidth * 0.7 > lookoutWidth, 'notTooManyChildren');
+            }
+            this.setOrRemoveClass('deckConnectionsBlock', window.innerWidth <= 1366, 'narrow'); // iPad Pro width
+        },
+
+        setOrRemoveClass(element, condition, clazz) {
+            if (condition) {
+                dojo.addClass(element, clazz);
+            } else {
+                dojo.removeClass(element, clazz);
+            }
         },
 
         async notif_locationsDrawn(n) {
             debug('Notif: locationsDrawn', n);
             await this.waitForDisappearance('.moving, .turnAround');
             for (const position of Object.keys(n.args.new)) {
-                this.addLocation(n.args.new[position], $('deck'), true);
+                this.addLocation(n.args.new[position], $('deckBlock'), true);
                 this.slide(
                     `location_${n.args.new[position].id}`,
                     'handLocations',

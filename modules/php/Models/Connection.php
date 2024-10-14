@@ -7,7 +7,7 @@ use STATE\Managers\Connections;
 class Connection implements \JsonSerializable
 {
     protected ?int $id;
-    protected string $type;
+    protected ?string $type;
     protected string $name;
     protected Act $action;
     protected int $copies;

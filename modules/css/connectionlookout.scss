@@ -1,0 +1,110 @@
+#deckConnectionsBlock {
+  display: flex;
+  justify-content: flex-start;
+  height: 275px;
+  transition: height 500ms;
+  align-items: center;
+  font-weight: 700;
+
+  &.collapsing, &.collapsed {
+    height: 40px;
+
+    #collapseButton {
+      will-change: transform;
+      transform: rotate(90deg);
+    }
+  }
+
+  &.collapsed {
+    #deck, #discard {
+      display: none;
+    }
+
+    .collapsedText {
+      display: block;
+    }
+
+    #lookout .location {
+      display: none;
+    }
+
+    #connections .connection {
+      display: none;
+    }
+  }
+
+  .collapsedText {
+    display: none;
+  }
+
+  #collapseButton {
+    width: 31px;
+    cursor: pointer;
+    transform: rotate(270deg);
+    box-shadow: rgba(0, 0, 0, 0.55) 0 0 2px;
+    border-radius: 8px;
+    margin: 0 5px;
+    transition: transform 0.5s;
+  }
+
+  &.narrow {
+    #deckDiscard {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    #deck, #discard {
+      display: none;
+    }
+  }
+
+  #lookout:not(#lookout.notTooManyChildren) {
+    justify-content: space-between;
+
+    .locationWrapper {
+      width: 2vw;
+
+      &:last-child {
+        width: auto;
+      }
+    }
+  }
+}
+
+#deckDiscard {
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-left: 5px;
+  gap: 8px;
+
+  #deckBlock, #discardBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: max-content;
+  }
+}
+
+#deck {
+  display: flex;
+}
+
+#connections, #lookout {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  gap: 5px;
+  margin-left: 10px;
+
+  &.hidden {
+    display: none;
+  }
+}
+
+#connections {
+  gap: 10px;
+}

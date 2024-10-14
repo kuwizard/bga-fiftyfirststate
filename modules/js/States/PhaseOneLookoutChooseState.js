@@ -26,6 +26,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             });
             this.querySingle(`#deckHeader .headerValue`).innerText = args.deckCount;
             this.keepLookoutUncollapsable();
+            this.setCorrectClassToOverlapCards();
         },
 
         async onEnteringStatePhaseTwoProduction() {
