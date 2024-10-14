@@ -508,7 +508,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                         args.locationName2 = `<span class="locationName"><b>${_(args.locationName2)}</b></span>`;
                     }
                     if (log.includes('{highlight}')) {
-                        log = log.replace('{highlight}', ''); // TODO: Add highlighting
+                        log = _(log).replace('{highlight}', ''); // TODO: Add highlighting
                     }
                 }
             } catch (e) {
