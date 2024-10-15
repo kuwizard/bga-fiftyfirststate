@@ -88,9 +88,9 @@ trait ChooseResourceSourceTrait
             $onlyLocation = count($sources) === 1 && isset($sources['locations']) && count($sources['locations']) === 1;
             if ($onlyNotLocation || $onlyLocation) {
                 if (isset($sources['faction'])) {
-                    $whereId = 0;
+                    $sourceId = 0;
                 } else {
-                    $whereId = isset($sources['locations']) ? $sources['locations'][0]->getId() : $sources['joker'];
+                    $sourceId = isset($sources['locations']) ? $sources['locations'][0]->getId() : $sources['joker'];
                 }
                 if (!in_array($resource, [RESOURCE_DEAL, RESOURCE_ANY_OF_MAIN])) {
                     $processed[] = $sources['joker'] ?? $resource;
@@ -117,7 +117,7 @@ trait ChooseResourceSourceTrait
                     );
                     break;
                 } else {
-                    $this->decreaseResource($whereId, $player, $resource, $ctx['activatorId']);
+                    $this->decreaseResource($sourceId, $player, $resource, $ctx['activatorId']);
                 }
             } else {
                 Stack::insertOnTopAndFinish(ST_CHOOSE_RESOURCE_SOURCE, [
@@ -213,17 +213,19 @@ trait ChooseResourceSourceTrait
         ]);
     }
 
-    private function decreaseResource(int $whereId, Player $player, int $resource, int|null $activatorId): void
+    // TODO: refactor this to mitigate difference between $sourceId and $resource as they seem to intersect thus confusing
+    private function decreaseResource(int $sourceId, Player $player, int $resource, int|null $activatorId): void
     {
-        if (in_array($whereId, ALL_RESOURCES_LIST)) {
-            $player->decreaseResource($whereId);
-            Notifications::resourcesChanged($player, $player->getResourcesWithNames([$whereId]));
-        } else if ($whereId === 0) {
+        if (in_array($sourceId, ALL_RESOURCES_LIST)) {
+            $resource = $sourceId;
+            $player->decreaseResource($sourceId);
+            Notifications::resourcesChanged($player, $player->getResourcesWithNames([$sourceId]));
+        } else if ($sourceId === 0) {
             $player->decreaseResource($resource);
             Notifications::resourcesChanged($player, $player->getResourcesWithNames([$resource]));
         } else {
-            Resources::delete($whereId, $resource);
-            Notifications::resourcesLocationChanged($player, $whereId, ResourcesHelper::getResourceName($resource));
+            Resources::delete($sourceId, $resource);
+            Notifications::resourcesLocationChanged($player, $sourceId, ResourcesHelper::getResourceName($resource));
         }
         if (!is_null($activatorId)) {
             if ($this->isFactionAction($activatorId)) {
