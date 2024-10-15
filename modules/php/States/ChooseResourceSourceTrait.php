@@ -137,7 +137,7 @@ trait ChooseResourceSourceTrait
                     ST_DISCARD_LOCATION_FOR_RESOURCES,
                 ]
             )) {
-            $this->postActions($player);
+            $this->postActions($player, $processed);
             if ($ctx['activatorId']) {
                 if ($ctx['activatorId'] < FACTION_NEW_YORK) {
                     $owner = Players::getOwner($ctx['activatorId']);
@@ -249,7 +249,7 @@ trait ChooseResourceSourceTrait
         return $activatorId >= FACTION_NEW_YORK && $activatorId <= FACTION_MERCHANTS + 3 && $activatorId % 10 === 3;
     }
 
-    private function postActions(Player $player)
+    private function postActions(Player $player, array $processed)
     {
         $ctx = Stack::getCtx();
         $resourcesChanged = [];
@@ -280,18 +280,18 @@ trait ChooseResourceSourceTrait
                     Locations::move($locationId, [LOCATION_BOARD, $player->getId()]);
                     $oldLocation->unruin();
                     Notifications::locationDiscarded($player, $oldLocation, $resourcesPlaced);
-                    Notifications::locationBuilt($player, $location, $oldLocation, $ctx['postActions']['resource']);
+                    Notifications::locationBuilt($player, $location, $processed, $ctx['postActions']['resource'], $oldLocation);
                     $this->getProductionAfterBuildAndPlaceResources($location, $player);
                     $resourcesChanged[] = RESOURCE_CARD;
                     break;
                 case LOCATION_ACTION_RAZE:
                     Notifications::locationsDrawn($player);
                     Locations::move($location->getId(), LOCATION_DISCARD);
-                    Notifications::locationRazed($player, $location);
+                    Notifications::locationRazed($player, $location, $processed);
                     $resourcesChanged[] = RESOURCE_CARD;
                     break;
                 case LOCATION_ACTION_BUILD:
-                    Notifications::locationBuilt($player, $location);
+                    Notifications::locationBuilt($player, $location, $processed);
                     Locations::move($location->getId(), [LOCATION_BOARD, $player->getId()]);
                     $this->getProductionAfterBuildAndPlaceResources($location, $player);
                     $resourcesChanged[] = RESOURCE_CARD;
@@ -304,6 +304,7 @@ trait ChooseResourceSourceTrait
                     Notifications::locationDealMade(
                         $player,
                         $location,
+                        $processed
                     );
                     $resourcesChanged[] = RESOURCE_CARD;
                     break;
