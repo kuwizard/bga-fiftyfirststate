@@ -38,6 +38,6 @@ trait SpecificLocationsActionsTrait
         $resourceType = ResourcesHelper::getResourceType($resource);
         $ctx = Stack::getCtx();
         $spend = empty($ctx['sourcesRaw']) ? [] : array_map('key', $ctx['sourcesRaw']);
-        $this->addAtomToContinueProcessResources($ctx, [$resourceType], ['spend' => array_merge($spend, [$resourceType])]);
+        $this->addAtomToContinueProcessResources($ctx, [], ['spend' => array_merge($spend, [$resourceType])]);
     }
 }
