@@ -251,7 +251,7 @@ trait PhaseThreeActionTrait
     {
         self::checkAction('actDiscardLocation');
         $player = Players::getActive();
-        $player->discard([$id]);
+        $player->discardSingle($id);
         Notifications::locationDiscarded($player, Locations::get($id));
         self::giveExtraTime($player->getId());
         $this->addAtomToContinueProcessResources(Stack::getCtx(), [Locations::get($id)]);

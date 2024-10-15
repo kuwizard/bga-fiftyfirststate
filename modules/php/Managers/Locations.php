@@ -39,9 +39,6 @@ class Locations extends Pieces
 
     public static function discard(array $cardIds): void
     {
-        if (!is_array($cardIds)) {
-            $cardIds = [$cardIds];
-        }
         foreach ($cardIds as $cardId) {
             self::insertOnTop($cardId, LOCATION_DISCARD);
         }
@@ -263,7 +260,7 @@ class Locations extends Pieces
             return $location->getDeals()[0] === $resource;
         })->first();
         /** @var Location $firstWithDeal */
-        self::discard($firstWithDeal->getId());
+        self::discard([$firstWithDeal->getId()]);
         return $firstWithDeal;
     }
 

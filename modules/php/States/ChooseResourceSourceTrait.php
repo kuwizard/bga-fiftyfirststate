@@ -276,7 +276,7 @@ trait ChooseResourceSourceTrait
                         Resources::deleteAll($oldLocation->getId());
                         $resourcesChanged = array_merge($resourcesChanged, $resourcesFromOldLocation);
                     }
-                    $player->discard($oldLocationId);
+                    $player->discardSingle($oldLocationId);
                     Locations::move($locationId, [LOCATION_BOARD, $player->getId()]);
                     $oldLocation->unruin();
                     Notifications::locationDiscarded($player, $oldLocation, $resourcesPlaced);

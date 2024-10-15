@@ -547,7 +547,12 @@ class Player extends DB_Manager implements JsonSerializable
             ->run();
     }
 
-    public function discard($cardIds)
+    public function discardSingle(int $cardId): void
+    {
+        $this->discard([$cardId]);
+    }
+
+    public function discard(array $cardIds): void
     {
         Locations::discard($cardIds);
     }

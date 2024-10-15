@@ -12,7 +12,7 @@ trait DiscardCardsGameStartTrait
      * @param int[] $locationsIds
      * @return void
      */
-    public function actDiscardCardsGameStart($locationsIds)
+    public function actDiscardCardsGameStart(array $locationsIds)
     {
         self::checkAction('actDiscardCardsGameStart');
         $currentPlayer = Players::getCurrent();
