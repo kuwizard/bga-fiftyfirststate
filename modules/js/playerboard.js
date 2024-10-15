@@ -30,17 +30,13 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
                     }
                 });
                 if (player.id === this.player_id) {
-                    this.pinOrUnpinPlayerBoard(player.passed);
+                    this.pinOrUnpinPlayerBoard();
                     window.addEventListener(
                         "scroll",
                         () => {
                             if (!this.tick) {
                                 setTimeout(() => {
-                                    const isMobile = this.querySingle('.mobile_version');
-                                    this.pinOrUnpinPlayerBoard(player.passed, isMobile);
-                                    if (isMobile) {
-                                        this.fixStickedBoardForMobile();
-                                    }
+                                    this.pinOrUnpinPlayerBoard();
                                     this.tick = false;
                                 }, 50)
                             }
@@ -51,8 +47,9 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
             });
         },
 
-        pinOrUnpinPlayerBoard(isPassed, isMobile) {
+        pinOrUnpinPlayerBoard(isMobile) {
             const playerResources = this.querySingle(`#overall_player_board_${this.player_id} .playerResourcesWrapper`);
+            const isPassed = this.gamedatas.players[this.player_id].passed;
             if (playerResources.getBoundingClientRect().y < 0) {
                 if (!this.querySingle('#sticky')) {
                     let newBoard = dojo.clone(playerResources);
@@ -79,6 +76,9 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
                 }
                 dojo.destroy('sticky');
                 delete this.resourceCounters.sticky;
+            }
+            if (this.querySingle('.mobile_version')) {
+                this.fixStickedBoardForMobile();
             }
         },
 

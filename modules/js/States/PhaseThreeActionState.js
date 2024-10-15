@@ -221,6 +221,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         notif_playerPassed(n) {
             debug('Notif: playerPassed', n);
             dojo.addClass(`overall_player_board_${n.args.player_id}`, 'passed');
+            this.gamedatas.players[n.args.player_id].passed = true;
         },
     });
 });
