@@ -13,14 +13,15 @@ trait DevelopTrait
 {
     public function argDevelopChooseFromHand()
     {
-        $availableLocationIds = $this->getLocationsAvailableToDevelop(Stack::getCtx()['resource'])->getIds();
+        $resource = ResourcesHelper::getResourceType(Stack::getCtx()['resource']);
+        $availableLocationIds = $this->getLocationsAvailableToDevelop($resource)->getIds();
         return ['possibleHandIds' => $this->getMapWithCardConfirmation($availableLocationIds, false)];
     }
 
     /**
      * @return Collection
      */
-    public function getLocationsAvailableToDevelop($resource)
+    public function getLocationsAvailableToDevelop(int $resource)
     {
         $player = Players::getActive();
         $board = $player->getBoard(true);
