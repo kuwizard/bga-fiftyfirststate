@@ -22,6 +22,7 @@ class Globals extends DB_Manager
 
         'firstPlayerId' => 'int',
         'lastRound' => 'bool',
+        'lastRoundNotify' => 'bool',
         'addConfirmTurnEnd' => 'bool',
     ];
 

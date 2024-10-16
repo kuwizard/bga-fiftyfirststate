@@ -329,6 +329,10 @@ trait ChooseResourceSourceTrait
             }
             Notifications::resourcesChanged($player, $player->getResourcesWithNames(array_unique($resourcesChanged)));
         }
+        if (Globals::getLastRoundNotify()) {
+            Globals::setLastRoundNotify(false);
+            Notifications::lastRound($player);
+        }
     }
 
     public function getProductionAfterBuildAndPlaceResources($location, $player)
