@@ -969,6 +969,7 @@
 .midSizeDialog {
   line-height: 20px;
   width: min-content;
+  min-width: 169px;
 }
 
 /*# sourceMappingURL=fiftyfirststate.css.map */
