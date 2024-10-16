@@ -128,10 +128,18 @@
 }
 .factionBoard .faction .spendWorkersArea {
   width: 32%;
-  height: 6%;
-  bottom: 15.5%;
+  height: 6.3%;
+  bottom: 15%;
   left: 21.5%;
   position: absolute;
+}
+.factionBoard .faction[data-faction="1"] .actionsArea, .factionBoard .faction[data-faction="1"] .spendWorkersArea {
+  width: 30%;
+  left: 16.4%;
+}
+.factionBoard .faction[data-faction="3"] .actionsArea, .factionBoard .faction[data-faction="3"] .spendWorkersArea {
+  width: 31%;
+  left: 15%;
 }
 .factionBoard .cards {
   height: 96.2%;
