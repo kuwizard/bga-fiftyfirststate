@@ -285,7 +285,6 @@ trait ChooseResourceSourceTrait
                     $resourcesChanged[] = RESOURCE_CARD;
                     break;
                 case LOCATION_ACTION_RAZE:
-                    Notifications::locationsDrawn($player);
                     Locations::move($location->getId(), LOCATION_DISCARD);
                     Notifications::locationRazed($player, $location, $processed);
                     $resourcesChanged[] = RESOURCE_CARD;
