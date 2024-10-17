@@ -52,6 +52,7 @@
   position: fixed;
   top: 0;
   z-index: 1;
+  border-style: solid;
 }
 .player-board #sticky.passed {
   filter: contrast(0.3333333333) brightness(1.25) saturate(10%);
