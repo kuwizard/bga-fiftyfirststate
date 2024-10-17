@@ -496,10 +496,10 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                         args.dealResource = this.getLogIcon(args.dealResource);
                     }
                     if (args.player_name) {
-                        args.player_name = this.coloredPlayerName(args.player_name);
+                        args.player_name = this.coloredPlayerName(args.player_id);
                     }
                     if (args.victim_name) {
-                        args.victim_name = this.coloredPlayerName(args.victim_name);
+                        args.victim_name = this.coloredPlayerName(args.victim_id);
                     }
                     if (args.location && log.includes('${locationName}')) {
                         args.locationName = `<span class="locationName"><b>${_(args.locationName)}</b></span>`;
@@ -524,16 +524,13 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             }).join(', ');
         },
 
-        coloredPlayerName(name) {
-            const player = Object.values(this.gamedatas.players).find((player) => player.name === name);
-            if (player === undefined) return '<!--PNS--><span class="playername">' + name + '</span><!--PNE-->';
+        coloredPlayerName(id) {
+            const player = this.gamedatas.players[id];
+            if (player === undefined) return '';
 
             const color = player.color;
-            const color_bg = player.color_back
-                ? 'background-color:#' + this.gamedatas.players[this.player_id].color_back + ';'
-                : '';
             return (
-                '<!--PNS--><span class="playername" style="color:#' + color + ';' + color_bg + '">' + name + '</span><!--PNE-->'
+                '<!--PNS--><span class="playername" style="color:#' + color + '">' + player.name + '</span><!--PNE-->'
             );
         },
 

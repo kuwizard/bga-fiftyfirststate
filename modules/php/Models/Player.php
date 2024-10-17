@@ -187,7 +187,8 @@ class Player extends DB_Manager implements JsonSerializable
     public function getFaction()
     {
         return [
-            "bcc6cc" => FACTION_NEW_YORK,
+            "bcc6cc" => FACTION_NEW_YORK, // remove this after all games will be created after 18/10/2024
+            "869da8" => FACTION_NEW_YORK,
             "ffa500" => FACTION_APPALACHIAN,
             "ff0000" => FACTION_MUTANTS,
             "0000ff" => FACTION_MERCHANTS,
