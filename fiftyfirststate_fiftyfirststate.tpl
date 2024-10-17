@@ -102,10 +102,13 @@
                 <div id="spendWorkersArea_\${id}" class="spendWorkersArea"></div>
             </div>
         </div>
-        <div class="cards">
-            <div class="production cardsBlock"></div>
-            <div class="feature cardsBlock"></div>
-            <div class="actions cardsBlock"></div>
+        <div class="nameCardsWrapper">
+            <div class="name"></div>
+            <div class="cards">
+                <div class="production cardsBlock"></div>
+                <div class="feature cardsBlock"></div>
+                <div class="actions cardsBlock"></div>
+            </div>
         </div>
     </div>
     `;

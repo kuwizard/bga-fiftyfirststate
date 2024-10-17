@@ -11,6 +11,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         addFactionBoards() {
             this.forEachPlayer((player) => {
                 const factionBoard = dojo.place(this.format_block('jstpl_faction_board', player), 'board');
+                dojo.place(this.coloredPlayerName(player.id), this.querySingle(`#faction_${player.id} .name`));
                 this.addResourcesToDeals(player.id, player.dealsResources);
                 this.forEachFactionRow((row) => {
                     const rowElement = factionBoard.querySelector(`.${row}`);

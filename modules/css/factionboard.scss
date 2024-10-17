@@ -1,5 +1,7 @@
 @import "variables";
 
+$dealsHeight: 30px;
+
 .factionWrapper {
   width: $factionHeight / $factionRatio;
   display: flex;
@@ -86,21 +88,33 @@
     }
   }
 
-  .cards {
-    height: 96.2%;
-    display: grid;
-    gap: 4px;
-    flex-grow: 1;
-    grid-template-rows: 1fr 1fr 1fr;
+  .nameCardsWrapper {
+    width: 100%;
+    height: 100%;
 
-    .cardsBlock {
+    .name {
+      height: $dealsHeight;
       display: flex;
-      gap: 4px;
-      margin: 0 4px 4px 7px;
-      justify-content: space-between;
+      justify-content: center;
+      align-items: center;
+    }
 
-      &.notTooManyChildren {
-        justify-content: flex-start;
+    .cards {
+      height: 96%;
+      display: grid;
+      gap: 4px;
+      flex-grow: 1;
+      grid-template-rows: 1fr 1fr 1fr;
+
+      .cardsBlock {
+        display: flex;
+        gap: 4px;
+        margin: 0 4px 4px 7px;
+        justify-content: space-between;
+
+        &.notTooManyChildren {
+          justify-content: flex-start;
+        }
       }
     }
   }
@@ -114,7 +128,7 @@
   }
 
   .deals {
-    min-height: 30px;
+    height: $dealsHeight;
     display: flex;
     align-items: center;
     justify-content: center;
