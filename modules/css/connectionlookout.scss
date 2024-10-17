@@ -45,6 +45,10 @@
     border-radius: 8px;
     margin: 0 5px;
     transition: transform 0.5s;
+
+    svg {
+      width: 31px;
+    }
   }
 
   &.narrow {
