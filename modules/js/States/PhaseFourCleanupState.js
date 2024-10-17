@@ -5,11 +5,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this._notifications.push(['playerGotResourcesFromStorage', 1]);
         },
 
-        onEnteringStatePhaseFourCleanup(args) {
-            debug('phaseFour Cleanup state', args);
-
-        },
-
         notif_playersResetAllResources(n) {
             debug('Notif: playersResetAllResources', n);
             this.destroyAll('.spentArea .resourceIcon');
