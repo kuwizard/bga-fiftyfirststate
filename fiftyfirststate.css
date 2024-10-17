@@ -53,6 +53,7 @@
   top: 0;
   z-index: 1;
   border-style: solid;
+  max-width: 220px;
 }
 .player-board #sticky.passed {
   filter: contrast(0.3333333333) brightness(1.25) saturate(10%);
@@ -62,7 +63,8 @@
 }
 
 .mobile_version #sticky {
-  right: 0;
+  left: 0;
+  z-index: 103;
 }
 
 .factionWrapper {
@@ -687,6 +689,9 @@
   border-radius: 8px;
   margin: 0 5px;
   transition: transform 0.5s;
+}
+#deckConnectionsBlock #collapseButton svg {
+  width: 31px;
 }
 #deckConnectionsBlock.narrow #deckDiscard {
   flex-direction: column;

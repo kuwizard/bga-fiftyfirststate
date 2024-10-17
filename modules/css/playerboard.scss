@@ -62,6 +62,7 @@ $resources: (
     top: 0;
     z-index: 1;
     border-style: solid;
+    max-width: 220px;
 
     &.passed {
       filter: contrast(calc(0.75 / (3 - 0.75))) brightness(calc(2 - 0.75)) saturate(10%);
@@ -75,6 +76,7 @@ $resources: (
 
 .mobile_version {
   #sticky {
-    right: 0;
+    left: 0;
+    z-index: 103;
   }
 }
