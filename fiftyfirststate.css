@@ -65,7 +65,10 @@
 }
 
 .factionWrapper {
-  width: 2.564;
+  width: 283.9313572543px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .factionBoard {

@@ -1,7 +1,10 @@
 @import "variables";
 
 .factionWrapper {
-  width: $factionRatio;
+  width: $factionHeight / $factionRatio;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .factionBoard {
