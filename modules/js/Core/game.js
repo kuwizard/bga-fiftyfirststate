@@ -496,10 +496,10 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                         args.dealResource = this.getLogIcon(args.dealResource);
                     }
                     if (args.player_name) {
-                        args.player_name = this.coloredPlayerName(args.player_id);
+                        args.player_name = this.coloredPlayerName(args.player_id, args.player_name);
                     }
                     if (args.victim_name) {
-                        args.victim_name = this.coloredPlayerName(args.victim_id);
+                        args.victim_name = this.coloredPlayerName(args.victim_id, args.victim_name);
                     }
                     if (args.location && log.includes('${locationName}')) {
                         args.locationName = `<span class="locationName"><b>${_(args.locationName)}</b></span>`;
@@ -524,9 +524,9 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             }).join(', ');
         },
 
-        coloredPlayerName(id) {
+        coloredPlayerName(id, name = '') {
             const player = this.gamedatas.players[id];
-            if (player === undefined) return '';
+            if (player === undefined) return name;
 
             const color = player.color;
             return (
