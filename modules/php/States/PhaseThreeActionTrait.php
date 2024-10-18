@@ -322,6 +322,7 @@ trait PhaseThreeActionTrait
         Connections::move($id, [LOCATION_HAND, $player->getId()]);
         self::giveExtraTime($player->getId());
         Notifications::connectionTaken($player, $id, Connections::getDeckName($id));
+        Notifications::resourcesChanged($player, ['card' => $player->getHandAmount()]);
         // Move all actions above to postActions block
         Stack::insertOnTop(ST_CREATE_RESOURCE_SOURCE_MAP, [
             'spend' => [RESOURCE_WORKER, RESOURCE_WORKER],
@@ -337,6 +338,7 @@ trait PhaseThreeActionTrait
         $player = Players::getActive();
         self::giveExtraTime($player->getId());
         Notifications::connectionPlayed($player, $id, $connection);
+        Notifications::resourcesChanged($player, ['card' => $player->getHandAmount()]);
         Stack::finishState();
     }
 

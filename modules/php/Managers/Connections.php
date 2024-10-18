@@ -157,4 +157,9 @@ class Connections extends Pieces
     {
         Notifications::connectionsReshuffle();
     }
+
+    public static function getInHand(int $id): int
+    {
+        return self::countInLocation([LOCATION_HAND, $id]);
+    }
 }

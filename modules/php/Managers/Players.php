@@ -134,18 +134,6 @@ class Players extends DB_Manager
         return self::get(self::getCurrentId());
     }
 
-//    private static function getNextNonZombie($startFrom = 0)
-//    {
-//        $increment = 1;
-//        $probablyNext = self::getByNo($startFrom + $increment);
-//        while ($probablyNext && $probablyNext->isZombie()) {
-//            $increment++;
-//            $probablyNext = self::getByNo($startFrom + $increment);
-//        }
-//        return $probablyNext;
-//    }
-//
-
     /**
      * @return int
      */

@@ -297,7 +297,7 @@ class Player extends DB_Manager implements JsonSerializable
      */
     public function getHandAmount()
     {
-        return Locations::countInLocation([LOCATION_HAND, $this->id]);
+        return Locations::countInLocation([LOCATION_HAND, $this->id]) + Connections::getInHand($this->id);
     }
 
     /**
