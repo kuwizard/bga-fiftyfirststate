@@ -42,6 +42,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     args.otherPlayersLocations,
                 );
                 this.makeLocationsUnselectable('#discard .location');
+                if (this.noActionsAvailable(args)) {
+                    this.gamedatas.gamestate.descriptionmyturn = _('No possible actions left');
+                    this.updatePageTitle();
+                }
                 this.addPrimaryActionButton(
                     'buttonActionPass',
                     _('Pass'),
@@ -51,6 +55,16 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     ),
                 );
             }
+        },
+
+        noActionsAvailable(args) {
+            return args.connectionsToPlay.length === 0
+                && args.connectionsToTake.length === 0
+                && !args.develop.ammo && !args.develop.brick && !args.develop.development
+                && !args.factionActions
+                && Object.keys(args.locations).length === 0
+                && args.otherPlayersLocations.length === 0
+                && !args.spendWorkers;
         },
 
         addDevelopButton(postfix) {
