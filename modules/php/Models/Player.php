@@ -602,6 +602,10 @@ class Player extends DB_Manager implements JsonSerializable
     public function jsonSerialize($currentPlayerId = null)
     {
         $current = $this->id === $currentPlayerId;
+        $firstPlayer = Globals::getFirstPlayerId();
+        if ($firstPlayer === 0) {
+            $firstPlayer = Players::getFirstFirstPlayerId();
+        }
         $data = [
             'id' => $this->id,
             'no' => $this->no,
@@ -630,6 +634,7 @@ class Player extends DB_Manager implements JsonSerializable
             'usedFactionActions' => $this->getUsedFactionActions(),
             'dealsResources' => Locations::getDealsResources($this->id),
             'connections' => $current ? Connections::getInLocation([LOCATION_HAND, $this->id])->toArray() : [],
+            'isFirst' => $firstPlayer === $this->id,
         ];
         return $data;
     }

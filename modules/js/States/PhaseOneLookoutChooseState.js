@@ -2,7 +2,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     return declare('state.phaseOneLookoutChoose', null, {
         constructor() {
             this._notifications.push(['newConnections', 1]);
-
+            this._notifications.push(['firstPlayerChanged', 1]);
         },
 
         async onEnteringStatePhaseOneLookoutChoose(args) {
@@ -56,6 +56,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             debug('Notif: newConnections', n);
             this.destroyAll('#connections .connection');
             this.addConnections(n.args.connections);
+        },
+
+        notif_firstPlayerChanged(n) {
+            debug('Notif: firstPlayerChanged', n);
+            this.slide('firstPlayer', this.querySingle(`#player_board_${n.args.player_id} .firstPlayerWrapper`));
         },
     });
 });

@@ -21,11 +21,12 @@ trait RoundTrait
     {
         $firstPlayer = Globals::getFirstPlayerId();
         if ($firstPlayer === 0) {
-            $nextPlayer = Players::getFirstFirstPlayerId();
+            $nextPlayerId = Players::getFirstFirstPlayerId();
         } else {
-            $nextPlayer = Players::getNextId($firstPlayer);
+            $nextPlayerId = Players::getNextId($firstPlayer);
         }
-        Globals::setFirstPlayerId($nextPlayer);
+        Globals::setFirstPlayerId($nextPlayerId);
+        Notifications::firstPlayerChanged(Players::get($nextPlayerId));
 
         $stack = [
             ST_PHASE_ONE_LOOKOUT_SETUP,
@@ -41,8 +42,8 @@ trait RoundTrait
             Notifications::removeLastRound();
             $stack = [ST_END_GAME];
         } else {
-            $this->gamestate->changeActivePlayer($nextPlayer);
-            self::giveExtraTime($nextPlayer);
+            $this->gamestate->changeActivePlayer($nextPlayerId);
+            self::giveExtraTime($nextPlayerId);
         }
         Stack::setup($stack);
         Stack::finishState();

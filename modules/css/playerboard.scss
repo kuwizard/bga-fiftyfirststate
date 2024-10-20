@@ -29,6 +29,21 @@ $resources: (
     margin-top: 7px;
     gap: 7px;
 
+    .cardsAndStuff {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      width: 100%;
+      justify-items: center;
+
+      .card {
+        grid-column: 2;
+      }
+
+      .firstPlayerWrapper {
+        grid-column: 3;
+      }
+    }
+
     .playerResources {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -37,6 +52,7 @@ $resources: (
       gap: 5px;
       width: 215px;
       margin-bottom: 10px;
+      background-color: #ebd5bd;
 
       .resource {
         width: 50px;
@@ -63,7 +79,18 @@ $resources: (
     &.statusBar {
       top: 44px;
     }
+
+    .cardsAndStuff {
+      display: none;
+    }
   }
+}
+
+#firstPlayer {
+  background-image: url(img/firstplayer.png);
+  background-size: 100% 100%;
+  width: 45px;
+  height: 45px;
 }
 
 .mobile_version {
@@ -75,5 +102,23 @@ $resources: (
   .playerResourcesWrapper {
     flex-direction: row;
     justify-content: center;
+    height: 170px;
+
+    .cardsAndStuff {
+      grid-template-rows: 1fr 1fr 1fr;
+      grid-template-columns: none;
+      width: unset;
+      align-items: center;
+      height: 100%;
+
+      .card {
+        grid-column: 1;
+        grid-row: 2;
+      }
+
+      .firstPlayerWrapper {
+        grid-column: 1;
+      }
+    }
   }
 }

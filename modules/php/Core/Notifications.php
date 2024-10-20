@@ -442,6 +442,14 @@ class Notifications
         ]);
     }
 
+    public static function firstPlayerChanged(Player $player): void
+    {
+        $msg = clienttranslate('${player_name} is the first player for the next round');
+        self::notifyAll('firstPlayerChanged', $msg, [
+            'player' => $player,
+        ]);
+    }
+
     /*********************
      **** UPDATE ARGS ****
      *********************/

@@ -25,6 +25,18 @@
   margin-top: 7px;
   gap: 7px;
 }
+.player-board .playerResourcesWrapper .cardsAndStuff {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 100%;
+  justify-items: center;
+}
+.player-board .playerResourcesWrapper .cardsAndStuff .card {
+  grid-column: 2;
+}
+.player-board .playerResourcesWrapper .cardsAndStuff .firstPlayerWrapper {
+  grid-column: 3;
+}
 .player-board .playerResourcesWrapper .playerResources {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -33,6 +45,7 @@
   gap: 5px;
   width: 215px;
   margin-bottom: 10px;
+  background-color: #ebd5bd;
 }
 .player-board .playerResourcesWrapper .playerResources .resource {
   width: 50px;
@@ -55,6 +68,16 @@
 .player-board #sticky.statusBar {
   top: 44px;
 }
+.player-board #sticky .cardsAndStuff {
+  display: none;
+}
+
+#firstPlayer {
+  background-image: url(img/firstplayer.png);
+  background-size: 100% 100%;
+  width: 45px;
+  height: 45px;
+}
 
 .mobile_version #sticky {
   left: 0;
@@ -63,6 +86,21 @@
 .mobile_version .playerResourcesWrapper {
   flex-direction: row;
   justify-content: center;
+  height: 170px;
+}
+.mobile_version .playerResourcesWrapper .cardsAndStuff {
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: none;
+  width: unset;
+  align-items: center;
+  height: 100%;
+}
+.mobile_version .playerResourcesWrapper .cardsAndStuff .card {
+  grid-column: 1;
+  grid-row: 2;
+}
+.mobile_version .playerResourcesWrapper .cardsAndStuff .firstPlayerWrapper {
+  grid-column: 1;
 }
 
 .factionWrapper {
@@ -960,10 +998,6 @@
   vertical-align: middle;
   width: 30px;
   height: 30px;
-}
-
-.playerResourcesWrapper {
-  background-color: #ebd5bd;
 }
 
 .fadeout {

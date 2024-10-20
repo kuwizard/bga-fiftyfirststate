@@ -44,11 +44,17 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
                         }
                     );
                 }
+                if (player.isFirst) {
+                    dojo.place(
+                        this.format_block('jstpl_first_player', {}),
+                        this.querySingle(`#player_board_${player.id} .firstPlayerWrapper`)
+                    );
+                }
             });
         },
 
         pinOrUnpinPlayerBoard(isMobile) {
-            const playerResources = this.querySingle(`#overall_player_board_${this.player_id} .playerResourcesWrapper`);
+            const playerResources = this.querySingle(`#overall_player_board_${this.player_id} .playerResourcesWrapper .playerResources`);
             const isPassed = this.gamedatas.players[this.player_id].passed;
             if (playerResources.getBoundingClientRect().y < 0) {
                 if (!this.querySingle('#sticky')) {
@@ -58,16 +64,17 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
                     const resourcesBoard = this.querySingle(`#overall_player_board_${this.player_id} .playerResourcesWrapper .playerResources`);
                     const width = isMobile ? resourcesBoard.getBoundingClientRect().width : playerResources.getBoundingClientRect().width;
                     dojo.style(newBoard, 'width', `${width}px`);
-                    dojo.style(newBoard, 'height', `${playerResources.getBoundingClientRect().height}px`);
                     if (isPassed) {
                         dojo.addClass('sticky', 'passed');
                     }
                     dojo.removeClass(this.querySingle(`#overall_player_board_${this.player_id}`), 'passed');
                     this.resourceCounters.sticky = {};
                     Object.keys(this.gamedatas.players[this.player_id].resources).forEach((resource) => {
-                        this.resourceCounters.sticky[resource] = new ebg.counter();
-                        this.resourceCounters.sticky[resource].create(this.querySingle(`#sticky .${resource}Value`));
-                        this.resourceCounters.sticky[resource].setValue(this.gamedatas.players[this.player_id].resources[resource]);
+                        if (resource !== 'card') {
+                            this.resourceCounters.sticky[resource] = new ebg.counter();
+                            this.resourceCounters.sticky[resource].create(this.querySingle(`#sticky .${resource}Value`));
+                            this.resourceCounters.sticky[resource].setValue(this.gamedatas.players[this.player_id].resources[resource]);
+                        }
                     });
                 }
             } else {

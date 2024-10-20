@@ -18,10 +18,13 @@
 <script type="text/javascript">
     var jstpl_player_board = `
     <div class="playerResourcesWrapper">
-        <div class="card resource">
-            <span class="cardIcon resourceIcon">
-                <span class="cardValue resourceValue">\${card}</span>
-            </span>
+        <div class="cardsAndStuff">
+            <div class="card resource">
+                <span class="cardIcon resourceIcon">
+                    <span class="cardValue resourceValue">\${card}</span>
+                </span>
+            </div>
+            <div class="firstPlayerWrapper"></div>
         </div>
         <div class="playerResources">
             <div class="fuel resource">
@@ -182,6 +185,7 @@
     </div>`
     var jstpl_connection_text = `<div class="locationNameText">\${name}</div>
     <b>\${type}:</b> \${description}.`
+    var jstpl_first_player = '<div id="firstPlayer"></div>'
 </script>
 
 {OVERALL_GAME_FOOTER}
