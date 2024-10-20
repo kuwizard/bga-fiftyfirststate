@@ -2,6 +2,7 @@
 
 namespace STATE\States;
 
+use STATE\Core\Globals;
 use STATE\Core\Notifications;
 use STATE\Core\Stack;
 use STATE\Helpers\ResourcesHelper;
@@ -52,6 +53,10 @@ trait PhaseTwoProductionTrait
             }
             if (!empty($dealsProd)) {
                 Notifications::playerPhaseTwoDeals($player, $dealsProd);
+            }
+            if (Globals::getLastRoundNotify()) {
+                Globals::setLastRoundNotify(false);
+                Notifications::lastRound($player);
             }
         }
         Notifications::message(clienttranslate('{highlight}Phase 3: Action'));
