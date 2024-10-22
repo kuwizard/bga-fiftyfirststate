@@ -78,11 +78,13 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
                     });
                 }
             } else {
-                if (isPassed) {
-                    dojo.addClass(this.querySingle(`#overall_player_board_${this.player_id}`), 'passed');
+                if (this.resourceCounters.sticky) {
+                    if (isPassed) {
+                        dojo.addClass(this.querySingle(`#overall_player_board_${this.player_id}`), 'passed');
+                    }
+                    dojo.destroy('sticky');
+                    delete this.resourceCounters.sticky;
                 }
-                dojo.destroy('sticky');
-                delete this.resourceCounters.sticky;
             }
             if (this.querySingle('.mobile_version')) {
                 this.fixStickedBoardForMobile();
