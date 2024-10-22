@@ -10,8 +10,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             dojo.removeClass('lookout', 'hidden');
             dojo.addClass('connections', 'hidden');
             this.forEachPlayer((player) => {
-                dojo.removeClass(`overall_player_board_${player.id}`, 'passed');
-                this.gamedatas.players[player.id].passed = false;
+                this.setPlayerUnpass(player.id);
             });
             await this.waitForDisappearance('.moving');
             this.destroyAll('#lookout .location');
