@@ -69,11 +69,11 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
                     }
                     dojo.removeClass(this.querySingle(`#overall_player_board_${this.player_id}`), 'passed');
                     this.resourceCounters.sticky = {};
-                    Object.keys(this.gamedatas.players[this.player_id].resources).forEach((resource) => {
+                    Object.keys(this.resourceCounters[this.player_id]).forEach((resource) => {
                         if (resource !== 'card') {
                             this.resourceCounters.sticky[resource] = new ebg.counter();
                             this.resourceCounters.sticky[resource].create(this.querySingle(`#sticky .${resource}Value`));
-                            this.resourceCounters.sticky[resource].setValue(this.gamedatas.players[this.player_id].resources[resource]);
+                            this.resourceCounters.sticky[resource].setValue(this.resourceCounters[this.player_id][resource].getValue());
                         }
                     });
                 }
@@ -82,6 +82,10 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
                     if (isPassed) {
                         dojo.addClass(this.querySingle(`#overall_player_board_${this.player_id}`), 'passed');
                     }
+                    // Sometimes ebg counters are visually not updated if they were not on screen, updating them again
+                    Object.keys(this.resourceCounters.sticky).forEach((resource) => {
+                        this.resourceCounters[this.player_id][resource].setValue(this.resourceCounters.sticky[resource].getValue());
+                    });
                     dojo.destroy('sticky');
                     delete this.resourceCounters.sticky;
                 }
@@ -115,15 +119,13 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
                         this.querySingle(`#player_board_${n.args.player_id} .${resource}Icon`),
                         data[resource]
                     );
-                    const stickyResource = this.querySingle(`#sticky .${resource}Value`);
-                    if (stickyResource && n.args.player_id === this.player_id) {
+                    if (n.args.player_id === this.player_id && this.querySingle(`#sticky .${resource}Value`)) {
                         this.resourceCounters.sticky[resource].toValue(data[resource]);
                         this.changeBlurState(
                             this.querySingle(`#sticky .${resource}Icon`),
                             data[resource]
                         );
                     }
-                    this.gamedatas.players[n.args.player_id].resources[resource] = data[resource];
                 }
             });
         },

@@ -13,7 +13,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this.forEachPlayer((player) => {
                 Object.keys(this.resourceCounters[player.id]).forEach(resource => {
                     if (resource !== 'card') {
-                        this.gamedatas.players[player.id].resources[resource] = 0;
                         this.resourceCounters[player.id][resource].toValue(0);
                     }
                 });
