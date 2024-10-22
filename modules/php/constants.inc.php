@@ -4,6 +4,7 @@
  * State constants
  */
 define('ST_GAME_SETUP', 1);
+define('ST_CHOOSE_FACTION', 4);
 define('ST_DISCARD_CARDS_GAME_START', 2);
 define('ST_NEXT_ROUND', 3);
 define('ST_PHASE_ONE_LOOKOUT_SETUP', 10);

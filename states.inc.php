@@ -21,6 +21,16 @@ $machinestates = [
         'description' => '',
         'type' => 'manager',
         'action' => 'stGameSetup',
+        'transitions' => ['' => ST_CHOOSE_FACTION],
+    ],
+
+    ST_CHOOSE_FACTION => [
+        'name' => 'chooseFaction',
+        'description' => clienttranslate('Other players must set their faction preferences'),
+        'descriptionmyturn' => clienttranslate('${you} must set your faction preferences'),
+        'action' => 'stMakeEveryoneActive',
+        'type' => 'multipleactiveplayer',
+        'possibleactions' => ['actChooseFaction'],
         'transitions' => ['' => ST_DISCARD_CARDS_GAME_START],
     ],
 

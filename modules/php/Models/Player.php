@@ -3,6 +3,7 @@
 namespace STATE\Models;
 
 use JsonSerializable;
+use STATE\Core\Game;
 use STATE\Core\Globals;
 use STATE\Core\Notifications;
 use STATE\Core\Preferences;
@@ -252,6 +253,9 @@ class Player extends DB_Manager implements JsonSerializable
         }
         $actions = $this->getFactionActions();
         $dbActions = Factions::getAllForFaction($this->faction);
+        if (empty($dbActions)) {
+            return [];
+        }
         $used = [];
         foreach ($actions as $id => $action) {
             $key = array_search(strval($id), array_column($dbActions, 'action_number'));

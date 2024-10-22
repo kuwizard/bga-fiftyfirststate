@@ -86,10 +86,10 @@ class Fiftyfirststate extends Table
         Players::setupNewGame($players, $options);
         Locations::setupNewGame();
         Connections::setupNewGame();
-        Factions::setupNewGame($players);
+//        Factions::setupNewGame($players);
         Globals::setupNewGame();
-        $this->giveEachPlayerCardsSetup();
-        $this->activeNextPlayer();
+//        $this->giveEachPlayerCardsSetup();
+//        $this->activeNextPlayer();
     }
 
     /**
