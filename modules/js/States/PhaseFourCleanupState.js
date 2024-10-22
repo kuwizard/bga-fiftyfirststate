@@ -41,6 +41,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     await new Promise(resolve => setTimeout(resolve, 200));
                 }
                 this.resourceCounters[n.args.player_id][resource].toValue(n.args.resources[resource]);
+                if (this.resourceCounters.sticky) {
+                    this.resourceCounters.sticky[resource].toValue(n.args.resources[resource]);
+                }
             }
         },
     });
