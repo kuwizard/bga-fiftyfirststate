@@ -45,14 +45,6 @@ class action_fiftyfirststate extends APP_GameAction
         self::ajaxResponse();
     }
 
-    public function actChooseCardLookout()
-    {
-        self::setAjaxMode();
-        $locationId = self::getArg('id', AT_numberlist, true);
-        $this->game->actChooseCardLookout($locationId);
-        self::ajaxResponse();
-    }
-
     public function actSpendWorkers()
     {
         self::setAjaxMode();
