@@ -55,10 +55,14 @@ trait PhaseOneLookoutTrait
         Stack::finishState();
     }
 
-    public function actChooseCardLookout($id)
+    public function actChooseCardLookout(int $id): void
     {
-        self::checkAction('actChooseCardLookout');
         $player = Players::getActive();
+        if (!in_array($id, Locations::getInLocation(LOCATION_LOOKOUT)->getIds())) {
+            throw new \BgaVisibleSystemException(
+                'You tried to choose a Location which is not in the list of possible ones to choose. This is probably a bug'
+            );
+        }
         Locations::move($id, [LOCATION_HAND, $player->getId()]);
         Notifications::locationPicked($player, Locations::get($id), 'lookout');
         Notifications::resourcesChanged($player, ['card' => $player->getHandAmount()]);

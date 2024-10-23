@@ -285,6 +285,24 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this.addTooltipHtml(this.querySingle('.log .locationName'), locationBlock);
         },
 
+        setPlayerPass(playerId) {
+            if (playerId === this.player_id && this.resourceCounters.sticky) {
+                dojo.addClass('sticky', 'passed');
+            } else {
+                dojo.addClass(`overall_player_board_${playerId}`, 'passed');
+            }
+            this.gamedatas.players[playerId].passed = true;
+        },
+
+        setPlayerUnpass(playerId) {
+            if (playerId === this.player_id && this.resourceCounters.sticky) {
+                dojo.removeClass('sticky', 'passed');
+            } else {
+                dojo.removeClass(`overall_player_board_${playerId}`, 'passed');
+            }
+            this.gamedatas.players[playerId].passed = false;
+        },
+
         notif_lastRound(n) {
             debug('Notif: lastRound', n);
             this.addLastRound();

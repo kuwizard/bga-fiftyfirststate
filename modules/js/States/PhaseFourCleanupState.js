@@ -13,7 +13,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this.forEachPlayer((player) => {
                 Object.keys(this.resourceCounters[player.id]).forEach(resource => {
                     if (resource !== 'card') {
-                        this.gamedatas.players[player.id].resources[resource] = 0;
                         this.resourceCounters[player.id][resource].toValue(0);
                     }
                 });
@@ -42,6 +41,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     await new Promise(resolve => setTimeout(resolve, 200));
                 }
                 this.resourceCounters[n.args.player_id][resource].toValue(n.args.resources[resource]);
+                if (this.resourceCounters.sticky) {
+                    this.resourceCounters.sticky[resource].toValue(n.args.resources[resource]);
+                }
             }
         },
     });

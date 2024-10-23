@@ -495,7 +495,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                     if (args.dealResource && log.includes('${dealResource}')) {
                         args.dealResource = this.getLogIcon(args.dealResource);
                     }
-                    if (args.player_name) {
+                    if (args.player_name && !args.player_name.includes("style=\"color:#")) {
                         args.player_name = this.coloredPlayerName(args.player_id, args.player_name);
                     }
                     if (args.victim_name) {
