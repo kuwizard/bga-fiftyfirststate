@@ -25,86 +25,27 @@ class Player extends DB_Manager implements JsonSerializable
     protected static $table = 'player';
     protected static $primary = 'player_id';
 
-    /**
-     * @var int
-     */
-    protected $id;
-    /**
-     * @var int
-     */
-    protected $no; // natural order
-    /**
-     * @var string
-     */
-    protected $name; // player name
-    /**
-     * @var string
-     */
-    protected $color;
-    /**
-     * @var int
-     */
-    protected $faction;
-    /**
-     * @var int
-     */
-    protected $score = 0;
-    /**
-     * @var boolean
-     */
-    protected $zombie = false;
-    /**
-     * @var int
-     */
-    protected $gun;
-    /**
-     * @var int
-     */
-    protected $iron;
-    /**
-     * @var int
-     */
-    protected $brick;
-    /**
-     * @var int
-     */
-    protected $worker;
-    /**
-     * @var int
-     */
-    protected $arrowGrey;
-    /**
-     * @var int
-     */
-    protected $arrowRed;
-    /**
-     * @var int
-     */
-    protected $arrowBlue;
-    /**
-     * @var int
-     */
-    protected $arrowUni;
-    /**
-     * @var int
-     */
-    protected $ammo;
-    /**
-     * @var int
-     */
-    protected $defence;
-    /**
-     * @var int
-     */
-    protected $devel;
-    /**
-     * @var boolean
-     */
-    protected $passed;
-    /**
-     * @var array
-     */
-    private $recentlyDrawnLocations;
+    protected int $id;
+    protected int $no; // natural order
+    protected string $name; // player name
+    protected string $color;
+    protected int $faction;
+    protected int $factionSide;
+    protected int $score = 0;
+    protected bool $zombie = false;
+    protected int $gun;
+    protected int $iron;
+    protected int $brick;
+    protected int $worker;
+    protected int $arrowGrey;
+    protected int $arrowRed;
+    protected int $arrowBlue;
+    protected int $arrowUni;
+    protected int $ammo;
+    protected int $defence;
+    protected int $devel;
+    protected bool $passed;
+    private array $recentlyDrawnLocations;
 
     public function __construct($row)
     {
@@ -114,6 +55,7 @@ class Player extends DB_Manager implements JsonSerializable
             $this->name = $row['player_name'];
             $this->color = $row['player_color'];
             $this->faction = $this->getFaction();
+            $this->factionSide = $row['player_faction_side'];
             $this->score = (int) $row['player_score'];
             $this->zombie = (int) $row['player_zombie'] === 1;
             $this->fuel = (int) $row['player_fuel'];
@@ -181,11 +123,12 @@ class Player extends DB_Manager implements JsonSerializable
         return $this->recentlyDrawnLocations;
     }
 
-    /**
-     * @param string $color
-     * @return int
-     */
-    public function getFaction()
+    public function getFactionSide()
+    {
+        return $this->factionSide;
+    }
+
+    public function getFaction(): int
     {
         return [
             "bcc6cc" => FACTION_NEW_YORK, // remove this after all games will be created after 18/10/2024
@@ -196,13 +139,14 @@ class Player extends DB_Manager implements JsonSerializable
         ][$this->color];
     }
 
-    /**
-     * @param string $color
-     * @return int
-     */
-    public function getFactionUI()
+    private function getColorForFaction(int $faction): string
     {
-        return ($this->getFaction() / 10) - 50;
+        return [
+            FACTION_NEW_YORK => "869da8",
+            FACTION_APPALACHIAN => "ffa500",
+            FACTION_MUTANTS => "ff0000",
+            FACTION_MERCHANTS => "0000ff",
+        ][$faction];
     }
 
     /**
@@ -603,6 +547,13 @@ class Player extends DB_Manager implements JsonSerializable
         Players::setScoreAux($this->id, $value);
     }
 
+    public function setFaction(int $faction, int $side)
+    {
+        $this->color = $this->getColorForFaction($faction);
+        $this->factionSide = $side;
+        self::DB()->update(['player_color' => $this->color, 'player_faction_side' => $side], $this->id);
+    }
+
     public function jsonSerialize($currentPlayerId = null)
     {
         $current = $this->id === $currentPlayerId;
@@ -616,7 +567,8 @@ class Player extends DB_Manager implements JsonSerializable
             'name' => $this->name,
             'color' => $this->color,
             'score' => $this->score,
-            'faction' => $this->getFactionUI(),
+            'faction' => Players::getFactionUI($this->getFaction()),
+            'factionSide' => $this->getFactionSide(),
             'resources' => [
                 'fuel' => $this->fuel,
                 'gun' => $this->gun,

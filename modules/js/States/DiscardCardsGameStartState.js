@@ -4,9 +4,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         },
 
         onEnteringStateDiscardCardsGameStart(args) {
-            if (this.isCurrentPlayerActive()) {
-                this.makeAllSelectableAndClickable(this.getHand(), this.selectLocation.bind(this));
-            }
+            // Let's wait for a tiny bit until gameStateMultipleActiveUpdate arrives and makes current player active
+            setTimeout(() => {
+                if (this.isCurrentPlayerActive()) {
+                    this.makeAllSelectableAndClickable(this.getHand(), this.selectLocation.bind(this));
+                }
+            }, 1);
         },
 
         selectLocation(location) {

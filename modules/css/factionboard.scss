@@ -34,6 +34,12 @@ $dealsHeight: 30px;
       }
     }
 
+    @each $faction in 4, 5, 6, 7 {
+      &[data-faction="#{$faction}"] {
+        background-position: calc(100% / 3 * $faction) 100%;
+      }
+    }
+
     .featureArea {
       width: 42%;
       height: 12%;
@@ -84,6 +90,30 @@ $dealsHeight: 30px;
       .actionsArea, .spendWorkersArea {
         width: 31%;
         left: 15%;
+      }
+    }
+
+    &[data-faction="4"] {
+      .actionsArea, .spendWorkersArea {
+        left: 49%;
+      }
+    }
+
+    &[data-faction="5"] {
+      .actionsArea, .spendWorkersArea {
+        left: 52%;
+      }
+    }
+
+    &[data-faction="6"] {
+      .actionsArea, .spendWorkersArea {
+        left: 52%;
+      }
+    }
+
+    &[data-faction="7"] {
+      .actionsArea, .spendWorkersArea {
+        left: 47%;
       }
     }
   }
@@ -232,5 +262,24 @@ $dealsHeight: 30px;
         }
       }
     }
+  }
+
+  &.hidden {
+    display: none;
+  }
+}
+
+.midSizeDialog {
+  .factionBoard {
+    height: $factionHeight;
+    border-radius: 0;
+  }
+
+  .deals {
+    display: none;
+  }
+
+  .nameCardsWrapper {
+    display: none;
   }
 }

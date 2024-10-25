@@ -121,4 +121,8 @@
     max-height: 180px;
     gap: 5px;
   }
+
+  &.hidden {
+    display: none;
+  }
 }

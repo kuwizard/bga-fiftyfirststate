@@ -3,6 +3,7 @@
 namespace STATE\Core;
 
 use STATE\Helpers\DB_Manager;
+use STATE\Managers\Players;
 
 /*
  * User preferences
@@ -24,7 +25,8 @@ class Preferences extends DB_Manager
      */
     public static function setupNewGame($players, $prefs)
     {
-        // Load user preferences
+        $values = [];
+        // Read the JSON file
         $fileName = dirname(__FILE__) . '/../../../gamepreferences.json';
         $file = fopen($fileName, 'r');
         $json = fread($file, filesize($fileName));
@@ -69,10 +71,66 @@ class Preferences extends DB_Manager
      */
     public static function set($pId, $prefId, $value)
     {
-        return self::DB()
-            ->update(['pref_value' => $value])
+        $valueInDb = self::get($pId, $prefId);
+        if (is_null($valueInDb)) {
+            return self::DB()
+                ->insert(['pref_value' => $value, 'player_id' => $pId, 'pref_id' => $prefId]);
+        } else {
+            return self::DB()
+                ->update(['pref_value' => $value])
+                ->where('player_id', $pId)
+                ->where('pref_id', $prefId)
+                ->run();
+        }
+    }
+
+    public static function setPreferences(int $pId, array $factions, array $sides)
+    {
+        $idPrefMap = array_combine([NEW_YORK_PREFERENCE, APPALACHIAN_PREFERENCE, MUTANTS_PREFERENCE, MERCHANTS_PREFERENCE],
+            $factions);
+        foreach ($idPrefMap as $prefId => $factionPref) {
+            self::set($pId, $prefId, $factionPref);
+        }
+        $idSideMap = array_combine([NEW_YORK_SIDE, APPALACHIAN_SIDE, MUTANTS_SIDE, MERCHANTS_SIDE], $sides);
+        foreach ($idSideMap as $prefId => $side) {
+            self::set($pId, $prefId, $side);
+        }
+    }
+
+    /**
+     * @param int $pId
+     * @return int[]
+     */
+    public static function getColorPreferencesSingle($pId)
+    {
+        $data = self::DB()
+            ->select(['pref_value'])
             ->where('player_id', $pId)
-            ->where('pref_id', $prefId)
-            ->run();
+            ->orderBy('pref_id')
+            ->get()
+            ->toArray();
+        return array_map(function ($value) {
+            return (int) $value['pref_value'];
+        }, $data);
+    }
+
+    /**
+     * @param int $pId
+     * @return int[]
+     */
+    public static function getPreferencesAll()
+    {
+        $result = [];
+        foreach (
+            self::DB()
+                ->select(['player_id', 'pref_id', 'pref_value'])
+                ->orderBy('player_id, pref_id')
+                ->get()
+                ->toArray()
+            as $item
+        ) {
+            $result[$item['player_id']][$item['pref_id']] = $item['pref_value'];
+        }
+        return $result;
     }
 }

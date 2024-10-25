@@ -17,6 +17,7 @@
  */
 
 use STATE\Core\Globals;
+use STATE\Core\Preferences;
 use STATE\Core\Stack;
 use STATE\Core\Stats;
 use STATE\Managers\Connections;
@@ -56,6 +57,7 @@ class Fiftyfirststate extends Table
     use STATE\States\ActivateSecondTimeTrait;
     use STATE\States\SpecificLocationsActionsTrait;
     use STATE\States\ConfirmTurnEndTrait;
+    use STATE\States\ChooseFactionTrait;
 
     public static $instance = null;
 
@@ -86,23 +88,8 @@ class Fiftyfirststate extends Table
         Players::setupNewGame($players, $options);
         Locations::setupNewGame();
         Connections::setupNewGame();
-//        Factions::setupNewGame($players);
+        Preferences::setupNewGame($players, $this->player_preferences);
         Globals::setupNewGame();
-//        $this->giveEachPlayerCardsSetup();
-//        $this->activeNextPlayer();
-    }
-
-    /**
-     * @param Player[] $players
-     * @param int $amount
-     * @return void
-     */
-    private function giveEachPlayerCardsSetup()
-    {
-        /** @var Player $player */
-        foreach (Players::getAll() as $player) {
-            $player->drawCards(GLOBAL_START_CARDS);
-        }
     }
 
     /*
@@ -205,6 +192,13 @@ class Fiftyfirststate extends Table
      */
     public function upgradeTableDb($from_version)
     {
+        if ($from_version <= 2410231142) {
+            $newSchema = self::DbQuery('SHOW COLUMNS FROM `player` LIKE \'player_faction_side\'')->num_rows === 1;
+            if (!$newSchema) {
+                $sql = "ALTER TABLE DBPREFIX_player ADD `player_faction_side` TINYINT DEFAULT 2;";
+                self::applyDbUpgradeToAllDB($sql);
+            }
+        }
     }
 
     /////////////////////////////////////////////////////////////

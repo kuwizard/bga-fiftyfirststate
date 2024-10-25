@@ -25,6 +25,5 @@ class view_fiftyfirststate_fiftyfirststate extends game_view
     {
         // Get players & players number
         $players = $this->game->loadPlayersBasicInfos();
-        $players_nbr = count($players);
     }
 }

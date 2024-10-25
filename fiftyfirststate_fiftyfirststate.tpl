@@ -186,6 +186,38 @@
     var jstpl_connection_text = `<div class="locationNameText">\${name}</div>
     <b>\${type}:</b> \${description}.`
     var jstpl_first_player = '<div id="firstPlayer"></div>'
+    var jstpl_faction_chooser = `<div id="factionChooser">
+        <div id="chooserHeader">\${header}</div>
+        <div id="chooserDisclaimer">\${disclaimer}</div>
+        <div id="factions"></div>
+    </div>`
+    var jstpl_faction_to_choose = `<div class="factionToChoose" data-faction="\${type}">
+        <div class="factionName"></div>
+        <div class="productionHeader">\${productionHeader}</div>
+        <div class="production">\${production}</div>
+        <div class="actionsHeader">\${actionsHeader}</div>
+        <div class="actions">\${actions}</div>
+        <div class="priority">
+            <span class="priorityHeader">\${priorityHeader}</span>
+            <span class="priorityDropdownWrapper">
+                <select id="priorityDropdown_\${type}" class="priorityDropdown">
+                    <option value="0">Any</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </span>
+        </div>
+        <div class="sideChooser">
+            <span id="factionInfo_\${altType}" class="factionInfo" data-type="\${altType}">?</span>
+            <span class="optionOne">\${optionOne}</span>
+            <input type="checkbox" id="switch_\${type}" class="switch" checked/><label for="switch_\${type}">Toggle</label>
+            <span class="optionTwo">\${optionTwo}</span>
+            <span id="factionInfo_\${type}" class="factionInfo" data-type="\${type}">?</span>
+        </div>
+    </div>`
+    var jstpl_midsize_dialog = `<div class="midSizeDialog">\${content}</div>`
 </script>
 
 {OVERALL_GAME_FOOTER}

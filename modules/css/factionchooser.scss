@@ -1,0 +1,163 @@
+#factionChooser {
+  background: hsla(0, 0%, 100%, .733);
+  border-radius: 14px;
+  margin-left: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  input[type=checkbox] {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+  }
+
+  label {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 40px;
+    height: 20px;
+    background: grey;
+    display: block;
+    border-radius: 10px;
+    position: relative;
+  }
+
+  label:after {
+    content: '';
+    position: absolute;
+    top: 2.5px;
+    left: 2px;
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    border-radius: 9px;
+    transition: 0.3s;
+  }
+
+  input:checked + label:after {
+    left: calc(100% - 2px);
+    transform: translateX(-100%);
+  }
+
+  label:active:after {
+    width: 13px;
+  }
+
+  #chooserHeader {
+    text-align: center;
+    margin-top: 7px;
+    font-size: x-large;
+    width: 100%;
+  }
+
+  #chooserDisclaimer {
+    font-size: large;
+    margin-top: 7px;
+    text-align: center;
+  }
+
+  #factions {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+
+    .factionToChoose {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: max-content;
+
+      .factionName {
+        background-image: url(img/factions.png);
+        border-radius: 10px;
+      }
+
+      .productionHeader, .actionsHeader {
+        font-size: x-large;
+        margin-top: 10px;
+      }
+
+      .actions {
+        text-align: center;
+      }
+
+      .sideChooser {
+        margin-top: 10px;
+        margin-bottom: 30px;
+      }
+
+      &[data-faction="0"] .factionName {
+        background-size: 800% 4000%;
+        background-position-x: 0;
+        background-position-y: 48.2%;
+        height: 50px;
+        width: 195px;
+      }
+
+      &[data-faction="1"] .factionName {
+        background-size: 430% 4000%;
+        background-position-x: 32.6%;
+        background-position-y: 48.1%;
+        height: 50px;
+        width: 363px;
+      }
+
+      &[data-faction="2"] .factionName {
+        background-size: 577.78% 4000%;
+        background-position-x: 60.4%;
+        background-position-y: 48.2%;
+        height: 50px;
+        width: 270px;
+      }
+
+      &[data-faction="3"] .factionName {
+        background-size: 472.68% 4000%;
+        background-position-x: 95.1%;
+        background-position-y: 48.1%;
+        height: 50px;
+        width: 330px;
+      }
+    }
+
+    .priority {
+      margin-top: 30px;
+    }
+
+    .sideChooser {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .factionInfo {
+      align-items: center;
+      background-color: #332c26;
+      border: 2px solid #fff;
+      border-radius: 15px;
+      color: #fff;
+      cursor: pointer;
+      display: inline-flex;
+      font-weight: bolder;
+      height: 25px;
+      justify-content: center;
+      pointer-events: auto;
+      text-align: center;
+      width: 25px;
+    }
+  }
+
+  .production, .actions, .sideChooser, .priority, .priority select {
+    font-size: large;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  .resourceIcon {
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    vertical-align: bottom;
+  }
+}

@@ -76,6 +76,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 'After you pass, you will not be able to take any Actions for the round. Also other players will not interact with your Locations in any way.');
         },
 
+        getIDontCareFactionChooseLexeme() {
+            return _('Faction will be assigned randomly based on what your opponents chose as their last priority');
+        },
+
         getLocationText(textArray, name) {
             if (Object.keys(textArray).length !== 5) {
                 throw new Error(`Unexpected error: getLocationText textArray contains ${Object.keys(textArray).length} elements, expected 5`);
@@ -104,6 +108,35 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 'jstpl_connection_text',
                 { ...textArray, name: _(name).toUpperCase() }
             );
+        },
+
+        getFactionChooserHeaderLexeme() {
+            return _('Choose your faction preferences<br/>(1 is the most preferred, 4 is the least)');
+        },
+
+        getFactionChooserDisclaimerLexeme() {
+            return _(
+                'Please note that the chosen faction is not guaranteed. If multiple players choose the same faction, it will be assigned randomly.');
+        },
+
+        getFactionChooserLeftSideLexeme() {
+            return _('Side 1');
+        },
+
+        getFactionChooserRightSideLexeme() {
+            return _('Side 2');
+        },
+
+        getProductionHeaderLexeme() {
+            return _('Production');
+        },
+
+        getActionsHeaderLexeme() {
+            return _('Actions');
+        },
+
+        getPriorityHeaderLexeme() {
+            return _('Priority:');
         },
     });
 });

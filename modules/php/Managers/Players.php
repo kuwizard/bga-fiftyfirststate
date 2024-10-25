@@ -4,6 +4,8 @@ namespace STATE\Managers;
 
 use STATE\Core\Game;
 use STATE\Core\Globals;
+use STATE\Core\Notifications;
+use STATE\Core\Preferences;
 use STATE\Helpers\Collection;
 use STATE\Helpers\DB_Manager;
 use STATE\Helpers\ResourcesHelper;
@@ -172,6 +174,20 @@ class Players extends DB_Manager
         return $nextId;
     }
 
+    public static function getAllFactions()
+    {
+        $result = [];
+        /** @var Player $player */
+        foreach (self::getAll() as $player) {
+            $result[$player->getId()] = [
+                'color' => $player->getColor(),
+                'faction' => self::getFactionUI($player->getFaction()),
+                'side' => $player->getFactionSide(),
+            ];
+        }
+        return $result;
+    }
+
     /**
      * @return bool
      */
@@ -223,17 +239,133 @@ class Players extends DB_Manager
         return null;
     }
 
-    /**
-     * @param int $pId
-     * @param int $value
-     * @return void
-     */
-    public static function setScoreAux($pId, $value)
+    public static function setScoreAux(int $pId, int $value): void
     {
         self::DB()
             ->update(['player_score_aux' => $value])
             ->wherePlayer($pId)
             ->run();
+    }
+
+    public static function assignNewPreferredColorsToPlayers()
+    {
+        $preferences = Preferences::getPreferencesAll();
+        $preferredFactions = self::getPreferredFactions($preferences);
+        foreach ($preferredFactions as $pId => $faction) {
+            self::get($pId)->setFaction($faction, self::getPreferredSide($preferences[$pId], $faction));
+        }
+        Game::get()->reloadPlayersBasicInfos();
+    }
+
+    private static function getPreferredFactions(array $preferences): array
+    {
+        $assignedFactions = [];
+        $validPrefKeys = [NEW_YORK_PREFERENCE, APPALACHIAN_PREFERENCE, MUTANTS_PREFERENCE, MERCHANTS_PREFERENCE];
+
+        $playerIdsWhoDontCare = [];
+        foreach ($preferences as $pId => &$subArray) {
+            // Filter valid preferences
+            $validPreferences = array_intersect_key($subArray, array_flip($validPrefKeys));
+            // Filter out players who decided not to choose preferences
+            if (empty(array_diff(array_values($validPreferences), [0]))) {
+                $playerIdsWhoDontCare[] = $pId;
+            }
+            // Flip them so we have priorities as keys and 201-204 as values
+            $flippedPreferences = array_flip($validPreferences);
+            ksort($flippedPreferences);
+
+            $subArray = array_values($flippedPreferences);
+        }
+        // Remove all players who don't care
+        $preferences = array_diff_key($preferences, array_flip($playerIdsWhoDontCare));
+
+        $playersInPreferencesCount = count($preferences);
+        for ($i = 0; $i < $playersInPreferencesCount - 1; $i++) {
+            $players = array_keys($preferences);
+            $player = $players[0];
+            $factionToConsider = $preferences[$player][0];
+
+            $playersWithSameFactionPreferred = array_filter($players, function ($player) use (
+                $preferences,
+                $factionToConsider
+            ) {
+                return $preferences[$player][0] === $factionToConsider;
+            });
+
+            $amountOfPlayersWithSameFactionPreferred = count($playersWithSameFactionPreferred);
+
+            if ($amountOfPlayersWithSameFactionPreferred > 1) {
+                shuffle($playersWithSameFactionPreferred);
+                $player = $playersWithSameFactionPreferred[0];
+            }
+            $assignedFactions[$player] = self::convertPreferenceValueToRealFaction($factionToConsider);
+            unset($preferences[$player]);
+
+            $preferences = array_map(function ($subArray) use ($factionToConsider) {
+                return array_values(
+                    array_filter($subArray, function ($color) use ($factionToConsider) {
+                        return $color !== $factionToConsider;
+                    })
+                );
+            }, $preferences);
+        }
+        if (count($preferences) > 0) {
+            $leftoverPlayer = array_keys($preferences)[0];
+            $assignedFactions[$leftoverPlayer] = self::convertPreferenceValueToRealFaction($preferences[$leftoverPlayer][0]);
+        }
+
+        $factionsNeverChosen = array_values(array_diff(Factions::getAll(), array_values($assignedFactions)));
+        shuffle($factionsNeverChosen);
+        foreach ($playerIdsWhoDontCare as $playerId) {
+            $assignedFactions[$playerId] = array_shift($factionsNeverChosen);
+        }
+
+        return $assignedFactions;
+    }
+
+    private static function getPreferredSide($preferences, $faction)
+    {
+        $validSides = [NEW_YORK_SIDE, APPALACHIAN_SIDE, MUTANTS_SIDE, MERCHANTS_SIDE];
+        $preferences = array_map('intval', array_intersect_key($preferences, array_flip($validSides)));
+        $result = [];
+        foreach ($preferences as $sideValue => $preference) {
+            $result[self::convertSideValueToRealFaction($sideValue)] = $preference;
+        }
+        return $result[$faction];
+    }
+
+    private static function convertPreferenceValueToRealFaction(int $value)
+    {
+        return [
+            NEW_YORK_PREFERENCE => FACTION_NEW_YORK,
+            APPALACHIAN_PREFERENCE => FACTION_APPALACHIAN,
+            MUTANTS_PREFERENCE => FACTION_MUTANTS,
+            MERCHANTS_PREFERENCE => FACTION_MERCHANTS,
+        ][$value];
+    }
+
+    private static function convertSideValueToRealFaction(int $value)
+    {
+        return [
+            NEW_YORK_SIDE => FACTION_NEW_YORK,
+            APPALACHIAN_SIDE => FACTION_APPALACHIAN,
+            MUTANTS_SIDE => FACTION_MUTANTS,
+            MERCHANTS_SIDE => FACTION_MERCHANTS,
+        ][$value];
+    }
+
+    public static function getFactionUI(int $faction): int
+    {
+        return ($faction / 10) - 50;
+    }
+
+    public static function giveEachPlayerCardsSetup(): void
+    {
+        /** @var Player $player */
+        foreach (self::getAll() as $player) {
+            $player->drawCards(GLOBAL_START_CARDS);
+            Notifications::locationsDrawn($player, $player->getHand()->toArray(), true);
+        }
     }
 
     /**

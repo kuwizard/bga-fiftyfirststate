@@ -54,11 +54,15 @@ class Notifications
     /**
      * @return void
      */
-    public static function locationsDrawn(Player $player)
+    public static function locationsDrawn(Player $player, array $new = null, $disableAnimation = false)
     {
+        if (is_null($new)) {
+            $new = $player->getRecentlyDrawnLocations();
+        }
         $resources = [
             'player' => $player,
-            'new' => $player->getRecentlyDrawnLocations(),
+            'new' => $new,
+            'disableAnimation' => $disableAnimation,
         ];
         self::notify($player, 'locationsDrawn', '', $resources);
     }
@@ -448,6 +452,11 @@ class Notifications
         self::notifyAll('firstPlayerChanged', $msg, [
             'player' => $player,
         ]);
+    }
+
+    public static function applyFactions(array $data): void
+    {
+        self::notifyAll('applyFactions', '', $data);
     }
 
     /*********************

@@ -191,14 +191,18 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             debug('Notif: locationsDrawn', n);
             await this.waitForDisappearance('.moving, .turnAround');
             for (const position of Object.keys(n.args.new)) {
-                this.addLocation(n.args.new[position], $('deckBlock'), true);
-                this.slide(
-                    `location_${n.args.new[position].id}`,
-                    'handLocations',
-                    { phantomEnd: true, targetPos: parseInt(position) - 1 }
-                );
-                this.addClass(`location_${n.args.new[position].id}`, 'justPicked', true, 3000);
-                await new Promise(resolve => setTimeout(resolve, 500));
+                if (n.args.disableAnimation) {
+                    this.addLocation(n.args.new[position], $('handLocations'));
+                } else {
+                    this.addLocation(n.args.new[position], $('deckBlock'), true);
+                    this.slide(
+                        `location_${n.args.new[position].id}`,
+                        'handLocations',
+                        { phantomEnd: true, targetPos: parseInt(position) - 1 }
+                    );
+                    this.addClass(`location_${n.args.new[position].id}`, 'justPicked', true, 3000);
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                }
             }
             this.setCorrectClassToOverlapCards();
         },
@@ -301,6 +305,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 dojo.removeClass(`overall_player_board_${playerId}`, 'passed');
             }
             this.gamedatas.players[playerId].passed = false;
+        },
+
+        collapseConnectionsBlock() {
+            dojo.toggleClass('deckConnectionsBlock', 'collapsing');
+            setTimeout(() => { // We want to hide cards with a slight delay
+                dojo.toggleClass('deckConnectionsBlock', 'collapsing');
+                dojo.toggleClass('deckConnectionsBlock', 'collapsed');
+            }, 100);
         },
 
         notif_lastRound(n) {

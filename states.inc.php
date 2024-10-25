@@ -29,8 +29,9 @@ $machinestates = [
         'description' => clienttranslate('Other players must set their faction preferences'),
         'descriptionmyturn' => clienttranslate('${you} must set your faction preferences'),
         'action' => 'stMakeEveryoneActive',
+        'args' => 'argChooseFaction',
         'type' => 'multipleactiveplayer',
-        'possibleactions' => ['actChooseFaction'],
+        'possibleactions' => ['actChooseFactionsPreferences', 'actIDontCare', 'actChangedMind'],
         'transitions' => ['' => ST_DISCARD_CARDS_GAME_START],
     ],
 

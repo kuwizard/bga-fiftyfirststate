@@ -191,6 +191,19 @@ define('TEXT_BONUS_DESCRIPTION', 'bonusDescription');
 define('TEXT_MAY_BE_ACTIVATED_TWICE', 'mayBeActivated');
 
 /*
+ * Player preferences
+ */
+define('NEW_YORK_PREFERENCE', 201);
+define('APPALACHIAN_PREFERENCE', 202);
+define('MUTANTS_PREFERENCE', 203);
+define('MERCHANTS_PREFERENCE', 204);
+
+define('NEW_YORK_SIDE', 301);
+define('APPALACHIAN_SIDE', 302);
+define('MUTANTS_SIDE', 303);
+define('MERCHANTS_SIDE', 304);
+
+/*
  * Global constants
  */
 define('GLOBAL_START_CARDS', 6);

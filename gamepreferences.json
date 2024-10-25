@@ -1,1 +1,138 @@
-{}
+{
+  "201": {
+    "name": "New York priority",
+    "values": [
+      {
+        "name": ""
+      },
+      {
+        "name": ""
+      },
+      {
+        "name": ""
+      },
+      {
+        "name": ""
+      },
+      {
+        "name": ""
+      }
+    ]
+  },
+  "202": {
+    "name": "Appalachian priority",
+    "values": [
+      {
+        "name": ""
+      },
+      {
+        "name": ""
+      },
+      {
+        "name": ""
+      },
+      {
+        "name": ""
+      },
+      {
+        "name": ""
+      }
+    ]
+  },
+  "203": {
+    "name": "Mutants priority",
+    "values": [
+      {
+        "name": ""
+      },
+      {
+        "name": ""
+      },
+      {
+        "name": ""
+      },
+      {
+        "name": ""
+      },
+      {
+        "name": ""
+      }
+    ]
+  },
+  "204": {
+    "name": "Merchants priority",
+    "values": [
+      {
+        "name": ""
+      },
+      {
+        "name": ""
+      },
+      {
+        "name": ""
+      },
+      {
+        "name": ""
+      },
+      {
+        "name": ""
+      }
+    ]
+  },
+  "301": {
+    "name": "New York side preference",
+    "values": [
+      {
+        "name": "No preference"
+      },
+      {
+        "name": "Side 1"
+      },
+      {
+        "name": "Side 2"
+      }
+    ]
+  },
+  "302": {
+    "name": "Appalachian side preference",
+    "values": [
+      {
+        "name": "No preference"
+      },
+      {
+        "name": "Side 1"
+      },
+      {
+        "name": "Side 2"
+      }
+    ]
+  },
+  "303": {
+    "name": "Mutants side preference",
+    "values": [
+      {
+        "name": "No preference"
+      },
+      {
+        "name": "Side 1"
+      },
+      {
+        "name": "Side 2"
+      }
+    ]
+  },
+  "304": {
+    "name": "Merchants side preference",
+    "values": [
+      {
+        "name": "No preference"
+      },
+      {
+        "name": "Side 1"
+      },
+      {
+        "name": "Side 2"
+      }
+    ]
+  }
+}

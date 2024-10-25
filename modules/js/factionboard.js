@@ -10,7 +10,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         addFactionBoards() {
             this.forEachPlayer((player) => {
-                const factionBoard = dojo.place(this.format_block('jstpl_faction_board', player), 'board');
+                const boardData = { ...player, faction: this.getFactionWithOffset(player.faction, player.factionSide) };
+                const factionBoard = dojo.place(this.format_block('jstpl_faction_board', boardData), 'board');
                 dojo.place(this.coloredPlayerName(player.id), this.querySingle(`#faction_${player.id} .name`));
                 this.addResourcesToDeals(player.id, player.dealsResources);
                 this.forEachFactionRow((row) => {
@@ -31,6 +32,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 });
                 this.addFactionTooltips(player.id, player.faction);
             });
+        },
+
+        getFactionWithOffset(faction, side) {
+            const factionSpriteOffset = side === 1 ? 4 : 0;
+            return faction + factionSpriteOffset;
         },
 
         addFactionTooltips(playerId, faction) {

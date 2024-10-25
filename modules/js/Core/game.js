@@ -56,16 +56,13 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             this.addHand();
             this.addDeckConnectionsElement(gamedatas);
             this.addFactionBoards();
+            this.removePrefsFromBurgerMenu();
             this.addEventListenerToResize();
             if (gamedatas.lastRound) {
                 this.addLastRound();
             }
             dojo.connect(this.querySingle('#collapseButton'), 'click', () => {
-                dojo.toggleClass('deckConnectionsBlock', 'collapsing');
-                setTimeout(() => { // We want to hide cards with a slight delay
-                    dojo.toggleClass('deckConnectionsBlock', 'collapsing');
-                    dojo.toggleClass('deckConnectionsBlock', 'collapsed');
-                }, 100);
+                this.collapseConnectionsBlock();
             });
             dojo.connect(this.notifqueue, 'addToLog', () => {
                 this.checkLogCancel(this._last_notif);
@@ -597,6 +594,19 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                     dojo.removeClass(element, clazz);
                 }, delay);
             }
+        },
+
+        removePrefsFromBurgerMenu() {
+            dojo.query('.preference_choice').forEach((element) => {
+                const ids =
+                    '#preference_control_201,#preference_control_202,#preference_control_203,#preference_control_204' +
+                    ',#preference_fontrol_201,#preference_fontrol_202,#preference_fontrol_203,#preference_fontrol_204' +
+                    ',#preference_control_301,#preference_control_302,#preference_control_303,#preference_control_304' +
+                    ',#preference_fontrol_301,#preference_fontrol_302,#preference_fontrol_303,#preference_fontrol_304';
+                if (element.querySelector(ids)) {
+                    dojo.style(element, 'display', 'none');
+                }
+            });
         },
 
         forEachPlayer(callback) {

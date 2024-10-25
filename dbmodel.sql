@@ -8,6 +8,7 @@
 
 -- dbmodel.sql
 
+ALTER TABLE `player` ADD `player_faction_side` TINYINT DEFAULT -1;
 ALTER TABLE `player` ADD `player_fuel` TINYINT DEFAULT 0;
 ALTER TABLE `player` ADD `player_gun` TINYINT DEFAULT 0;
 ALTER TABLE `player` ADD `player_iron` TINYINT DEFAULT 0;
