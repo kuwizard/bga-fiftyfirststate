@@ -35,7 +35,7 @@ class ThievesCaravan extends Action
 
     public function isActivatable(): bool
     {
-        $otherPlayers = Players::getAll(Players::getActiveId());
+        $otherPlayers = Players::getAllNonPassed(Players::getActiveId());
         $playersWithResources = $otherPlayers->filter(function (Player $player) {
             return array_sum(array_values($player->getResourcesWithNames($this->action->getBonus()))) > 0;
         });

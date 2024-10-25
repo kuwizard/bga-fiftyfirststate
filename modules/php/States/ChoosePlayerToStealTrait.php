@@ -18,7 +18,7 @@ trait ChoosePlayerToStealTrait
             // BGA framework, why do you ever call that if the state is ST_CREATE_RESOURCE_SOURCE_MAP???
             return [];
         }
-        Players::getAll(Players::getActiveId())->map(function (Player $player) use (&$args, $ctx) {
+        Players::getAllNonPassed(Players::getActiveId())->map(function (Player $player) use (&$args, $ctx) {
             $args[] = $this->getResourcesOfPlayer($player, $ctx['resourcesAllowed']);
         });
         return $args;
