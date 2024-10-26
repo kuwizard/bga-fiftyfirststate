@@ -108,7 +108,7 @@ class Notifications
         Location $oldLocation = null)
     {
         $msg = $oldLocation ? clienttranslate(
-            '${player_name} spends ${resourcesList} to discard ${locationName2} and develop ${locationName} in the ${factionRowName} row'
+            '${player_name} spends ${spendList} to discard ${locationName2} and develop ${locationName} in the ${factionRowName} row, earning 1 ${resourcesList} for developing'
         )
             : clienttranslate('${player_name} spends ${spendList} to build ${locationName} in the ${factionRowName} row');
         self::notifyAll('locationBuilt', $msg, [
@@ -117,8 +117,12 @@ class Notifications
             'location2' => $oldLocation,
             'factionRow' => $location->getFactionRow(),
             'factionRowName' => $location->getFactionRowName(),
-            'spendList' => ResourcesHelper::getResourceNames($spendList),
-            'resourcesList' => is_null($resource) ? null : [ResourcesHelper::getResourceName($resource)],
+            'spendList' => is_null($resource) ? ResourcesHelper::getResourceNames($spendList) : [
+                ResourcesHelper::getResourceName(
+                    $resource
+                ),
+            ],
+            'resourcesList' => is_null($resource) ? null : [ResourcesHelper::getResourceName(RESOURCE_VP)],
             'i18n' => ['locationName', 'locationName2', 'factionRowName'],
             'preserve' => ['location2'],
         ]);
