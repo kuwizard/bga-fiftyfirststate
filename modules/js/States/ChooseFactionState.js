@@ -10,46 +10,48 @@ define(['dojo', 'dojo/_base/declare', 'dijit/Tooltip'], (dojo, declare) => {
             dojo.query('.factionBoard, #deckConnectionsBlock, #hand').forEach((element) => {
                 dojo.addClass(element, 'hidden');
             });
-            dojo.place(this.format_block('jstpl_faction_chooser', this.getHeaderLexemes()), 'board');
-            this.forEachPlayer((player) => {
-                dojo.style(this.querySingle(`#player_name_${player.id} a`), 'color', '#000');
-            });
-            args.prodActions.forEach((faction, index) => {
-                const actions = this.replaceWithResourceIcon(this.getFactionActionLexeme(index).join(
-                    '<br/>'), true);
-                dojo.place(
-                    this.format_block(
-                        'jstpl_faction_to_choose',
-                        {
-                            type: index,
-                            altType: index + 4,
-                            productionHeader: this.getProductionHeaderLexeme(),
-                            production: this.getProduction(faction),
-                            actionsHeader: this.getActionsHeaderLexeme(),
-                            priorityHeader: this.getPriorityHeaderLexeme(),
-                            actions: actions, ...this.getSliderLexemes()
-                        }
-                    ),
-                    'factions'
-                );
-            });
-            Object.keys(args._private).forEach((prefId) => {
-                const intValue = parseInt(prefId, 10);
-                if (intValue % 200 < 100) {
-                    const preferenceValue = args._private[prefId] === '-1' ? '0' : args._private[prefId];
-                    this.querySingle(`#priorityDropdown_${intValue - 201}`).value = preferenceValue;
-                } else {
-                    this.querySingle(`#switch_${intValue - 301}`).checked = args._private[prefId] !== '1';
-                }
-            });
-            if (this.gamedatas.gamestate.name === 'chooseFaction') {
-                if (this.isCurrentPlayerActive()) {
-                    this.connectHandlers();
-                    this.addDoneButtonIfNeeded();
-                    this.addIDontCareButton();
-                } else {
-                    this.addChangedMindButton();
-                    this.changeDropdownsAndCheckboxesStates(false);
+            if (!this.isSpectator) {
+                dojo.place(this.format_block('jstpl_faction_chooser', this.getHeaderLexemes()), 'board');
+                this.forEachPlayer((player) => {
+                    dojo.style(this.querySingle(`#player_name_${player.id} a`), 'color', '#000');
+                });
+                args.prodActions.forEach((faction, index) => {
+                    const actions = this.replaceWithResourceIcon(this.getFactionActionLexeme(index).join(
+                        '<br/>'), true);
+                    dojo.place(
+                        this.format_block(
+                            'jstpl_faction_to_choose',
+                            {
+                                type: index,
+                                altType: index + 4,
+                                productionHeader: this.getProductionHeaderLexeme(),
+                                production: this.getProduction(faction),
+                                actionsHeader: this.getActionsHeaderLexeme(),
+                                priorityHeader: this.getPriorityHeaderLexeme(),
+                                actions: actions, ...this.getSliderLexemes()
+                            }
+                        ),
+                        'factions'
+                    );
+                });
+                Object.keys(args._private).forEach((prefId) => {
+                    const intValue = parseInt(prefId, 10);
+                    if (intValue % 200 < 100) {
+                        const preferenceValue = args._private[prefId] === '-1' ? '0' : args._private[prefId];
+                        this.querySingle(`#priorityDropdown_${intValue - 201}`).value = preferenceValue;
+                    } else {
+                        this.querySingle(`#switch_${intValue - 301}`).checked = args._private[prefId] !== '1';
+                    }
+                });
+                if (this.gamedatas.gamestate.name === 'chooseFaction') {
+                    if (this.isCurrentPlayerActive()) {
+                        this.connectHandlers();
+                        this.addDoneButtonIfNeeded();
+                        this.addIDontCareButton();
+                    } else {
+                        this.addChangedMindButton();
+                        this.changeDropdownsAndCheckboxesStates(false);
+                    }
                 }
             }
         },
