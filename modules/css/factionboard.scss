@@ -269,6 +269,13 @@ $dealsHeight: 30px;
   }
 }
 
+.faction[data-faction="4"], .faction[data-faction="5"], .faction[data-faction="6"], .faction[data-faction="7"] {
+  .spentArea {
+    right: 57%;
+    justify-content: end;
+  }
+}
+
 .midSizeDialog {
   .factionBoard {
     height: $factionHeight;

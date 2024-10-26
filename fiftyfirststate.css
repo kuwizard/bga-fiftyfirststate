@@ -325,6 +325,11 @@
   display: none;
 }
 
+.faction[data-faction="4"] .spentArea, .faction[data-faction="5"] .spentArea, .faction[data-faction="6"] .spentArea, .faction[data-faction="7"] .spentArea {
+  right: 57%;
+  justify-content: end;
+}
+
 .midSizeDialog .factionBoard {
   height: 728px;
   border-radius: 0;
