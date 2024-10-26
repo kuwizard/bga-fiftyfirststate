@@ -48,14 +48,14 @@ trait DevelopTrait
         $newLocationId = Stack::getCtx()['newLocationId'];
         $fromLocation = Locations::get($newLocationId);
         $player = Players::getActive();
-        if (ResourcesHelper::getResourceType(Stack::getCtx()['resource']) === RESOURCE_BRICK) {
+        if (ResourcesHelper::getResourceType(Stack::getCtx()['resource']) === RESOURCE_DEVELOPMENT) {
+            $possibleDestinations = $player->getBoard(true);
+        } else {
             $possibleDestinations = $player->getBoard(true)->filter(
                 function (Location $location) use ($fromLocation) {
                     return $location->isRuined() || !empty(array_intersect($location->getIcons(), $fromLocation->getIcons()));
                 }
             );
-        } else {
-            $possibleDestinations = $player->getBoard(true);
         }
         $cardWarning = in_array(RESOURCE_CARD, $fromLocation->getBuildingBonus($player));
         return [
