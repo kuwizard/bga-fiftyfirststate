@@ -14,6 +14,7 @@ define(['dojo', 'dojo/_base/declare', 'dijit/Tooltip'], (dojo, declare) => {
                 dojo.place(this.format_block('jstpl_faction_chooser', this.getHeaderLexemes()), 'board');
                 this.forEachPlayer((player) => {
                     dojo.style(this.querySingle(`#player_name_${player.id} a`), 'color', '#000');
+                    this.gamedatas.players[player.id].color = '000';
                 });
                 args.prodActions.forEach((faction, index) => {
                     const actions = this.replaceWithResourceIcon(this.getFactionActionLexeme(index).join(
@@ -266,6 +267,7 @@ define(['dojo', 'dojo/_base/declare', 'dijit/Tooltip'], (dojo, declare) => {
                 dojo.style(this.querySingle(`#faction_${player.id} .playername`), 'color', `#${data.color}`);
                 const factionWithOffset = this.getFactionWithOffset(data.faction, data.side);
                 dojo.attr(this.querySingle(`#faction_${player.id} .faction`), 'data-faction', factionWithOffset);
+                this.gamedatas.players[player.id].color = data.color;
             });
         },
     });
