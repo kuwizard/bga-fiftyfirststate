@@ -36,11 +36,13 @@ define(['dojo', 'dojo/_base/declare', 'dijit/Tooltip'], (dojo, declare) => {
                 });
                 Object.keys(args._private).forEach((prefId) => {
                     const intValue = parseInt(prefId, 10);
-                    if (intValue % 200 < 100) {
-                        const preferenceValue = args._private[prefId] === '-1' ? '0' : args._private[prefId];
-                        this.querySingle(`#priorityDropdown_${intValue - 201}`).value = preferenceValue;
-                    } else {
-                        this.querySingle(`#switch_${intValue - 301}`).checked = args._private[prefId] !== '1';
+                    if (intValue < 400) {
+                        if (intValue % 200 < 100) {
+                            const preferenceValue = args._private[prefId] === '-1' ? '0' : args._private[prefId];
+                            this.querySingle(`#priorityDropdown_${intValue - 201}`).value = preferenceValue;
+                        } else {
+                            this.querySingle(`#switch_${intValue - 301}`).checked = args._private[prefId] !== '1';
+                        }
                     }
                 });
                 if (this.gamedatas.gamestate.name === 'chooseFaction') {

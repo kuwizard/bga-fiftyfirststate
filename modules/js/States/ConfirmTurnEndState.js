@@ -1,4 +1,6 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
+    const PLAYER_OPTION_TIMER = 401;
+    const TIMER_10_SECONDS = 0;
     return declare('state.confirmTurnEnd', null, {
         constructor() {
         },
@@ -7,13 +9,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             if (this.isCurrentPlayerActive()) {
                 const buttonId = 'buttonConfirmTurn';
                 this.addEndTurnButton(buttonId);
-                this.startActionTimer(buttonId, 10);
-                this.addSecondaryActionButton('buttonLetMeThink', _('Let me think'), () => {
-                    this.stopActionTimer(buttonId);
-                    this.removeActionButtons();
-                    this.addEndTurnButton(buttonId);
-                    this.addResetTurnButton();
-                });
+                if (this.getGameUserPreference(PLAYER_OPTION_TIMER) === TIMER_10_SECONDS) {
+                    this.startActionTimer(buttonId, 10);
+                    this.addSecondaryActionButton('buttonLetMeThink', _('Let me think'), () => {
+                        this.stopActionTimer(buttonId);
+                        this.removeActionButtons();
+                        this.addEndTurnButton(buttonId);
+                        this.addResetTurnButton();
+                    });
+                }
                 this.addResetTurnButton();
             }
         },

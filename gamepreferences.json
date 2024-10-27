@@ -134,5 +134,16 @@
         "name": "Side 2"
       }
     ]
+  },
+  "401": {
+    "name": "End turn confirmation timer",
+    "values": [
+      {
+        "name": "10 seconds"
+      },
+      {
+        "name": "Off"
+      }
+    ]
   }
 }
