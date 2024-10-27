@@ -110,6 +110,10 @@
     &.notTooManyChildren {
       justify-content: center;
     }
+
+    &:empty {
+      margin: unset;
+    }
   }
 
   #handConnections {
@@ -120,6 +124,10 @@
     transition: max-height 500ms;
     max-height: 180px;
     gap: 5px;
+
+    &:empty {
+      margin: unset;
+    }
   }
 
   &.hidden {

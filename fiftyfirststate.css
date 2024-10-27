@@ -720,6 +720,9 @@
 #hand #handLocations.notTooManyChildren {
   justify-content: center;
 }
+#hand #handLocations:empty {
+  margin: unset;
+}
 #hand #handConnections {
   margin-bottom: 5px;
   display: flex;
@@ -728,6 +731,9 @@
   transition: max-height 500ms;
   max-height: 180px;
   gap: 5px;
+}
+#hand #handConnections:empty {
+  margin: unset;
 }
 #hand.hidden {
   display: none;
