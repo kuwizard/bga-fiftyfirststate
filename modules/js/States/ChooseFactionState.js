@@ -268,6 +268,7 @@ define(['dojo', 'dojo/_base/declare', 'dijit/Tooltip'], (dojo, declare) => {
                 const factionWithOffset = this.getFactionWithOffset(data.faction, data.side);
                 dojo.attr(this.querySingle(`#faction_${player.id} .faction`), 'data-faction', factionWithOffset);
                 this.gamedatas.players[player.id].color = data.color;
+                this.addFactionTooltips(player.id, data.faction);
             });
         },
     });
