@@ -198,7 +198,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     this.slide(
                         `location_${n.args.new[position].id}`,
                         'handLocations',
-                        { phantomEnd: true, targetPos: parseInt(position) - 1 }
+                        { phantomEnd: true, targetPos: parseInt(position) }
                     );
                     this.addClass(`location_${n.args.new[position].id}`, 'justPicked', true, 3000);
                     await new Promise(resolve => setTimeout(resolve, 500));

@@ -253,12 +253,6 @@ trait ChooseResourceSourceTrait
     {
         $ctx = Stack::getCtx();
         $resourcesChanged = [];
-        if (isset($ctx['bonus']) && $ctx['bonus']) {
-            foreach (array_count_values($ctx['bonus']) as $bonus => $amount) {
-                $player->increaseResource($bonus, $amount);
-                $resourcesChanged[] = $bonus;
-            }
-        }
         if (isset($ctx['postActions'])) {
             $type = $ctx['postActions']['type'];
             $locationId = $ctx['postActions']['id'];
@@ -316,6 +310,12 @@ trait ChooseResourceSourceTrait
                     break;
                 default:
                     throw new \BgaVisibleSystemException('Unknown action ' . $type);
+            }
+        }
+        if (isset($ctx['bonus']) && $ctx['bonus']) {
+            foreach (array_count_values($ctx['bonus']) as $bonus => $amount) {
+                $player->increaseResource($bonus, $amount);
+                $resourcesChanged[] = $bonus;
             }
         }
         if (isset($ctx['activatorId']) && $ctx['activatorId'] < FACTION_NEW_YORK) {
