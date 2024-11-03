@@ -5,6 +5,7 @@ namespace STATE\States;
 use STATE\Core\Globals;
 use STATE\Core\Notifications;
 use STATE\Core\Stack;
+use STATE\Managers\Factions;
 use STATE\Managers\Players;
 use STATE\Models\Player;
 
@@ -22,6 +23,11 @@ trait RoundTrait
         $firstPlayer = Globals::getFirstPlayerId();
         if ($firstPlayer === 0) {
             $nextPlayerId = Players::getFirstFirstPlayerId();
+            // If for some reason Factions never called setupNewGame(), let's call it now (it might happen in debug only!)
+            $playerFaction = Players::get($nextPlayerId)->getFaction();
+            if (empty(Factions::getAllForFaction($playerFaction))) {
+                Factions::setupNewGame(Players::getAll()->toArray());
+            }
         } else {
             $nextPlayerId = Players::getNextId($firstPlayer);
         }

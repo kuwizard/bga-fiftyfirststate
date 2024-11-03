@@ -273,6 +273,7 @@ trait ChooseResourceSourceTrait
                     $player->discardSingle($oldLocationId);
                     Locations::move($locationId, [LOCATION_BOARD, $player->getId()]);
                     $oldLocation->unruin();
+                    Locations::resetActivatedTimes([$oldLocation->getId()]);
                     Notifications::locationDiscarded($player, $oldLocation, $resourcesPlaced);
                     Notifications::locationBuilt($player, $location, $processed, $ctx['postActions']['resource'], $oldLocation);
                     $this->getProductionAfterBuildAndPlaceResources($location, $player);
@@ -306,6 +307,7 @@ trait ChooseResourceSourceTrait
                     $ownerResourcesChanged = ResourcesHelper::increaseResourcesAfterAction($owner, $location->getDeals());
                     Notifications::resourcesChanged($owner, $owner->getResourcesWithNames($ownerResourcesChanged));
                     $location->ruin();
+                    Locations::resetActivatedTimes([$location->getId()]);
                     Notifications::locationRuined($owner, $location, $player);
                     break;
                 default:
