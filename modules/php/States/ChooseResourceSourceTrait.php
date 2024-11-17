@@ -26,6 +26,10 @@ trait ChooseResourceSourceTrait
         if (isset($sources['joker'])) {
             $sources['jokerIcon'] = ResourcesHelper::getResourceName($sources['joker']);
         }
+        // TODO: Remove this "if" after 24/11/2024
+        if (isset($sources['locations'])) {
+            $sources['locations'] = array_values($sources['locations']);
+        }
         return [
             'resourceIcon' => ResourcesHelper::getResourceName($resource),
             'resourcesList' => ResourcesHelper::getResourceNames($toSpend),
@@ -38,9 +42,9 @@ trait ChooseResourceSourceTrait
     {
         $locations = Resources::getLocationIdsByResource($resource);
         $playerLocations = $player->getBoard()->getIds();
-        return array_map(function ($locationId) {
+        return array_values(array_map(function ($locationId) {
             return Locations::get($locationId);
-        }, array_intersect($locations, $playerLocations));
+        }, array_intersect($locations, $playerLocations)));
     }
 
     public function stCreateResourceSourceMap()
