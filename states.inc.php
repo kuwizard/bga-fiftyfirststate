@@ -258,6 +258,15 @@ $machinestates = [
         'possibleactions' => ['actActivateAgain', 'actDoNotActivateAgain'],
     ],
 
+    ST_ACTIVATE_SPEND_WORKERS_AGAIN => [
+        'name' => 'activateSpendWorkersAgain',
+        'description' => clienttranslate('${actplayer} may choose to activate the same faction action (spend 2 workers) again'),
+        'descriptionmyturn' => clienttranslate('Do ${you} want to activate the same faction action (spend 2 workers) again?'),
+        'args' => 'argActivateSecondTime',
+        'type' => 'activeplayer',
+        'possibleactions' => ['actActivateAgain', 'actDoNotActivateAgain'],
+    ],
+
     ST_PHASE_FOUR_CLEANUP => [
         'name' => 'phaseFourCleanup',
         'description' => '',

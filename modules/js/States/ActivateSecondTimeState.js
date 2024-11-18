@@ -5,9 +5,20 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         onEnteringStateActivateSecondTime(args) {
             debug('Activate Second Time state', args);
+            this.activateSecondTimePreparation(args.locationId);
+        },
+
+        onEnteringStateActivateSpendWorkersAgain(args) {
+            debug('Activate Spend Workers Second Time state', args);
+            this.activateSecondTimePreparation();
+        },
+
+        activateSecondTimePreparation(locationId = null) {
             if (this.isCurrentPlayerActive()) {
-                this.addSelectedClass(`location_${args.locationId}`);
-                this.dojoConnect(`location_${args.locationId}`, () => this.takeAction('actActivateAgain', {}));
+                if (locationId !== null) {
+                    this.addSelectedClass(`location_${locationId}`);
+                    this.dojoConnect(`location_${locationId}`, () => this.takeAction('actActivateAgain', {}));
+                }
                 this.addPrimaryActionButton('buttonYes', _('Yes, activate again'),
                     () => this.takeAction('actActivateAgain', {})
                 );

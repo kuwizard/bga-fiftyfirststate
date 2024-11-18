@@ -132,7 +132,9 @@ trait PhaseThreeActionTrait
 
     public function actSpendWorkers()
     {
-        self::checkAction('actSpendWorkers');
+        if (Players::getActive()->getResource(RESOURCE_WORKER) > 3) {
+            Stack::insertOnTop(ST_ACTIVATE_SPEND_WORKERS_AGAIN);
+        }
         Stack::insertOnTopAndFinish(ST_SPEND_WORKERS);
     }
 

@@ -68,7 +68,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         getCardWarningLexeme() {
             return _(
-                'As a result of this action you\'re going to get one or more Location card(s) and, therefore, Reset Turn option will be unavailable. Your turn will end after this action.');
+                'You\'re going to get one or more Location card(s) and, therefore, Reset Turn option will either be unavailable or reset you to the state after drawing.');
         },
 
         getPassWarningLexeme() {

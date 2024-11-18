@@ -11,7 +11,7 @@ trait ActivateSecondTimeTrait
 {
     public function argActivateSecondTime()
     {
-        return ['locationId' => Stack::getCtx()['locationId']];
+        return ['locationId' => Stack::getCtx()['locationId'] ?? null];
     }
 
     public function stActivateSecondTime()
@@ -25,8 +25,15 @@ trait ActivateSecondTimeTrait
 
     public function actActivateAgain()
     {
-        Locations::get(Stack::getCtx()['locationId'])->activate(Players::getActive());
-        Stack::finishState();
+        $ctx = Stack::getCtx();
+        if ($ctx['state'] === ST_ACTIVATE_SECOND_TIME) {
+            Locations::get($ctx['locationId'])->activate(Players::getActive());
+            Stack::finishState();
+        } else if ($ctx['state'] === ST_ACTIVATE_SPEND_WORKERS_AGAIN) {
+            $this->actSpendWorkers();
+        } else {
+            throw new \BgaVisibleSystemException('Incorrect state to activate again: ' . $ctx['state']);
+        }
     }
 
     public function actDoNotActivateAgain()

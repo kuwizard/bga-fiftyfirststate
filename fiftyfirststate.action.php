@@ -45,13 +45,6 @@ class action_fiftyfirststate extends APP_GameAction
         self::ajaxResponse();
     }
 
-    public function actSpendWorkers()
-    {
-        self::setAjaxMode();
-        $this->game->actSpendWorkers();
-        self::ajaxResponse();
-    }
-
     public function actUndo()
     {
         self::setAjaxMode();

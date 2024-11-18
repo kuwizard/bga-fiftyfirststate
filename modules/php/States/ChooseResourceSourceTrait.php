@@ -158,10 +158,12 @@ trait ChooseResourceSourceTrait
                     $ctx['isDeal'] ?? null
                 );
             }
-            if (!$this->isGoingToGetANewLocation($ctx)) {
-                if (Stack::isAtomIn(ST_ACTIVATE_SECOND_TIME)) {
+            if ($this->isGoingToGetANewLocation($ctx)) {
+                $this->undoSavepoint();
+            } else {
+                if (Stack::isSomeAtomsIn([ST_ACTIVATE_SECOND_TIME, ST_ACTIVATE_SPEND_WORKERS_AGAIN])) {
                     Globals::setAddConfirmTurnEnd(true);
-                } else {
+                } else if (Globals::getAddConfirmTurnEnd()) {
                     Stack::insertOnTop(ST_CONFIRM_TURN_END);
                 }
             }
