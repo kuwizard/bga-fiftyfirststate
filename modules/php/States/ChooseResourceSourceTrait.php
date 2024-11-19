@@ -163,7 +163,7 @@ trait ChooseResourceSourceTrait
             } else {
                 if (Stack::isSomeAtomsIn([ST_ACTIVATE_SECOND_TIME, ST_ACTIVATE_SPEND_WORKERS_AGAIN])) {
                     Globals::setAddConfirmTurnEnd(true);
-                } else if (Globals::getAddConfirmTurnEnd()) {
+                } else {
                     Stack::insertOnTop(ST_CONFIRM_TURN_END);
                 }
             }
