@@ -27,9 +27,9 @@
             <div class="firstPlayerWrapper"></div>
         </div>
         <div class="playerResources">
-            <div class="fuel resource">
-                <span class="fuelIcon resourceIcon">
-                    <span class="fuelValue resourceValue">\${fuel}</span>
+            <div class="iron resource">
+                <span class="ironIcon resourceIcon">
+                    <span class="ironValue resourceValue">\${iron}</span>
                 </span>
             </div>
             <div class="gun resource">
@@ -37,9 +37,9 @@
                     <span class="gunValue resourceValue">\${gun}</span>
                 </span>
             </div>
-            <div class="iron resource">
-                <span class="ironIcon resourceIcon">
-                    <span class="ironValue resourceValue">\${iron}</span>
+            <div class="fuel resource">
+                <span class="fuelIcon resourceIcon">
+                    <span class="fuelValue resourceValue">\${fuel}</span>
                 </span>
             </div>
             <div class="brick resource">

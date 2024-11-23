@@ -447,9 +447,9 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                     args.processed = true;
 
                     const resourcesIcons = [
-                        'fuelIcon',
-                        'gunIcon',
                         'ironIcon',
+                        'gunIcon',
+                        'fuelIcon',
                         'brickIcon',
                         'workerIcon',
                         'arrowGreyIcon',
