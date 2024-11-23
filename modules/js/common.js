@@ -176,7 +176,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 const lookoutWidth = singleWidth * locations.length + (locations.length - 1) * 5;
                 this.setOrRemoveClass(lookout, window.innerWidth * 0.7 > lookoutWidth, 'notTooManyChildren');
             }
-            this.setOrRemoveClass('deckConnectionsBlock', window.innerWidth <= 1366, 'narrow'); // iPad Pro width
+            // 1366 is the iPad Pro width. However for 4 players even this number is too small
+            const width = Object.keys(this.gamedatas.players).length === 4 ? 1500 : 1366;
+            this.setOrRemoveClass('deckConnectionsBlock', window.innerWidth <= width, 'narrow');
         },
 
         setOrRemoveClass(element, condition, clazz) {
