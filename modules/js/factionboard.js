@@ -4,10 +4,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this._notifications.push(['locationRuined', 1]);
         },
 
-        addBoard() {
-            dojo.place(this.format_block('jstpl_board', {}), 'game_play_area');
-        },
-
         addFactionBoards() {
             this.forEachPlayer((player) => {
                 const boardData = { ...player, faction: this.getFactionWithOffset(player.faction, player.factionSide) };

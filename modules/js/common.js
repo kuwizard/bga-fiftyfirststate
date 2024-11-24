@@ -52,8 +52,17 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             return location;
         },
 
+        addBoard() {
+            dojo.place(this.format_block('jstpl_board', {}), 'game_play_area');
+            dojo.place(this.format_block('jstpl_arrow_up', {}), 'toTop');
+            dojo.connect(this.querySingle('#toTop'), 'click', () => {
+                this.scrollToTop();
+            });
+        },
+
         addDeckConnectionsElement(gamedatas) {
             dojo.place(this.format_block('jstpl_deck_connections', {}), 'board');
+            dojo.place(this.format_block('jstpl_arrow_up', {}), 'collapseButton');
             this.placeText('jstpl_header', "{l}: ".replace('{l}', this.getDeckLexeme()), 'deckHeader', gamedatas.deck);
             this.placeText(
                 'jstpl_header',
@@ -189,6 +198,62 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             }
         },
 
+        async runDiscardLocationAnimation(location, newDiscardCount, playerId) {
+            let locationElement = $(`location_${location.id}`);
+            if (!locationElement) {
+                locationElement = this.addLocation(location, $(`overall_player_board_${playerId}`), true);
+            }
+            const discardIsCollapsed = this.querySingle('#deckConnectionsBlock.collapsed');
+            if (discardIsCollapsed) {
+                await this.slide(locationElement, 'discardHeader', { destroy: false });
+                this.changeParent(locationElement, 'discard', true);
+            } else {
+                await this.slide(locationElement, 'discard');
+                dojo.removeClass(locationElement, 'back');
+            }
+            this.destroyAll(`#discard .location:not(#location_${location.id})`);
+            this.querySingle(`#discardHeader .headerValue`).innerText = newDiscardCount;
+        },
+
+        addTooltipToLogEntry(location) {
+            const locationBlock = this.format_block('jstpl_location', this.enrichLocationObject(location));
+            this.addTooltipHtml(this.querySingle('.log .locationName'), locationBlock);
+        },
+
+        setPlayerPass(playerId) {
+            if (playerId === this.player_id && this.resourceCounters.sticky) {
+                dojo.addClass('sticky', 'passed');
+            } else {
+                dojo.addClass(`overall_player_board_${playerId}`, 'passed');
+            }
+            this.gamedatas.players[playerId].passed = true;
+        },
+
+        setPlayerUnpass(playerId) {
+            if (playerId === this.player_id && this.resourceCounters.sticky) {
+                dojo.removeClass('sticky', 'passed');
+            } else {
+                dojo.removeClass(`overall_player_board_${playerId}`, 'passed');
+            }
+            this.gamedatas.players[playerId].passed = false;
+        },
+
+        collapseConnectionsBlock() {
+            dojo.toggleClass('deckConnectionsBlock', 'collapsing');
+            setTimeout(() => { // We want to hide cards with a slight delay
+                dojo.toggleClass('deckConnectionsBlock', 'collapsing');
+                dojo.toggleClass('deckConnectionsBlock', 'collapsed');
+            }, 100);
+        },
+
+        scrollToPlayerFaction(pId) {
+            this.querySingle(`#faction_${pId}`).scrollIntoView({ behavior: "smooth", block: "center" })
+        },
+
+        scrollToTop() {
+            this.querySingle(`#topbar`).scrollIntoView({ behavior: "smooth" })
+        },
+
         async notif_locationsDrawn(n) {
             debug('Notif: locationsDrawn', n);
             await this.waitForDisappearance('.moving, .turnAround');
@@ -267,54 +332,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this.addTooltipToLogEntry(n.args.location);
             this.setCorrectClassToOverlapCards();
             dojo.removeClass('board', 'discarding');
-        },
-
-        async runDiscardLocationAnimation(location, newDiscardCount, playerId) {
-            let locationElement = $(`location_${location.id}`);
-            if (!locationElement) {
-                locationElement = this.addLocation(location, $(`overall_player_board_${playerId}`), true);
-            }
-            const discardIsCollapsed = this.querySingle('#deckConnectionsBlock.collapsed');
-            if (discardIsCollapsed) {
-                await this.slide(locationElement, 'discardHeader', { destroy: false });
-                this.changeParent(locationElement, 'discard', true);
-            } else {
-                await this.slide(locationElement, 'discard');
-                dojo.removeClass(locationElement, 'back');
-            }
-            this.destroyAll(`#discard .location:not(#location_${location.id})`);
-            this.querySingle(`#discardHeader .headerValue`).innerText = newDiscardCount;
-        },
-
-        addTooltipToLogEntry(location) {
-            const locationBlock = this.format_block('jstpl_location', this.enrichLocationObject(location));
-            this.addTooltipHtml(this.querySingle('.log .locationName'), locationBlock);
-        },
-
-        setPlayerPass(playerId) {
-            if (playerId === this.player_id && this.resourceCounters.sticky) {
-                dojo.addClass('sticky', 'passed');
-            } else {
-                dojo.addClass(`overall_player_board_${playerId}`, 'passed');
-            }
-            this.gamedatas.players[playerId].passed = true;
-        },
-
-        setPlayerUnpass(playerId) {
-            if (playerId === this.player_id && this.resourceCounters.sticky) {
-                dojo.removeClass('sticky', 'passed');
-            } else {
-                dojo.removeClass(`overall_player_board_${playerId}`, 'passed');
-            }
-            this.gamedatas.players[playerId].passed = false;
-        },
-
-        collapseConnectionsBlock() {
-            dojo.toggleClass('deckConnectionsBlock', 'collapsing');
-            setTimeout(() => { // We want to hide cards with a slight delay
-                dojo.toggleClass('deckConnectionsBlock', 'collapsing');
-                dojo.toggleClass('deckConnectionsBlock', 'collapsed');
-            }, 100);
         },
 
         notif_lastRound(n) {

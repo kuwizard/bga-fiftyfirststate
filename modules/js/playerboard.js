@@ -43,6 +43,12 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
                             this.tick = true;
                         }
                     );
+                } else {
+                    const stuffBlock = this.querySingle(`#player_board_${player.id} .cardsAndStuff`);
+                    const keyhole = dojo.place(this.format_block('jstpl_keyhole', { pId: player.id }), stuffBlock);
+                    dojo.connect(keyhole, 'click', () => {
+                        this.scrollToPlayerFaction(player.id);
+                    });
                 }
                 if (player.isFirst) {
                     dojo.place(
@@ -81,6 +87,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
                         }
                     });
                 }
+                dojo.style(this.querySingle('#toTop'), 'visibility', 'unset');
             } else {
                 if (this.resourceCounters.sticky) {
                     if (isPassed) {
@@ -93,6 +100,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
                     dojo.destroy('sticky');
                     delete this.resourceCounters.sticky;
                 }
+                dojo.style(this.querySingle('#toTop'), 'visibility', 'hidden');
             }
             if (this.querySingle('.mobile_version')) {
                 this.fixStickedBoardForMobile();

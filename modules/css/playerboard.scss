@@ -1,3 +1,5 @@
+@import "variables";
+
 $resources: (
         0: "fuel",
         1: "gun",
@@ -34,6 +36,16 @@ $resources: (
       grid-template-columns: 1fr 1fr 1fr;
       width: 100%;
       justify-items: center;
+
+      .keyhole {
+        grid-row: 1;
+        height: $playerBoardIconSize;
+        cursor: pointer;
+
+        svg {
+          height: 100%;
+        }
+      }
 
       .card {
         grid-column: 2;
@@ -89,8 +101,8 @@ $resources: (
 #firstPlayer {
   background-image: url(img/firstplayer.png);
   background-size: 100% 100%;
-  width: 45px;
-  height: 45px;
+  width: $playerBoardIconSize;
+  height: $playerBoardIconSize;
 }
 
 .mobile_version {

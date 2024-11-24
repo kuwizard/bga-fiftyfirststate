@@ -51,8 +51,8 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             dojo.place("<div id='customActions' style='display:inline-block'></div>", $('generalactions'), 'after');
             this.setupNotifications();
             this.markPassed(gamedatas.players);
-            this.addResourcesTable();
             this.addBoard();
+            this.addResourcesTable();
             this.addHand();
             this.addDeckConnectionsElement(gamedatas);
             this.addFactionBoards();
