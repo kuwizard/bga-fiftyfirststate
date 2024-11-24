@@ -83,23 +83,23 @@
   left: 0;
   z-index: 103;
 }
-.mobile_version .playerResourcesWrapper {
+.mobile_version .playerResourcesWrapper:not(.playerResourcesWrapper.fourplayers) {
   flex-direction: row;
   justify-content: center;
   height: 170px;
 }
-.mobile_version .playerResourcesWrapper .cardsAndStuff {
+.mobile_version .playerResourcesWrapper:not(.playerResourcesWrapper.fourplayers) .cardsAndStuff {
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-columns: none;
   width: unset;
   align-items: center;
   height: 100%;
 }
-.mobile_version .playerResourcesWrapper .cardsAndStuff .card {
+.mobile_version .playerResourcesWrapper:not(.playerResourcesWrapper.fourplayers) .cardsAndStuff .card {
   grid-column: 1;
   grid-row: 2;
 }
-.mobile_version .playerResourcesWrapper .cardsAndStuff .firstPlayerWrapper {
+.mobile_version .playerResourcesWrapper:not(.playerResourcesWrapper.fourplayers) .cardsAndStuff .firstPlayerWrapper {
   grid-column: 1;
 }
 

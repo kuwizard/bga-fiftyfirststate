@@ -50,6 +50,10 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
                         this.querySingle(`#player_board_${player.id} .firstPlayerWrapper`)
                     );
                 }
+                if (Object.keys(this.gamedatas.players).length === 4) {
+                    const element = this.querySingle(`#overall_player_board_${player.id} .playerResourcesWrapper`);
+                    dojo.addClass(element, 'fourplayers');
+                }
             });
         },
 

@@ -99,7 +99,7 @@ $resources: (
     z-index: 103;
   }
 
-  .playerResourcesWrapper {
+  .playerResourcesWrapper:not(.playerResourcesWrapper.fourplayers) {
     flex-direction: row;
     justify-content: center;
     height: 170px;
