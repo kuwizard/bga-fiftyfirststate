@@ -29,12 +29,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this.setCorrectClassToOverlapCards();
         },
 
-        async onEnteringStatePhaseTwoProduction() {
-            await this.waitForDisappearance('.moving')
-            dojo.addClass('lookout', 'hidden');
-            dojo.removeClass('connections', 'hidden');
-        },
-
         clickLocationLookout(id) {
             this.takeAction('actChooseCardLookout', { id: id })
         },
