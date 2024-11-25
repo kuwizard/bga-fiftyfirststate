@@ -54,6 +54,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                         () => this.takeAction('actActionPass')
                     ),
                 );
+                Object.keys(args.otherPlayersResources).forEach((pId) => {
+                    this.makeResourcesSelectableAndClickable(pId, args.otherPlayersResources[pId]);
+                })
             }
         },
 
@@ -116,6 +119,19 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this.dojoConnect(area, () => {
                 this.takeAction(action);
             })
+        },
+
+        makeResourcesSelectableAndClickable(pId, resources) {
+            resources.forEach((resourceName) => {
+                const resourceElement = this.querySingle(`#player_board_${pId} .${resourceName}`);
+                this.addSelectableClass(resourceElement);
+                this.dojoConnect(resourceElement, () => {
+                    this.wrapIntoCardConfirmation(
+                        () => this.takeAction('actUseOpenProduction', { resourceName: resourceName, pId: pId }),
+                        resourceName === 'card'
+                    )()
+                })
+            });
         },
 
         onEnteringStateLocationActions(args) {

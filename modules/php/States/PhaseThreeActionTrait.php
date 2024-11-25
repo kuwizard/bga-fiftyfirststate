@@ -26,19 +26,37 @@ trait PhaseThreeActionTrait
             $allOtherLocations = $allOtherLocations->merge($otherPlayer->getBoard());
         }
         $otherPlayersLocations = $allOtherLocations->filter(function ($location) use ($player) {
-            $isActivatableOpenProduction = $location instanceof Production
-                && $location->isOpen()
-                && $location->isActivatable()
-                && $player->getResource(RESOURCE_WORKER, false) > 0;
             $razeReachable = $location->getDefenceValue() <= $player->getResource(RESOURCE_ARROW_RED, false, true);
-            return !$location->isRuined() && ($isActivatableOpenProduction || $razeReachable);
+            return !$location->isRuined() && ($this->isLocationCouldBeUsedAsOpenProd($location, $player) || $razeReachable);
         });
+
+        $otherPlayersResources = [];
+        /** @var Player $otherPlayer */
+        foreach (Players::getAllNonPassed($player->getId()) as $otherPlayer) {
+            $boardLocations = $otherPlayer->getBoard();
+            $allOtherLocations = $allOtherLocations->merge($boardLocations);
+            $playersOpenResourcesArray = $boardLocations->map(function ($location) use ($player) {
+                return $this->isLocationCouldBeUsedAsOpenProd($location, $player)
+                    ? $location->getProduct($player) : null;
+            });
+            $playersOpenResources = [];
+            foreach ($playersOpenResourcesArray->toArray() as $resources) {
+                if (!is_null($resources)) {
+                    $playersOpenResources = array_merge($playersOpenResources, $resources);
+                }
+            }
+            $otherPlayersResources[$otherPlayer->getId()] = ResourcesHelper::getResourceNames(
+                array_unique($playersOpenResources)
+            );
+        }
+
         $connectionsToTake = $player->getResource(RESOURCE_WORKER) >= 2 ? Connections::getBothAvailable()->getIds() : [];
         return [
             'spendWorkers' => $player->getResource(RESOURCE_WORKER, false) >= 2,
             'factionActions' => !empty($player->getAvailableFactionActions()),
             'locations' => $player->getPlayableLocationsWithCardWarnings(),
             'otherPlayersLocations' => $this->mapLocationsWithCardGetting($otherPlayersLocations->toArray(), $player),
+            'otherPlayersResources' => $otherPlayersResources,
             'develop' => $this->whatCanBeUsedForDevel($player),
             'connectionsToTake' => $connectionsToTake,
             'connectionsToPlay' => $player->getPlayableConnectionsIds(),
@@ -273,18 +291,11 @@ trait PhaseThreeActionTrait
         Stack::finishState();
     }
 
-    /**
-     * @param int $id
-     * @return void
-     */
-    public function actUseOtherPlayerLocation($id)
+    public function actUseOtherPlayerLocation(int $id)
     {
-        self::checkAction('actUseOtherPlayerLocation');
         $location = Locations::get($id);
         $player = Players::getActive();
-        $isOpenProd = $location instanceof Production && $location->isOpen();
-        $workersAmount = $player->getResource(RESOURCE_WORKER, false);
-        $locationCouldBeUsedAsOpenProd = $isOpenProd && $location->isActivatable() && $workersAmount > 0;
+        $locationCouldBeUsedAsOpenProd = $this->isLocationCouldBeUsedAsOpenProd($location, $player);
         $couldBeRazed = $player->getResource(RESOURCE_ARROW_RED, false, true) >= $location->getDefenceValue();
         if ($locationCouldBeUsedAsOpenProd && $couldBeRazed) {
             Stack::insertOnTop(ST_OPEN_PRODUCTION_OR_RAZE, ['locationId' => $id]);
@@ -294,10 +305,17 @@ trait PhaseThreeActionTrait
             $this->razeOtherPlayersLocation($location);
         } else {
             throw new \BgaVisibleSystemException(
-                'Something went wrong during activating other player location. Is open production: ' . $isOpenProd . ', could be razed: ' . $couldBeRazed
+                'Something went wrong during activating other player location. Is open production: ' . $locationCouldBeUsedAsOpenProd . ', could be razed: ' . $couldBeRazed
             );
         }
         Stack::finishState();
+    }
+
+    private function isLocationCouldBeUsedAsOpenProd($location, $player): bool
+    {
+        $isOpenProd = $location instanceof Production && $location->isOpen();
+        $workersAmount = $player->getResource(RESOURCE_WORKER, false);
+        return $isOpenProd && $location->isActivatable() && $workersAmount > 0;
     }
 
     private function razeOtherPlayersLocation(Location $location)
@@ -307,7 +325,6 @@ trait PhaseThreeActionTrait
             'bonus' => $location->getSpoils(),
             'postActions' => ['type' => LOCATION_ACTION_RAZE_OTHER, 'id' => $location->getId()],
         ]);
-
     }
 
     public function actDevelop($resource)
@@ -348,6 +365,21 @@ trait PhaseThreeActionTrait
     {
         self::checkAction('actOptionOpenProduction');
         Locations::get(Stack::getCtx()['locationId'])->activate(Players::getActive());
+        self::giveExtraTime(Players::getActiveId());
+        Stack::finishState();
+    }
+
+    public function actUseOpenProduction(string $resourceName, int $pId)
+    {
+        $player = Players::get($pId);
+        $allCards = $player->getBoard();
+        $resource = ResourcesHelper::getResourceType($resourceName);
+        $locationToActivate = $allCards->filter(function (Location $location) use ($player, $resource) {
+            return $this->isLocationCouldBeUsedAsOpenProd($location, Players::getActive())
+                && in_array($resource, $location->getProduct($player));
+        })->first();
+
+        $locationToActivate->activate(Players::getActive());
         self::giveExtraTime(Players::getActiveId());
         Stack::finishState();
     }
