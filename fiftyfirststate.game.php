@@ -157,7 +157,7 @@ class Fiftyfirststate extends Table
      *   This method is called each time it is the turn of a player who has quit the game (= "zombie" player).
      *   You can do whatever you want in order to make sure the turn of this player ends appropriately
      */
-    public function zombieTurn($state, $activePlayer)
+    public function zombieTurn($state, $activePlayer): void
     {
         switch ($state['name']) {
             case 'discardCardsGameStart':

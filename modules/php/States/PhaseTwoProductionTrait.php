@@ -23,6 +23,7 @@ trait PhaseTwoProductionTrait
             $storageLocations = $player->getBoard()->filter(function ($location) {
                 return $location instanceof FeatureStorageMultiple;
             });
+            $resourcesFromCards = [];
             /** @var FeatureStorageMultiple $location */
             foreach ($storageLocations as $location) {
                 $resources = $location->getResources();
@@ -31,6 +32,7 @@ trait PhaseTwoProductionTrait
                     Resources::deleteAll($location->getId());
                     $resourcesToNotify = [];
                     foreach (array_count_values($resources) as $resource => $amount) {
+                        $resourcesFromCards[] = $resource;
                         $resourcesToNotify[ResourcesHelper::getResourceName($resource)] = $amount;
                     }
                     Notifications::playerGotResourcesFromStorage($player, $location, $resourcesToNotify);
@@ -42,7 +44,8 @@ trait PhaseTwoProductionTrait
             $prodLocations = $player->getProduction();
             $combinedResources = array_count_values(array_merge($factionProd, $dealsProd, $prodLocations));
             $player->increaseResources($combinedResources);
-            Notifications::resourcesChanged($player, $player->getResourcesWithNames(array_keys($combinedResources)));
+            $combinedPlusFromCards = array_unique(array_merge(array_keys($combinedResources), $resourcesFromCards));
+            Notifications::resourcesChanged($player, $player->getResourcesWithNames($combinedPlusFromCards));
             Notifications::locationsDrawn($player);
             Notifications::deckChanged();
             if (!empty($factionProd)) {

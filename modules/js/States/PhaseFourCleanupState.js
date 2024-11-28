@@ -36,7 +36,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 for (let i = 0; i < n.args.resources[resource]; i++) {
                     const resourceElement = this.querySingle(`#location_${n.args.location.id} .${resource}Icon`);
                     const playerBoardIcon = this.querySingle(`#overall_player_board_${n.args.player_id} .${resource}Icon`);
-                    dojo.removeClass(playerBoardIcon, 'blurred');
                     this.slide(resourceElement, playerBoardIcon, { destroy: true });
                     await new Promise(resolve => setTimeout(resolve, 200));
                 }
