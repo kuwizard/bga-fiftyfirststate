@@ -16,6 +16,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
 
         addResourcesTable() {
             this.forEachPlayer((player) => {
+                this.setPlayerUnpass(player.id);
                 dojo.place(this.format_block('jstpl_player_board', player.resources), 'player_board_' + player.id);
                 this.resourceCounters[player.id] = {};
                 Object.keys(player.resources).forEach((resource) => {

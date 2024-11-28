@@ -24,8 +24,7 @@ trait ChooseResourceToStoreTrait
 
     public function actPassStoringResource()
     {
-        self::checkAction('actPassStoringResource');
-        Stack::finishState();
+        Stack::insertOnTopAndFinish(ST_CONFIRM_TURN_END);
     }
 
     public function actChooseResourceToStore($resourceName)
@@ -47,6 +46,8 @@ trait ChooseResourceToStoreTrait
         if (!is_null($nonFilledStorageLocations)
             && !empty($this->getPlayersAvailableResources($player, $nonFilledStorageLocations))) {
             Stack::insertOnTop(ST_CHOOSE_RESOURCE_TO_STORE, ['pId' => $player->getId()]);
+        } else {
+            Stack::insertOnTop(ST_CONFIRM_TURN_END, ['pId' => $player->getId()]);
         }
         Stack::finishState();
     }

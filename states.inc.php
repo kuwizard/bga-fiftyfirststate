@@ -183,7 +183,7 @@ $machinestates = [
         'descriptionmyturn' => clienttranslate('${you} must choose a resource to store'),
         'args' => 'argChooseResourceToStore',
         'type' => 'activeplayer',
-        'possibleactions' => ['actChooseResourceToStore', 'actPassStoringResource'],
+        'possibleactions' => ['actChooseResourceToStore', 'actPassStoringResource', 'actResetTurn'],
     ],
 
     ST_DEVELOP_CHOOSE_FROM_HAND => [

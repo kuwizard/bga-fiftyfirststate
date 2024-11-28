@@ -13,10 +13,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     });
                     this.addPrimaryActionButton(
                         'buttonActionPassStoring',
-                        _('Pass'),
+                        _('Done'),
                         () => this.takeAction('actPassStoringResource')
                     );
                 }
+                this.addResetTurnButton()
             }, 1);
         },
     });

@@ -45,13 +45,6 @@ class action_fiftyfirststate extends APP_GameAction
         self::ajaxResponse();
     }
 
-    public function actUndo()
-    {
-        self::setAjaxMode();
-        $this->game->actUndo();
-        self::ajaxResponse();
-    }
-
     public function actGainResourceForWorkers()
     {
         self::setAjaxMode();
@@ -113,13 +106,6 @@ class action_fiftyfirststate extends APP_GameAction
     {
         self::setAjaxMode();
         $this->game->actChooseSource($this->getId());
-        self::ajaxResponse();
-    }
-
-    public function actPassStoringResource()
-    {
-        self::setAjaxMode();
-        $this->game->actPassStoringResource();
         self::ajaxResponse();
     }
 
