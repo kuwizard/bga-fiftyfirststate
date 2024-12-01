@@ -46,7 +46,7 @@ trait PhaseThreeActionTrait
                 }
             }
             $otherPlayersResources[$otherPlayer->getId()] = ResourcesHelper::getResourceNames(
-                array_unique($playersOpenResources)
+                array_values(array_unique($playersOpenResources))
             );
         }
 
