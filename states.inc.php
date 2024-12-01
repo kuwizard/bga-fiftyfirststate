@@ -99,8 +99,8 @@ $machinestates = [
 
     ST_PHASE_THREE_ACTION => [
         'name' => 'phaseThreeAction',
-        'description' => clienttranslate('${actplayer} must choose an action or pass'),
-        'descriptionmyturn' => clienttranslate('${you} must choose an action or pass'),
+        'description' => clienttranslate('${actplayer} must choose an action'),
+        'descriptionmyturn' => clienttranslate('${you} must choose an action'),
         'args' => 'argPhaseThreeAction',
         'type' => 'activeplayer',
         'updateGameProgression' => true,
