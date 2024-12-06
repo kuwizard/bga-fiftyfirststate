@@ -9,14 +9,18 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
         markPassed(players) {
             Object.values(players).forEach((player) => {
                 if (player.passed) {
-                    dojo.addClass(`overall_player_board_${player.id}`, 'passed');
+
                 }
             })
         },
 
         addResourcesTable() {
             this.forEachPlayer((player) => {
-                this.setPlayerUnpass(player.id);
+                if (player.passed) {
+                    this.setPlayerPass(player.id);
+                } else {
+                    this.setPlayerUnpass(player.id);
+                }
                 dojo.place(this.format_block('jstpl_player_board', player.resources), 'player_board_' + player.id);
                 this.resourceCounters[player.id] = {};
                 Object.keys(player.resources).forEach((resource) => {

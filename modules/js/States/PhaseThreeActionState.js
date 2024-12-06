@@ -242,7 +242,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         notif_playerPassed(n) {
             debug('Notif: playerPassed', n);
-            this.setPlayerPass(n.args.player_id)
+            this.setPlayerPass(n.args.player_id);
         },
     });
 });

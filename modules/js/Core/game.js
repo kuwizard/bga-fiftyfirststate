@@ -50,7 +50,6 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             // Create a new div for buttons to avoid BGA auto clearing it
             dojo.place("<div id='customActions' style='display:inline-block'></div>", $('generalactions'), 'after');
             this.setupNotifications();
-            this.markPassed(gamedatas.players);
             this.addBoard();
             this.addResourcesTable();
             this.addHand();
