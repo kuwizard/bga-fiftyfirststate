@@ -48,7 +48,7 @@ $icons: (
 .resourceIcon {
   display: block;
   background-image: url(img/resources.png);
-  background-size: 1400% 100%;
+  background-size: 1500% 100%;
   width: $playerBoardIconSize;
   height: $playerBoardIconSize;
   filter: drop-shadow(2px 2px 6px #ffffff);
@@ -56,7 +56,7 @@ $icons: (
 
   @each $xShift, $name in $resources {
     &.#{$name}Icon {
-      background-position-x: (100%/13 * $xShift);
+      background-position-x: (100%/14 * $xShift);
     }
   }
 

@@ -9,28 +9,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 ['fuel', 'gun', 'iron', 'brick', 'card'].forEach((resource) => {
                     this.addActionButtonWithResource(resource, 'actGainResourceForWorkers');
                 });
+                this.makeLocationsUnselectable('.location');
+                this.makeLocationsUnselectable('.connection');
                 this.addUndoButton();
             }
         },
 
         onEnteringStateFactionActions(args) {
             if (this.isCurrentPlayerActive()) {
-                Object.keys(args).forEach((id) => {
-                    const action = args[id];
-                    const spendRequirements = action.spendRequirements.map((resource) => {
-                        return this.format_block('jstpl_resource_icon', { type: resource });
-                    });
-                    const bonus = action.bonus.map((resource) => {
-                        return this.format_block('jstpl_resource_icon', { type: resource });
-                    });
-                    const buttonId = `buttonGain${id}`;
-                    this.addPrimaryActionButton(
-                        buttonId,
-                        `${spendRequirements.join('')} ➤ ${bonus.join('')}`,
-                        () => this.takeAction('actFactionAct', { id: id })
-                    );
-                    dojo.addClass(buttonId, 'resourceButton');
-                });
+                this.showIconButtonsFromArgs(args);
                 this.makeLocationsUnselectable('.location');
                 this.makeLocationsUnselectable('.connection');
                 this.addUndoButton();
@@ -40,6 +27,76 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         onEnteringStateDiscardLocationForResources() {
             if (this.isCurrentPlayerActive()) {
                 this.makeAllSelectableAndClickable(this.getHand(), this.discardLocation.bind(this));
+            }
+        },
+
+        onEnteringStateTakeConnection(args) {
+            if (this.isCurrentPlayerActive()) {
+                this.showIconButtonsFromArgs(args.actions);
+                this.makeLocationsUnselectable('.location');
+                this.makeConnectionsSelectableAndClickable(args.connections, false, 'actTakeConnection');
+                this.keepLookoutUncollapsable()
+                this.addUndoButton();
+            }
+        },
+
+        showIconButtonsFromArgs(args) {
+            Object.keys(args).forEach((id) => {
+                const action = args[id];
+                const spendRequirements = action.spendRequirements.map((resource) => {
+                    return this.format_block('jstpl_resource_icon', { type: resource });
+                });
+                let multiBonus = false;
+                const bonus = action.bonus.map((resource) => {
+                    if (resource === 'multi') {
+                        const multi = ['iron', 'gun', 'fuel', 'brick', 'card'].map((resource) => {
+                            return this.format_block('jstpl_resource_icon', { type: resource });
+                        });
+                        multiBonus = true;
+                        return multi.join('/');
+                    } else {
+                        return this.format_block('jstpl_resource_icon', { type: resource });
+                    }
+                });
+                const buttonId = `buttonGain${id}`;
+                const callback = multiBonus ?
+                    () => this.takeAction('actSpendWorkers', {}) :
+                    () => this.takeAction('actFactionAct', { id: id });
+                this.addPrimaryActionButton(
+                    buttonId,
+                    `${spendRequirements.join('')} ➤ ${bonus.join('')}`,
+                    callback
+                );
+                dojo.addClass(buttonId, 'resourceButton');
+            });
+        },
+
+        addAllActionButtons(args) {
+            const buttons = [
+                {
+                    condition: args.factionActions || args.spendWorkers,
+                    name: 'factionActions',
+                    label: _('Faction Action(s)'),
+                    callback: () => this.takeAction('actEnableFactionActions', { combined: true })
+                },
+            ];
+            buttons.forEach((buttonObject) => {
+                if (buttonObject.condition) {
+                    this.addPrimaryActionButton(
+                        `button${buttonObject.name}`,
+                        buttonObject.label,
+                        buttonObject.callback,
+                    );
+                }
+            });
+            if (args.develop.brick) {
+                this.addDevelopButton('brick')
+            }
+            if (args.develop.development) {
+                this.addDevelopButton('devel')
+            }
+            if (args.develop.ammo) {
+                this.addDevelopButton('ammo')
             }
         },
 

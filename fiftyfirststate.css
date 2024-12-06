@@ -1022,7 +1022,7 @@
 .resourceIcon {
   display: block;
   background-image: url(img/resources.png);
-  background-size: 1400% 100%;
+  background-size: 1500% 100%;
   width: 45px;
   height: 45px;
   filter: drop-shadow(2px 2px 6px #ffffff);
@@ -1032,42 +1032,45 @@
   background-position-x: 0%;
 }
 .resourceIcon.gunIcon {
-  background-position-x: 7.6923076923%;
+  background-position-x: 7.1428571429%;
 }
 .resourceIcon.ironIcon {
-  background-position-x: 15.3846153846%;
+  background-position-x: 14.2857142857%;
 }
 .resourceIcon.brickIcon {
-  background-position-x: 23.0769230769%;
+  background-position-x: 21.4285714286%;
 }
 .resourceIcon.workerIcon {
-  background-position-x: 30.7692307692%;
+  background-position-x: 28.5714285714%;
 }
 .resourceIcon.arrowGreyIcon {
-  background-position-x: 38.4615384615%;
+  background-position-x: 35.7142857143%;
 }
 .resourceIcon.arrowRedIcon {
-  background-position-x: 46.1538461538%;
+  background-position-x: 42.8571428571%;
 }
 .resourceIcon.arrowBlueIcon {
-  background-position-x: 53.8461538462%;
+  background-position-x: 50%;
 }
 .resourceIcon.arrowUniIcon {
-  background-position-x: 61.5384615385%;
+  background-position-x: 57.1428571429%;
 }
 .resourceIcon.ammoIcon {
-  background-position-x: 69.2307692308%;
+  background-position-x: 64.2857142857%;
 }
 .resourceIcon.defenceIcon {
-  background-position-x: 76.9230769231%;
+  background-position-x: 71.4285714286%;
 }
 .resourceIcon.develIcon {
-  background-position-x: 84.6153846154%;
+  background-position-x: 78.5714285714%;
 }
 .resourceIcon.cardIcon {
-  background-position-x: 92.3076923077%;
+  background-position-x: 85.7142857143%;
 }
 .resourceIcon.scoreIcon {
+  background-position-x: 92.8571428571%;
+}
+.resourceIcon.multiIcon {
   background-position-x: 100%;
 }
 .resourceIcon.blurred {

@@ -99,15 +99,14 @@ $machinestates = [
 
     ST_PHASE_THREE_ACTION => [
         'name' => 'phaseThreeAction',
-        'description' => clienttranslate('${actplayer} must choose an action'),
-        'descriptionmyturn' => clienttranslate('${you} must choose an action'),
+        'description' => clienttranslate('${actplayer} must choose an action or a Location/Connection card'),
+        'descriptionmyturn' => clienttranslate('${you} must choose an action or a Location/Connection card'),
         'args' => 'argPhaseThreeAction',
         'type' => 'activeplayer',
         'updateGameProgression' => true,
         'possibleactions' => [
             'actActionPass',
             'actSpendWorkers',
-            'actEnableFactionActions',
             'actUseLocation',
             'actActivateLocation',
             'actUseOtherPlayerLocation',
@@ -115,6 +114,8 @@ $machinestates = [
             'actDevelop',
             'actTakeConnection',
             'actPlayConnection',
+            // Actions leading to another sub-phase with a choice
+            'actEnableFactionActions',
         ],
     ],
 
@@ -132,7 +133,7 @@ $machinestates = [
         'descriptionmyturn' => clienttranslate('${you} must choose a Faction action to activate'),
         'args' => 'argFactionActions',
         'type' => 'activeplayer',
-        'possibleactions' => ['actFactionAct', 'actUndo'],
+        'possibleactions' => ['actFactionAct', 'actSpendWorkers', 'actUndo'],
     ],
 
     ST_LOCATION_ACTIONS => [

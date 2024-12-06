@@ -152,6 +152,7 @@ define('RESOURCE_CARD', 4412);
 define('RESOURCE_VP', 4413);
 define('RESOURCE_DEAL', 4414);
 define('RESOURCE_ANY_OF_MAIN', 4415);
+define('RESOURCE_ANY_OF_MAIN_PLUS_CARD', 4416);
 
 /*
  * Icons

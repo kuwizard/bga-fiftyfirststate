@@ -23,6 +23,7 @@ class ResourcesHelper
         RESOURCE_VP => 'score',
         RESOURCE_DEAL => '',
         RESOURCE_ANY_OF_MAIN => '',
+        RESOURCE_ANY_OF_MAIN_PLUS_CARD => 'multi',
     ];
 
     /**

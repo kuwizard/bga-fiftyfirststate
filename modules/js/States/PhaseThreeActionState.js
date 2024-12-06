@@ -13,20 +13,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             debug('Phase Three Action state', args);
             if (this.isCurrentPlayerActive()) {
                 await this.waitForDisappearance('.moving');
-                if (args.develop.brick) {
-                    this.addDevelopButton('brick')
-                }
-                if (args.develop.development) {
-                    this.addDevelopButton('devel')
-                }
-                if (args.develop.ammo) {
-                    this.addDevelopButton('ammo')
-                }
                 if (args.spendWorkers) {
                     this.makeAreaSelectable('spendWorkersArea', 'actSpendWorkers');
                 }
                 if (args.factionActions) {
-                    this.makeAreaSelectable('actionsArea', 'actEnableFactionActions');
+                    this.makeAreaSelectable('actionsArea', 'actEnableFactionActions', { combined: false });
                 }
                 this.makeConnectionsSelectableAndClickable(args.connectionsToTake, false, 'actTakeConnection');
                 this.makeConnectionsSelectableAndClickable(args.connectionsToPlay, true, 'actPlayConnection');
@@ -46,7 +37,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     this.gamedatas.gamestate.descriptionmyturn = _('No possible actions left');
                     this.updatePageTitle();
                 }
-                this.addPrimaryActionButton(
+                this.addAllActionButtons(args);
+                this.addDangerActionButton(
                     'buttonActionPass',
                     _('Pass'),
                     this.wrapIntoConfirmation(
@@ -113,11 +105,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this.makeLocationsSelectableAndClickable(locator, '', []);
         },
 
-        makeAreaSelectable(locator, action) {
+        makeAreaSelectable(locator, action, opts = {}) {
             const area = this.querySingle(`#faction_${this.player_id} .${locator}`);
             this.addSelectableClass(area);
             this.dojoConnect(area, () => {
-                this.takeAction(action);
+                this.takeAction(action, opts);
             })
         },
 

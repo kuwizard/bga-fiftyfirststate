@@ -101,7 +101,14 @@ trait PhaseThreeActionTrait
 
     public function argFactionActions()
     {
-        return Players::getActive()->getAvailableFactionActions();
+        $actions = Players::getActive()->getAvailableFactionActions();
+        $ctx = Stack::getCtx();
+        $player = Players::getActive();
+        if (isset($ctx['combined']) && $ctx['combined'] && $player->getResource(RESOURCE_WORKER, false) >= 2) {
+            $spendWorkersAction = new Act([RESOURCE_WORKER, RESOURCE_WORKER], [RESOURCE_ANY_OF_MAIN_PLUS_CARD]);
+            $actions = array_merge($actions, [$spendWorkersAction]);
+        }
+        return $actions;
     }
 
     public function argLocationActions()
@@ -173,10 +180,9 @@ trait PhaseThreeActionTrait
         ]);
     }
 
-    public function actEnableFactionActions()
+    public function actEnableFactionActions(bool $combined)
     {
-        self::checkAction('actEnableFactionActions');
-        Stack::insertOnTopAndFinish(ST_FACTION_ACTIONS);
+        Stack::insertOnTopAndFinish(ST_FACTION_ACTIONS, ['combined' => $combined]);
     }
 
     /**
