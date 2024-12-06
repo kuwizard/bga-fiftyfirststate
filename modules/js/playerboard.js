@@ -68,7 +68,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
             });
         },
 
-        pinOrUnpinPlayerBoard(isMobile) {
+        pinOrUnpinPlayerBoard() {
             const playerResources = this.querySingle(`#overall_player_board_${this.player_id} .playerResourcesWrapper .playerResources`);
             const isPassed = this.gamedatas.players[this.player_id].passed;
             if (playerResources.getBoundingClientRect().y < 0) {
@@ -76,8 +76,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
                     let newBoard = dojo.clone(playerResources);
                     dojo.attr(newBoard, 'id', 'sticky');
                     newBoard = dojo.place(newBoard, playerResources.parentNode);
-                    const resourcesBoard = this.querySingle(`#overall_player_board_${this.player_id} .playerResourcesWrapper .playerResources`);
-                    const width = isMobile ? resourcesBoard.getBoundingClientRect().width : playerResources.getBoundingClientRect().width;
+                    const width = playerResources.getBoundingClientRect().width;
                     dojo.style(newBoard, 'width', `${width}px`);
                     if (isPassed) {
                         dojo.addClass('sticky', 'passed');

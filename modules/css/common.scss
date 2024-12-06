@@ -187,12 +187,6 @@ $icons: (
   }
 }
 
-.mobile_version {
-  #board {
-    margin-right: 5px;
-  }
-}
-
 .midSizeDialog {
   line-height: 20px;
   width: min-content;
@@ -215,5 +209,16 @@ $icons: (
   svg {
     transform: rotate(270deg);
     width: 31px;
+  }
+}
+
+.mobile_version {
+  #board {
+    margin-right: 5px;
+  }
+
+  #toTop {
+    bottom: 70px;
+    right: 40px;
   }
 }

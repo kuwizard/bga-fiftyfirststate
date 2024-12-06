@@ -1221,10 +1221,6 @@
     opacity: 0;
   }
 }
-.mobile_version #board {
-  margin-right: 5px;
-}
-
 .midSizeDialog {
   line-height: 20px;
   width: min-content;
@@ -1247,6 +1243,14 @@
 #toTop svg {
   transform: rotate(270deg);
   width: 31px;
+}
+
+.mobile_version #board {
+  margin-right: 5px;
+}
+.mobile_version #toTop {
+  bottom: 70px;
+  right: 40px;
 }
 
 /*# sourceMappingURL=fiftyfirststate.css.map */
