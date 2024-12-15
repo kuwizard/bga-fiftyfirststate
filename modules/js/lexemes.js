@@ -1,7 +1,7 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     return declare('state.lexemes', null, {
-        placeText(tpl, text, destination, value = null) {
-            dojo.place(this.format_block(tpl, { text: text, value: value }), destination);
+        placeText(tpl, text, destination, value = null, isFirst = false) {
+            dojo.place(this.format_block(tpl, { text: text, value: value }), destination, isFirst ? 'first' : 'last');
         },
 
         getDeckLexeme() {
@@ -137,6 +137,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         getPriorityHeaderLexeme() {
             return _('Priority:');
+        },
+
+        getConnectionsSpendLexeme() {
+            return _('Spend 2 {workerIcon} to gain:');
         },
     });
 });

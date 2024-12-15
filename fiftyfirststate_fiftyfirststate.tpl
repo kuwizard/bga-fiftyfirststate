@@ -136,7 +136,7 @@
                 <div id="discard"></div>
             </div>
         </div>
-        <div id="connections"></div>
+        <div id="connections"><div id="connectionsCards"></div></div>
         <div id="lookout" class="hidden"></div>
         <div id="collapseButton">
         </div>

@@ -70,7 +70,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 'discardHeader',
                 gamedatas.discard
             );
-            this.placeText('jstpl_collapsed_text', this.getExpandConnectionsLexeme(), 'connections');
+            this.placeText('jstpl_collapsed_text', this.getExpandConnectionsLexeme(), 'connections', '', true);
             this.placeText('jstpl_collapsed_text', this.getExpandLocationsLexeme(), 'lookout');
             this.addLocation({ isRuined: true }, $('deck'));
             if (gamedatas.discardLastLocation === null) {
@@ -84,8 +84,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         },
 
         addConnections(connections) {
+            const connectionsHeader = this.replaceWithResourceIcon(this.getConnectionsSpendLexeme(), true);
+            this.placeText('jstpl_header', connectionsHeader, 'connections', '', true);
             connections.forEach((connection) => {
-                this.addConnection(connection, 'connections');
+                this.addConnection(connection, 'connectionsCards');
             });
         },
 

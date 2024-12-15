@@ -771,7 +771,7 @@
 #deckConnectionsBlock.collapsed #lookout .location {
   display: none;
 }
-#deckConnectionsBlock.collapsed #connections .connection {
+#deckConnectionsBlock.collapsed #connections .connection, #deckConnectionsBlock.collapsed #connections .header {
   display: none;
 }
 #deckConnectionsBlock .collapsedText {
@@ -841,8 +841,14 @@
   display: none;
 }
 
-#connections {
+#connections:not(.collapsed #connections) {
+  flex-direction: column;
   gap: 10px;
+  margin-bottom: 10px;
+}
+#connections:not(.collapsed #connections) #connectionsCards {
+  gap: 10px;
+  display: flex;
 }
 
 #factionChooser {

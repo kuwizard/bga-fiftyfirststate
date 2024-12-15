@@ -28,7 +28,7 @@
       display: none;
     }
 
-    #connections .connection {
+    #connections .connection, #connections .header {
       display: none;
     }
   }
@@ -113,6 +113,13 @@
   }
 }
 
-#connections {
+#connections:not(.collapsed #connections) {
+  flex-direction: column;
   gap: 10px;
+  margin-bottom: 10px;
+
+  #connectionsCards {
+    gap: 10px;
+    display: flex;
+  }
 }
