@@ -7,7 +7,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         onEnteringStateChooseDealToLose(args) {
             if (this.isCurrentPlayerActive()) {
                 args.forEach((resource) => {
-                    this.addActionButtonWithResource(resource, 'actChooseDeal');
+                    this.addActionButtonWithResource(resource, 'actChooseDeal', false);
                 });
                 this.addUndoButton();
             }

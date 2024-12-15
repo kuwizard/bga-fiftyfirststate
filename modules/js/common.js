@@ -112,14 +112,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             );
         },
 
-        addActionButtonWithResource(resource, action) {
+        addActionButtonWithResource(resource, action, wrapIntoConfirmation = true) {
             this.addPrimaryActionButton(
                 `buttonStore${resource}`,
                 this.format_block('jstpl_resource_icon', { type: resource }),
                 () => {
                     this.wrapIntoCardConfirmation(
                         () => this.takeAction(action, { resource: resource }),
-                        resource === 'card',
+                        wrapIntoConfirmation && resource === 'card',
                     )();
                 }
             );
