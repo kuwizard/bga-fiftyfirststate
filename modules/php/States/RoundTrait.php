@@ -60,6 +60,7 @@ trait RoundTrait
         /** @var Player $player */
         foreach (Players::getAll() as $player) {
             $resourcesCount = $player->getTotalResourcesCount();
+            $resourcesCount = $resourcesCount + array_sum(array_values($this->getResourcesFromCards($player)));
             $locationsCount = $player->getBoard()->count();
             $player->setTieBreaker(intval(strval($resourcesCount) . strval($locationsCount)));
             $totalAmount = $player->increaseResource(RESOURCE_VP, $locationsCount);
