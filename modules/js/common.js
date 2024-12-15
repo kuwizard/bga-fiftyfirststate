@@ -80,12 +80,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             if (!gamedatas.discardLastLocation.id) {
                 dojo.addClass(discardTop, 'placeholder');
             }
+            const connectionsHeader = this.replaceWithResourceIcon(this.getConnectionsSpendLexeme(), true);
+            this.placeText('jstpl_header', connectionsHeader, 'connections', '', true);
             this.addConnections(gamedatas.connections);
         },
 
         addConnections(connections) {
-            const connectionsHeader = this.replaceWithResourceIcon(this.getConnectionsSpendLexeme(), true);
-            this.placeText('jstpl_header', connectionsHeader, 'connections', '', true);
             connections.forEach((connection) => {
                 this.addConnection(connection, 'connectionsCards');
             });

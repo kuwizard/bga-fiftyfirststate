@@ -6,14 +6,6 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
             this.resourceCounters = {};
         },
 
-        markPassed(players) {
-            Object.values(players).forEach((player) => {
-                if (player.passed) {
-
-                }
-            })
-        },
-
         addResourcesTable() {
             this.forEachPlayer((player) => {
                 if (player.passed) {
