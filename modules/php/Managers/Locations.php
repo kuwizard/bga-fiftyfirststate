@@ -4,6 +4,7 @@ namespace STATE\Managers;
 
 use STATE\Core\Notifications;
 use STATE\Helpers\Collection;
+use STATE\Helpers\GameOptions;
 use STATE\Helpers\Pieces;
 use STATE\Helpers\ResourcesHelper;
 use STATE\Models\Action;
@@ -44,7 +45,7 @@ class Locations extends Pieces
         }
     }
 
-    private static $allCardTypes = [
+    private static $baseCardTypes = [
         CARD_ABANDONED_SUBURBS => 'AbandonedSuburbs',
         CARD_ARCHIVE => 'Archive',
         CARD_ARENA => 'Arena',
@@ -107,9 +108,53 @@ class Locations extends Pieces
         CARD_WRECKED_TANK => 'WreckedTank',
     ];
 
+    private static $eraCardTypes = [
+        CARD_BLACK_MARKET_CONTACTS => 'BlackMarketContacts',
+        CARD_BRICK_VILLAGE => 'BrickVillage',
+        CARD_BUILDERS => 'Builders',
+        CARD_BUS_STATION => 'BusStation',
+        CARD_CAR_GARAGE => 'CarGarage',
+        CARD_COMBAT_ZONE => 'CombatZone',
+        CARD_COURTHOUSE => 'Courthouse',
+        CARD_DISASSEMBLY_WORKSHOP => 'DisassemblyWorkshop',
+        CARD_ESPIONAGE_CENTER => 'EspionageCenter',
+        CARD_EXPEDITION_CAMP => 'ExpeditionCamp',
+        CARD_FOUNDATION => 'Foundation',
+        CARD_GANGERS_DIVE => 'GangersDive',
+        CARD_GASOLINE_TOWER => 'GasolineTower',
+        CARD_GUILDS_GARAGE => 'GuildsGarage',
+        CARD_HANGAR => 'Hangar',
+        CARD_HAVEN => 'Haven',
+        CARD_HIDDEN_FORCE => 'HiddenForce',
+        CARD_HUMAN_TRAFFICER => 'HumanTrafficer',
+        CARD_HUNTERS => 'Hunters',
+        CARD_LABOR_CAMP => 'LaborCamp',
+        CARD_LEMMYS_STORAGE => 'LemmysStorage',
+        CARD_MESMERIZERS_DWELLING => 'MesmerizersDwelling',
+        CARD_NATURAL_SHELTERS => 'NaturalShelters',
+        CARD_OHIO_CAVALRY => 'OhioCavalry',
+        CARD_OILFIELD => 'Oilfield',
+        CARD_OLD_SETTLEMENTS => 'OldSettlements',
+        CARD_PETES_OFFICE => 'PetesOffice',
+        CARD_PICKERS => 'Pickers',
+        CARD_POST_OFFICE => 'PostOffice',
+        CARD_PREACHER_OF_THE_NEW_ERA => 'PreacherOfTheNewEra',
+        CARD_PRODUCTION_MANAGER => 'ProductionManager',
+        CARD_RADIOACTIVE_COLONY => 'RadioactiveColony',
+        CARD_REHABILITATION_CENTER => 'RehabilitationCenter',
+        CARD_RICKY_THE_MERCHANT => 'RickyTheMerchant',
+        CARD_RIFLE => 'Rifle',
+        CARD_SECRET_OUTPOST => 'SecretOutpost',
+        CARD_THE_BRONX_GANG => 'TheBronxGang',
+        CARD_THE_IRON_GANG => 'TheIronGang',
+        CARD_TRAINING_CAMP => 'TrainingCamp',
+        CARD_TRUCK => 'Truck',
+    ];
+
     public static function setupNewGame()
     {
-        foreach (array_values(self::$allCardTypes) as $class) {
+        $expansion = GameOptions::getExpansion();
+        foreach (array_values(self::$baseCardTypes) as $class) {
             $name = "STATE\Data\Locations\\" . $class;
             /** @var Location $card */
             $card = new $name();
@@ -118,6 +163,13 @@ class Locations extends Pieces
                 $cards[] = [
                     'type' => $card->getType(),
                 ];
+            }
+            if ($expansion !== BASE_GAME) {
+                for ($i = 0; $i < $card->getExpansionCopies()[$expansion]; $i++) {
+                    $cards[] = [
+                        'type' => $card->getType(),
+                    ];
+                }
             }
         }
         shuffle($cards);
@@ -134,7 +186,7 @@ class Locations extends Pieces
      */
     private static function getByType($params)
     {
-        $name = "STATE\Data\Locations\\" . self::$allCardTypes[$params['type']];
+        $name = "STATE\Data\Locations\\" . self::$baseCardTypes[$params['type']];
         return new $name($params);
     }
 
@@ -190,7 +242,7 @@ class Locations extends Pieces
      */
     public static function getSprite($type)
     {
-        return array_search($type, array_keys(self::$allCardTypes));
+        return array_search($type, array_keys(self::$baseCardTypes));
     }
 
     /**

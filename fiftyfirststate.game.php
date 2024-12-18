@@ -65,7 +65,9 @@ class Fiftyfirststate extends Table
     {
         parent::__construct();
         self::$instance = $this;
-        self::initGameStateLabels([]);
+        self::initGameStateLabels([
+            'expansion' => OPT_EXPANSION,
+        ]);
     }
 
     public static function get()

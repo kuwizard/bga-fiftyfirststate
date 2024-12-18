@@ -30,6 +30,7 @@ class Location implements \JsonSerializable
     protected int|null $activatedTimes;
     protected bool $isRuined;
     protected int $copies;
+    protected array $expansionCopies;
     protected array $text;
 
     public function __construct($params = [])
@@ -44,6 +45,9 @@ class Location implements \JsonSerializable
         $this->activatedTimes = isset($params['activated_times']) ? (int) $params['activated_times'] : null;
         $this->isRuined = isset($params['is_ruined']) && (int) $params['is_ruined'] === 1 ?? false;
         $this->copies = 1;
+        $this->expansionCopies = [
+            NEW_ERA => 0,
+        ];
         $this->text = [];
     }
 
@@ -74,12 +78,14 @@ class Location implements \JsonSerializable
         return $this->type;
     }
 
-    /**
-     * @return int
-     */
-    public function getCopies()
+    public function getCopies(): int
     {
         return $this->copies;
+    }
+
+    public function getExpansionCopies(): array
+    {
+        return $this->expansionCopies;
     }
 
     public function getName(): string

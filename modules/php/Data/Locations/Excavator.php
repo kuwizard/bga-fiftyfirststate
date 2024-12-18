@@ -18,6 +18,9 @@ class Excavator extends Production
         $this->product = [RESOURCE_DEVELOPMENT];
         $this->isOpen = true;
         $this->copies = 1;
+        $this->expansionCopies = [
+            NEW_ERA => 1,
+        ];
         $this->text = [
             ...$this->getText(),
             TEXT_DESCRIPTION => '1 {develIcon}',

@@ -61,7 +61,7 @@ define('LOCATION_CONNECTIONS_RED_DISCARD', 'red_discard');
 define('LOCATION_LOOKOUT', 'lookout');
 
 /*
- * Cards types
+ * Locations types
  */
 define('CARD_FUEL_TANK', 'fuel_tank');
 define('CARD_CROSSROADS', 'crossroads');
@@ -124,6 +124,47 @@ define('CARD_SHADOW', 'shadow');
 define('CARD_BOILER_ROOM', 'boiler_room');
 define('CARD_UNDERGROUND_WAREHOUSE', 'underground_warehouse');
 
+// New Era locations
+define('CARD_BLACK_MARKET_CONTACTS', 'black_market_contacts');
+define('CARD_BRICK_VILLAGE', 'brick_village');
+define('CARD_BUILDERS', 'builders');
+define('CARD_BUS_STATION', 'bus_station');
+define('CARD_CAR_GARAGE', 'car_garage');
+define('CARD_COMBAT_ZONE', 'combat_zone');
+define('CARD_COURTHOUSE', 'courthouse');
+define('CARD_DISASSEMBLY_WORKSHOP', 'disassembly_workshop');
+define('CARD_ESPIONAGE_CENTER', 'espionage_center');
+define('CARD_EXPEDITION_CAMP', 'expedition_camp');
+define('CARD_FOUNDATION', 'foundation');
+define('CARD_GANGERS_DIVE', 'gangers_dive');
+define('CARD_GASOLINE_TOWER', 'gasoline_tower');
+define('CARD_GUILDS_GARAGE', 'guilds_garage');
+define('CARD_HANGAR', 'hangar');
+define('CARD_HAVEN', 'haven');
+define('CARD_HIDDEN_FORCE', 'hidden_force');
+define('CARD_HUMAN_TRAFFICER', 'human_trafficer');
+define('CARD_HUNTERS', 'hunters');
+define('CARD_LABOR_CAMP', 'labor_camp');
+define('CARD_LEMMYS_STORAGE', 'lemmys_storage');
+define('CARD_MESMERIZERS_DWELLING', 'mesmerizers_dwelling');
+define('CARD_NATURAL_SHELTERS', 'natural_shelters');
+define('CARD_OHIO_CAVALRY', 'ohio_cavalry');
+define('CARD_OILFIELD', 'oilfield');
+define('CARD_OLD_SETTLEMENTS', 'old_settlements');
+define('CARD_PETES_OFFICE', 'petes_office');
+define('CARD_PICKERS', 'pickers');
+define('CARD_POST_OFFICE', 'post_office');
+define('CARD_PREACHER_OF_THE_NEW_ERA', 'preacher_of_the_new_era');
+define('CARD_PRODUCTION_MANAGER', 'production_manager');
+define('CARD_RADIOACTIVE_COLONY', 'radioactive_colony');
+define('CARD_REHABILITATION_CENTER', 'rehabilitation_center');
+define('CARD_RICKY_THE_MERCHANT', 'ricky_the_merchant');
+define('CARD_RIFLE', 'rifle');
+define('CARD_SECRET_OUTPOST', 'secret_outpost');
+define('CARD_THE_BRONX_GANG', 'the_bronx_gang');
+define('CARD_THE_IRON_GANG', 'the_iron_gang');
+define('CARD_TRAINING_CAMP', 'training_camp');
+define('CARD_TRUCK', 'truck');
 
 /*
  * Connections types
@@ -204,6 +245,13 @@ define('NEW_YORK_SIDE', 301);
 define('APPALACHIAN_SIDE', 302);
 define('MUTANTS_SIDE', 303);
 define('MERCHANTS_SIDE', 304);
+
+/*
+ * Game Options
+ */
+define('OPT_EXPANSION', 101);
+define('BASE_GAME', 1011);
+define('NEW_ERA', 1012);
 
 /*
  * Global constants
