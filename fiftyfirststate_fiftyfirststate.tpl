@@ -116,7 +116,7 @@
     </div>
     `;
     var jstpl_location = `<div class="locationWrapper location\${additionalClass}" id="location_\${id}">
-        <div class="locationImage" data-sprite="\${sprite}">
+        <div class="locationImage\${expansionClass}" data-sprite="\${sprite}">
             <div class="resources"></div>
         </div>
     </div>`

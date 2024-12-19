@@ -197,6 +197,7 @@ class Location implements \JsonSerializable
             'isRuined' => $this->isRuined,
             'name' => $this->name,
             'text' => $this->text,
+            'expansion' => Locations::getExpansion($this->type),
         ];
         if (!$this->isRuined && $this->activatedTimes > 0) {
             $requirements = $this->getSpendRequirements();

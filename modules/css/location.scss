@@ -60,8 +60,18 @@
 
       @for $sprite from 0 through 59 {
         &[data-sprite="#{$sprite}"] {
-          background-position: math.div(($sprite % 10) * 100%, 9) math.div(floor(math.div($sprite, 10)) * 100%, 5);
+          background-position-x: math.div(($sprite % 10) * 100%, 9);
+          background-position-y: math.div(floor(math.div($sprite, 10)) * 100%, 5);
+
+          &.era {
+            background-position-y: math.div(floor(math.div($sprite, 10)) * 100%, 3);
+          }
         }
+      }
+
+      &.era {
+        background-image: url(img/locationsera.jpg);
+        background-size: 1000% 400%;
       }
     }
   }

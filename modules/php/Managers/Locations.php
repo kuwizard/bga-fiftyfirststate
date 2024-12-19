@@ -186,7 +186,13 @@ class Locations extends Pieces
      */
     private static function getByType($params)
     {
-        $name = "STATE\Data\Locations\\" . self::$baseCardTypes[$params['type']];
+        $type = $params['type'];
+        $expansion = self::getExpansion($type);
+        $subfolder = [
+            BASE_GAME => '',
+            NEW_ERA => 'NewEra\\',
+        ][$expansion];
+        $name = 'STATE\Data\Locations\\' . $subfolder . self::getLocationsBlock($expansion)[$type];
         return new $name($params);
     }
 
@@ -236,13 +242,31 @@ class Locations extends Pieces
         return self::getInLocation([LOCATION_HAND, $id])->sort(fn($a, $b) => strcmp($a->getDistance(), $b->getDistance()));
     }
 
-    /**
-     * @param string $type
-     * @return int
-     */
-    public static function getSprite($type)
+    public static function getSprite(string $type): int
     {
-        return array_search($type, array_keys(self::$baseCardTypes));
+        $expansion = self::getExpansion($type);
+        return array_search($type, array_keys(self::getLocationsBlock($expansion)));
+    }
+
+    private static function getLocationsBlock(int $expansion): array
+    {
+        return [
+            BASE_GAME => self::$baseCardTypes,
+            NEW_ERA => self::$eraCardTypes,
+        ][$expansion];
+    }
+
+    public static function getExpansion(string $type): int
+    {
+        $expansion = BASE_GAME;
+        if (!in_array($type, array_keys(self::$baseCardTypes))) {
+            if (in_array($type, array_keys(self::$eraCardTypes))) {
+                $expansion = NEW_ERA;
+            } else {
+                throw new \BgaVisibleSystemException("getSprite: Unknown location type $type");
+            }
+        }
+        return $expansion;
     }
 
     /**

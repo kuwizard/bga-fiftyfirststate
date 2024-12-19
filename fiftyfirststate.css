@@ -397,184 +397,428 @@
   background-size: 1000% 600%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="0"] {
-  background-position: 0% 0%;
+  background-position-x: 0%;
+  background-position-y: 0%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="0"].era {
+  background-position-y: 0%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="1"] {
-  background-position: 11.1111111111% 0%;
+  background-position-x: 11.1111111111%;
+  background-position-y: 0%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="1"].era {
+  background-position-y: 0%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="2"] {
-  background-position: 22.2222222222% 0%;
+  background-position-x: 22.2222222222%;
+  background-position-y: 0%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="2"].era {
+  background-position-y: 0%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="3"] {
-  background-position: 33.3333333333% 0%;
+  background-position-x: 33.3333333333%;
+  background-position-y: 0%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="3"].era {
+  background-position-y: 0%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="4"] {
-  background-position: 44.4444444444% 0%;
+  background-position-x: 44.4444444444%;
+  background-position-y: 0%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="4"].era {
+  background-position-y: 0%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="5"] {
-  background-position: 55.5555555556% 0%;
+  background-position-x: 55.5555555556%;
+  background-position-y: 0%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="5"].era {
+  background-position-y: 0%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="6"] {
-  background-position: 66.6666666667% 0%;
+  background-position-x: 66.6666666667%;
+  background-position-y: 0%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="6"].era {
+  background-position-y: 0%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="7"] {
-  background-position: 77.7777777778% 0%;
+  background-position-x: 77.7777777778%;
+  background-position-y: 0%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="7"].era {
+  background-position-y: 0%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="8"] {
-  background-position: 88.8888888889% 0%;
+  background-position-x: 88.8888888889%;
+  background-position-y: 0%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="8"].era {
+  background-position-y: 0%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="9"] {
-  background-position: 100% 0%;
+  background-position-x: 100%;
+  background-position-y: 0%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="9"].era {
+  background-position-y: 0%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="10"] {
-  background-position: 0% 20%;
+  background-position-x: 0%;
+  background-position-y: 20%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="10"].era {
+  background-position-y: 33.3333333333%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="11"] {
-  background-position: 11.1111111111% 20%;
+  background-position-x: 11.1111111111%;
+  background-position-y: 20%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="11"].era {
+  background-position-y: 33.3333333333%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="12"] {
-  background-position: 22.2222222222% 20%;
+  background-position-x: 22.2222222222%;
+  background-position-y: 20%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="12"].era {
+  background-position-y: 33.3333333333%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="13"] {
-  background-position: 33.3333333333% 20%;
+  background-position-x: 33.3333333333%;
+  background-position-y: 20%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="13"].era {
+  background-position-y: 33.3333333333%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="14"] {
-  background-position: 44.4444444444% 20%;
+  background-position-x: 44.4444444444%;
+  background-position-y: 20%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="14"].era {
+  background-position-y: 33.3333333333%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="15"] {
-  background-position: 55.5555555556% 20%;
+  background-position-x: 55.5555555556%;
+  background-position-y: 20%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="15"].era {
+  background-position-y: 33.3333333333%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="16"] {
-  background-position: 66.6666666667% 20%;
+  background-position-x: 66.6666666667%;
+  background-position-y: 20%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="16"].era {
+  background-position-y: 33.3333333333%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="17"] {
-  background-position: 77.7777777778% 20%;
+  background-position-x: 77.7777777778%;
+  background-position-y: 20%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="17"].era {
+  background-position-y: 33.3333333333%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="18"] {
-  background-position: 88.8888888889% 20%;
+  background-position-x: 88.8888888889%;
+  background-position-y: 20%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="18"].era {
+  background-position-y: 33.3333333333%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="19"] {
-  background-position: 100% 20%;
+  background-position-x: 100%;
+  background-position-y: 20%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="19"].era {
+  background-position-y: 33.3333333333%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="20"] {
-  background-position: 0% 40%;
+  background-position-x: 0%;
+  background-position-y: 40%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="20"].era {
+  background-position-y: 66.6666666667%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="21"] {
-  background-position: 11.1111111111% 40%;
+  background-position-x: 11.1111111111%;
+  background-position-y: 40%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="21"].era {
+  background-position-y: 66.6666666667%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="22"] {
-  background-position: 22.2222222222% 40%;
+  background-position-x: 22.2222222222%;
+  background-position-y: 40%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="22"].era {
+  background-position-y: 66.6666666667%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="23"] {
-  background-position: 33.3333333333% 40%;
+  background-position-x: 33.3333333333%;
+  background-position-y: 40%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="23"].era {
+  background-position-y: 66.6666666667%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="24"] {
-  background-position: 44.4444444444% 40%;
+  background-position-x: 44.4444444444%;
+  background-position-y: 40%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="24"].era {
+  background-position-y: 66.6666666667%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="25"] {
-  background-position: 55.5555555556% 40%;
+  background-position-x: 55.5555555556%;
+  background-position-y: 40%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="25"].era {
+  background-position-y: 66.6666666667%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="26"] {
-  background-position: 66.6666666667% 40%;
+  background-position-x: 66.6666666667%;
+  background-position-y: 40%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="26"].era {
+  background-position-y: 66.6666666667%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="27"] {
-  background-position: 77.7777777778% 40%;
+  background-position-x: 77.7777777778%;
+  background-position-y: 40%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="27"].era {
+  background-position-y: 66.6666666667%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="28"] {
-  background-position: 88.8888888889% 40%;
+  background-position-x: 88.8888888889%;
+  background-position-y: 40%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="28"].era {
+  background-position-y: 66.6666666667%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="29"] {
-  background-position: 100% 40%;
+  background-position-x: 100%;
+  background-position-y: 40%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="29"].era {
+  background-position-y: 66.6666666667%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="30"] {
-  background-position: 0% 60%;
+  background-position-x: 0%;
+  background-position-y: 60%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="30"].era {
+  background-position-y: 100%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="31"] {
-  background-position: 11.1111111111% 60%;
+  background-position-x: 11.1111111111%;
+  background-position-y: 60%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="31"].era {
+  background-position-y: 100%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="32"] {
-  background-position: 22.2222222222% 60%;
+  background-position-x: 22.2222222222%;
+  background-position-y: 60%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="32"].era {
+  background-position-y: 100%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="33"] {
-  background-position: 33.3333333333% 60%;
+  background-position-x: 33.3333333333%;
+  background-position-y: 60%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="33"].era {
+  background-position-y: 100%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="34"] {
-  background-position: 44.4444444444% 60%;
+  background-position-x: 44.4444444444%;
+  background-position-y: 60%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="34"].era {
+  background-position-y: 100%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="35"] {
-  background-position: 55.5555555556% 60%;
+  background-position-x: 55.5555555556%;
+  background-position-y: 60%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="35"].era {
+  background-position-y: 100%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="36"] {
-  background-position: 66.6666666667% 60%;
+  background-position-x: 66.6666666667%;
+  background-position-y: 60%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="36"].era {
+  background-position-y: 100%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="37"] {
-  background-position: 77.7777777778% 60%;
+  background-position-x: 77.7777777778%;
+  background-position-y: 60%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="37"].era {
+  background-position-y: 100%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="38"] {
-  background-position: 88.8888888889% 60%;
+  background-position-x: 88.8888888889%;
+  background-position-y: 60%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="38"].era {
+  background-position-y: 100%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="39"] {
-  background-position: 100% 60%;
+  background-position-x: 100%;
+  background-position-y: 60%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="39"].era {
+  background-position-y: 100%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="40"] {
-  background-position: 0% 80%;
+  background-position-x: 0%;
+  background-position-y: 80%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="40"].era {
+  background-position-y: 133.3333333333%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="41"] {
-  background-position: 11.1111111111% 80%;
+  background-position-x: 11.1111111111%;
+  background-position-y: 80%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="41"].era {
+  background-position-y: 133.3333333333%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="42"] {
-  background-position: 22.2222222222% 80%;
+  background-position-x: 22.2222222222%;
+  background-position-y: 80%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="42"].era {
+  background-position-y: 133.3333333333%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="43"] {
-  background-position: 33.3333333333% 80%;
+  background-position-x: 33.3333333333%;
+  background-position-y: 80%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="43"].era {
+  background-position-y: 133.3333333333%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="44"] {
-  background-position: 44.4444444444% 80%;
+  background-position-x: 44.4444444444%;
+  background-position-y: 80%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="44"].era {
+  background-position-y: 133.3333333333%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="45"] {
-  background-position: 55.5555555556% 80%;
+  background-position-x: 55.5555555556%;
+  background-position-y: 80%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="45"].era {
+  background-position-y: 133.3333333333%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="46"] {
-  background-position: 66.6666666667% 80%;
+  background-position-x: 66.6666666667%;
+  background-position-y: 80%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="46"].era {
+  background-position-y: 133.3333333333%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="47"] {
-  background-position: 77.7777777778% 80%;
+  background-position-x: 77.7777777778%;
+  background-position-y: 80%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="47"].era {
+  background-position-y: 133.3333333333%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="48"] {
-  background-position: 88.8888888889% 80%;
+  background-position-x: 88.8888888889%;
+  background-position-y: 80%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="48"].era {
+  background-position-y: 133.3333333333%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="49"] {
-  background-position: 100% 80%;
+  background-position-x: 100%;
+  background-position-y: 80%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="49"].era {
+  background-position-y: 133.3333333333%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="50"] {
-  background-position: 0% 100%;
+  background-position-x: 0%;
+  background-position-y: 100%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="50"].era {
+  background-position-y: 166.6666666667%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="51"] {
-  background-position: 11.1111111111% 100%;
+  background-position-x: 11.1111111111%;
+  background-position-y: 100%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="51"].era {
+  background-position-y: 166.6666666667%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="52"] {
-  background-position: 22.2222222222% 100%;
+  background-position-x: 22.2222222222%;
+  background-position-y: 100%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="52"].era {
+  background-position-y: 166.6666666667%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="53"] {
-  background-position: 33.3333333333% 100%;
+  background-position-x: 33.3333333333%;
+  background-position-y: 100%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="53"].era {
+  background-position-y: 166.6666666667%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="54"] {
-  background-position: 44.4444444444% 100%;
+  background-position-x: 44.4444444444%;
+  background-position-y: 100%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="54"].era {
+  background-position-y: 166.6666666667%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="55"] {
-  background-position: 55.5555555556% 100%;
+  background-position-x: 55.5555555556%;
+  background-position-y: 100%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="55"].era {
+  background-position-y: 166.6666666667%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="56"] {
-  background-position: 66.6666666667% 100%;
+  background-position-x: 66.6666666667%;
+  background-position-y: 100%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="56"].era {
+  background-position-y: 166.6666666667%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="57"] {
-  background-position: 77.7777777778% 100%;
+  background-position-x: 77.7777777778%;
+  background-position-y: 100%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="57"].era {
+  background-position-y: 166.6666666667%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="58"] {
-  background-position: 88.8888888889% 100%;
+  background-position-x: 88.8888888889%;
+  background-position-y: 100%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="58"].era {
+  background-position-y: 166.6666666667%;
 }
 .locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="59"] {
-  background-position: 100% 100%;
+  background-position-x: 100%;
+  background-position-y: 100%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage[data-sprite="59"].era {
+  background-position-y: 166.6666666667%;
+}
+.locationWrapper:not(.back):not(.placeholder) .locationImage.era {
+  background-image: url(img/locationsera.jpg);
+  background-size: 1000% 400%;
 }
 .locationWrapper.back .locationImage {
   background-image: url(img/back.jpg);

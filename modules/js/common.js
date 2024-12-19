@@ -46,9 +46,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 id: 0,
                 sprite: 0,
                 additionalClass: '',
+                expansionClass: '',
             };
             location = { ...defaultValues, ...location };
             location.additionalClass = location.isRuined ? ' back' : '';
+            if (location.expansion === 1012) {
+                location.expansionClass = ' era';
+            }
             return location;
         },
 
