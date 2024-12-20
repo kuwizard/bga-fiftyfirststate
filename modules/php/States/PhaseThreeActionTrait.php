@@ -193,12 +193,19 @@ trait PhaseThreeActionTrait
     {
         self::checkAction('actFactionAct');
         $player = Players::getActive();
-        /** @var Act $actionChosen */
-        $actionChosen = $player->getAvailableFactionActions()[$id];
-        $actionChosen->activate($id + $player->getFaction());
-        Factions::setAsUsed($player->getFaction(), $id);
-        self::giveExtraTime($player->getId());
-        Stack::finishState();
+        $availableActions = $player->getAvailableFactionActions();
+        if (isset($availableActions[$id])) {
+            /** @var Act $actionChosen */
+            $actionChosen = $availableActions[$id];
+            $actionChosen->activate($id + $player->getFaction());
+            Factions::setAsUsed($player->getFaction(), $id);
+            self::giveExtraTime($player->getId());
+            Stack::finishState();
+        } else {
+            throw new \BgaVisibleSystemException(
+                'You\'re trying to activate an unavailable action. Please create a bug in this state so developer can investigate what happened!'
+            );
+        }
     }
 
     /**
