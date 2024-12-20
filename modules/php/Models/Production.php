@@ -8,26 +8,18 @@ use STATE\Managers\Players;
 
 class Production extends Location
 {
-    /**
-     * @var boolean
-     */
-    protected $isOpen;
-    /**
-     * @var int[]
-     */
-    protected $product;
+    protected bool $isOpen;
+    protected array $product;
+    protected int $defence;
 
     public function __construct($params = [])
     {
         parent::__construct($params);
         $this->isOpen = false;
+        $this->defence = 0;
     }
 
-    /**
-     * @param Player $player
-     * @return int[]
-     */
-    public function getProduct($player)
+    public function getProduct(Player $player): array
     {
         return $this->isRuined() ? [] : $this->product;
     }
@@ -37,22 +29,22 @@ class Production extends Location
         return $this->isOpen;
     }
 
-    public function getSpendRequirements()
+    public function getSpendRequirements(): array
     {
         return [RESOURCE_WORKER];
     }
 
-    public function isActivatable()
+    public function isActivatable(): bool
     {
         return !$this->isRuined() && $this->activatedTimes < 1;
     }
 
-    public function getDefenceValue()
+    public function getDefenceValue(): int
     {
         return 3;
     }
 
-    public function activate($player)
+    public function activate($player): void
     {
         (new Act($this->getSpendRequirements(), $this->getProduct($player)))->activate($this->id);
         $this->activatedTimes = $this->activatedTimes + 1;
@@ -62,7 +54,7 @@ class Production extends Location
         Notifications::resourcesChanged($productionOwner, $productionOwner->getResourcesWithNames([RESOURCE_WORKER]));
     }
 
-    public function getFactionRow()
+    public function getFactionRow(): string
     {
         return 'production';
     }

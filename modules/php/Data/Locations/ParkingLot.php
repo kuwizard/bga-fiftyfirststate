@@ -22,7 +22,7 @@ class ParkingLot extends Production
         ];
     }
 
-    public function getProduct($player)
+    public function getProduct($player): array
     {
         $icons = $player->getBoardIcons(ICON_IRON);
         $maxIcons = array_slice($icons, 0, 3);

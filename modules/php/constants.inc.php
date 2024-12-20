@@ -208,6 +208,7 @@ define('ICON_VP', 6);
 define('ICON_CHURCH', 7);
 define('ICON_ARROW', 8);
 define('ICON_AMMO', 9);
+define('ICON_RESPIRATOR', 10);
 
 /*
  * Action types
