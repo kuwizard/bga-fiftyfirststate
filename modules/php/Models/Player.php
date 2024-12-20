@@ -293,7 +293,7 @@ class Player extends DB_Manager implements JsonSerializable
             }
             if ($considerJoker) {
                 $joker = Resources::getJokerFor($resource);
-                $jokersAmount = $joker ? $this->getResource($joker) : 0;
+                $jokersAmount = $joker ? $this->getResource($joker, false) : 0;
             } else {
                 $jokersAmount = 0;
             }

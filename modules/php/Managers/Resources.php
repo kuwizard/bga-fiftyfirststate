@@ -94,11 +94,7 @@ class Resources extends DB_Manager
             ->run();
     }
 
-    /**
-     * @param int $resource
-     * @return int[]
-     */
-    public static function getLocationIdsByResource($resource)
+    public static function getLocationIdsByResource(int $resource): array
     {
         return array_unique(
             self::DB()

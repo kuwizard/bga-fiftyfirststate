@@ -361,6 +361,7 @@ trait PhaseThreeActionTrait
         $connection->activate();
         $player = Players::getActive();
         self::giveExtraTime($player->getId());
+        // TODO: Move this logic to postActions() in ChooseResourceTrait to correctly notify what resource was spent
         Notifications::connectionPlayed($player, $id, $connection);
         Notifications::resourcesChanged($player, ['card' => $player->getHandAmount()]);
         Stack::finishState();

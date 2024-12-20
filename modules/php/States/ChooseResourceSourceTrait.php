@@ -60,8 +60,9 @@ trait ChooseResourceSourceTrait
                 $joker = Resources::getJokerFor($resource);
                 $sourcesSingle = [
                     'faction' => $player->getResource($resource) === 0 ? null : true,
-                    'locations' => $this->getPlayerLocationsWithResource($resource, $player),
                     'joker' => is_null($joker) || $player->getResource($joker) === 0 ? null : $joker,
+                    'locations' => $this->getPlayerLocationsWithResource($resource, $player),
+                    'locationsWithJoker' => is_null($joker) ? null : $this->getPlayerLocationsWithResource($joker, $player),
                 ];
                 foreach (array_keys($sourcesSingle) as $source) {
                     if (!$sourcesSingle[$source]) {
@@ -90,11 +91,19 @@ trait ChooseResourceSourceTrait
 
             $onlyNotLocation = count($sources) === 1 && !isset($sources['locations']);
             $onlyLocation = count($sources) === 1 && isset($sources['locations']) && count($sources['locations']) === 1;
-            if ($onlyNotLocation || $onlyLocation) {
+            $onlyJokerOnLocation = count($sources) === 1 && isset($sources['locationsWithJoker']) && count(
+                    $sources['locationsWithJoker']
+                ) === 1;
+            if ($onlyNotLocation || $onlyLocation || $onlyJokerOnLocation) {
                 if (isset($sources['faction'])) {
                     $sourceId = 0;
+                } else if (isset($sources['locations'])) {
+                    $sourceId = $sources['locations'][0]->getId();
+                } else if (isset($sources['joker'])) {
+                    $sourceId = $sources['joker'];
                 } else {
-                    $sourceId = isset($sources['locations']) ? $sources['locations'][0]->getId() : $sources['joker'];
+                    $sourceId = $sources['locationsWithJoker'][0]->getId();
+                    $resource = Resources::getJokerFor($resource);
                 }
                 if (!in_array($resource, [RESOURCE_DEAL, RESOURCE_ANY_OF_MAIN])) {
                     $processed[] = $sources['joker'] ?? $resource;
