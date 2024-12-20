@@ -23,7 +23,7 @@ class MethaneStorage extends FeatureStorageSingle
             ...$this->getText(true),
             TEXT_DESCRIPTION => '-',
             TEXT_BONUS_DESCRIPTION => clienttranslate(
-                'Place 3 {fuelIcon} on this location. You may spend them during your turn. Do not discard them during the Cleanup phase'
+                'Place 3 {fuelIcon} on this Location. You may spend them during your turn. Do not discard them during the Cleanup phase'
             ),
         ];
     }

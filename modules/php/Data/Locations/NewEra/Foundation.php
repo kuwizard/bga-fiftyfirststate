@@ -23,7 +23,7 @@ class Foundation extends FeatureStorageSingle
             ...$this->getText(true),
             TEXT_DESCRIPTION => '-',
             TEXT_BONUS_DESCRIPTION => clienttranslate(
-                'Place 1 {develIcon} on this location. You may spend it during your turn. Do not discard it during the Cleanup phase'
+                'Place 1 {develIcon} on this Location. You may spend it during your turn. Do not discard it during the Cleanup phase'
             ),
         ];
     }

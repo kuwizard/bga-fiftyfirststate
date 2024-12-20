@@ -15,7 +15,7 @@ class Hunters extends Feature
         $this->spoils = [RESOURCE_WORKER, RESOURCE_WORKER, RESOURCE_CARD];
         $this->icons = [ICON_WORKER, ICON_GUN];
         $this->deals = [RESOURCE_WORKER];
-        $this->copies = 1;
+        $this->copies = 2;
         $this->text = [
             ...$this->getText(),
             TEXT_DESCRIPTION => 'Each time you Raze gain 1 {workerIcon}',

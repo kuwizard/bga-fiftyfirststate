@@ -10,7 +10,7 @@ class Haven extends Production
     {
         parent::__construct($params);
         $this->type = CARD_HAVEN;
-        $this->name = clienttranslate("Hangar");
+        $this->name = clienttranslate("Haven");
         $this->distance = 2;
         $this->spoils = [RESOURCE_IRON, RESOURCE_IRON, RESOURCE_AMMO];
         $this->icons = [ICON_IRON, ICON_AMMO];

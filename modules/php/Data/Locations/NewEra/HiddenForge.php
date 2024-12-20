@@ -9,7 +9,7 @@ class HiddenForge extends Production
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->type = CARD_HIDDEN_FORCE;
+        $this->type = CARD_HIDDEN_FORGE;
         $this->name = clienttranslate("Hidden Forge");
         $this->distance = 1;
         $this->spoils = [RESOURCE_WORKER, RESOURCE_WORKER];

@@ -141,7 +141,7 @@ define('CARD_GASOLINE_TOWER', 'gasoline_tower');
 define('CARD_GUILDS_GARAGE', 'guilds_garage');
 define('CARD_HANGAR', 'hangar');
 define('CARD_HAVEN', 'haven');
-define('CARD_HIDDEN_FORCE', 'hidden_force');
+define('CARD_HIDDEN_FORGE', 'hidden_forge');
 define('CARD_HUMAN_TRAFFICER', 'human_trafficer');
 define('CARD_HUNTERS', 'hunters');
 define('CARD_LABOR_CAMP', 'labor_camp');
@@ -215,6 +215,7 @@ define('ICON_RESPIRATOR', 10);
  */
 define('ACTION_TYPE_SPEND', 0);
 define('ACTION_TYPE_STEAL_ANOTHER_PLAYER', 1);
+define('ACTION_TYPE_ACTIVATE_PRODUCTION', 2);
 
 /*
  * Location action types

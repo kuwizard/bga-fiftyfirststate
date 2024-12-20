@@ -3,7 +3,6 @@
 namespace STATE\Data\Locations\NewEra;
 
 use STATE\Models\Feature;
-use STATE\Models\Player;
 
 class BusStation extends Feature
 {
