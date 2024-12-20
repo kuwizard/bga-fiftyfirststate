@@ -3,7 +3,7 @@
 namespace STATE\Data\Locations\NewEra;
 
 use STATE\Models\FeatureStorageMultiple;
-use STATE\Models\ResourceStorageOption;
+use STATE\Models\ResourceStorageOptionMulti;
 
 class GangersDive extends FeatureStorageMultiple
 {
@@ -18,7 +18,7 @@ class GangersDive extends FeatureStorageMultiple
         $this->deals = [RESOURCE_ARROW_RED];
         $this->copies = 1;
 
-        $this->resourcesOptions = [new ResourceStorageOption([RESOURCE_ARROW_RED], 3)];
+        $this->resourcesOptions = [new ResourceStorageOptionMulti([RESOURCE_ARROW_RED], 3)];
         $this->text = [
             ...$this->getText(true),
             TEXT_DESCRIPTION => clienttranslate(

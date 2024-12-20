@@ -370,7 +370,7 @@ trait ChooseResourceSourceTrait
         }
         // Place resources on a card
         if ($location instanceof FeatureStorageSingle) {
-            $location->placeResourcesOneType($location->getResourceType(), $location->getResourceLimit());
+            $location->placeResources();
             Notifications::resourcesPlacedOnLocation(
                 $player,
                 $location->getId(),

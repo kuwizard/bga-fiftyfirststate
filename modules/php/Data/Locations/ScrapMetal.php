@@ -3,6 +3,7 @@
 namespace STATE\Data\Locations;
 
 use STATE\Models\FeatureStorageSingle;
+use STATE\Models\ResourceStorageOptionSingle;
 
 class ScrapMetal extends FeatureStorageSingle
 {
@@ -17,8 +18,9 @@ class ScrapMetal extends FeatureStorageSingle
         $this->deals = [RESOURCE_IRON];
         $this->copies = 1;
 
-        $this->resourceType = RESOURCE_IRON;
-        $this->resourceLimit = 3;
+        $this->resourcesOptions = [
+            new ResourceStorageOptionSingle(RESOURCE_IRON, 3),
+        ];
         $this->text = [
             ...$this->getText(true),
             TEXT_DESCRIPTION => '-',

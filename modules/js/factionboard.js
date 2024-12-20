@@ -63,7 +63,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this.addSomeRandomMargins(res);
         },
 
-        placeResourcesOnLocation(id, resources) {
+        async placeResourcesOnLocation(id, resources) {
+            await this.waitForDisappearance('.moving');
             resources.forEach((resource) => {
                 const resourceElement = dojo.place(
                     this.format_block('jstpl_resource_icon', { type: resource }),

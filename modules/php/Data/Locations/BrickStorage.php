@@ -3,6 +3,7 @@
 namespace STATE\Data\Locations;
 
 use STATE\Models\FeatureStorageSingle;
+use STATE\Models\ResourceStorageOptionSingle;
 
 class BrickStorage extends FeatureStorageSingle
 {
@@ -17,8 +18,9 @@ class BrickStorage extends FeatureStorageSingle
         $this->deals = [RESOURCE_BRICK];
         $this->copies = 1;
 
-        $this->resourceType = RESOURCE_BRICK;
-        $this->resourceLimit = 3;
+        $this->resourcesOptions = [
+            new ResourceStorageOptionSingle(RESOURCE_BRICK, 3),
+        ];
         $this->text = [
             ...$this->getText(true),
             TEXT_DESCRIPTION => '-',

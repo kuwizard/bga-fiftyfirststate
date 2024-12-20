@@ -3,6 +3,7 @@
 namespace STATE\Data\Locations\NewEra;
 
 use STATE\Models\FeatureStorageSingle;
+use STATE\Models\ResourceStorageOptionSingle;
 
 class RadioactiveColony extends FeatureStorageSingle
 {
@@ -17,8 +18,12 @@ class RadioactiveColony extends FeatureStorageSingle
         $this->deals = [RESOURCE_AMMO];
         $this->copies = 1;
 
-        $this->resourceType = RESOURCE_WORKER;
-        $this->resourceLimit = 1;
+        $this->resourcesOptions = [
+            new ResourceStorageOptionSingle(RESOURCE_WORKER, 1),
+            new ResourceStorageOptionSingle(RESOURCE_AMMO, 2),
+            new ResourceStorageOptionSingle(RESOURCE_ARROW_BLUE, 1),
+            new ResourceStorageOptionSingle(RESOURCE_ARROW_RED, 1),
+        ];
         $this->text = [
             ...$this->getText(true),
             TEXT_DESCRIPTION => '-',

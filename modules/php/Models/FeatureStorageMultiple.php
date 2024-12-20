@@ -7,11 +7,6 @@ use STATE\Managers\Resources;
 
 class FeatureStorageMultiple extends FeatureStorage
 {
-    /**
-     * @var ResourceStorageOption[]
-     */
-    protected array $resourcesOptions;
-
     public function addResource(int $resource)
     {
         $this->resources[] = $resource;

@@ -3,7 +3,7 @@
 namespace STATE\Data\Locations;
 
 use STATE\Models\FeatureStorageMultiple;
-use STATE\Models\ResourceStorageOption;
+use STATE\Models\ResourceStorageOptionMulti;
 
 class UndergroundWarehouse extends FeatureStorageMultiple
 {
@@ -19,7 +19,7 @@ class UndergroundWarehouse extends FeatureStorageMultiple
         $this->copies = 1;
 
         $this->resourcesOptions = [
-            new ResourceStorageOption([RESOURCE_FUEL, RESOURCE_GUN, RESOURCE_IRON, RESOURCE_BRICK], 3),
+            new ResourceStorageOptionMulti([RESOURCE_FUEL, RESOURCE_GUN, RESOURCE_IRON, RESOURCE_BRICK], 3),
         ];
         $this->text = [
             ...$this->getText(),

@@ -7,10 +7,11 @@ use STATE\Managers\Resources;
 
 class FeatureStorage extends Feature
 {
+    protected array $resources;
     /**
-     * @var int[]
+     * @var ResourceStorageOptionMulti[]
      */
-    protected $resources;
+    protected array $resourcesOptions;
 
     public function __construct($params = [])
     {

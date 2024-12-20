@@ -3,6 +3,7 @@
 namespace STATE\Data\Locations;
 
 use STATE\Models\FeatureStorageSingle;
+use STATE\Models\ResourceStorageOptionSingle;
 
 class MethaneStorage extends FeatureStorageSingle
 {
@@ -17,8 +18,9 @@ class MethaneStorage extends FeatureStorageSingle
         $this->deals = [RESOURCE_FUEL];
         $this->copies = 1;
 
-        $this->resourceType = RESOURCE_FUEL;
-        $this->resourceLimit = 3;
+        $this->resourcesOptions = [
+            new ResourceStorageOptionSingle(RESOURCE_FUEL, 3),
+        ];
         $this->text = [
             ...$this->getText(true),
             TEXT_DESCRIPTION => '-',

@@ -3,6 +3,7 @@
 namespace STATE\Data\Locations\NewEra;
 
 use STATE\Models\FeatureStorageSingle;
+use STATE\Models\ResourceStorageOptionSingle;
 
 class Foundation extends FeatureStorageSingle
 {
@@ -17,8 +18,9 @@ class Foundation extends FeatureStorageSingle
         $this->deals = [RESOURCE_BRICK];
         $this->copies = 1;
 
-        $this->resourceType = RESOURCE_DEVELOPMENT;
-        $this->resourceLimit = 1;
+        $this->resourcesOptions = [
+            new ResourceStorageOptionSingle(RESOURCE_DEVELOPMENT, 1),
+        ];
         $this->text = [
             ...$this->getText(true),
             TEXT_DESCRIPTION => '-',
