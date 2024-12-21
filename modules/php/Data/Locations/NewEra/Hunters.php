@@ -2,9 +2,9 @@
 
 namespace STATE\Data\Locations\NewEra;
 
-use STATE\Models\Feature;
+use STATE\Models\FeaturePassiveAbility;
 
-class Hunters extends Feature
+class Hunters extends FeaturePassiveAbility
 {
     public function __construct($params = [])
     {
@@ -20,5 +20,7 @@ class Hunters extends Feature
             ...$this->getText(),
             TEXT_DESCRIPTION => 'Each time you Raze gain 1 {workerIcon}',
         ];
+
+        $this->passiveAbilities = [LOCATION_ACTION_RAZE => RESOURCE_WORKER];
     }
 }

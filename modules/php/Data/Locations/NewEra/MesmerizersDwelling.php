@@ -2,9 +2,9 @@
 
 namespace STATE\Data\Locations\NewEra;
 
-use STATE\Models\Feature;
+use STATE\Models\FeaturePassiveAbility;
 
-class MesmerizersDwelling extends Feature
+class MesmerizersDwelling extends FeaturePassiveAbility
 {
     public function __construct($params = [])
     {
@@ -20,5 +20,7 @@ class MesmerizersDwelling extends Feature
             ...$this->getText(),
             TEXT_DESCRIPTION => 'Each time you Raze gain 1 {scoreIcon}',
         ];
+
+        $this->passiveAbilities = [LOCATION_ACTION_RAZE => RESOURCE_VP];
     }
 }

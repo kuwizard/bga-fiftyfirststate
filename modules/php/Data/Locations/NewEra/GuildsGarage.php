@@ -2,9 +2,9 @@
 
 namespace STATE\Data\Locations\NewEra;
 
-use STATE\Models\Feature;
+use STATE\Models\FeaturePassiveAbility;
 
-class GuildsGarage extends Feature
+class GuildsGarage extends FeaturePassiveAbility
 {
     public function __construct($params = [])
     {
@@ -20,5 +20,7 @@ class GuildsGarage extends Feature
             ...$this->getText(),
             TEXT_DESCRIPTION => 'Each time you make a Deal gain 1 {cardIcon}',
         ];
+
+        $this->passiveAbilities = [LOCATION_ACTION_DEAL => RESOURCE_CARD];
     }
 }

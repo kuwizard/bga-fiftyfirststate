@@ -2,9 +2,9 @@
 
 namespace STATE\Data\Locations\NewEra;
 
-use STATE\Models\Feature;
+use STATE\Models\FeaturePassiveAbility;
 
-class PetesOffice extends Feature
+class PetesOffice extends FeaturePassiveAbility
 {
     public function __construct($params = [])
     {
@@ -20,5 +20,7 @@ class PetesOffice extends Feature
             ...$this->getText(),
             TEXT_DESCRIPTION => 'Each time you make a Deal gain 1 {scoreIcon}',
         ];
+
+        $this->passiveAbilities = [LOCATION_ACTION_DEAL => RESOURCE_VP];
     }
 }

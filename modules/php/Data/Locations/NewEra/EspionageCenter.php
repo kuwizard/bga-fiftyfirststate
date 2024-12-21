@@ -2,9 +2,9 @@
 
 namespace STATE\Data\Locations\NewEra;
 
-use STATE\Models\Feature;
+use STATE\Models\FeaturePassiveAbility;
 
-class EspionageCenter extends Feature
+class EspionageCenter extends FeaturePassiveAbility
 {
     public function __construct($params = [])
     {
@@ -20,5 +20,7 @@ class EspionageCenter extends Feature
             ...$this->getText(),
             TEXT_DESCRIPTION => 'Each time you make a Deal gain 1 {cardIcon}',
         ];
+
+        $this->passiveAbilities = [LOCATION_ACTION_DEAL => RESOURCE_CARD];
     }
 }

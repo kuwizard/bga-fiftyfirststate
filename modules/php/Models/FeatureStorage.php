@@ -16,7 +16,7 @@ class FeatureStorage extends Feature
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->resources = is_null($this->id) ? null : Resources::get($this->id);
+        $this->resources = is_null($this->id) ? [] : Resources::get($this->id);
     }
 
     public function getResourcesAmount(): int

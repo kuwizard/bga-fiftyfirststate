@@ -234,6 +234,16 @@ class Notifications
         ]);
     }
 
+    public static function passiveAbilityApplied(Player $player, Location $location, int $resource)
+    {
+        $msg = clienttranslate('The ability of ${locationName} was activated. ${player_name} gets ${resourcesList}');
+        self::message($msg, [
+            'player' => $player,
+            'location' => $location,
+            'resourcesList' => [ResourcesHelper::getResourceName($resource)],
+        ]);
+    }
+
     public static function newConnections(array $connections)
     {
         self::notifyAll(

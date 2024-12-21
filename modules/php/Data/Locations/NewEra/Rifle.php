@@ -2,9 +2,9 @@
 
 namespace STATE\Data\Locations\NewEra;
 
-use STATE\Models\Feature;
+use STATE\Models\FeaturePassiveAbility;
 
-class Rifle extends Feature
+class Rifle extends FeaturePassiveAbility
 {
     public function __construct($params = [])
     {

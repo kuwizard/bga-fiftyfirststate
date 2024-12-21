@@ -2,9 +2,9 @@
 
 namespace STATE\Data\Locations\NewEra;
 
-use STATE\Models\Feature;
+use STATE\Models\FeaturePassiveAbility;
 
-class Truck extends Feature
+class Truck extends FeaturePassiveAbility
 {
     public function __construct($params = [])
     {
@@ -19,6 +19,11 @@ class Truck extends Feature
         $this->text = [
             ...$this->getText(),
             TEXT_DESCRIPTION => 'Each time you Raze or make a Deal gain 1 {ammoIcon}',
+        ];
+
+        $this->passiveAbilities = [
+            LOCATION_ACTION_DEAL => RESOURCE_AMMO,
+            LOCATION_ACTION_RAZE => RESOURCE_AMMO,
         ];
     }
 }

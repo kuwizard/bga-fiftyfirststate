@@ -2,9 +2,9 @@
 
 namespace STATE\Data\Locations\NewEra;
 
-use STATE\Models\Feature;
+use STATE\Models\FeaturePassiveAbility;
 
-class BusStation extends Feature
+class BusStation extends FeaturePassiveAbility
 {
     public function __construct($params = [])
     {
@@ -20,5 +20,7 @@ class BusStation extends Feature
             ...$this->getText(),
             TEXT_DESCRIPTION => 'Each time you make a Deal gain 1 {workerIcon}',
         ];
+
+        $this->passiveAbilities = [LOCATION_ACTION_DEAL => RESOURCE_WORKER];
     }
 }

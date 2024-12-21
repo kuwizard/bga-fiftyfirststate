@@ -369,7 +369,6 @@ trait PhaseThreeActionTrait
 
     public function actOptionOpenProduction()
     {
-        self::checkAction('actOptionOpenProduction');
         Locations::get(Stack::getCtx()['locationId'])->activate(Players::getActive());
         self::giveExtraTime(Players::getActiveId());
         Stack::finishState();
