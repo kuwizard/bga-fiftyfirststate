@@ -106,7 +106,8 @@ trait PhaseThreeActionTrait
         $player = Players::getActive();
         if (isset($ctx['combined']) && $ctx['combined'] && $player->getResource(RESOURCE_WORKER, false) >= 2) {
             $spendWorkersAction = new Act([RESOURCE_WORKER, RESOURCE_WORKER], [RESOURCE_ANY_OF_MAIN_PLUS_CARD]);
-            $actions = array_merge($actions, [$spendWorkersAction]);
+            // 0, 1 and 2 might be faction actions, we don't want to conflict with them. Maybe new factions will have 3 or 4 as well...
+            $actions[10] = $spendWorkersAction;
         }
         return $actions;
     }

@@ -30,16 +30,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             }
         },
 
-        onEnteringStateTakeConnection(args) {
-            if (this.isCurrentPlayerActive()) {
-                this.showIconButtonsFromArgs(args.actions);
-                this.makeLocationsUnselectable('.location');
-                this.makeConnectionsSelectableAndClickable(args.connections, false, 'actTakeConnection');
-                this.keepLookoutUncollapsable()
-                this.addUndoButton();
-            }
-        },
-
         showIconButtonsFromArgs(args) {
             Object.keys(args).forEach((id) => {
                 const action = args[id];
