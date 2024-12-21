@@ -276,13 +276,8 @@ trait PhaseThreeActionTrait
         Stack::finishState();
     }
 
-    /**
-     * @param int $id
-     * @return void
-     */
-    public function actDiscardLocation($id)
+    public function actDiscardLocation(int $id)
     {
-        self::checkAction('actDiscardLocation');
         $player = Players::getActive();
         $player->discardSingle($id);
         Notifications::locationDiscarded($player, Locations::get($id));

@@ -10,13 +10,11 @@ class Production extends Location
 {
     protected bool $isOpen;
     protected array $product;
-    protected int $defence;
 
     public function __construct($params = [])
     {
         parent::__construct($params);
         $this->isOpen = false;
-        $this->defence = 0;
     }
 
     public function getProduct(Player $player): array
@@ -41,7 +39,7 @@ class Production extends Location
 
     public function getDefenceValue(): int
     {
-        return 3;
+        return 3 + parent::getDefenceValue();
     }
 
     public function activate($player): void

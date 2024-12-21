@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS `locations`
     `location_state`    tinyint           NOT NULL,
     `activated_times`   tinyint           NOT NULL DEFAULT 0,
     `is_ruined`         tinyint           NOT NULL DEFAULT 0,
+    `is_defended`       tinyint           NOT NULL DEFAULT 0,
     PRIMARY KEY (`location_id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;

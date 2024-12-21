@@ -88,13 +88,6 @@ class action_fiftyfirststate extends APP_GameAction
         self::ajaxResponse();
     }
 
-    public function actDiscardLocation()
-    {
-        self::setAjaxMode();
-        $this->game->actDiscardLocation($this->getId());
-        self::ajaxResponse();
-    }
-
     public function actChooseSource()
     {
         self::setAjaxMode();

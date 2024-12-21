@@ -373,9 +373,9 @@ trait ChooseResourceSourceTrait
 
     public function getProductionAfterBuildAndPlaceResources($location, $player): bool
     {
+        $resourcesChanged = [];
         // Gain resources (production or building bonus)
         if ($location instanceof Production || !empty($location->getBuildingBonus($player))) {
-            $resourcesChanged = [];
             if ($location instanceof Production) {
                 $resourcesChanged = ResourcesHelper::increaseResourcesAfterAction(
                     $player,

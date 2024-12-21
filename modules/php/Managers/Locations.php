@@ -19,7 +19,7 @@ class Locations extends Pieces
     protected static $table = 'locations';
     protected static $primary = 'location_id';
     protected static $prefix = 'location_';
-    protected static $customFields = ['type', 'activated_times', 'is_ruined'];
+    protected static $customFields = ['type', 'activated_times', 'is_ruined', 'is_defended'];
     protected static $autoreshuffle = true;
     protected static $autoreshuffleCustom = [LOCATION_DECK => LOCATION_DISCARD];
     protected static $autoreshuffleListener = [
@@ -30,19 +30,6 @@ class Locations extends Pieces
     protected static function cast($row)
     {
         return self::getByType($row);
-    }
-
-    public static function draw(Player $player, int $amount = 1): Collection
-    {
-        $pId = $player->getId();
-        return self::pickForLocation($amount, LOCATION_DECK, [LOCATION_HAND, $pId]);
-    }
-
-    public static function discard(array $cardIds): void
-    {
-        foreach ($cardIds as $cardId) {
-            self::insertOnTop($cardId, LOCATION_DISCARD);
-        }
     }
 
     private static $baseCardTypes = [
@@ -297,6 +284,23 @@ class Locations extends Pieces
             }
         }
         return $resources;
+    }
+
+    public static function draw(Player $player, int $amount = 1): Collection
+    {
+        $pId = $player->getId();
+        return self::pickForLocation($amount, LOCATION_DECK, [LOCATION_HAND, $pId]);
+    }
+
+    public static function discard(array $cardIds): void
+    {
+        foreach ($cardIds as $cardId) {
+            self::insertOnTop($cardId, LOCATION_DISCARD);
+            self::DB()
+                ->update(['is_defended' => 0])
+                ->where('location_id', $cardId)
+                ->run();
+        }
     }
 
     /**

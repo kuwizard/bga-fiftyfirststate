@@ -32,6 +32,7 @@ class Location implements \JsonSerializable
     protected int $copies;
     protected array $expansionCopies;
     protected array $text;
+    protected bool $isDefended;
 
     public function __construct($params = [])
     {
@@ -49,6 +50,7 @@ class Location implements \JsonSerializable
             NEW_ERA => 0,
         ];
         $this->text = [];
+        $this->isDefended = (int) $params['is_defended'] === 1;
     }
 
     protected function getText(bool $isBuildingBonus = false): array
@@ -145,26 +147,17 @@ class Location implements \JsonSerializable
         return '';
     }
 
-    /**
-     * @return int[]
-     */
-    public function getSpendRequirements()
+    public function getSpendRequirements(): array
     {
         return [];
     }
 
-    /**
-     * @return int
-     */
-    public function getDefenceValue()
+    public function getDefenceValue(): int
     {
-        return 0;
+        return $this->isDefended ? 1 : 0;
     }
 
-    /**
-     * @return bool
-     */
-    public function isRuined()
+    public function isRuined(): bool
     {
         return $this->isRuined;
     }
@@ -198,6 +191,7 @@ class Location implements \JsonSerializable
             'name' => $this->name,
             'text' => $this->text,
             'expansion' => Locations::getExpansion($this->type),
+            'isDefended' => $this->isDefended,
         ];
         if (!$this->isRuined && $this->activatedTimes > 0) {
             $requirements = $this->getSpendRequirements();

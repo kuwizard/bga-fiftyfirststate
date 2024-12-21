@@ -17,10 +17,15 @@ class HiddenForge extends Production
         $this->deals = [RESOURCE_ARROW_RED];
         $this->product = [RESOURCE_DEFENCE];
         $this->copies = 1;
-        $this->defence = 1;
+        $this->isDefended = true;
         $this->text = [
             ...$this->getText(),
             TEXT_DESCRIPTION => clienttranslate('1 {defenceIcon}'),
         ];
+    }
+
+    public function jsonSerialize()
+    {
+        return [...parent::jsonSerialize(), 'isDefended' => false];
     }
 }

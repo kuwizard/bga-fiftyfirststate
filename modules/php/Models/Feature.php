@@ -22,9 +22,9 @@ class Feature extends Location
         return clienttranslate('FEATURE');
     }
 
-    public function getDefenceValue()
+    public function getDefenceValue(): int
     {
-        return 4;
+        return 4 + parent::getDefenceValue();
     }
 
     protected function getVPForEachIcon(?Player $player, int $icon): array
