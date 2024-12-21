@@ -314,7 +314,7 @@ trait ChooseResourceSourceTrait
                     Notifications::resourcesChanged($owner, $owner->getResourcesWithNames($ownerResourcesChanged));
                     $location->ruin();
                     Locations::resetActivatedTimes([$location->getId()]);
-                    Notifications::locationRuined($owner, $location, $player);
+                    Notifications::locationRuined($owner, $location, $player, $location->getDefenceValue());
                     break;
                 default:
                     throw new \BgaVisibleSystemException('Unknown action ' . $type);
