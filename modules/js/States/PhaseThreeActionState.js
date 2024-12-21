@@ -76,6 +76,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 const id = this.extractId(location, 'location');
                 const allowedIds = allowedList && Object.keys(allowedList).map((id) => parseInt(id, 10));
                 if (allowedList === null || allowedIds.includes(id)) {
+                    dojo.removeClass(location, 'unselectable');
                     this.addSelectableClass(location);
                     this.dojoConnect(location, () => {
                         this.wrapIntoCardConfirmation(() => this.takeAction(action, { id: id }), allowedList[id])()

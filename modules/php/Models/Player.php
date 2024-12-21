@@ -335,10 +335,7 @@ class Player extends DB_Manager implements JsonSerializable
         return $result;
     }
 
-    /**
-     * @return int[]
-     */
-    public function getPlayableConnectionsIds()
+    public function getPlayableConnectionsIds(): array
     {
         $connections = Connections::getInLocation([LOCATION_HAND, $this->id]);
         return $connections->filter(function (Connection $connection) {
@@ -350,6 +347,13 @@ class Player extends DB_Manager implements JsonSerializable
             }
             return true;
         })->getIds();
+    }
+
+    public function getProductionLocations(): Collection
+    {
+        return $this->getBoard()->filter(function (Location $location) {
+            return $location instanceof Production;
+        });
     }
 
     /**

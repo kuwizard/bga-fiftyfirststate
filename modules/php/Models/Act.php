@@ -78,6 +78,11 @@ class Act implements \JsonSerializable
                     'activatorId' => $activatorId,
                 ]);
                 break;
+            case ACTION_TYPE_ACTIVATE_PRODUCTION:
+                Stack::insertOnTop(ST_ACTIVATE_PRODUCTION, ['productionManagerId' => $activatorId]);
+                break;
+            default:
+                throw new \BgaVisibleSystemException('Unknown type: ' . $this->type . '. ActivatorId: ' . $activatorId);
         }
     }
 

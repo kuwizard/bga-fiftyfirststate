@@ -110,13 +110,6 @@ class action_fiftyfirststate extends APP_GameAction
         self::ajaxResponse();
     }
 
-    public function actActivateLocation()
-    {
-        self::setAjaxMode();
-        $this->game->actActivateLocation($this->getId());
-        self::ajaxResponse();
-    }
-
     public function actDevelop()
     {
         self::setAjaxMode();

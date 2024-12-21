@@ -55,6 +55,7 @@ class Fiftyfirststate extends Table
     use STATE\States\DevelopTrait;
     use STATE\States\ChoosePlayerToStealTrait;
     use STATE\States\ActivateSecondTimeTrait;
+    use STATE\States\ActivateProductionTrait;
     use STATE\States\SpecificLocationsActionsTrait;
     use STATE\States\ConfirmTurnEndTrait;
     use STATE\States\ChooseFactionTrait;

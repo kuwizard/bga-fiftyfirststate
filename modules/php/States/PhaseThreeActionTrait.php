@@ -282,13 +282,8 @@ trait PhaseThreeActionTrait
         $this->addAtomToContinueProcessResources(Stack::getCtx(), [Locations::get($id)]);
     }
 
-    /**
-     * @param int $id
-     * @return void
-     */
-    public function actActivateLocation($id)
+    public function actActivateLocation(int $id)
     {
-        self::checkAction('actActivateLocation');
         $location = Locations::get($id);
         $player = Players::getActive();
         $location->activate($player);

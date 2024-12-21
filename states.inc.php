@@ -269,6 +269,15 @@ $machinestates = [
         'possibleactions' => ['actActivateAgain', 'actDoNotActivateAgain'],
     ],
 
+    ST_ACTIVATE_PRODUCTION => [
+        'name' => 'activateProduction',
+        'description' => clienttranslate('${actplayer} must choose a Production to activate'),
+        'descriptionmyturn' => clienttranslate('${you} must choose a Production to activate'),
+        'args' => 'argActivateProduction',
+        'type' => 'activeplayer',
+        'possibleactions' => ['actActivateProduction', 'actUndo'],
+    ],
+
     ST_PHASE_FOUR_CLEANUP => [
         'name' => 'phaseFourCleanup',
         'description' => '',

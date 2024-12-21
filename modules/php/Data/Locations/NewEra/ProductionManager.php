@@ -2,6 +2,7 @@
 
 namespace STATE\Data\Locations\NewEra;
 
+use STATE\Managers\Players;
 use STATE\Models\Act;
 use STATE\Models\Action;
 
@@ -24,7 +25,12 @@ class ProductionManager extends Action
         );
         $this->text = [
             ...$this->getText(),
-            TEXT_DESCRIPTION => clienttranslate('Spend 1 {workerIcon} to gain 2 {fuelIcon}'),
+            TEXT_DESCRIPTION => clienttranslate('Spend 2 {workerIcon} to activate one of your Production Locations'),
         ];
+    }
+
+    public function isActivatable(): bool
+    {
+        return parent::isActivatable() && !empty(Players::getActive()->getProductionLocations()->getIds());
     }
 }
