@@ -106,7 +106,8 @@ trait PhaseThreeActionTrait
         $player = Players::getActive();
         if (isset($ctx['combined']) && $ctx['combined'] && $player->getResource(RESOURCE_WORKER, false) >= 2) {
             $spendWorkersAction = new Act([RESOURCE_WORKER, RESOURCE_WORKER], [RESOURCE_ANY_OF_MAIN_PLUS_CARD]);
-            $actions = array_merge($actions, [$spendWorkersAction]);
+            // 0, 1 and 2 might be faction actions, we don't want to conflict with them. Maybe new factions will have 3 or 4 as well...
+            $actions[10] = $spendWorkersAction;
         }
         return $actions;
     }
@@ -193,12 +194,19 @@ trait PhaseThreeActionTrait
     {
         self::checkAction('actFactionAct');
         $player = Players::getActive();
-        /** @var Act $actionChosen */
-        $actionChosen = $player->getAvailableFactionActions()[$id];
-        $actionChosen->activate($id + $player->getFaction());
-        Factions::setAsUsed($player->getFaction(), $id);
-        self::giveExtraTime($player->getId());
-        Stack::finishState();
+        $availableActions = $player->getAvailableFactionActions();
+        if (isset($availableActions[$id])) {
+            /** @var Act $actionChosen */
+            $actionChosen = $availableActions[$id];
+            $actionChosen->activate($id + $player->getFaction());
+            Factions::setAsUsed($player->getFaction(), $id);
+            self::giveExtraTime($player->getId());
+            Stack::finishState();
+        } else {
+            throw new \BgaVisibleSystemException(
+                'You\'re trying to activate an unavailable action. Please create a bug in this state so developer can investigate what happened!'
+            );
+        }
     }
 
     /**

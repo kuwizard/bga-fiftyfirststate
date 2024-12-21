@@ -191,15 +191,17 @@ class Notifications
         ]);
     }
 
-    public static function locationRuined(Player $owner, Location $location, Player $attacker)
+    public static function locationRuined(Player $owner, Location $location, Player $attacker, int $amountOfRedArrows)
     {
         $msg = clienttranslate(
-            '${player_name} razes other player\'s ${locationName} getting ${resourcesList}. ${victim_name} gets ${resourcesList2} as a bonus'
+            '${player_name} razes other player\'s ${locationName} for ${spendList} getting ${resourcesList}. ${victim_name} gets ${resourcesList2} as a bonus'
         );
+        $redArrows = array_fill(0, $amountOfRedArrows, RESOURCE_ARROW_RED);
         self::notifyAll('locationRuined', $msg, [
             'player' => $attacker,
             'location' => $location,
             'victim' => $owner,
+            'spendList' => ResourcesHelper::getResourceNames($redArrows),
             'resourcesList' => ResourcesHelper::getResourceNames($location->getSpoils()),
             'resourcesList2' => ResourcesHelper::getResourceNames($location->getDeals()),
         ]);

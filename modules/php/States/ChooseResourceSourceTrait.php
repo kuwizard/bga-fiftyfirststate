@@ -327,7 +327,7 @@ trait ChooseResourceSourceTrait
                     $location->ruin();
                     Locations::resetActivatedTimes([$location->getId()]);
                     $gotNewLocations = in_array(RESOURCE_CARD, $location->getSpoils());
-                    Notifications::locationRuined($owner, $location, $player);
+                    Notifications::locationRuined($owner, $location, $player, $location->getDefenceValue());
                     break;
                 default:
                     throw new \BgaVisibleSystemException('Unknown action ' . $type);
