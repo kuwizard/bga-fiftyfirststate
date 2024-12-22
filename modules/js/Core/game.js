@@ -444,31 +444,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             try {
                 if (log && args && !args.processed) {
                     args.processed = true;
-
-                    const resourcesIcons = [
-                        'ironIcon',
-                        'gunIcon',
-                        'fuelIcon',
-                        'brickIcon',
-                        'workerIcon',
-                        'arrowGreyIcon',
-                        'arrowRedIcon',
-                        'arrowBlueIcon',
-                        'arrowUniIcon',
-                        'ammoIcon',
-                        'defenceIcon',
-                        'develIcon',
-                        'cardIcon',
-                        'scoreIcon',
-                    ];
-                    resourcesIcons.forEach((resourceName) => {
-                        if (Object.keys(args).includes(resourceName)) {
-                            args[resourceName] = this.format_block(
-                                'jstpl_resource_icon_log',
-                                { type: resourceName.replace('Icon', '') }
-                            );
-                        }
-                    });
+                    
                     if (args.spendText && args.resourcesList) {
                         if (args.resourcesList.length === 1) {
                             args.spendText = _('Choose where to spend it from:');
