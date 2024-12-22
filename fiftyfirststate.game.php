@@ -207,9 +207,14 @@ class Fiftyfirststate extends Table
 
     function updateDBTableCustom()
     {
-        $newSchema = self::DbQuery('SHOW COLUMNS FROM `locations` LIKE \'is_defended\'')->num_rows === 1;
+        $newSchema = self::DbQuery('SHOW COLUMNS FROM locations LIKE \'is_defended\'')->num_rows === 1;
         if (!$newSchema) {
-            $sql = "ALTER TABLE DBPREFIX_locations ADD `is_defended` tinyint NOT NULL DEFAULT 0;";
+            $sql = "ALTER TABLE locations ADD `is_defended` tinyint NOT NULL DEFAULT 0;";
+            self::applyDbUpgradeToAllDB($sql);
+        }
+        $zz = self::DbQuery('SHOW COLUMNS FROM zz_savepoint_locations LIKE \'is_defended\'')->num_rows === 1;
+        if (!$zz) {
+            $sql = "ALTER TABLE zz_savepoint_locations ADD `is_defended` tinyint NOT NULL DEFAULT 0;";
             self::applyDbUpgradeToAllDB($sql);
         }
     }
