@@ -17,6 +17,7 @@ class BlackMarketContacts extends FeatureStorageMultiple
         $this->icons = [ICON_ARROW, ICON_FUEL];
         $this->deals = [RESOURCE_ARROW_BLUE];
         $this->copies = 1;
+        $this->buildingBonus = [RESOURCE_ARROW_BLUE];
 
         $this->resourcesOptions = [new ResourceStorageOptionMulti([RESOURCE_ARROW_BLUE], 3)];
         $this->text = [

@@ -50,7 +50,7 @@ class Location implements \JsonSerializable
             NEW_ERA => 0,
         ];
         $this->text = [];
-        $this->isDefended = (int) $params['is_defended'] === 1;
+        $this->isDefended = isset($params['location_id']) && (int) $params['is_defended'] === 1;
     }
 
     protected function getText(bool $isBuildingBonus = false): array
@@ -160,6 +160,11 @@ class Location implements \JsonSerializable
     public function isRuined(): bool
     {
         return $this->isRuined;
+    }
+
+    public function isDefended(): bool
+    {
+        return $this->isDefended;
     }
 
     public function ruin()

@@ -475,6 +475,16 @@ class Notifications
         self::notifyAll('applyFactions', '', $data);
     }
 
+    public static function locationDefended(Player $player, Location $location)
+    {
+        $msg = clienttranslate('${player_name} places a ${spendList} on ${locationName}');
+        self::notifyAll('locationDefended', $msg, [
+            'player' => $player,
+            'location' => $location,
+            'spendList' => ResourcesHelper::getResourceNames([RESOURCE_DEFENCE]),
+        ]);
+    }
+
     /*********************
      **** UPDATE ARGS ****
      *********************/

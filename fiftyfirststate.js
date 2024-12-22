@@ -36,6 +36,7 @@ define([
     g_gamethemeurl + 'modules/js/States/PhaseTwoProductionState.js',
     g_gamethemeurl + 'modules/js/States/ConfirmTurnEndState.js',
     g_gamethemeurl + 'modules/js/States/ChooseFactionState.js',
+    g_gamethemeurl + 'modules/js/States/PlaceDefenceState.js',
     g_gamethemeurl + 'modules/js/playerboard.js',
     g_gamethemeurl + 'modules/js/factionboard.js',
     g_gamethemeurl + 'modules/js/hand.js',
@@ -65,6 +66,7 @@ define([
             state.phaseTwoProduction,
             state.confirmTurnEnd,
             state.chooseFaction,
+            state.placeDefence,
             state.lexemes,
         ],
         {

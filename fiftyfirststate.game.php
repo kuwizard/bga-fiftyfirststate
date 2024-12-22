@@ -59,6 +59,7 @@ class Fiftyfirststate extends Table
     use STATE\States\SpecificLocationsActionsTrait;
     use STATE\States\ConfirmTurnEndTrait;
     use STATE\States\ChooseFactionTrait;
+    use STATE\States\PlaceDefenceTrait;
 
     public static $instance = null;
 

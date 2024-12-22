@@ -17,6 +17,7 @@ class GangersDive extends FeatureStorageMultiple
         $this->icons = [ICON_ARROW, ICON_GUN];
         $this->deals = [RESOURCE_ARROW_RED];
         $this->copies = 1;
+        $this->buildingBonus = [RESOURCE_ARROW_RED];
 
         $this->resourcesOptions = [new ResourceStorageOptionMulti([RESOURCE_ARROW_RED], 3)];
         $this->text = [

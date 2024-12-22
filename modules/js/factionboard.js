@@ -14,6 +14,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     const rowElement = factionBoard.querySelector(`.${row}`);
                     player.locations[row].forEach((location) => {
                         this.addLocation(location, rowElement);
+                        if (location.isDefended) {
+                            this.placeResourcesOnLocation(location.id, ['defence']);
+                        }
                         if (location.resources) {
                             this.placeResourcesOnLocation(location.id, location.resources);
                         }

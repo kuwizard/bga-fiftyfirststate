@@ -60,6 +60,7 @@ trait PhaseThreeActionTrait
             'develop' => $this->whatCanBeUsedForDevel($player),
             'connectionsToTake' => $connectionsToTake,
             'connectionsToPlay' => $player->getPlayableConnectionsIds(),
+            'placeDefence' => $player->getResource(RESOURCE_DEFENCE) >= 1,
         ];
     }
 
@@ -184,6 +185,11 @@ trait PhaseThreeActionTrait
     public function actEnableFactionActions(bool $combined)
     {
         Stack::insertOnTopAndFinish(ST_FACTION_ACTIONS, ['combined' => $combined]);
+    }
+
+    public function actEnablePlaceDefenceState()
+    {
+        Stack::insertOnTopAndFinish(ST_PLACE_DEFENCE);
     }
 
     /**

@@ -62,15 +62,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 && !args.spendWorkers;
         },
 
-        addDevelopButton(postfix) {
-            this.addPrimaryActionButton(
-                `buttonDevelop${postfix}`,
-                this.replaceWithResourceIcon((_('Develop (spend {icon})')).replace('{icon}', `{${postfix}Icon}`)),
-                () => this.takeAction('actDevelop', { resource: postfix })
-            );
-            dojo.addClass(`buttonDevelop${postfix}`, 'resourceButton');
-        },
-
         makeLocationsSelectableAndClickable(locator, action, allowedList = null) {
             dojo.query(locator).forEach((location) => {
                 const id = this.extractId(location, 'location');

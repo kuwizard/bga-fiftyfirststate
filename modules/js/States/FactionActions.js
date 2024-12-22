@@ -88,10 +88,31 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             if (args.develop.ammo) {
                 this.addDevelopButton('ammo')
             }
+            if (args.placeDefence) {
+                this.addPlaceDefenceButton();
+            }
         },
 
         discardLocation(location) {
             this.takeAction('actDiscardLocation', { id: this.extractId(location, 'location') });
+        },
+
+        addDevelopButton(postfix) {
+            this.addPrimaryActionButton(
+                `buttonDevelop${postfix}`,
+                this.replaceWithResourceIcon((_('Develop (spend {icon})')).replace('{icon}', `{${postfix}Icon}`)),
+                () => this.takeAction('actDevelop', { resource: postfix })
+            );
+            dojo.addClass(`buttonDevelop${postfix}`, 'resourceButton');
+        },
+
+        addPlaceDefenceButton() {
+            this.addPrimaryActionButton(
+                `buttonPlaceDefence`,
+                this.replaceWithResourceIcon(_('Place {defenceIcon}')),
+                () => this.takeAction('actEnablePlaceDefenceState')
+            );
+            dojo.addClass(`buttonPlaceDefence`, 'resourceButton');
         },
 
         notif_resourcesSpentFaction(n) {

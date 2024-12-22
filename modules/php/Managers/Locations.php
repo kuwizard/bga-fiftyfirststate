@@ -345,6 +345,21 @@ class Locations extends Pieces
             ->run();
     }
 
+    public static function addDefence(int $locationId): void
+    {
+        self::DB()
+            ->update(['is_defended' => 1])
+            ->where('location_id', $locationId)
+            ->run();
+    }
+
+    public static function resetAllDefended()
+    {
+        self::DB()
+            ->update(['is_defended' => 0])
+            ->run();
+    }
+
     public static function discardByDeal(int $resource, int $playerId)
     {
         $locationsInDeals = self::getInLocation([LOCATION_DEALS, $playerId]);
