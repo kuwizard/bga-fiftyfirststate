@@ -14,7 +14,7 @@ class RadioactiveColony extends FeatureStorageSingle
         $this->name = clienttranslate("Radioactive Colony");
         $this->distance = 2;
         $this->spoils = [RESOURCE_AMMO, RESOURCE_AMMO, RESOURCE_WORKER];
-        $this->icons = [];
+        $this->icons = [ICON_VOID];
         $this->deals = [RESOURCE_AMMO];
         $this->copies = 1;
 

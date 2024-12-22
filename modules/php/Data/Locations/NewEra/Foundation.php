@@ -14,7 +14,7 @@ class Foundation extends FeatureStorageSingle
         $this->name = clienttranslate("Foundation");
         $this->distance = 1;
         $this->spoils = [RESOURCE_ARROW_GREY, RESOURCE_ARROW_GREY];
-        $this->icons = [];
+        $this->icons = [ICON_VOID];
         $this->deals = [RESOURCE_BRICK];
         $this->copies = 1;
 
