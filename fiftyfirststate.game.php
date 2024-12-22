@@ -101,6 +101,7 @@ class Fiftyfirststate extends Table
      */
     public function getAllDatas()
     {
+        $this->updateDBTableCustom();
         $currentPlayerId = Players::getCurrentId();
         return [
             'players' => Players::getUiData($currentPlayerId),
@@ -202,6 +203,18 @@ class Fiftyfirststate extends Table
                 $sql = "ALTER TABLE DBPREFIX_player ADD `player_faction_side` TINYINT DEFAULT 2;";
                 self::applyDbUpgradeToAllDB($sql);
             }
+        }
+        if ($from_version <= 2412211311) {
+            $this->updateDBTableCustom();
+        }
+    }
+
+    function updateDBTableCustom()
+    {
+        $newSchema = self::DbQuery('SHOW COLUMNS FROM `locations` LIKE \'is_defended\'')->num_rows === 1;
+        if (!$newSchema) {
+            $sql = "ALTER TABLE `locations` ADD `is_defended` tinyint NOT NULL DEFAULT 0;";
+            self::applyDbUpgradeToAllDB($sql);
         }
     }
 
