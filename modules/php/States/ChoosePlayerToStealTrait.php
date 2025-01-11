@@ -68,11 +68,11 @@ trait ChoosePlayerToStealTrait
         );
     }
 
-    public function actChooseResourceToSteal(string $resource)
+    public function actChooseResourceToSteal(string $resourceName)
     {
         $ctx = Stack::getCtx();
         $victim = Players::get($ctx['victimId']);
-        $this->stealResourceFromPlayer($victim, $resource, $ctx['spend'], $ctx['activatorId']);
+        $this->stealResourceFromPlayer($victim, $resourceName, $ctx['spend'], $ctx['activatorId']);
     }
 
     public function actChoosePlayerAndResourceToSteal(string $resource, int $pId)

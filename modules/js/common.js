@@ -120,7 +120,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 this.format_block('jstpl_resource_icon', { type: resource }),
                 () => {
                     this.wrapIntoCardConfirmation(
-                        () => this.takeAction(action, { resource: resource }),
+                        () => this.takeAction(action, { resourceName: resource }),
                         wrapIntoConfirmation && resource === 'card',
                     )();
                 }

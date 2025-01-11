@@ -114,10 +114,9 @@ trait PhaseThreeActionTrait
 
     public function argLocationActions()
     {
-        $locationId = Stack::getCtx()['locationId'];
-        $location = Locations::get($locationId);
+        $location = $this->getLocationFromCtx();
         return [
-            'id' => $locationId,
+            'id' => $location->getId(),
             'actions' => Players::getActive()->getAvailableLocationActions($location),
             'locationActionsLexemes' => [
                 LOCATION_ACTION_RAZE => clienttranslate('Raze'),
@@ -129,7 +128,7 @@ trait PhaseThreeActionTrait
 
     public function argOpenProductionOrRaze()
     {
-        $location = Locations::get(Stack::getCtx()['locationId']);
+        $location = $this->getLocationFromCtx();
         $player = Players::getActive();
         return [
             'locationId' => $location->getId(),
@@ -138,7 +137,7 @@ trait PhaseThreeActionTrait
         ];
     }
 
-    public function actActionPass()
+    public function actActionPass(): void
     {
         $player = Players::getActive();
         $player->markAsPassed();
@@ -156,7 +155,7 @@ trait PhaseThreeActionTrait
         Stack::finishState();
     }
 
-    public function actSpendWorkers()
+    public function actSpendWorkers(): void
     {
         if (Players::getActive()->getResource(RESOURCE_WORKER, false) > 3) {
             Stack::insertOnTop(ST_ACTIVATE_SPEND_WORKERS_AGAIN);
@@ -164,15 +163,14 @@ trait PhaseThreeActionTrait
         Stack::insertOnTopAndFinish(ST_SPEND_WORKERS);
     }
 
-    public function actUndo()
+    public function actUndo(): void
     {
         Stack::removeAllAtomsWithState(ST_ACTIVATE_SECOND_TIME);
         Stack::insertOnTopAndFinish(ST_PHASE_THREE_ACTION);
     }
 
-    public function actGainResourceForWorkers($resourceName)
+    public function actGainResourceForWorkers(string $resourceName): void
     {
-        self::checkAction('actGainResourceForWorkers');
         Stack::insertOnTopAndFinish(ST_CREATE_RESOURCE_SOURCE_MAP, [
             'spend' => [RESOURCE_WORKER, RESOURCE_WORKER],
             'bonus' => [ResourcesHelper::getResourceType($resourceName)],
@@ -181,18 +179,13 @@ trait PhaseThreeActionTrait
         ]);
     }
 
-    public function actEnableFactionActions(bool $combined)
+    public function actEnableFactionActions(bool $combined): void
     {
         Stack::insertOnTopAndFinish(ST_FACTION_ACTIONS, ['combined' => $combined]);
     }
 
-    /**
-     * @param int $id
-     * @return void
-     */
-    public function actFactionAct($id)
+    public function actFactionAct(int $id): void
     {
-        self::checkAction('actFactionAct');
         $player = Players::getActive();
         $availableActions = $player->getAvailableFactionActions();
         if (isset($availableActions[$id])) {
@@ -209,51 +202,34 @@ trait PhaseThreeActionTrait
         }
     }
 
-    /**
-     * @param int $id
-     * @return void
-     */
-    public function actUseLocation($id)
+    public function actUseLocation(int $id): void
     {
-        self::checkAction('actUseLocation');
         self::giveExtraTime(Players::getActiveId());
         Stack::insertOnTopAndFinish(ST_LOCATION_ACTIONS, ['locationId' => $id]);
     }
 
-    /**
-     * @param int $id
-     * @return void
-     */
-    public function actLocationBuild()
+    public function actLocationBuild(): void
     {
-        self::checkAction('actLocationBuild');
-        $locationId = Stack::getCtx()['locationId'];
-        $location = Locations::get($locationId);
+        $location = $this->getLocationFromCtx();
         $this->razeBuildDealCommon($location, RESOURCE_ARROW_GREY, LOCATION_ACTION_BUILD);
     }
 
-    /**
-     * @param int $id
-     * @return void
-     */
-    public function actLocationRaze()
+    public function actLocationRaze(): void
     {
-        self::checkAction('actLocationRaze');
-        $locationId = Stack::getCtx()['locationId'];
-        $location = Locations::get($locationId);
+        $location = $this->getLocationFromCtx();
         $this->razeBuildDealCommon($location, RESOURCE_ARROW_RED, LOCATION_ACTION_RAZE, 'getSpoils');
     }
 
-    /**
-     * @param int $id
-     * @return void
-     */
-    public function actLocationDeal()
+    public function actLocationDeal(): void
     {
-        self::checkAction('actLocationDeal');
-        $locationId = Stack::getCtx()['locationId'];
-        $location = Locations::get($locationId);
+        $location = $this->getLocationFromCtx();
         $this->razeBuildDealCommon($location, RESOURCE_ARROW_BLUE, LOCATION_ACTION_DEAL, 'getDeals');
+    }
+
+    private function getLocationFromCtx()
+    {
+        $locationId = Stack::getCtx()['locationId'];
+        return Locations::get($locationId);
     }
 
     /**
@@ -276,27 +252,18 @@ trait PhaseThreeActionTrait
         Stack::finishState();
     }
 
-    /**
-     * @param int $id
-     * @return void
-     */
-    public function actDiscardLocation($id)
+    public function actDiscardLocation(int $id): void
     {
-        self::checkAction('actDiscardLocation');
         $player = Players::getActive();
         $player->discardSingle($id);
-        Notifications::locationDiscarded($player, Locations::get($id));
+        $location = Locations::get($id);
+        Notifications::locationDiscarded($player, $location);
         self::giveExtraTime($player->getId());
-        $this->addAtomToContinueProcessResources(Stack::getCtx(), [Locations::get($id)]);
+        $this->addAtomToContinueProcessResources(Stack::getCtx(), [$location]);
     }
 
-    /**
-     * @param int $id
-     * @return void
-     */
-    public function actActivateLocation($id)
+    public function actActivateLocation(int $id): void
     {
-        self::checkAction('actActivateLocation');
         $location = Locations::get($id);
         $player = Players::getActive();
         $location->activate($player);
@@ -304,7 +271,7 @@ trait PhaseThreeActionTrait
         Stack::finishState();
     }
 
-    public function actUseOtherPlayerLocation(int $id)
+    public function actUseOtherPlayerLocation(int $id): void
     {
         $location = Locations::get($id);
         $player = Players::getActive();
@@ -340,15 +307,14 @@ trait PhaseThreeActionTrait
         ]);
     }
 
-    public function actDevelop($resource)
+    public function actDevelop(string $resourceName): void
     {
-        self::checkAction('actDevelop');
-        Stack::insertOnTop(ST_DEVELOP_CHOOSE_FROM_HAND, ['resource' => $resource]);
+        Stack::insertOnTop(ST_DEVELOP_CHOOSE_FROM_HAND, ['resource' => $resourceName]);
         self::giveExtraTime(Players::getActiveId());
         Stack::finishState();
     }
 
-    public function actTakeConnection(int $id)
+    public function actTakeConnection(int $id): void
     {
         $player = Players::getActive();
         Connections::move($id, [LOCATION_HAND, $player->getId()]);
@@ -363,7 +329,7 @@ trait PhaseThreeActionTrait
         Stack::finishState();
     }
 
-    public function actPlayConnection(int $id)
+    public function actPlayConnection(int $id): void
     {
         $connection = Connections::get($id);
         $connection->activate();
@@ -374,33 +340,33 @@ trait PhaseThreeActionTrait
         Stack::finishState();
     }
 
-    public function actOptionOpenProduction()
+    public function actOptionOpenProduction(): void
     {
-        self::checkAction('actOptionOpenProduction');
-        Locations::get(Stack::getCtx()['locationId'])->activate(Players::getActive());
-        self::giveExtraTime(Players::getActiveId());
+        $player = Players::getActive();
+        $this->getLocationFromCtx()->activate($player);
+        self::giveExtraTime($player->getId());
         Stack::finishState();
     }
 
-    public function actUseOpenProduction(string $resourceName, int $pId)
+    public function actUseOpenProduction(string $resourceName, int $pId): void
     {
-        $player = Players::get($pId);
-        $allCards = $player->getBoard();
+        $attacker = Players::getActive();
+        $victim = Players::get($pId);
+        $allCards = $victim->getBoard();
         $resource = ResourcesHelper::getResourceType($resourceName);
-        $locationToActivate = $allCards->filter(function (Location $location) use ($player, $resource) {
-            return $this->isLocationCouldBeUsedAsOpenProd($location, Players::getActive())
-                && in_array($resource, $location->getProduct($player));
+        $locationToActivate = $allCards->filter(function (Location $location) use ($victim, $attacker, $resource) {
+            return $this->isLocationCouldBeUsedAsOpenProd($location, $attacker)
+                && in_array($resource, $location->getProduct($victim));
         })->first();
 
-        $locationToActivate->activate(Players::getActive());
-        self::giveExtraTime(Players::getActiveId());
+        $locationToActivate->activate($attacker);
+        self::giveExtraTime($attacker->getId());
         Stack::finishState();
     }
 
-    public function actOptionRaze()
+    public function actOptionRaze(): void
     {
-        self::checkAction('actOptionRaze');
-        $this->razeOtherPlayersLocation(Locations::get(Stack::getCtx()['locationId']));
+        $this->razeOtherPlayersLocation($this->getLocationFromCtx());
         self::giveExtraTime(Players::getActiveId());
         Stack::finishState();
     }

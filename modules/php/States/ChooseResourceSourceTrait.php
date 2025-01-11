@@ -195,7 +195,6 @@ trait ChooseResourceSourceTrait
 
     public function actChooseSource(int $id): void
     {
-        self::checkAction('actChooseSource');
         $ctx = Stack::getCtx();
         $resourceToSpend = in_array($id, ALL_RESOURCES_LIST) ? $id : $ctx['resourceIcon'];
         $this->decreaseResource(

@@ -43,8 +43,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         },
 
         discardSelected() {
-            const ids = dojo.query('.selected').map(el => this.extractId(el, 'location'));
-            this.takeAction('actDiscardCardsGameStart', { ids: ids.join(';') });
+            const locationsIds = dojo.query('.selected').map(el => this.extractId(el, 'location'));
+            this.takeAction('actDiscardCardsGameStart', { locationsIds: locationsIds.join(';') });
         },
     });
 });

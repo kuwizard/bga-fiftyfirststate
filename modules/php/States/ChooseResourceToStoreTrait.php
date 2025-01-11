@@ -13,7 +13,7 @@ use STATE\Models\ResourceStorageOption;
 
 trait ChooseResourceToStoreTrait
 {
-    public function argChooseResourceToStore()
+    public function argChooseResourceToStore(): array
     {
         $args = [];
         $player = Players::getActive();
@@ -27,9 +27,8 @@ trait ChooseResourceToStoreTrait
         Stack::insertOnTopAndFinish(ST_CONFIRM_TURN_END);
     }
 
-    public function actChooseResourceToStore($resourceName)
+    public function actChooseResourceToStore(string $resourceName): void
     {
-        self::checkAction('actChooseResourceToStore');
         $player = Players::getActive();
         $resource = ResourcesHelper::getResourceType($resourceName);
         $player->decreaseResource($resource);

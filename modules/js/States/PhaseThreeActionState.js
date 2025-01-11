@@ -66,7 +66,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this.addPrimaryActionButton(
                 `buttonDevelop${postfix}`,
                 this.replaceWithResourceIcon((_('Develop (spend {icon})')).replace('{icon}', `{${postfix}Icon}`)),
-                () => this.takeAction('actDevelop', { resource: postfix })
+                () => this.takeAction('actDevelop', { resourceName: postfix })
             );
             dojo.addClass(`buttonDevelop${postfix}`, 'resourceButton');
         },
