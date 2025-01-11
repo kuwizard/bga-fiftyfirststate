@@ -40,12 +40,6 @@ class Stack
         return reset($stack);
     }
 
-    public static function getNextAtom()
-    {
-        $stack = self::get();
-        return $stack[1] ?? null;
-    }
-
     public static function resolve()
     {
         $atom = self::top();
