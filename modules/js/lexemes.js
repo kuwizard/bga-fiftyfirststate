@@ -41,6 +41,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 'Spend 2 {workerIcon} to gain 1 Resource or 1 {cardIcon}. This Action may be activated any number of times.');
         },
 
+        getOpenProdActionLexeme() {
+            return _(
+                'Open Production: Spend 1 {workerIcon} to gain 1 {resourceName}. {playerName} will receive 1 {workerIcon} as a bonus.');
+        },
+
         getFactionActionLexeme(faction) {
             return [
                 [

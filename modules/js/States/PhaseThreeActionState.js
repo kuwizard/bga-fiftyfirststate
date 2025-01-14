@@ -115,14 +115,19 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         makeResourcesSelectableAndClickable(pId, resources) {
             resources.forEach((resourceName) => {
-                const resourceElement = this.querySingle(`#player_board_${pId} .${resourceName}`);
-                this.addSelectableClass(resourceElement);
-                this.dojoConnect(resourceElement, () => {
+                const resourceId = `${resourceName}_${pId}`;
+                this.addSelectableClass($(resourceId));
+                this.dojoConnect($(resourceId), () => {
                     this.wrapIntoCardConfirmation(
                         () => this.takeAction('actUseOpenProduction', { resourceName: resourceName, pId: pId }),
                         resourceName === 'card'
                     )()
-                })
+                });
+
+                let tooltipLexeme = this.getOpenProdActionLexeme().replace('{playerName}', this.coloredPlayerName(pId));
+                tooltipLexeme = tooltipLexeme.replace('{resourceName}', `{${resourceName}Icon}`);
+                tooltipLexeme = this.replaceWithResourceIcon(tooltipLexeme, true);
+                this.addTooltip(resourceId, '', tooltipLexeme);
             });
         },
 
