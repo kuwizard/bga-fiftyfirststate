@@ -224,18 +224,26 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         setPlayerPass(playerId) {
             if (playerId === this.player_id && this.resourceCounters.sticky) {
+                console.log('***debug: set sticky passed');
                 dojo.addClass('sticky', 'passed');
+                console.log('***debug: set sticky passed done');
             } else {
+                console.log('***debug: set overall_player_board_${playerId} passed');
                 dojo.addClass(`overall_player_board_${playerId}`, 'passed');
+                console.log('***debug: set overall_player_board_${playerId} done');
             }
             this.gamedatas.players[playerId].passed = true;
         },
 
         setPlayerUnpass(playerId) {
             if (playerId === this.player_id && this.resourceCounters.sticky) {
+                console.log('***debug: set sticky unpassed');
                 dojo.removeClass('sticky', 'passed');
+                console.log('***debug: set sticky unpassed done');
             } else {
+                console.log('***debug: set `overall_player_board_${playerId}` unpassed');
                 dojo.removeClass(`overall_player_board_${playerId}`, 'passed');
+                console.log('***debug: set `overall_player_board_${playerId}` unpassed done');
             }
             this.gamedatas.players[playerId].passed = false;
         },
