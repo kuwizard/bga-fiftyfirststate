@@ -75,28 +75,8 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             return this.isSpectator || typeof g_replayFrom != 'undefined' || g_archive_mode;
         },
 
-        /*
-         * Make an AJAX call with automatic lock
-         */
-        takeAction(action, data = {}, check = true) {
-            if (check && !this.checkAction(action)) return false;
-
-            if (data.lock === undefined) {
-                data.lock = true;
-            } else if (data.lock === false) {
-                delete data.lock;
-            }
-            return new Promise((resolve, reject) => {
-                this.ajaxcall(
-                    '/' + this.game_name + '/' + this.game_name + '/' + action + '.html',
-                    data,
-                    this,
-                    (data) => resolve(data),
-                    (isError, message, code) => {
-                        if (isError) reject(message, code);
-                    },
-                );
-            });
+        takeAction(action, data = {}) {
+            this.bgaPerformAction(action, data);
         },
 
         /*
