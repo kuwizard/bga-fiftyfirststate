@@ -517,7 +517,7 @@ class Player extends DB_Manager implements JsonSerializable
         if ($location === LOCATION_BOARD) {
             $locationsCards = $locationsCards->filter(function ($locationCard) {
                 /** @var Location $locationCard */
-                return $locationCard instanceof Production;
+                return $locationCard instanceof Production && !$locationCard->isRuined();
             });
         }
         $combined = [];
