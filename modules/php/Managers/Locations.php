@@ -138,6 +138,48 @@ class Locations extends Pieces
         CARD_TRUCK => 'Truck',
     ];
 
+    private static $winterCardTypes = [
+        CARD_ARMED_MERCHANTS => 'ArmedMerchants',
+        CARD_BLACK_FORTRESS => 'BlackFortress',
+        CARD_BLACK_MARKET => 'BlackMarket',
+        CARD_BODY_HUNTERS => 'BodyHunters',
+        CARD_CAMINO_REAL => 'CaminoReal',
+        CARD_CARAVANNER => 'Caravanner',
+        CARD_CISTERN => 'Cistern',
+        CARD_COMBAT_VEHICLE => 'CombatVehicle',
+        CARD_CONSTRUCTION_SITE => 'ConstructionSite',
+        CARD_CRAFTSMEN_GUILD => 'CraftsmenGuild',
+        CARD_CROSSING => 'Crossing',
+        CARD_DARK_VISIONS_GANG => 'DarkVisionsGang',
+        CARD_DEMOLITION_TEAM => 'DemolitionTeam',
+        CARD_DREAM_CITY => 'DreamCity',
+        CARD_EIGHT_MILE => 'EightMile',
+        CARD_HIBERNATION_CHAMBERS => 'HibernationChambers',
+        CARD_LANDFILL => 'Landfill',
+        CARD_MARKETPLACE => 'Marketplace',
+        CARD_MATERIAL_DEPOSITORY => 'MaterialDepository',
+        CARD_MILITARY_WAREHOUSE => 'MilitaryWarehouse',
+        CARD_MOBILE_STORAGE => 'MobileStorage',
+        CARD_OILMEN => 'Oilmen',
+        CARD_OUTPOST_MERCENARIES => 'OutpostMercenaries',
+        CARD_PATRIOT_TOWER => 'PatriotTower',
+        CARD_POWER_STATION => 'PowerStation',
+        CARD_PROPAGANDA_STATION => 'PropagandaStation',
+        CARD_SALT_LAKE_TOWER => 'SaltLakeTower',
+        CARD_SHERIFFS_OFFICE => 'SheriffsOffice',
+        CARD_SMALL_FACTORY => 'SmallFactory',
+        CARD_SOLITARY_TRADER => 'SolitaryTrader',
+        CARD_STEEL_EAGLE => 'SteelEagle',
+        CARD_STOREHOUSE => 'Storehouse',
+        CARD_SUPPLIERS => 'Suppliers',
+        CARD_TANKER_SHIPWRECK => 'TankerShipwreck',
+        CARD_TEDS_BUS => 'TedsBus',
+        CARD_THE_HOLD => 'TheHold',
+        CARD_TRANSMITTER => 'Transmitter',
+        CARD_WIRE_ENTANGLEMENT => 'WireEntanglement',
+        CARD_WRECKERS => 'Wreckers',
+    ];
+
     public static function setupNewGame()
     {
         $expansion = GameOptions::getExpansion();
@@ -253,6 +295,7 @@ class Locations extends Pieces
         return [
             BASE_GAME => self::$baseCardTypes,
             NEW_ERA => self::$eraCardTypes,
+            WINTER => self::$winterCardTypes,
         ][$expansion];
     }
 
@@ -262,8 +305,10 @@ class Locations extends Pieces
         if (!in_array($type, array_keys(self::$baseCardTypes))) {
             if (in_array($type, array_keys(self::$eraCardTypes))) {
                 $expansion = NEW_ERA;
+            } elseif (in_array($type, array_keys(self::$winterCardTypes))) {
+                $expansion = WINTER;
             } else {
-                throw new \BgaVisibleSystemException("getSprite: Unknown location type $type");
+                throw new \BgaVisibleSystemException("getExpansion: Unknown location type $type");
             }
         }
         return $expansion;

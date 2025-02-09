@@ -17,6 +17,9 @@ class WreckedTank extends Feature
         $this->icons = [ICON_CHURCH];
         $this->deals = [RESOURCE_VP];
         $this->copies = 3;
+        $this->expansionCopies = [
+            WINTER => 1,
+        ];
         $this->text = [
             ...$this->getText(true),
             TEXT_DESCRIPTION => '-',

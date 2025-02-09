@@ -20,6 +20,7 @@ class Excavator extends Production
         $this->copies = 1;
         $this->expansionCopies = [
             NEW_ERA => 1,
+            WINTER => 1,
         ];
         $this->text = [
             ...$this->getText(),

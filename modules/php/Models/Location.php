@@ -47,7 +47,9 @@ class Location implements \JsonSerializable
         $this->isRuined = isset($params['is_ruined']) && (int) $params['is_ruined'] === 1 ?? false;
         $this->copies = 1;
         $this->expansionCopies = [
+            BASE_GAME => 0,
             NEW_ERA => 0,
+            WINTER => 0,
         ];
         $this->text = [];
         $this->isDefended = isset($params['location_id']) && (int) $params['is_defended'] === 1;

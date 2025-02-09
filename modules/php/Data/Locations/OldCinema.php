@@ -17,6 +17,9 @@ class OldCinema extends Feature
         $this->deals = [RESOURCE_VP];
         $this->buildingBonus = [RESOURCE_VP];
         $this->copies = 1;
+        $this->expansionCopies = [
+            WINTER => 1,
+        ];
         $this->text = [
             ...$this->getText(),
             TEXT_DESCRIPTION => '-',

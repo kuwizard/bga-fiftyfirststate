@@ -19,6 +19,9 @@ class Pub extends Production
         $this->isOpen = true;
         $this->buildingBonus = [RESOURCE_CARD];
         $this->copies = 2;
+        $this->expansionCopies = [
+            WINTER => 1,
+        ];
         $this->text = [
             ...$this->getText(),
             TEXT_DESCRIPTION => '1 {cardIcon}',

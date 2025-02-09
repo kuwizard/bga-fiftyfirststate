@@ -168,6 +168,47 @@ define('CARD_THE_IRON_GANG', 'the_iron_gang');
 define('CARD_TRAINING_CAMP', 'training_camp');
 define('CARD_TRUCK', 'truck');
 
+// Winter locations
+define('CARD_ARMED_MERCHANTS', 'armed_merchants');
+define('CARD_BLACK_FORTRESS', 'black_fortress');
+define('CARD_BLACK_MARKET', 'black_market');
+define('CARD_BODY_HUNTERS', 'body_hunters');
+define('CARD_CAMINO_REAL', 'camino_real');
+define('CARD_CARAVANNER', 'caravanner');
+define('CARD_CISTERN', 'cistern');
+define('CARD_COMBAT_VEHICLE', 'combat_vehicle');
+define('CARD_CONSTRUCTION_SITE', 'construction_site');
+define('CARD_CRAFTSMEN_GUILD', 'craftsmen_guild');
+define('CARD_CROSSING', 'crossing');
+define('CARD_DARK_VISIONS_GANG', 'dark_visions_gang');
+define('CARD_DEMOLITION_TEAM', 'demolition_team');
+define('CARD_DREAM_CITY', 'dream_city');
+define('CARD_EIGHT_MILE', 'eight_mile');
+define('CARD_HIBERNATION_CHAMBERS', 'hibernation_chambers');
+define('CARD_LANDFILL', 'landfill');
+define('CARD_MARKETPLACE', 'marketplace');
+define('CARD_MATERIAL_DEPOSITORY', 'material_depository');
+define('CARD_MILITARY_WAREHOUSE', 'military_warehouse');
+define('CARD_MOBILE_STORAGE', 'mobile_storage');
+define('CARD_OILMEN', 'oilmen');
+define('CARD_OUTPOST_MERCENARIES', 'outpost_mercenaries');
+define('CARD_PATRIOT_TOWER', 'patriot_tower');
+define('CARD_POWER_STATION', 'power_station');
+define('CARD_PROPAGANDA_STATION', 'propaganda_station');
+define('CARD_SALT_LAKE_TOWER', 'salt_lake_tower');
+define('CARD_SHERIFFS_OFFICE', 'sheriffs_office');
+define('CARD_SMALL_FACTORY', 'small_factory');
+define('CARD_SOLITARY_TRADER', 'solitary_trader');
+define('CARD_STEEL_EAGLE', 'steel_eagle');
+define('CARD_STOREHOUSE', 'storehouse');
+define('CARD_SUPPLIERS', 'suppliers');
+define('CARD_TANKER_SHIPWRECK', 'tanker_shipwreck');
+define('CARD_TEDS_BUS', 'teds_bus');
+define('CARD_THE_HOLD', 'the_hold');
+define('CARD_TRANSMITTER', 'transmitter');
+define('CARD_WIRE_ENTANGLEMENT', 'wire_entanglement');
+define('CARD_WRECKERS', 'wreckers');
+
 /*
  * Connections types
  */
@@ -256,6 +297,7 @@ define('MERCHANTS_SIDE', 304);
 define('OPT_EXPANSION', 101);
 define('BASE_GAME', 1011);
 define('NEW_ERA', 1012);
+define('WINTER', 1013);
 
 /*
  * Global constants
