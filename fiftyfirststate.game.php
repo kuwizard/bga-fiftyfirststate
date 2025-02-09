@@ -95,7 +95,7 @@ class Fiftyfirststate extends Table
     /*
      * getAllDatas:
      */
-    public function getAllDatas()
+    public function getAllDatas(): array
     {
         $this->updateDBTableCustom();
         $currentPlayerId = Players::getCurrentId();
