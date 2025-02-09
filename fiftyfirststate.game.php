@@ -213,7 +213,7 @@ class Fiftyfirststate extends Table
     {
         $newSchema = self::DbQuery('SHOW COLUMNS FROM `locations` LIKE \'is_defended\'')->num_rows === 1;
         if (!$newSchema) {
-            $sql = "ALTER TABLE `locations` ADD `is_defended` tinyint NOT NULL DEFAULT 0;";
+            $sql = "ALTER TABLE DBPREFIX_locations ADD `is_defended` tinyint NOT NULL DEFAULT 0;";
             self::applyDbUpgradeToAllDB($sql);
         }
     }
