@@ -50,7 +50,7 @@ trait PhaseThreeActionTrait
             );
         }
 
-        $connectionsToTake = $player->getResource(RESOURCE_WORKER) >= 2 ? Connections::getBothAvailable()->getIds() : [];
+        $connectionsToTake = $player->getResource(RESOURCE_WORKER, false) >= 2 ? Connections::getBothAvailable()->getIds() : [];
         return [
             'spendWorkers' => $player->getResource(RESOURCE_WORKER, false) >= 2,
             'factionActions' => !empty($player->getAvailableFactionActions()),
