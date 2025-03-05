@@ -506,6 +506,11 @@ class Player extends DB_Manager implements JsonSerializable
         Locations::discard($cardIds);
     }
 
+    public static function discardConnection(int $cardId): void
+    {
+        Connections::discard($cardId);
+    }
+
     public function drawCards($amount = 1)
     {
         return Locations::draw($this, $amount);

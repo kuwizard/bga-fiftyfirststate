@@ -263,6 +263,16 @@ trait PhaseThreeActionTrait
         $this->addAtomToContinueProcessResources(Stack::getCtx(), [$location]);
     }
 
+    public function actDiscardConnection(int $id): void
+    {
+        $player = Players::getActive();
+        $player->discardConnection($id);
+        Notifications::connectionDiscarded($player, $id);
+        self::giveExtraTime($player->getId());
+        Notifications::resourcesChanged($player, ['card' => $player->getHandAmount()]);
+        $this->addAtomToContinueProcessResources(Stack::getCtx(), []);
+    }
+
     public function actActivateLocation(int $id): void
     {
         $location = Locations::get($id);

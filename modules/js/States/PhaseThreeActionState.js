@@ -6,6 +6,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this._notifications.push(['resourcesPlacedOnLocation', 1]);
             this._notifications.push(['connectionTaken', 1]);
             this._notifications.push(['connectionPlayed', 1]);
+            this._notifications.push(['connectionDiscarded', 1]);
             this._notifications.push(['playerPassed', 1]);
         },
 
@@ -162,10 +163,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         onEnteringStateOpenProductionOrRaze(args) {
             if (this.isCurrentPlayerActive()) {
                 this.addSelectedClass(this.querySingle(`#location_${args.locationId}`));
-                this.addPrimaryActionButton('buttonOpenProd', _('Use it as open production'),
+                this.addPrimaryActionButton(
+                    'buttonOpenProd', _('Use it as open production'),
                     this.wrapIntoCardConfirmation(() => this.takeAction('actOptionOpenProduction', {}), args.openProd)
                 );
-                this.addPrimaryActionButton('buttonRazeIt', _('Raze it'),
+                this.addPrimaryActionButton(
+                    'buttonRazeIt', _('Raze it'),
                     this.wrapIntoCardConfirmation(() => this.takeAction('actOptionRaze', {}), args.raze)
                 );
                 this.addUndoButton();
@@ -242,6 +245,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         notif_connectionPlayed(n) {
             debug('Notif: connectionPlayed', n);
+            this.fadeOutAndDestroyAll(`#connection_${n.args.id}`);
+        },
+
+        notif_connectionDiscarded(n) {
+            debug('Notif: connectionDiscarded', n);
             this.fadeOutAndDestroyAll(`#connection_${n.args.id}`);
         },
 
