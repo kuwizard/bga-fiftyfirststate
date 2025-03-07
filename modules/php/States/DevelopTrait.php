@@ -78,26 +78,16 @@ trait DevelopTrait
         return $idsMapped;
     }
 
-    /**
-     * @param int $id
-     * @return void
-     */
-    public function actDevelopChooseFromHand($id)
+    public function actDevelopChooseFromHand(int $id): void
     {
-        self::checkAction('actDevelopChooseFromHand');
         Stack::insertOnTopAndFinish(
             ST_DEVELOP_CHOOSE_DESTINATION,
             ['resource' => Stack::getCtx()['resource'], 'newLocationId' => $id]
         );
     }
 
-    /**
-     * @param int $id
-     * @return void
-     */
-    public function actDevelopChooseDestination($id)
+    public function actDevelopChooseDestination(int $id): void
     {
-        self::checkAction('actDevelopChooseDestination');
         $resource = ResourcesHelper::getResourceType(Stack::getCtx()['resource']);
         if (!in_array($resource, [RESOURCE_BRICK, RESOURCE_DEVELOPMENT, RESOURCE_AMMO])) {
             throw new \BgaVisibleSystemException('Unexpected resource while developing: ' . $resource);

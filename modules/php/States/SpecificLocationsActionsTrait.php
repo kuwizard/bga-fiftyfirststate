@@ -25,7 +25,7 @@ trait SpecificLocationsActionsTrait
         return ResourcesHelper::getResourceNames(array_values(array_unique($resourcesOnDeals)));
     }
 
-    public function actChooseDeal(string $resourceName)
+    public function actChooseDeal(string $resourceName): void
     {
         $player = Players::getActive();
         $discarded = Locations::discardByDeal(ResourcesHelper::getResourceType($resourceName), $player->getId());
@@ -33,9 +33,9 @@ trait SpecificLocationsActionsTrait
         $this->addAtomToContinueProcessResources(Stack::getCtx(), [$discarded], ['isDeal' => true]);
     }
 
-    public function actChooseResourceToSpend(string $resource)
+    public function actChooseResourceToSpend(string $resourceName): void
     {
-        $resourceType = ResourcesHelper::getResourceType($resource);
+        $resourceType = ResourcesHelper::getResourceType($resourceName);
         $ctx = Stack::getCtx();
         $spend = empty($ctx['sourcesRaw']) ? [] : array_map('key', $ctx['sourcesRaw']);
         $this->addAtomToContinueProcessResources($ctx, [], ['spend' => array_merge($spend, [$resourceType])]);

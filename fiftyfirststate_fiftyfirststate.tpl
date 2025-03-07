@@ -19,7 +19,7 @@
     var jstpl_player_board = `
     <div class="playerResourcesWrapper">
         <div class="cardsAndStuff">
-            <div class="card resource">
+            <div id="card_\${pId}" class="card resource">
                 <span class="cardIcon resourceIcon">
                     <span class="cardValue resourceValue">\${card}</span>
                 </span>
@@ -27,62 +27,62 @@
             <div class="firstPlayerWrapper"></div>
         </div>
         <div class="playerResources">
-            <div class="iron resource">
+            <div id="iron_\${pId}" class="iron resource">
                 <span class="ironIcon resourceIcon">
                     <span class="ironValue resourceValue">\${iron}</span>
                 </span>
             </div>
-            <div class="gun resource">
+            <div id="gun_\${pId}" class="gun resource">
                 <span class="gunIcon resourceIcon">
                     <span class="gunValue resourceValue">\${gun}</span>
                 </span>
             </div>
-            <div class="fuel resource">
+            <div id="fuel_\${pId}" class="fuel resource">
                 <span class="fuelIcon resourceIcon">
                     <span class="fuelValue resourceValue">\${fuel}</span>
                 </span>
             </div>
-            <div class="brick resource">
+            <div id="brick_\${pId}" class="brick resource">
                 <span class="brickIcon resourceIcon">
                     <span class="brickValue resourceValue">\${brick}</span>
                 </span>
             </div>
-            <div class="arrowGrey resource">
+            <div id="arrowGrey_\${pId}" class="arrowGrey resource">
                 <span class="arrowGreyIcon resourceIcon">
                     <span class="arrowGreyValue resourceValue">\${arrowGrey}</span>
                 </span>
             </div>
-            <div class="arrowRed resource">
+            <div id="arrowRed_\${pId}" class="arrowRed resource">
                 <span class="arrowRedIcon resourceIcon">
                     <span class="arrowRedValue resourceValue">\${arrowRed}</span>
                 </span>
             </div>
-            <div class="arrowBlue resource">
+            <div id="arrowBlue_\${pId}" class="arrowBlue resource">
                 <span class="arrowBlueIcon resourceIcon">
                     <span class="arrowBlueValue resourceValue">\${arrowBlue}</span>
                 </span>
             </div>
-            <div class="arrowUni resource">
+            <div id="arrowUni_\${pId}" class="arrowUni resource">
                 <span class="arrowUniIcon resourceIcon">
                     <span class="arrowUniValue resourceValue">\${arrowUni}</span>
                 </span>
             </div>
-            <div class="worker resource">
+            <div id="worker_\${pId}" class="worker resource">
                 <span class="workerIcon resourceIcon">
                     <span class="workerValue resourceValue">\${worker}</span>
                 </span>
             </div>
-            <div class="ammo resource">
+            <div id="ammo_\${pId}" class="ammo resource">
                 <span class="ammoIcon resourceIcon">
                     <span class="ammoValue resourceValue">\${ammo}</span>
                 </span>
             </div>
-            <div class="defence resource">
+            <div id="defence_\${pId}" class="defence resource">
                 <span class="defenceIcon resourceIcon">
                     <span class="defenceValue resourceValue">\${defence}</span>
                 </span>
             </div>
-            <div class="devel resource">
+            <div id="devel_\${pId}" class="devel resource">
                 <span class="develIcon resourceIcon">
                     <span class="develValue resourceValue">\${devel}</span>
                 </span>

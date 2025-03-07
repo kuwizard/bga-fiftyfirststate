@@ -246,6 +246,14 @@ class Notifications
         ]);
     }
 
+    public static function connectionDiscarded(Player $player, int $id)
+    {
+        self::notifyAll('connectionDiscarded', '', [
+            'player' => $player,
+            'id' => $id,
+        ]);
+    }
+
     public static function newConnections(array $connections)
     {
         self::notifyAll(

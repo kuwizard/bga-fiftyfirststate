@@ -6,6 +6,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this._notifications.push(['resourcesPlacedOnLocation', 1]);
             this._notifications.push(['connectionTaken', 1]);
             this._notifications.push(['connectionPlayed', 1]);
+            this._notifications.push(['connectionDiscarded', 1]);
             this._notifications.push(['playerPassed', 1]);
         },
 
@@ -62,6 +63,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 && !args.spendWorkers;
         },
 
+        addDevelopButton(postfix) {
+            this.addPrimaryActionButton(
+                `buttonDevelop${postfix}`,
+                this.replaceWithResourceIcon((_('Develop (spend {icon})')).replace('{icon}', `{${postfix}Icon}`)),
+                () => this.takeAction('actDevelop', { resourceName: postfix })
+            );
+            dojo.addClass(`buttonDevelop${postfix}`, 'resourceButton');
+        },
+
         makeLocationsSelectableAndClickable(locator, action, allowedList = null) {
             dojo.query(locator).forEach((location) => {
                 const id = this.extractId(location, 'location');
@@ -107,14 +117,19 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         makeResourcesSelectableAndClickable(pId, resources) {
             resources.forEach((resourceName) => {
-                const resourceElement = this.querySingle(`#player_board_${pId} .${resourceName}`);
-                this.addSelectableClass(resourceElement);
-                this.dojoConnect(resourceElement, () => {
+                const resourceId = `${resourceName}_${pId}`;
+                this.addSelectableClass($(resourceId));
+                this.dojoConnect($(resourceId), () => {
                     this.wrapIntoCardConfirmation(
                         () => this.takeAction('actUseOpenProduction', { resourceName: resourceName, pId: pId }),
                         resourceName === 'card'
                     )()
-                })
+                });
+
+                let tooltipLexeme = this.getOpenProdActionLexeme().replace('{playerName}', this.coloredPlayerName(pId));
+                tooltipLexeme = tooltipLexeme.replace('{resourceName}', `{${resourceName}Icon}`);
+                tooltipLexeme = this.replaceWithResourceIcon(tooltipLexeme, true);
+                this.addTooltip(resourceId, '', tooltipLexeme);
             });
         },
 
@@ -149,10 +164,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         onEnteringStateOpenProductionOrRaze(args) {
             if (this.isCurrentPlayerActive()) {
                 this.addSelectedClass(this.querySingle(`#location_${args.locationId}`));
-                this.addPrimaryActionButton('buttonOpenProd', _('Use it as open production'),
+                this.addPrimaryActionButton(
+                    'buttonOpenProd', _('Use it as open production'),
                     this.wrapIntoCardConfirmation(() => this.takeAction('actOptionOpenProduction', {}), args.openProd)
                 );
-                this.addPrimaryActionButton('buttonRazeIt', _('Raze it'),
+                this.addPrimaryActionButton(
+                    'buttonRazeIt', _('Raze it'),
                     this.wrapIntoCardConfirmation(() => this.takeAction('actOptionRaze', {}), args.raze)
                 );
                 this.addUndoButton();
@@ -229,6 +246,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         notif_connectionPlayed(n) {
             debug('Notif: connectionPlayed', n);
+            this.fadeOutAndDestroyAll(`#connection_${n.args.id}`);
+        },
+
+        notif_connectionDiscarded(n) {
+            debug('Notif: connectionDiscarded', n);
             this.fadeOutAndDestroyAll(`#connection_${n.args.id}`);
         },
 

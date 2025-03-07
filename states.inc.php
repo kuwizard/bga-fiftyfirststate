@@ -148,10 +148,10 @@ $machinestates = [
 
     ST_DISCARD_LOCATION_FOR_RESOURCES => [
         'name' => 'discardLocationForResources',
-        'description' => clienttranslate('${actplayer} must choose a location to discard'),
-        'descriptionmyturn' => clienttranslate('${you} must choose a location to discard'),
+        'description' => clienttranslate('${actplayer} must choose a card from hand to discard'),
+        'descriptionmyturn' => clienttranslate('${you} must choose a card from hand to discard'),
         'type' => 'activeplayer',
-        'possibleactions' => ['actDiscardLocation'],
+        'possibleactions' => ['actDiscardLocation', 'actDiscardConnection'],
     ],
 
     ST_CREATE_RESOURCE_SOURCE_MAP => [

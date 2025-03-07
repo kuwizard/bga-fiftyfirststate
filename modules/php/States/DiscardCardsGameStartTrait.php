@@ -8,17 +8,15 @@ use STATE\Managers\Players;
 
 trait DiscardCardsGameStartTrait
 {
-    /**
-     * @param int[] $locationsIds
-     * @return void
-     */
-    public function actDiscardCardsGameStart(array $locationsIds)
+    public function actDiscardCardsGameStart(string $locationsIds): void
     {
-        self::checkAction('actDiscardCardsGameStart');
+        $locationsIdsArray = array_map(function ($locationsId) {
+            return (int) $locationsId;
+        }, explode(';', $locationsIds));
         $currentPlayer = Players::getCurrent();
-        $currentPlayer->discard($locationsIds);
+        $currentPlayer->discard($locationsIdsArray);
         Notifications::resourcesChanged($currentPlayer, ['card' => $currentPlayer->getHandAmount()]);
-        foreach ($locationsIds as $locationId) {
+        foreach ($locationsIdsArray as $locationId) {
             Notifications::locationDiscarded($currentPlayer, Locations::get($locationId));
         }
         Notifications::discardTwoCards($currentPlayer);

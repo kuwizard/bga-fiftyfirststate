@@ -13,7 +13,8 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
                 } else {
                     this.setPlayerUnpass(player.id);
                 }
-                dojo.place(this.format_block('jstpl_player_board', player.resources), 'player_board_' + player.id);
+                const boardData = { ...player.resources, pId: player.id }
+                dojo.place(this.format_block('jstpl_player_board', boardData), 'player_board_' + player.id);
                 this.resourceCounters[player.id] = {};
                 Object.keys(player.resources).forEach((resource) => {
                     this.resourceCounters[player.id][resource] = new ebg.counter();

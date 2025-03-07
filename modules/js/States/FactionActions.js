@@ -27,6 +27,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         onEnteringStateDiscardLocationForResources() {
             if (this.isCurrentPlayerActive()) {
                 this.makeAllSelectableAndClickable(this.getHand(), this.discardLocation.bind(this));
+                this.makeAllSelectableAndClickable(
+                    dojo.query('#handConnections .connection'),
+                    this.discardConnection.bind(this)
+                );
             }
         },
 
@@ -113,6 +117,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 () => this.takeAction('actEnablePlaceDefenceState')
             );
             dojo.addClass(`buttonPlaceDefence`, 'resourceButton');
+        },
+
+        discardConnection(location) {
+            this.takeAction('actDiscardConnection', { id: this.extractId(location, 'connection') });
         },
 
         notif_resourcesSpentFaction(n) {

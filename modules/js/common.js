@@ -124,7 +124,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 this.format_block('jstpl_resource_icon', { type: resource }),
                 () => {
                     this.wrapIntoCardConfirmation(
-                        () => this.takeAction(action, { resource: resource }),
+                        () => this.takeAction(action, { resourceName: resource }),
                         wrapIntoConfirmation && resource === 'card',
                     )();
                 }
@@ -227,8 +227,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         },
 
         setPlayerPass(playerId) {
-            if (playerId === this.player_id && this.resourceCounters.sticky) {
-                dojo.addClass('sticky', 'passed');
+            const sticky = this.querySingle('#sticky');
+            if (playerId === this.player_id && sticky) {
+                dojo.addClass(sticky, 'passed');
             } else {
                 dojo.addClass(`overall_player_board_${playerId}`, 'passed');
             }
@@ -236,8 +237,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         },
 
         setPlayerUnpass(playerId) {
-            if (playerId === this.player_id && this.resourceCounters.sticky) {
-                dojo.removeClass('sticky', 'passed');
+            const sticky = this.querySingle('#sticky');
+            if (playerId === this.player_id && sticky) {
+                dojo.removeClass(sticky, 'passed');
             } else {
                 dojo.removeClass(`overall_player_board_${playerId}`, 'passed');
             }
