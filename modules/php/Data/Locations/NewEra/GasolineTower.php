@@ -15,7 +15,7 @@ class GasolineTower extends Action
         $this->distance = 2;
         $this->spoils = [RESOURCE_WORKER, RESOURCE_WORKER, RESOURCE_FUEL];
         $this->icons = [ICON_WORKER, ICON_FUEL];
-        $this->deals = [RESOURCE_FUEL];
+        $this->deals = [RESOURCE_WORKER];
         $this->copies = 1;
         $this->action = new Act(
             [RESOURCE_FUEL],

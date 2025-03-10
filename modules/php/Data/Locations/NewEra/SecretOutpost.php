@@ -15,7 +15,7 @@ class SecretOutpost extends Action
         $this->distance = 2;
         $this->spoils = [RESOURCE_WORKER, RESOURCE_WORKER, RESOURCE_GUN];
         $this->icons = [ICON_WORKER, ICON_GUN];
-        $this->deals = [RESOURCE_GUN];
+        $this->deals = [RESOURCE_WORKER];
         $this->copies = 1;
         $this->action = new Act(
             [RESOURCE_GUN],
