@@ -22,7 +22,7 @@ class Arena extends Production
         ];
     }
 
-    public function getProduct($player)
+    public function getProduct($player): array
     {
         $icons = $player->getBoardIcons(ICON_GUN);
         $maxIcons = array_slice($icons, 0, 3);

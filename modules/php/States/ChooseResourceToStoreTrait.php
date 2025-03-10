@@ -9,7 +9,7 @@ use STATE\Helpers\ResourcesHelper;
 use STATE\Managers\Players;
 use STATE\Models\FeatureStorageMultiple;
 use STATE\Models\Player;
-use STATE\Models\ResourceStorageOption;
+use STATE\Models\ResourceStorageOptionMulti;
 
 trait ChooseResourceToStoreTrait
 {
@@ -67,7 +67,7 @@ trait ChooseResourceToStoreTrait
 
         $availableResources = [];
         foreach ($availableOptions as $option) {
-            /** @var ResourceStorageOption $option */
+            /** @var ResourceStorageOptionMulti $option */
             $availableResources = array_merge($availableResources, $option->getResources());
         }
         return array_values(array_filter(array_unique($availableResources), function ($resource) use ($player) {

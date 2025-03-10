@@ -293,7 +293,7 @@ class Player extends DB_Manager implements JsonSerializable
             }
             if ($considerJoker) {
                 $joker = Resources::getJokerFor($resource);
-                $jokersAmount = $joker ? $this->getResource($joker) : 0;
+                $jokersAmount = $joker ? $this->getResource($joker, false) : 0;
             } else {
                 $jokersAmount = 0;
             }
@@ -335,10 +335,7 @@ class Player extends DB_Manager implements JsonSerializable
         return $result;
     }
 
-    /**
-     * @return int[]
-     */
-    public function getPlayableConnectionsIds()
+    public function getPlayableConnectionsIds(): array
     {
         $connections = Connections::getInLocation([LOCATION_HAND, $this->id]);
         return $connections->filter(function (Connection $connection) {
@@ -352,6 +349,13 @@ class Player extends DB_Manager implements JsonSerializable
         })->getIds();
     }
 
+    public function getProductionLocations(): Collection
+    {
+        return $this->getBoard()->filter(function (Location $location) {
+            return $location instanceof Production;
+        });
+    }
+
     /**
      * @param Location $location
      * @return string[]
@@ -359,15 +363,24 @@ class Player extends DB_Manager implements JsonSerializable
     public function getAvailableLocationActions($location)
     {
         $availableActions = [];
+        $passiveAbilitiesLocations = $this->getAllPassiveLocations();
         /** @var Location $location */
         if ($this->getResource(RESOURCE_ARROW_RED, false, true) >= $location->getDistance()) {
-            $availableActions['raze'] = in_array(RESOURCE_CARD, $location->getSpoils());
+            $resourcesForRaze = $passiveAbilitiesLocations->map(function (FeaturePassiveAbility $location) {
+                return $location->getBonusFor(LOCATION_ACTION_RAZE);
+            })->toArray();
+            $availableActions['raze'] = in_array(RESOURCE_CARD, $location->getSpoils())
+                || in_array(RESOURCE_CARD, $resourcesForRaze);
         }
         if ($this->getResource(RESOURCE_ARROW_GREY, false, true) >= $location->getDistance()) {
             $availableActions['build'] = in_array(RESOURCE_CARD, $location->getBuildingBonus($this));
         }
         if ($this->getResource(RESOURCE_ARROW_BLUE, false, true) >= $location->getDistance()) {
-            $availableActions['deal'] = in_array(RESOURCE_CARD, $location->getDeals());
+            $resourcesForDeal = $passiveAbilitiesLocations->map(function (FeaturePassiveAbility $location) {
+                return $location->getBonusFor(LOCATION_ACTION_DEAL);
+            })->toArray();
+            $availableActions['deal'] = in_array(RESOURCE_CARD, $location->getDeals())
+                || in_array(RESOURCE_CARD, $resourcesForDeal);
         }
         return $availableActions;
     }
@@ -400,6 +413,13 @@ class Player extends DB_Manager implements JsonSerializable
                 return !$location->isRuined();
             });
         }
+    }
+
+    public function getAllPassiveLocations()
+    {
+        return $this->getBoard()->filter(function ($location) {
+            return $location instanceof FeaturePassiveAbility;
+        });
     }
 
     /**

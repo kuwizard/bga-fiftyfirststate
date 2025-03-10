@@ -20,9 +20,14 @@ class FeatureStorageSingle extends FeatureStorage
      * @param int $amount
      * @return void
      */
-    public function placeResourcesOneType($type, $amount)
+    public function placeResources()
     {
-        $resources = array_fill(0, $amount, $type);
+        $resources = [];
+        /** @var ResourceStorageOptionSingle $resourceOption */
+        foreach ($this->resourcesOptions as $resourceOption) {
+            $newResources = array_fill(0, $resourceOption->getLimit(), $resourceOption->getResource());
+            $resources = array_merge($resources, $newResources);
+        }
         Resources::place($this->id, $resources);
         $this->resources = $resources;
     }

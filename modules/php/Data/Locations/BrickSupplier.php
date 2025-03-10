@@ -22,7 +22,7 @@ class BrickSupplier extends Production
         ];
     }
 
-    public function getProduct($player)
+    public function getProduct($player): array
     {
         $icons = $player->getBoardIcons(ICON_BRICK);
         $maxIcons = array_slice($icons, 0, 3);

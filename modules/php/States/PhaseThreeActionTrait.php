@@ -60,6 +60,7 @@ trait PhaseThreeActionTrait
             'develop' => $this->whatCanBeUsedForDevel($player),
             'connectionsToTake' => $connectionsToTake,
             'connectionsToPlay' => $player->getPlayableConnectionsIds(),
+            'placeDefence' => $player->getResource(RESOURCE_DEFENCE) >= 1,
         ];
     }
 
@@ -183,6 +184,11 @@ trait PhaseThreeActionTrait
     public function actEnableFactionActions(bool $combined): void
     {
         Stack::insertOnTopAndFinish(ST_FACTION_ACTIONS, ['combined' => $combined]);
+    }
+
+    public function actEnablePlaceDefenceState()
+    {
+        Stack::insertOnTopAndFinish(ST_PLACE_DEFENCE);
     }
 
     public function actFactionAct(int $id): void
@@ -346,6 +352,7 @@ trait PhaseThreeActionTrait
         $connection->activate();
         $player = Players::getActive();
         self::giveExtraTime($player->getId());
+        // TODO: Move this logic to postActions() in ChooseResourceTrait to correctly notify what resource was spent
         Notifications::connectionPlayed($player, $id, $connection);
         Notifications::resourcesChanged($player, ['card' => $player->getHandAmount()]);
         Stack::finishState();

@@ -106,7 +106,6 @@ $machinestates = [
         'updateGameProgression' => true,
         'possibleactions' => [
             'actActionPass',
-            'actSpendWorkers',
             'actUseLocation',
             'actActivateLocation',
             'actUseOtherPlayerLocation',
@@ -114,8 +113,10 @@ $machinestates = [
             'actDevelop',
             'actTakeConnection',
             'actPlayConnection',
+            'actEnablePlaceDefenceState',
             // Actions leading to another sub-phase with a choice
             'actEnableFactionActions',
+            'actSpendWorkers',
         ],
     ],
 
@@ -267,6 +268,24 @@ $machinestates = [
         'args' => 'argActivateSecondTime',
         'type' => 'activeplayer',
         'possibleactions' => ['actActivateAgain', 'actDoNotActivateAgain'],
+    ],
+
+    ST_ACTIVATE_PRODUCTION => [
+        'name' => 'activateProduction',
+        'description' => clienttranslate('${actplayer} must choose a Production to activate'),
+        'descriptionmyturn' => clienttranslate('${you} must choose a Production to activate'),
+        'args' => 'argActivateProduction',
+        'type' => 'activeplayer',
+        'possibleactions' => ['actActivateProduction', 'actUndo'],
+    ],
+
+    ST_PLACE_DEFENCE => [
+        'name' => 'placeDefence',
+        'description' => clienttranslate('${actplayer} must place a defence token'),
+        'descriptionmyturn' => clienttranslate('${you} must place a defence token'),
+        'args' => 'argPlaceDefence',
+        'type' => 'activeplayer',
+        'possibleactions' => ['actPlaceDefence', 'actUndo'],
     ],
 
     ST_PHASE_FOUR_CLEANUP => [

@@ -2,7 +2,7 @@
 
 namespace STATE\Models;
 
-class ResourceStorageOption
+class ResourceStorageOptionMulti
 {
     /**
      * @var int[]

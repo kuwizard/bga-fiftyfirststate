@@ -3,6 +3,7 @@
 namespace STATE\Data\Locations;
 
 use STATE\Models\FeatureStorageSingle;
+use STATE\Models\ResourceStorageOptionSingle;
 
 class Camp extends FeatureStorageSingle
 {
@@ -17,13 +18,14 @@ class Camp extends FeatureStorageSingle
         $this->deals = [RESOURCE_WORKER];
         $this->copies = 1;
 
-        $this->resourceType = RESOURCE_WORKER;
-        $this->resourceLimit = 3;
+        $this->resourcesOptions = [
+            new ResourceStorageOptionSingle(RESOURCE_WORKER, 3),
+        ];
         $this->text = [
             ...$this->getText(true),
             TEXT_DESCRIPTION => '-',
             TEXT_BONUS_DESCRIPTION => clienttranslate(
-                'Place 3 {workerIcon} on this location. You may spend them during your turn. Do not discard them during the Cleanup phase'
+                'Place 3 {workerIcon} on this Location. You may spend them during your turn. Do not discard them during the Cleanup phase'
             ),
         ];
     }

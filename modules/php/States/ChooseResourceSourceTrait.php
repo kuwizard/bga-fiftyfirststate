@@ -9,6 +9,7 @@ use STATE\Helpers\ResourcesHelper;
 use STATE\Managers\Locations;
 use STATE\Managers\Players;
 use STATE\Managers\Resources;
+use STATE\Models\FeaturePassiveAbility;
 use STATE\Models\FeatureStorage;
 use STATE\Models\FeatureStorageSingle;
 use STATE\Models\Player;
@@ -60,8 +61,9 @@ trait ChooseResourceSourceTrait
                 $joker = Resources::getJokerFor($resource);
                 $sourcesSingle = [
                     'faction' => $player->getResource($resource) === 0 ? null : true,
-                    'locations' => $this->getPlayerLocationsWithResource($resource, $player),
                     'joker' => is_null($joker) || $player->getResource($joker) === 0 ? null : $joker,
+                    'locations' => $this->getPlayerLocationsWithResource($resource, $player),
+                    'locationsWithJoker' => is_null($joker) ? null : $this->getPlayerLocationsWithResource($joker, $player),
                 ];
                 foreach (array_keys($sourcesSingle) as $source) {
                     if (!$sourcesSingle[$source]) {
@@ -90,11 +92,19 @@ trait ChooseResourceSourceTrait
 
             $onlyNotLocation = count($sources) === 1 && !isset($sources['locations']);
             $onlyLocation = count($sources) === 1 && isset($sources['locations']) && count($sources['locations']) === 1;
-            if ($onlyNotLocation || $onlyLocation) {
+            $onlyJokerOnLocation = count($sources) === 1 && isset($sources['locationsWithJoker']) && count(
+                    $sources['locationsWithJoker']
+                ) === 1;
+            if ($onlyNotLocation || $onlyLocation || $onlyJokerOnLocation) {
                 if (isset($sources['faction'])) {
                     $sourceId = 0;
+                } else if (isset($sources['locations'])) {
+                    $sourceId = $sources['locations'][0]->getId();
+                } else if (isset($sources['joker'])) {
+                    $sourceId = $sources['joker'];
                 } else {
-                    $sourceId = isset($sources['locations']) ? $sources['locations'][0]->getId() : $sources['joker'];
+                    $sourceId = $sources['locationsWithJoker'][0]->getId();
+                    $resource = Resources::getJokerFor($resource);
                 }
                 if (!in_array($resource, [RESOURCE_DEAL, RESOURCE_ANY_OF_MAIN])) {
                     $processed[] = $sources['joker'] ?? $resource;
@@ -141,7 +151,7 @@ trait ChooseResourceSourceTrait
                     ST_DISCARD_LOCATION_FOR_RESOURCES,
                 ]
             )) {
-            $this->postActions($player, $processed);
+            $gotNewLocations = $this->postActions($player, $processed);
             if ($ctx['activatorId']) {
                 if ($ctx['activatorId'] < FACTION_NEW_YORK) {
                     $owner = Players::getOwner($ctx['activatorId']);
@@ -158,7 +168,7 @@ trait ChooseResourceSourceTrait
                     $ctx['isDeal'] ?? null
                 );
             }
-            if ($this->isGoingToGetANewLocation($ctx)) {
+            if ($gotNewLocations || $this->gotNewLocations($ctx)) {
                 $this->undoSavepoint();
             } else {
                 if (Stack::isSomeAtomsIn([ST_ACTIVATE_SECOND_TIME, ST_ACTIVATE_SPEND_WORKERS_AGAIN])) {
@@ -183,7 +193,7 @@ trait ChooseResourceSourceTrait
         ];
     }
 
-    private function isGoingToGetANewLocation(array $ctx): bool
+    private function gotNewLocations(array $ctx): bool
     {
         $location = isset($ctx['postActions']['id']) ? Locations::get($ctx['postActions']['id']) : null;
         return (isset($ctx['postActions']['type'])
@@ -254,10 +264,11 @@ trait ChooseResourceSourceTrait
         return $activatorId >= FACTION_NEW_YORK && $activatorId <= FACTION_MERCHANTS + 3 && $activatorId % 10 === 3;
     }
 
-    private function postActions(Player $player, array $processed)
+    private function postActions(Player $player, array $processed): bool
     {
         $ctx = Stack::getCtx();
         $resourcesChanged = [];
+        $gotNewLocations = false;
         if (isset($ctx['postActions'])) {
             $type = $ctx['postActions']['type'];
             $locationId = $ctx['postActions']['id'];
@@ -281,18 +292,19 @@ trait ChooseResourceSourceTrait
                     Locations::resetActivatedTimes([$oldLocation->getId()]);
                     Notifications::locationDiscarded($player, $oldLocation, $resourcesPlaced);
                     Notifications::locationBuilt($player, $location, $processed, $ctx['postActions']['resource'], $oldLocation);
-                    $this->getProductionAfterBuildAndPlaceResources($location, $player);
+                    $gotNewLocations = $this->getProductionAfterBuildAndPlaceResources($location, $player);
                     $resourcesChanged[] = RESOURCE_CARD;
                     break;
                 case LOCATION_ACTION_RAZE:
                     Locations::move($location->getId(), LOCATION_DISCARD);
                     Notifications::locationRazed($player, $location, $processed);
+                    $gotNewLocations = in_array(RESOURCE_CARD, $location->getSpoils());
                     $resourcesChanged[] = RESOURCE_CARD;
                     break;
                 case LOCATION_ACTION_BUILD:
                     Notifications::locationBuilt($player, $location, $processed);
                     Locations::move($location->getId(), [LOCATION_BOARD, $player->getId()]);
-                    $this->getProductionAfterBuildAndPlaceResources($location, $player);
+                    $gotNewLocations = $this->getProductionAfterBuildAndPlaceResources($location, $player);
                     $resourcesChanged[] = RESOURCE_CARD;
                     break;
                 case LOCATION_ACTION_DEAL:
@@ -305,6 +317,7 @@ trait ChooseResourceSourceTrait
                         $location,
                         $processed
                     );
+                    $gotNewLocations = in_array(RESOURCE_CARD, $location->getDeals());
                     $resourcesChanged[] = RESOURCE_CARD;
                     break;
                 case LOCATION_ACTION_RAZE_OTHER:
@@ -313,23 +326,38 @@ trait ChooseResourceSourceTrait
                     Notifications::resourcesChanged($owner, $owner->getResourcesWithNames($ownerResourcesChanged));
                     $location->ruin();
                     Locations::resetActivatedTimes([$location->getId()]);
+                    $gotNewLocations = in_array(RESOURCE_CARD, $location->getSpoils());
                     Notifications::locationRuined($owner, $location, $player, $location->getDefenceValue());
                     break;
                 default:
                     throw new \BgaVisibleSystemException('Unknown action ' . $type);
+            }
+            /** @var FeaturePassiveAbility $location */
+            foreach ($player->getAllPassiveLocations() as $location) {
+                if ($type === LOCATION_ACTION_RAZE_OTHER) {
+                    $type = LOCATION_ACTION_RAZE;
+                }
+                $resourcesAdded = $location->activatePassiveAbility($player, $type);
+                $resourcesChanged = array_merge($resourcesChanged, $resourcesAdded);
+                if (in_array(RESOURCE_CARD, $resourcesAdded)) {
+                    $gotNewLocations = true;
+                }
             }
         }
         if (isset($ctx['bonus']) && $ctx['bonus']) {
             foreach (array_count_values($ctx['bonus']) as $bonus => $amount) {
                 $player->increaseResource($bonus, $amount);
                 $resourcesChanged[] = $bonus;
+                if ($bonus === RESOURCE_CARD) {
+                    $gotNewLocations = true;
+                }
             }
         }
         if (isset($ctx['activatorId']) && $ctx['activatorId'] < FACTION_NEW_YORK) {
             Locations::get($ctx['activatorId'])->postActivation();
         }
         if (!empty($resourcesChanged)) {
-            if (in_array(RESOURCE_CARD, $resourcesChanged)) {
+            if ($gotNewLocations) {
                 Notifications::locationsDrawn($player);
                 Notifications::deckChanged();
             }
@@ -339,13 +367,15 @@ trait ChooseResourceSourceTrait
             Globals::setLastRoundNotify(false);
             Notifications::lastRound($player);
         }
+
+        return $gotNewLocations;
     }
 
-    public function getProductionAfterBuildAndPlaceResources($location, $player)
+    public function getProductionAfterBuildAndPlaceResources($location, $player): bool
     {
+        $resourcesChanged = [];
         // Gain resources (production or building bonus)
         if ($location instanceof Production || !empty($location->getBuildingBonus($player))) {
-            $resourcesChanged = [];
             if ($location instanceof Production) {
                 $resourcesChanged = ResourcesHelper::increaseResourcesAfterAction(
                     $player,
@@ -369,7 +399,7 @@ trait ChooseResourceSourceTrait
         }
         // Place resources on a card
         if ($location instanceof FeatureStorageSingle) {
-            $location->placeResourcesOneType($location->getResourceType(), $location->getResourceLimit());
+            $location->placeResources();
             Notifications::resourcesPlacedOnLocation(
                 $player,
                 $location->getId(),
@@ -377,5 +407,6 @@ trait ChooseResourceSourceTrait
                 $location
             );
         }
+        return in_array(RESOURCE_CARD, $resourcesChanged);
     }
 }

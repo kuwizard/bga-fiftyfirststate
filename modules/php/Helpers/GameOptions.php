@@ -2,9 +2,12 @@
 
 namespace STATE\Helpers;
 
-use APP_DbObject;
+use STATE\Core\Game;
 
-class GameOptions extends APP_DbObject
+class GameOptions
 {
-
+    public static function getExpansion()
+    {
+        return (int) Game::get()->getGameStateValue('expansion');
+    }
 }

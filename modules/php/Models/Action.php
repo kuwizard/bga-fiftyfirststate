@@ -48,10 +48,7 @@ class Action extends Location
         return clienttranslate('ACTION');
     }
 
-    /**
-     * @return int[]
-     */
-    public function getSpendRequirements()
+    public function getSpendRequirements(): array
     {
         return $this->action->getSpendRequirements();
     }
@@ -85,8 +82,8 @@ class Action extends Location
         Locations::increaseActivatedTimes($this->id, $this->activatedTimes);
     }
 
-    public function getDefenceValue()
+    public function getDefenceValue(): int
     {
-        return 5;
+        return 5 + parent::getDefenceValue();
     }
 }

@@ -30,7 +30,9 @@ class Location implements \JsonSerializable
     protected int|null $activatedTimes;
     protected bool $isRuined;
     protected int $copies;
+    protected array $expansionCopies;
     protected array $text;
+    protected bool $isDefended;
 
     public function __construct($params = [])
     {
@@ -44,7 +46,11 @@ class Location implements \JsonSerializable
         $this->activatedTimes = isset($params['activated_times']) ? (int) $params['activated_times'] : null;
         $this->isRuined = isset($params['is_ruined']) && (int) $params['is_ruined'] === 1 ?? false;
         $this->copies = 1;
+        $this->expansionCopies = [
+            NEW_ERA => 0,
+        ];
         $this->text = [];
+        $this->isDefended = isset($params['is_defended']) && (int) $params['is_defended'] === 1;
     }
 
     protected function getText(bool $isBuildingBonus = false): array
@@ -74,12 +80,14 @@ class Location implements \JsonSerializable
         return $this->type;
     }
 
-    /**
-     * @return int
-     */
-    public function getCopies()
+    public function getCopies(): int
     {
         return $this->copies;
+    }
+
+    public function getExpansionCopies(): array
+    {
+        return $this->expansionCopies;
     }
 
     public function getName(): string
@@ -139,28 +147,24 @@ class Location implements \JsonSerializable
         return '';
     }
 
-    /**
-     * @return int[]
-     */
-    public function getSpendRequirements()
+    public function getSpendRequirements(): array
     {
         return [];
     }
 
-    /**
-     * @return int
-     */
-    public function getDefenceValue()
+    public function getDefenceValue(): int
     {
-        return 0;
+        return $this->isDefended ? 1 : 0;
     }
 
-    /**
-     * @return bool
-     */
-    public function isRuined()
+    public function isRuined(): bool
     {
         return $this->isRuined;
+    }
+
+    public function isDefended(): bool
+    {
+        return $this->isDefended;
     }
 
     public function ruin()
@@ -191,6 +195,8 @@ class Location implements \JsonSerializable
             'isRuined' => $this->isRuined,
             'name' => $this->name,
             'text' => $this->text,
+            'expansion' => Locations::getExpansion($this->type),
+            'isDefended' => $this->isDefended,
         ];
         if (!$this->isRuined && $this->activatedTimes > 0) {
             $requirements = $this->getSpendRequirements();

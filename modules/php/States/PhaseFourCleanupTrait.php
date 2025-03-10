@@ -28,6 +28,7 @@ trait PhaseFourCleanupTrait
             Connections::discardFlippedEndOfRound();
             Players::resetAllPassed();
             Factions::resetAllUsed();
+            Locations::resetAllDefended();
         }
         Stack::finishState();
     }

@@ -236,6 +236,16 @@ class Notifications
         ]);
     }
 
+    public static function passiveAbilityApplied(Player $player, Location $location, int $resource)
+    {
+        $msg = clienttranslate('The ability of ${locationName} was activated. ${player_name} gets ${resourcesList}');
+        self::message($msg, [
+            'player' => $player,
+            'location' => $location,
+            'resourcesList' => [ResourcesHelper::getResourceName($resource)],
+        ]);
+    }
+
     public static function connectionDiscarded(Player $player, int $id)
     {
         self::notifyAll('connectionDiscarded', '', [
@@ -471,6 +481,16 @@ class Notifications
     public static function applyFactions(array $data): void
     {
         self::notifyAll('applyFactions', '', $data);
+    }
+
+    public static function locationDefended(Player $player, Location $location)
+    {
+        $msg = clienttranslate('${player_name} places a ${spendList} on ${locationName}');
+        self::notifyAll('locationDefended', $msg, [
+            'player' => $player,
+            'location' => $location,
+            'spendList' => ResourcesHelper::getResourceNames([RESOURCE_DEFENCE]),
+        ]);
     }
 
     /*********************

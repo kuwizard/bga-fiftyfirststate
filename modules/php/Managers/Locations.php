@@ -4,6 +4,7 @@ namespace STATE\Managers;
 
 use STATE\Core\Notifications;
 use STATE\Helpers\Collection;
+use STATE\Helpers\GameOptions;
 use STATE\Helpers\Pieces;
 use STATE\Helpers\ResourcesHelper;
 use STATE\Models\Action;
@@ -18,7 +19,7 @@ class Locations extends Pieces
     protected static $table = 'locations';
     protected static $primary = 'location_id';
     protected static $prefix = 'location_';
-    protected static $customFields = ['type', 'activated_times', 'is_ruined'];
+    protected static $customFields = ['type', 'activated_times', 'is_ruined', 'is_defended'];
     protected static $autoreshuffle = true;
     protected static $autoreshuffleCustom = [LOCATION_DECK => LOCATION_DISCARD];
     protected static $autoreshuffleListener = [
@@ -31,20 +32,7 @@ class Locations extends Pieces
         return self::getByType($row);
     }
 
-    public static function draw(Player $player, int $amount = 1): Collection
-    {
-        $pId = $player->getId();
-        return self::pickForLocation($amount, LOCATION_DECK, [LOCATION_HAND, $pId]);
-    }
-
-    public static function discard(array $cardIds): void
-    {
-        foreach ($cardIds as $cardId) {
-            self::insertOnTop($cardId, LOCATION_DISCARD);
-        }
-    }
-
-    private static $allCardTypes = [
+    private static $baseCardTypes = [
         CARD_ABANDONED_SUBURBS => 'AbandonedSuburbs',
         CARD_ARCHIVE => 'Archive',
         CARD_ARENA => 'Arena',
@@ -107,10 +95,68 @@ class Locations extends Pieces
         CARD_WRECKED_TANK => 'WreckedTank',
     ];
 
+    private static $eraCardTypes = [
+        CARD_BLACK_MARKET_CONTACTS => 'BlackMarketContacts',
+        CARD_BRICK_VILLAGE => 'BrickVillage',
+        CARD_BUILDERS => 'Builders',
+        CARD_BUS_STATION => 'BusStation',
+        CARD_CAR_GARAGE => 'CarGarage',
+        CARD_COMBAT_ZONE => 'CombatZone',
+        CARD_COURTHOUSE => 'Courthouse',
+        CARD_DISASSEMBLY_WORKSHOP => 'DisassemblyWorkshop',
+        CARD_ESPIONAGE_CENTER => 'EspionageCenter',
+        CARD_EXPEDITION_CAMP => 'ExpeditionCamp',
+        CARD_FOUNDATION => 'Foundation',
+        CARD_GANGERS_DIVE => 'GangersDive',
+        CARD_GASOLINE_TOWER => 'GasolineTower',
+        CARD_GUILDS_GARAGE => 'GuildsGarage',
+        CARD_HANGAR => 'Hangar',
+        CARD_HAVEN => 'Haven',
+        CARD_HIDDEN_FORGE => 'HiddenForge',
+        CARD_HUMAN_TRAFFICER => 'HumanTrafficer',
+        CARD_HUNTERS => 'Hunters',
+        CARD_LABOR_CAMP => 'LaborCamp',
+        CARD_LEMMYS_STORAGE => 'LemmysStorage',
+        CARD_MESMERIZERS_DWELLING => 'MesmerizersDwelling',
+        CARD_NATURAL_SHELTERS => 'NaturalShelters',
+        CARD_OHIO_CAVALRY => 'OhioCavalry',
+        CARD_OILFIELD => 'Oilfield',
+        CARD_OLD_SETTLEMENTS => 'OldSettlements',
+        CARD_PETES_OFFICE => 'PetesOffice',
+        CARD_PICKERS => 'Pickers',
+        CARD_POST_OFFICE => 'PostOffice',
+        CARD_PREACHER_OF_THE_NEW_ERA => 'PreacherOfTheNewEra',
+        CARD_PRODUCTION_MANAGER => 'ProductionManager',
+        CARD_RADIOACTIVE_COLONY => 'RadioactiveColony',
+        CARD_REHABILITATION_CENTER => 'RehabilitationCenter',
+        CARD_RICKY_THE_MERCHANT => 'RickyTheMerchant',
+        CARD_RIFLE => 'Rifle',
+        CARD_SECRET_OUTPOST => 'SecretOutpost',
+        CARD_THE_BRONX_GANG => 'TheBronxGang',
+        CARD_THE_IRON_GANG => 'TheIronGang',
+        CARD_TRAINING_CAMP => 'TrainingCamp',
+        CARD_TRUCK => 'Truck',
+    ];
+
     public static function setupNewGame()
     {
-        foreach (array_values(self::$allCardTypes) as $class) {
-            $name = "STATE\Data\Locations\\" . $class;
+        $expansion = GameOptions::getExpansion();
+        $baseCards = self::getCards(BASE_GAME, $expansion);
+        $expansionCards = $expansion === BASE_GAME ? [] : self::getCards($expansion);
+        $allCards = array_merge($baseCards, $expansionCards);
+        shuffle($allCards);
+        $statedCards = [];
+        for ($i = count($allCards); $i > 0; $i--) {
+            $statedCards[] = array_merge(array_shift($allCards), ['state' => $i]);
+        }
+        self::create($statedCards, LOCATION_DECK);
+    }
+
+    private static function getCards(int $expansionOrBase, int $alsoGetFromExpansion = null): array
+    {
+        $cards = [];
+        foreach (self::getLocationsBlock($expansionOrBase) as $class) {
+            $name = self::getFolder($expansionOrBase) . $class;
             /** @var Location $card */
             $card = new $name();
 
@@ -119,13 +165,15 @@ class Locations extends Pieces
                     'type' => $card->getType(),
                 ];
             }
+            if (!is_null($alsoGetFromExpansion) && $alsoGetFromExpansion !== BASE_GAME) {
+                for ($i = 0; $i < $card->getExpansionCopies()[$alsoGetFromExpansion]; $i++) {
+                    $cards[] = [
+                        'type' => $card->getType(),
+                    ];
+                }
+            }
         }
-        shuffle($cards);
-        $statedCards = [];
-        for ($i = count($cards); $i > 0; $i--) {
-            $statedCards[] = array_merge(array_shift($cards), ['state' => $i]);
-        }
-        self::create($statedCards, LOCATION_DECK);
+        return $cards;
     }
 
     /**
@@ -134,8 +182,18 @@ class Locations extends Pieces
      */
     private static function getByType($params)
     {
-        $name = "STATE\Data\Locations\\" . self::$allCardTypes[$params['type']];
+        $type = $params['type'];
+        $expansion = self::getExpansion($type);
+        $name = self::getFolder($expansion) . self::getLocationsBlock($expansion)[$type];
         return new $name($params);
+    }
+
+    private static function getFolder(int $expansion): string
+    {
+        return 'STATE\Data\Locations\\' . [
+                BASE_GAME => '',
+                NEW_ERA => 'NewEra\\',
+            ][$expansion];
     }
 
     public static function getAll()
@@ -184,13 +242,31 @@ class Locations extends Pieces
         return self::getInLocation([LOCATION_HAND, $id])->sort(fn($a, $b) => strcmp($a->getDistance(), $b->getDistance()));
     }
 
-    /**
-     * @param string $type
-     * @return int
-     */
-    public static function getSprite($type)
+    public static function getSprite(string $type): int
     {
-        return array_search($type, array_keys(self::$allCardTypes));
+        $expansion = self::getExpansion($type);
+        return array_search($type, array_keys(self::getLocationsBlock($expansion)));
+    }
+
+    private static function getLocationsBlock(int $expansion): array
+    {
+        return [
+            BASE_GAME => self::$baseCardTypes,
+            NEW_ERA => self::$eraCardTypes,
+        ][$expansion];
+    }
+
+    public static function getExpansion(string $type): int
+    {
+        $expansion = BASE_GAME;
+        if (!in_array($type, array_keys(self::$baseCardTypes))) {
+            if (in_array($type, array_keys(self::$eraCardTypes))) {
+                $expansion = NEW_ERA;
+            } else {
+                throw new \BgaVisibleSystemException("getSprite: Unknown location type $type");
+            }
+        }
+        return $expansion;
     }
 
     /**
@@ -208,6 +284,23 @@ class Locations extends Pieces
             }
         }
         return $resources;
+    }
+
+    public static function draw(Player $player, int $amount = 1): Collection
+    {
+        $pId = $player->getId();
+        return self::pickForLocation($amount, LOCATION_DECK, [LOCATION_HAND, $pId]);
+    }
+
+    public static function discard(array $cardIds): void
+    {
+        foreach ($cardIds as $cardId) {
+            self::insertOnTop($cardId, LOCATION_DISCARD);
+            self::DB()
+                ->update(['is_defended' => 0])
+                ->where('location_id', $cardId)
+                ->run();
+        }
     }
 
     /**
@@ -249,6 +342,21 @@ class Locations extends Pieces
         self::DB()
             ->update(['is_ruined' => 0])
             ->where('location_id', $location->getId())
+            ->run();
+    }
+
+    public static function addDefence(int $locationId): void
+    {
+        self::DB()
+            ->update(['is_defended' => 1])
+            ->where('location_id', $locationId)
+            ->run();
+    }
+
+    public static function resetAllDefended()
+    {
+        self::DB()
+            ->update(['is_defended' => 0])
             ->run();
     }
 

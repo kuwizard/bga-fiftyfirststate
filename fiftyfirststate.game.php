@@ -55,9 +55,11 @@ class Fiftyfirststate extends Table
     use STATE\States\DevelopTrait;
     use STATE\States\ChoosePlayerToStealTrait;
     use STATE\States\ActivateSecondTimeTrait;
+    use STATE\States\ActivateProductionTrait;
     use STATE\States\SpecificLocationsActionsTrait;
     use STATE\States\ConfirmTurnEndTrait;
     use STATE\States\ChooseFactionTrait;
+    use STATE\States\PlaceDefenceTrait;
 
     public static $instance = null;
 
@@ -65,7 +67,9 @@ class Fiftyfirststate extends Table
     {
         parent::__construct();
         self::$instance = $this;
-        self::initGameStateLabels([]);
+        self::initGameStateLabels([
+            'expansion' => OPT_EXPANSION,
+        ]);
     }
 
     public static function get()

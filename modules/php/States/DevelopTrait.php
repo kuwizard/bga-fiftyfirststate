@@ -28,7 +28,10 @@ trait DevelopTrait
         $isRuins = !$board->filter(function (Location $location) {
             return $location->isRuined();
         })->empty();
-        if ($resource === RESOURCE_DEVELOPMENT || $isRuins) {
+        $isVoidIcon = !$board->filter(function (Location $location) {
+            return in_array(ICON_VOID, $location->getIcons());
+        })->empty();
+        if ($resource === RESOURCE_DEVELOPMENT || $isRuins || $isVoidIcon) {
             $possibleHandLocations = $player->getHand();
         } else {
             $possibleHandLocations = $player->getHand()->filter(function (Location $location) use ($board) {
@@ -53,7 +56,9 @@ trait DevelopTrait
         } else {
             $possibleDestinations = $player->getBoard(true)->filter(
                 function (Location $location) use ($fromLocation) {
-                    return $location->isRuined() || !empty(array_intersect($location->getIcons(), $fromLocation->getIcons()));
+                    return $location->isRuined()
+                        || in_array(ICON_VOID, $location->getIcons())
+                        || !empty(array_intersect($location->getIcons(), $fromLocation->getIcons()));
                 }
             );
         }
