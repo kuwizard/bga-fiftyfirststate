@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `locations`
     `location_id`       smallint unsigned NOT NULL AUTO_INCREMENT,
     `type`              varchar(25)       NOT NULL,
     `location_location` varchar(16)       NOT NULL,
-    `location_state`    tinyint           NOT NULL,
+    `location_state`    int               NOT NULL,
     `activated_times`   tinyint           NOT NULL DEFAULT 0,
     `is_ruined`         tinyint           NOT NULL DEFAULT 0,
     `is_defended`       tinyint           NOT NULL DEFAULT 0,
