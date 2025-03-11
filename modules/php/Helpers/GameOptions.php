@@ -8,6 +8,7 @@ class GameOptions
 {
     public static function getExpansion()
     {
-        return (int) Game::get()->getGameStateValue('expansion');
+        return NEW_ERA;
+//        return (int) Game::get()->getGameStateValue('expansion');
     }
 }

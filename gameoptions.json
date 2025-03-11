@@ -1,18 +1,1 @@
-{
-  "101": {
-    "name": "Expansions",
-    "default": 1011,
-    "values": {
-      "1011": {
-        "name": "Base game",
-        "tmdisplay": "Base game only",
-        "description": "No expansions, 88 cards from 51st State only"
-      },
-      "1012": {
-        "name": "New Era",
-        "tmdisplay": "Include New Era",
-        "description": "All cards from the base game + 50 from the New Era expansion"
-      }
-    }
-  }
-}
+{}
