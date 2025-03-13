@@ -1,1 +1,19 @@
-{}
+{
+  "101": {
+    "name": "Expansions",
+    "default": 1012,
+    "values": {
+      "1011": {
+        "name": "Base Set",
+        "tmdisplay": "Base Set only",
+        "description": "No additional modules, 88 cards from 51st State Base Set only",
+        "firstgameonly": true
+      },
+      "1012": {
+        "name": "New Era",
+        "tmdisplay": "Include New Era",
+        "description": "All cards from the Base Set + 50 from the New Era"
+      }
+    }
+  }
+}
