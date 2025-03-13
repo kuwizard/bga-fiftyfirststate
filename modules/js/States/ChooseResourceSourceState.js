@@ -23,6 +23,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                         );
                     });
                 }
+                if (args.sources.locationsWithJoker) {
+                    args.sources.locationsWithJoker.forEach((location) => {
+                        this.addPrimaryActionButton(
+                            `buttonChooseSource${location.id}`,
+                            this.replaceWithResourceIcon(`${_(location.name)} ({ammoIcon})`, true),
+                            () => this.takeAction('actChooseSource', { id: location.id })
+                        );
+                    });
+                }
                 if (args.sources.joker) {
                     this.addPrimaryActionButton(
                         'buttonChooseSourceJoker',

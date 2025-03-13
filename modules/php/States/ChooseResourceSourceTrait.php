@@ -229,6 +229,10 @@ trait ChooseResourceSourceTrait
     }
 
     // TODO: refactor this to mitigate difference between $sourceId and $resource as they seem to intersect thus confusing
+
+    /**
+     * @throws \BgaVisibleSystemException
+     */
     private function decreaseResource(int $sourceId, Player $player, int $resource, int|null $activatorId): void
     {
         if (in_array($sourceId, ALL_RESOURCES_LIST)) {
@@ -239,6 +243,17 @@ trait ChooseResourceSourceTrait
             $player->decreaseResource($resource);
             Notifications::resourcesChanged($player, $player->getResourcesWithNames([$resource]));
         } else {
+            // Looks like $source is a card id
+            $resourcesOnLocation = Resources::get($sourceId);
+            if (!in_array($resource, $resourcesOnLocation)) {
+                // Hmm, player must want to use a joker from this card
+                $joker = Resources::getJokerFor($resource);
+                if (!in_array($joker, $resourcesOnLocation)) {
+                    throw new \BgaVisibleSystemException('Resource ' . $resource . ' not found on location ' . $sourceId);
+                } else {
+                    $resource = $joker;
+                }
+            }
             Resources::delete($sourceId, $resource);
             Notifications::resourcesLocationChanged($player, $sourceId, ResourcesHelper::getResourceName($resource));
         }
