@@ -13,7 +13,7 @@ class MesmerizersDwelling extends FeaturePassiveAbility
         $this->name = clienttranslate("Mesmerizers' Dwelling");
         $this->distance = 2;
         $this->spoils = [RESOURCE_VP, RESOURCE_VP, RESOURCE_CARD];
-        $this->icons = [ICON_GUN, RESOURCE_VP];
+        $this->icons = [ICON_GUN, ICON_VP];
         $this->deals = [RESOURCE_VP];
         $this->copies = 2;
         $this->text = [
