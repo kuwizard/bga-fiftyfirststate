@@ -429,7 +429,7 @@ class Player extends DB_Manager implements JsonSerializable
     {
         return array_sum(array_map(function ($resource) {
             return $this->getResource($resource);
-        }, ALL_RESOURCES_LIST));
+        }, [...ALL_RESOURCES_LIST, RESOURCE_CARD]));
     }
 
     /**

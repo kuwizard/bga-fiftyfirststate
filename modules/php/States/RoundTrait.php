@@ -62,7 +62,11 @@ trait RoundTrait
             $resourcesCount = $player->getTotalResourcesCount();
             $resourcesCount = $resourcesCount + array_sum(array_values($this->getResourcesFromCards($player)));
             $locationsCount = $player->getBoard()->count();
-            $player->setTieBreaker(intval(strval($resourcesCount) . strval($locationsCount)));
+            $locationsCount = strval($locationsCount);
+            if (strlen($locationsCount) === 1) {
+                $locationsCount = '0' . $locationsCount;
+            }
+            $player->setTieBreaker(intval($resourcesCount . $locationsCount));
             $totalAmount = $player->increaseResource(RESOURCE_VP, $locationsCount);
             Notifications::endOfGameVPGained($player, $locationsCount, $totalAmount);
         }
