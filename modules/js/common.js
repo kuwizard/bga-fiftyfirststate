@@ -67,6 +67,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         addDeckConnectionsElement(gamedatas) {
             dojo.place(this.format_block('jstpl_deck_connections', {}), 'board');
             dojo.place(this.format_block('jstpl_arrow_up', {}), 'collapseButton');
+            this.addPeekConnectionsElement();
             this.placeText('jstpl_header', "{l}: ".replace('{l}', this.getDeckLexeme()), 'deckHeader', gamedatas.deck);
             this.placeText(
                 'jstpl_header',
@@ -87,6 +88,25 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             const connectionsHeader = this.replaceWithResourceIcon(this.getConnectionsSpendLexeme(), true);
             this.placeText('jstpl_header', connectionsHeader, 'connections', '', true);
             this.addConnections(gamedatas.connections);
+        },
+
+        addPeekConnectionsElement() {
+            const peekConections = dojo.place(this.format_block('jstpl_eye', {}), 'deckConnectionsBlock');
+            dojo.addClass(peekConections, 'hidden');
+            const showConnections = () => {
+                dojo.addClass('lookout', 'hidden');
+                dojo.removeClass('connections', 'hidden');
+            }
+            const hideConnections = () => {
+                dojo.addClass('connections', 'hidden');
+                dojo.removeClass('lookout', 'hidden');
+            }
+
+            peekConections.addEventListener('touchstart', showConnections);
+            peekConections.addEventListener('touchend', hideConnections);
+            peekConections.addEventListener('mousedown', showConnections);
+            peekConections.addEventListener('mouseup', hideConnections);
+            peekConections.addEventListener('mouseleave', hideConnections);
         },
 
         addConnections(connections) {

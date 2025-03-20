@@ -5,6 +5,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         },
 
         async onEnteringStatePhaseTwoProduction() {
+            dojo.removeClass('collapseButton', 'hidden');
+            dojo.addClass('peekConnections', 'hidden');
             // Waiting until discard from phase one will be done
             await this.waitForDisappearance('.discarding');
             // ...and waiting until card will be picked up from the deck

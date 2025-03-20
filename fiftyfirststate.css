@@ -1052,6 +1052,12 @@
 #deckConnectionsBlock.hidden {
   display: none;
 }
+#deckConnectionsBlock #peekConnections {
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  margin: 0 5px;
+}
 
 #deckDiscard {
   height: 100%;
