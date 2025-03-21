@@ -1,4 +1,7 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
+    const PLAYER_OPTION_SCROLLABLE = 402;
+    const SCROLLABLE_DISABLE = 0;
+
     return declare('state.factionboard', null, {
         constructor() {
             this._notifications.push(['locationRuined', 1]);
@@ -30,6 +33,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     })
                 });
                 this.addFactionTooltips(player.id, player.faction);
+                if (this.getGameUserPreference(PLAYER_OPTION_SCROLLABLE) === SCROLLABLE_DISABLE) {
+                    dojo.removeClass(factionBoard, 'scrollable');
+                }
             });
         },
 
@@ -75,6 +81,16 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 );
                 this.addSomeRandomMargins(resourceElement);
             });
+        },
+
+        onGameUserPreferenceChanged: function (prefId, prefValue) {
+            let callback;
+            if (prefId === PLAYER_OPTION_SCROLLABLE) {
+                callback = parseInt(prefValue) === SCROLLABLE_DISABLE ? dojo.removeClass : dojo.addClass;
+                dojo.query('.factionBoard').forEach((factionBoard) => {
+                    callback(factionBoard, 'scrollable');
+                });
+            }
         },
 
         notif_locationRuined(n) {

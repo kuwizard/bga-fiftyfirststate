@@ -145,5 +145,18 @@
         "name": "Off"
       }
     ]
+  },
+  "402": {
+    "name": "Card rows with many cards",
+    "values": [
+      {
+        "name": "Fully shown on screen overlapping each other",
+        "value": 0
+      },
+      {
+        "name": "Scrollable",
+        "value": 1
+      }
+    ]
   }
 }

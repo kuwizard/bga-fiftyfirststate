@@ -18,6 +18,26 @@ $dealsHeight: 30px;
   display: flex;
   align-items: flex-end;
 
+  &.scrollable {
+    .nameCardsWrapper .cards .cardsBlock:not(.notTooManyChildren) {
+      --mask-height: 20px;
+      overflow-y: auto;
+      margin: 0 -4px;
+      padding: 0 15px;
+      --mask-image-content: linear-gradient(to right, transparent, black var(--mask-height), black calc(100% - var(--mask-height)), transparent);
+      --mask-size-content: 100%;
+      --mask-image-scrollbar: linear-gradient(black, black);
+      --mask-size-scrollbar: 0 100%;
+      mask-image: var(--mask-image-content), var(--mask-image-scrollbar);
+      mask-size: var(--mask-size-content), var(--mask-size-scrollbar);
+      scrollbar-width: none;
+    }
+
+    .cardsBlock:not(.cardsBlock.notTooManyChildren) .locationWrapper {
+      width: auto;
+    }
+  }
+
   .faction {
     background-image: url(img/factions.png);
     background-size: 400% 200%;
@@ -150,7 +170,7 @@ $dealsHeight: 30px;
   }
 
   .cardsBlock:not(.cardsBlock.notTooManyChildren) .locationWrapper {
-    width: 7vw;
+    width: 4vw;
 
     &:last-child {
       width: auto;
