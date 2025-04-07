@@ -18,7 +18,7 @@ class HumanTrafficer extends FeaturePassiveAbility
         $this->copies = 1;
         $this->text = [
             ...$this->getText(),
-            TEXT_DESCRIPTION => 'Each time you make a Deal gain 1 {workerIcon}',
+            TEXT_DESCRIPTION => clienttranslate('Each time you make a Deal gain 1 {workerIcon}'),
         ];
 
         $this->passiveAbilities = [LOCATION_ACTION_DEAL => RESOURCE_WORKER];

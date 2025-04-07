@@ -18,7 +18,7 @@ class Truck extends FeaturePassiveAbility
         $this->copies = 1;
         $this->text = [
             ...$this->getText(),
-            TEXT_DESCRIPTION => 'Each time you Raze or make a Deal gain 1 {ammoIcon}',
+            TEXT_DESCRIPTION => clienttranslate('Each time you Raze or make a Deal gain 1 {ammoIcon}'),
         ];
 
         $this->passiveAbilities = [

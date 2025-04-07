@@ -18,7 +18,7 @@ class PetesOffice extends FeaturePassiveAbility
         $this->copies = 2;
         $this->text = [
             ...$this->getText(),
-            TEXT_DESCRIPTION => 'Each time you make a Deal gain 1 {scoreIcon}',
+            TEXT_DESCRIPTION => clienttranslate('Each time you make a Deal gain 1 {scoreIcon}'),
         ];
 
         $this->passiveAbilities = [LOCATION_ACTION_DEAL => RESOURCE_VP];

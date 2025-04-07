@@ -18,7 +18,7 @@ class Rifle extends FeaturePassiveAbility
         $this->copies = 2;
         $this->text = [
             ...$this->getText(),
-            TEXT_DESCRIPTION => 'Each time you Raze gain 1 {cardIcon}',
+            TEXT_DESCRIPTION => clienttranslate('Each time you Raze gain 1 {cardIcon}'),
         ];
 
         $this->passiveAbilities = [LOCATION_ACTION_RAZE => RESOURCE_CARD];
