@@ -204,7 +204,7 @@ class Fiftyfirststate extends Table
                 self::applyDbUpgradeToAllDB($sql);
             }
         }
-        if ($from_version <= 2412211311) {
+        if ($from_version <= 2503211724) {
             $this->updateDBTableCustom();
         }
     }
@@ -219,6 +219,13 @@ class Fiftyfirststate extends Table
         $zz = self::DbQuery('SHOW COLUMNS FROM zz_savepoint_locations LIKE \'is_defended\'')->num_rows === 1;
         if (!$zz) {
             $sql = "ALTER TABLE zz_savepoint_locations ADD `is_defended` tinyint NOT NULL DEFAULT 0;";
+            self::applyDbUpgradeToAllDB($sql);
+        }
+        $newestSchema = self::DbQuery(
+                "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = 'resources' AND COLUMN_NAME = 'location_id';"
+            )->fetch_column(0) === 'smallint';
+        if (!$newestSchema) {
+            $sql = "ALTER TABLE DBPREFIX_resources CHANGE `location_id` `location_id` SMALLINT(4) NOT NULL;";
             self::applyDbUpgradeToAllDB($sql);
         }
     }
