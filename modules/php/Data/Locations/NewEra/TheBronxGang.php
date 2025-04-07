@@ -14,7 +14,7 @@ class TheBronxGang extends Action
         $this->name = clienttranslate("The Bronx Gang");
         $this->distance = 2;
         $this->spoils = [RESOURCE_GUN, RESOURCE_ARROW_RED, RESOURCE_CARD];
-        $this->icons = [ICON_FUEL, ICON_ARROW];
+        $this->icons = [ICON_ARROW, ICON_GUN];
         $this->deals = [RESOURCE_ARROW_RED];
         $this->copies = 1;
         $this->action = new Act(
