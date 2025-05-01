@@ -450,6 +450,15 @@ class Player extends DB_Manager implements JsonSerializable
         return array_keys($locatedLocation->toAssoc())[0];
     }
 
+    public function isReceiveNewCardOnRaze()
+    {
+        $board = $this->getBoard();
+        $locationsGivingCardOnRazeAmount = $board->filter(function (Location $location) {
+            return $location instanceof FeaturePassiveAbility && $location->isTriggeredBy(LOCATION_ACTION_RAZE);
+        });
+        return $locationsGivingCardOnRazeAmount->count() > 0;
+    }
+
     /**
      * @param array $resources
      * @return void

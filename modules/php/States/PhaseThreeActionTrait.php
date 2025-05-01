@@ -83,8 +83,10 @@ trait PhaseThreeActionTrait
 
     private function razeReachableCardInSpoils(Location $location, Player $player)
     {
-        return $location->getDistance() <= $player->getResource(RESOURCE_ARROW_RED)
+        $reachableAndGivesACard = $location->getDistance() <= $player->getResource(RESOURCE_ARROW_RED)
             && in_array(RESOURCE_CARD, $location->getSpoils());
+        $playerGetsCardOnRaze = $player->isReceiveNewCardOnRaze();
+        return $reachableAndGivesACard || $playerGetsCardOnRaze;
     }
 
     private function whatCanBeUsedForDevel(Player $player): array
@@ -134,7 +136,7 @@ trait PhaseThreeActionTrait
         return [
             'locationId' => $location->getId(),
             'raze' => $this->razeReachableCardInSpoils($location, $player),
-            'openProd' => $this->razeReachableCardInSpoils($location, $player),
+            'openProd' => $this->isOpenProdProducingCards($location, $player),
         ];
     }
 
