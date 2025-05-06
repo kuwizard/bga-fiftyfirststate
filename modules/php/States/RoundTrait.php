@@ -33,6 +33,8 @@ trait RoundTrait
         }
         Globals::setFirstPlayerId($nextPlayerId);
         Notifications::firstPlayerChanged(Players::get($nextPlayerId));
+        Globals::incRoundNumber();
+        Notifications::newRound(Globals::getRoundNumber());
 
         $stack = [
             ST_PHASE_ONE_LOOKOUT_SETUP,

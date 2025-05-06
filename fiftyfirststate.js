@@ -42,6 +42,7 @@ define([
     g_gamethemeurl + 'modules/js/hand.js',
     g_gamethemeurl + 'modules/js/common.js',
     g_gamethemeurl + 'modules/js/lexemes.js',
+    g_gamethemeurl + 'modules/js/tpls.js',
 ], function (dojo, declare) {
     return declare(
         'bgagame.fiftyfirststate',
@@ -68,6 +69,7 @@ define([
             state.chooseFaction,
             state.placeDefence,
             state.lexemes,
+            state.htmltemplates,
         ],
         {
             constructor() {

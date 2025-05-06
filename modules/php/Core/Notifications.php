@@ -483,7 +483,7 @@ class Notifications
         self::notifyAll('applyFactions', '', $data);
     }
 
-    public static function locationDefended(Player $player, Location $location)
+    public static function locationDefended(Player $player, Location $location): void
     {
         $msg = clienttranslate('${player_name} places a ${spendList} on ${locationName}');
         self::notifyAll('locationDefended', $msg, [
@@ -491,6 +491,11 @@ class Notifications
             'location' => $location,
             'spendList' => ResourcesHelper::getResourceNames([RESOURCE_DEFENCE]),
         ]);
+    }
+
+    public static function newRound($roundNumber): void
+    {
+        self::notifyAll('newRound', '', ['roundNumber' => $roundNumber]);
     }
 
     /*********************

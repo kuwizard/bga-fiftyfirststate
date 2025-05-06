@@ -1,0 +1,27 @@
+.player-board {
+  order: 2;
+}
+
+#info-panel {
+  order: 1;
+
+  .info-panel-row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5px 0;
+  }
+
+  #turn-counter-wrapper {
+    margin: 0 3px;
+    text-align: center;
+    font-size: 27px;
+    font-family: Roboto, Arial, sans-serif;
+    font-weight: 700;
+    display: block;
+    position: relative;
+    padding-top: 0;
+    line-height: 34px;
+    padding-bottom: 0;
+  }
+}

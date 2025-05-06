@@ -50,6 +50,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             // Create a new div for buttons to avoid BGA auto clearing it
             dojo.place("<div id='customActions' style='display:inline-block'></div>", $('generalactions'), 'after');
             this.setupNotifications();
+            this.addInfoPanel(gamedatas.roundNumber);
             this.addBoard();
             this.addResourcesTable();
             this.addHand();
@@ -424,7 +425,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             try {
                 if (log && args && !args.processed) {
                     args.processed = true;
-                    
+
                     if (args.spendText && args.resourcesList) {
                         if (args.resourcesList.length === 1) {
                             args.spendText = _('Choose where to spend it from:');

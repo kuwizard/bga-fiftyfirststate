@@ -93,7 +93,6 @@ class Fiftyfirststate extends Table
         Locations::setupNewGame();
         Connections::setupNewGame();
         Preferences::setupNewGame($players, $this->player_preferences);
-        Globals::setupNewGame();
     }
 
     /*
@@ -114,6 +113,7 @@ class Fiftyfirststate extends Table
                 Connections::getTopOf(LOCATION_CONNECTIONS_BLUE_FLIPPED),
             ],
             'lastRound' => Globals::isLastRound(),
+            'roundNumber' => Globals::getRoundNumber(),
         ];
     }
 

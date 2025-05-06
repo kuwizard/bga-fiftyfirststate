@@ -146,5 +146,15 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
                 dojo.removeClass(element, 'blurred');
             }
         },
+
+        addInfoPanel(roundNumber) {
+            dojo.place(this.tplInfoPanel(), 'player_boards', 'first');
+            roundNumber = roundNumber === 0 ? '-' : roundNumber;
+            this.addRoundNumber(roundNumber)
+        },
+
+        addRoundNumber(roundNumber) {
+            this.querySingle(`#turnNumber`).innerText = roundNumber;
+        }
     });
 });
