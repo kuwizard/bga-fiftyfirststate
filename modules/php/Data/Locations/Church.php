@@ -22,7 +22,8 @@ class Church extends Feature
         ];
         $this->text = [
             ...$this->getText(),
-            TEXT_DESCRIPTION => '2 {scoreIcon}',
+            TEXT_DESCRIPTION => '-',
+            TEXT_BONUS_DESCRIPTION => '2 {scoreIcon}',
         ];
     }
 }
