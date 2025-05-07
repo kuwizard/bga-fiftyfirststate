@@ -149,7 +149,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/counter'], (dojo, declare) => {
 
         addInfoPanel(roundNumber) {
             dojo.place(this.tplInfoPanel(), 'player_boards', 'first');
-            roundNumber = roundNumber === 0 ? '-' : roundNumber;
+            roundNumber = roundNumber === 0 ? 1 : roundNumber;
             this.addRoundNumber(roundNumber)
         },
 

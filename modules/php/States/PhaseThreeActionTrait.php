@@ -1,19 +1,19 @@
 <?php
 
-namespace STATE\States;
+namespace Bga\Games\Fiftyfirststate\States;
 
-use STATE\Core\Notifications;
-use STATE\Core\Stack;
-use STATE\Helpers\Collection;
-use STATE\Helpers\ResourcesHelper;
-use STATE\Managers\Connections;
-use STATE\Managers\Factions;
-use STATE\Managers\Locations;
-use STATE\Managers\Players;
-use STATE\Models\Act;
-use STATE\Models\Location;
-use STATE\Models\Player;
-use STATE\Models\Production;
+use Bga\Games\Fiftyfirststate\Core\Notifications;
+use Bga\Games\Fiftyfirststate\Core\Stack;
+use Bga\Games\Fiftyfirststate\Helpers\Collection;
+use Bga\Games\Fiftyfirststate\Helpers\ResourcesHelper;
+use Bga\Games\Fiftyfirststate\Managers\Connections;
+use Bga\Games\Fiftyfirststate\Managers\Factions;
+use Bga\Games\Fiftyfirststate\Managers\Locations;
+use Bga\Games\Fiftyfirststate\Managers\Players;
+use Bga\Games\Fiftyfirststate\Models\Act;
+use Bga\Games\Fiftyfirststate\Models\Location;
+use Bga\Games\Fiftyfirststate\Models\Player;
+use Bga\Games\Fiftyfirststate\Models\Production;
 
 trait PhaseThreeActionTrait
 {

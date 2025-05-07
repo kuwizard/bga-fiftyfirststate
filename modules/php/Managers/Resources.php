@@ -1,8 +1,8 @@
 <?php
 
-namespace STATE\Managers;
+namespace Bga\Games\Fiftyfirststate\Managers;
 
-use STATE\Helpers\DB_Manager;
+use Bga\Games\Fiftyfirststate\Helpers\DB_Manager;
 
 class Resources extends DB_Manager
 {

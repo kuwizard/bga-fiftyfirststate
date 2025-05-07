@@ -1,15 +1,15 @@
 <?php
 
-namespace STATE\Managers;
+namespace Bga\Games\Fiftyfirststate\Managers;
 
-use STATE\Core\Game;
-use STATE\Core\Globals;
-use STATE\Core\Notifications;
-use STATE\Core\Preferences;
-use STATE\Helpers\Collection;
-use STATE\Helpers\DB_Manager;
-use STATE\Helpers\ResourcesHelper;
-use STATE\Models\Player;
+use Bga\Games\Fiftyfirststate\Core\Globals;
+use Bga\Games\Fiftyfirststate\Core\Notifications;
+use Bga\Games\Fiftyfirststate\Core\Preferences;
+use Bga\Games\Fiftyfirststate\Game;
+use Bga\Games\Fiftyfirststate\Helpers\Collection;
+use Bga\Games\Fiftyfirststate\Helpers\DB_Manager;
+use Bga\Games\Fiftyfirststate\Helpers\ResourcesHelper;
+use Bga\Games\Fiftyfirststate\Models\Player;
 
 /*
  * Players manager : allows to easily access players ...

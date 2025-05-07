@@ -1,8 +1,8 @@
 <?php
 
-namespace STATE\Data\Locations\NewEra;
+namespace Bga\Games\Fiftyfirststate\Data\Locations\NewEra;
 
-use STATE\Models\FeaturePassiveAbility;
+use Bga\Games\Fiftyfirststate\Models\FeaturePassiveAbility;
 
 class Truck extends FeaturePassiveAbility
 {

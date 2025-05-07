@@ -1,9 +1,9 @@
 <?php
 
-namespace STATE\Models;
+namespace Bga\Games\Fiftyfirststate\Models;
 
-use STATE\Helpers\ResourcesHelper;
-use STATE\Managers\Locations;
+use Bga\Games\Fiftyfirststate\Helpers\ResourcesHelper;
+use Bga\Games\Fiftyfirststate\Managers\Locations;
 
 class Location implements \JsonSerializable
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace STATE\Helpers;
+namespace Bga\Games\Fiftyfirststate\Helpers;
 
 /*
  * This is a generic class to manage game pieces.

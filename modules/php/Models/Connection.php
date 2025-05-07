@@ -1,8 +1,8 @@
 <?php
 
-namespace STATE\Models;
+namespace Bga\Games\Fiftyfirststate\Models;
 
-use STATE\Managers\Connections;
+use Bga\Games\Fiftyfirststate\Managers\Connections;
 
 class Connection implements \JsonSerializable
 {

@@ -1,11 +1,12 @@
 <?php
-namespace STATE\Core;
+namespace Bga\Games\Fiftyfirststate\Core;
 
-use STATE\Helpers\ResourcesHelper;
-use STATE\Managers\Locations;
-use STATE\Models\Connection;
-use STATE\Models\Location;
-use STATE\Models\Player;
+use Bga\Games\Fiftyfirststate\Game;
+use Bga\Games\Fiftyfirststate\Helpers\ResourcesHelper;
+use Bga\Games\Fiftyfirststate\Managers\Locations;
+use Bga\Games\Fiftyfirststate\Models\Connection;
+use Bga\Games\Fiftyfirststate\Models\Location;
+use Bga\Games\Fiftyfirststate\Models\Player;
 
 class Notifications
 {

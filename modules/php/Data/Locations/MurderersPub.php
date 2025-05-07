@@ -1,9 +1,9 @@
 <?php
 
-namespace STATE\Data\Locations;
+namespace Bga\Games\Fiftyfirststate\Data\Locations;
 
-use STATE\Models\Feature;
-use STATE\Models\Player;
+use Bga\Games\Fiftyfirststate\Models\Feature;
+use Bga\Games\Fiftyfirststate\Models\Player;
 
 class MurderersPub extends Feature
 {

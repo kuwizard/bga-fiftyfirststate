@@ -1,9 +1,9 @@
 <?php
 
-namespace STATE\Models;
+namespace Bga\Games\Fiftyfirststate\Models;
 
 
-use STATE\Managers\Resources;
+use Bga\Games\Fiftyfirststate\Managers\Resources;
 
 class FeatureStorageMultiple extends FeatureStorage
 {

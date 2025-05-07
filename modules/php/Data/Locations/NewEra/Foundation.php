@@ -1,9 +1,9 @@
 <?php
 
-namespace STATE\Data\Locations\NewEra;
+namespace Bga\Games\Fiftyfirststate\Data\Locations\NewEra;
 
-use STATE\Models\FeatureStorageSingle;
-use STATE\Models\ResourceStorageOptionSingle;
+use Bga\Games\Fiftyfirststate\Models\FeatureStorageSingle;
+use Bga\Games\Fiftyfirststate\Models\ResourceStorageOptionSingle;
 
 class Foundation extends FeatureStorageSingle
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace STATE\Data\Locations;
+namespace Bga\Games\Fiftyfirststate\Data\Locations;
 
-use STATE\Managers\Players;
-use STATE\Models\Act;
-use STATE\Models\Action;
-use STATE\Models\Player;
+use Bga\Games\Fiftyfirststate\Managers\Players;
+use Bga\Games\Fiftyfirststate\Models\Act;
+use Bga\Games\Fiftyfirststate\Models\Action;
+use Bga\Games\Fiftyfirststate\Models\Player;
 
 class ThievesCaravan extends Action
 {

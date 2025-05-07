@@ -1,8 +1,8 @@
 <?php
 
-namespace STATE\States;
+namespace Bga\Games\Fiftyfirststate\States;
 
-use STATE\Core\Stack;
+use Bga\Games\Fiftyfirststate\Core\Stack;
 
 trait ConfirmTurnEndTrait
 {

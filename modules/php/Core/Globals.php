@@ -1,13 +1,13 @@
 <?php
 
-namespace STATE\Core;
+namespace Bga\Games\Fiftyfirststate\Core;
 
 /*
  * Globals
  */
 
 use InvalidArgumentException;
-use STATE\Helpers\DB_Manager;
+use Bga\Games\Fiftyfirststate\Helpers\DB_Manager;
 use function addslashes;
 use function array_key_exists;
 use function json_encode;

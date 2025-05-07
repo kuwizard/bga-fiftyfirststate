@@ -1,8 +1,8 @@
 <?php
 
-namespace STATE\Data\Locations\NewEra;
+namespace Bga\Games\Fiftyfirststate\Data\Locations\NewEra;
 
-use STATE\Models\Production;
+use Bga\Games\Fiftyfirststate\Models\Production;
 
 class TheIronGang extends Production
 {

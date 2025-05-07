@@ -1,9 +1,9 @@
 <?php
 
-namespace STATE\Models;
+namespace Bga\Games\Fiftyfirststate\Models;
 
-use STATE\Core\Stack;
-use STATE\Managers\Locations;
+use Bga\Games\Fiftyfirststate\Core\Stack;
+use Bga\Games\Fiftyfirststate\Managers\Locations;
 
 class Action extends Location
 {

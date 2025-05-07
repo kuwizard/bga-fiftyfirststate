@@ -1,8 +1,8 @@
 <?php
 
-namespace STATE\Helpers;
+namespace Bga\Games\Fiftyfirststate\Helpers;
 
-use STATE\Core\Game;
+use Bga\Games\Fiftyfirststate\Game;
 
 class GameOptions
 {

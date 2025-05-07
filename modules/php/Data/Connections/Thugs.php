@@ -1,9 +1,9 @@
 <?php
 
-namespace STATE\Data\Connections;
+namespace Bga\Games\Fiftyfirststate\Data\Connections;
 
-use STATE\Models\Act;
-use STATE\Models\Connection;
+use Bga\Games\Fiftyfirststate\Models\Act;
+use Bga\Games\Fiftyfirststate\Models\Connection;
 
 class Thugs extends Connection
 {

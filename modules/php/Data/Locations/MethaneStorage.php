@@ -1,9 +1,9 @@
 <?php
 
-namespace STATE\Data\Locations;
+namespace Bga\Games\Fiftyfirststate\Data\Locations;
 
-use STATE\Models\FeatureStorageSingle;
-use STATE\Models\ResourceStorageOptionSingle;
+use Bga\Games\Fiftyfirststate\Models\FeatureStorageSingle;
+use Bga\Games\Fiftyfirststate\Models\ResourceStorageOptionSingle;
 
 class MethaneStorage extends FeatureStorageSingle
 {

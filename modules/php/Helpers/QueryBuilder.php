@@ -1,6 +1,6 @@
 <?php
 
-namespace STATE\Helpers;
+namespace Bga\Games\Fiftyfirststate\Helpers;
 
 use APP_DbObject;
 use BgaVisibleSystemException;

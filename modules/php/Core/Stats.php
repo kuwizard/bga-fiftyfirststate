@@ -1,7 +1,8 @@
 <?php
-namespace STATE\Core;
+namespace Bga\Games\Fiftyfirststate\Core;
 
-use STATE\Models\Player;
+use Bga\Games\Fiftyfirststate\Game;
+use Bga\Games\Fiftyfirststate\Models\Player;
 
 class Stats
 {

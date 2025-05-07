@@ -16,15 +16,15 @@
  *
  */
 
-use STATE\Core\Globals;
-use STATE\Core\Preferences;
-use STATE\Core\Stack;
-use STATE\Core\Stats;
-use STATE\Managers\Connections;
-use STATE\Managers\Factions;
-use STATE\Managers\Locations;
-use STATE\Managers\Players;
-use STATE\Models\Player;
+namespace Bga\Games\Fiftyfirststate;
+
+use Bga\Games\Fiftyfirststate\Core\Globals;
+use Bga\Games\Fiftyfirststate\Core\Preferences;
+use Bga\Games\Fiftyfirststate\Core\Stack;
+use Bga\Games\Fiftyfirststate\Core\Stats;
+use Bga\Games\Fiftyfirststate\Managers\Connections;
+use Bga\Games\Fiftyfirststate\Managers\Locations;
+use Bga\Games\Fiftyfirststate\Managers\Players;
 
 require_once APP_GAMEMODULE_PATH . 'module/table/table.game.php';
 
@@ -42,24 +42,24 @@ $swdNamespaceAutoload = function ($class) {
 };
 spl_autoload_register($swdNamespaceAutoload, true, true);
 
-class Fiftyfirststate extends Table
+class Game extends \Table
 {
-    use STATE\States\RoundTrait;
-    use STATE\States\DiscardCardsGameStartTrait;
-    use STATE\States\PhaseOneLookoutTrait;
-    use STATE\States\PhaseTwoProductionTrait;
-    use STATE\States\PhaseThreeActionTrait;
-    use STATE\States\PhaseFourCleanupTrait;
-    use STATE\States\ChooseResourceSourceTrait;
-    use STATE\States\ChooseResourceToStoreTrait;
-    use STATE\States\DevelopTrait;
-    use STATE\States\ChoosePlayerToStealTrait;
-    use STATE\States\ActivateSecondTimeTrait;
-    use STATE\States\ActivateProductionTrait;
-    use STATE\States\SpecificLocationsActionsTrait;
-    use STATE\States\ConfirmTurnEndTrait;
-    use STATE\States\ChooseFactionTrait;
-    use STATE\States\PlaceDefenceTrait;
+    use States\RoundTrait;
+    use States\DiscardCardsGameStartTrait;
+    use States\PhaseOneLookoutTrait;
+    use States\PhaseTwoProductionTrait;
+    use States\PhaseThreeActionTrait;
+    use States\PhaseFourCleanupTrait;
+    use States\ChooseResourceSourceTrait;
+    use States\ChooseResourceToStoreTrait;
+    use States\DevelopTrait;
+    use States\ChoosePlayerToStealTrait;
+    use States\ActivateSecondTimeTrait;
+    use States\ActivateProductionTrait;
+    use States\SpecificLocationsActionsTrait;
+    use States\ConfirmTurnEndTrait;
+    use States\ChooseFactionTrait;
+    use States\PlaceDefenceTrait;
 
     public static $instance = null;
 

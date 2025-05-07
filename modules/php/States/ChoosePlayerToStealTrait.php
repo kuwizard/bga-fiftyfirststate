@@ -1,12 +1,12 @@
 <?php
 
-namespace STATE\States;
+namespace Bga\Games\Fiftyfirststate\States;
 
-use STATE\Core\Notifications;
-use STATE\Core\Stack;
-use STATE\Helpers\ResourcesHelper;
-use STATE\Managers\Players;
-use STATE\Models\Player;
+use Bga\Games\Fiftyfirststate\Core\Notifications;
+use Bga\Games\Fiftyfirststate\Core\Stack;
+use Bga\Games\Fiftyfirststate\Helpers\ResourcesHelper;
+use Bga\Games\Fiftyfirststate\Managers\Players;
+use Bga\Games\Fiftyfirststate\Models\Player;
 
 trait ChoosePlayerToStealTrait
 {
@@ -90,7 +90,8 @@ trait ChoosePlayerToStealTrait
         Notifications::resourcesChanged($victim, $victim->getResourcesWithNames([$resource]));
         Notifications::resourceStolen(Players::getActive(), $victim, $resource);
         Stack::insertOnTopAndFinish(
-            ST_CREATE_RESOURCE_SOURCE_MAP, [
+            ST_CREATE_RESOURCE_SOURCE_MAP,
+            [
                 'spend' => $spend,
                 'bonus' => [$resource],
                 'activatorId' => $activatorId,

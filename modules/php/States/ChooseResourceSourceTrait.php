@@ -1,19 +1,19 @@
 <?php
 
-namespace STATE\States;
+namespace Bga\Games\Fiftyfirststate\States;
 
-use STATE\Core\Globals;
-use STATE\Core\Notifications;
-use STATE\Core\Stack;
-use STATE\Helpers\ResourcesHelper;
-use STATE\Managers\Locations;
-use STATE\Managers\Players;
-use STATE\Managers\Resources;
-use STATE\Models\FeaturePassiveAbility;
-use STATE\Models\FeatureStorage;
-use STATE\Models\FeatureStorageSingle;
-use STATE\Models\Player;
-use STATE\Models\Production;
+use Bga\Games\Fiftyfirststate\Core\Globals;
+use Bga\Games\Fiftyfirststate\Core\Notifications;
+use Bga\Games\Fiftyfirststate\Core\Stack;
+use Bga\Games\Fiftyfirststate\Helpers\ResourcesHelper;
+use Bga\Games\Fiftyfirststate\Managers\Locations;
+use Bga\Games\Fiftyfirststate\Managers\Players;
+use Bga\Games\Fiftyfirststate\Managers\Resources;
+use Bga\Games\Fiftyfirststate\Models\FeaturePassiveAbility;
+use Bga\Games\Fiftyfirststate\Models\FeatureStorage;
+use Bga\Games\Fiftyfirststate\Models\FeatureStorageSingle;
+use Bga\Games\Fiftyfirststate\Models\Player;
+use Bga\Games\Fiftyfirststate\Models\Production;
 
 trait ChooseResourceSourceTrait
 {

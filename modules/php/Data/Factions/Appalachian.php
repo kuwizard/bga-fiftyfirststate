@@ -1,9 +1,9 @@
 <?php
 
-namespace STATE\Data\Factions;
+namespace Bga\Games\Fiftyfirststate\Data\Factions;
 
-use STATE\Models\Act;
-use STATE\Models\Faction;
+use Bga\Games\Fiftyfirststate\Models\Act;
+use Bga\Games\Fiftyfirststate\Models\Faction;
 
 class Appalachian extends Faction
 {

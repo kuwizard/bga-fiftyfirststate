@@ -1,8 +1,8 @@
 <?php
 
-namespace STATE\Data\Locations;
+namespace Bga\Games\Fiftyfirststate\Data\Locations;
 
-use STATE\Models\Production;
+use Bga\Games\Fiftyfirststate\Models\Production;
 
 class Assassin extends Production
 {
