@@ -24,6 +24,7 @@ trait ChooseFactionTrait
     #[CheckAction(false)]
     public function actChangedMind()
     {
+        $this->gamestate->checkPossibleAction('actChangedMind');
         $this->gamestate->setPlayersMultiactive([Players::getCurrentId()], '');
     }
 

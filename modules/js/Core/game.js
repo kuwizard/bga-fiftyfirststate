@@ -75,8 +75,9 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             return this.isSpectator || typeof g_replayFrom != 'undefined' || g_archive_mode;
         },
 
-        takeAction(action, data = {}) {
-            this.bgaPerformAction(action, data);
+        takeAction(action, data = {}, check = true) {
+            const params = check ? {} : { checkAction: false, checkPossibleActions: true };
+            this.bgaPerformAction(action, data, params);
         },
 
         /*
@@ -196,7 +197,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
         },
 
         addSecondaryActionButton(id, text, callback) {
-            if (!$(id)) this.addActionButton(id, text, callback, null, false, 'gray');
+            if (!$(id)) this.statusBar.addActionButton(text, callback, { color: 'secondary', id: id });
         },
 
         addDangerActionButton(id, text, callback) {
@@ -424,7 +425,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             try {
                 if (log && args && !args.processed) {
                     args.processed = true;
-                    
+
                     if (args.spendText && args.resourcesList) {
                         if (args.resourcesList.length === 1) {
                             args.spendText = _('Choose where to spend it from:');
