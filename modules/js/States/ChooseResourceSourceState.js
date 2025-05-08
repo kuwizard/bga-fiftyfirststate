@@ -43,6 +43,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     );
                     dojo.addClass('buttonChooseSourceJoker', 'resourceButton');
                 }
+                this.addUndoButton();
             }
         },
 

@@ -283,6 +283,12 @@ trait PhaseThreeActionTrait
 
     public function actActivateLocation(int $id): void
     {
+        $args = $this->argPhaseThreeAction();
+        if (isset($args['locations']) && !in_array($id, array_keys($args['locations']))) {
+            throw new \BgaVisibleSystemException(
+                "This location cannot be activated. If you think otherwise - please report a bug referring this location id $id"
+            );
+        }
         $location = Locations::get($id);
         $player = Players::getActive();
         $location->activate($player);
