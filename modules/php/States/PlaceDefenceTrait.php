@@ -33,6 +33,7 @@ trait PlaceDefenceTrait
         Notifications::locationDefended($player, Locations::get($id));
         Notifications::resourcesChanged($player, $player->getResourcesWithNames([RESOURCE_DEFENCE]));
         self::giveExtraTime($player->getId());
+        Stack::insertOnTop(ST_CONFIRM_TURN_END);
         Stack::finishState();
     }
 }
