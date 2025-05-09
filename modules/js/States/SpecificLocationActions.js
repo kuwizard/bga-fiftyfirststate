@@ -18,7 +18,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 args.forEach((resource) => {
                     this.addActionButtonWithResource(resource, 'actChooseResourceToSpend');
                 });
-                this.addUndoButton();
             }
         },
 

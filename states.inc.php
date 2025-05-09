@@ -239,7 +239,7 @@ $machinestates = [
         'descriptionmyturn' => clienttranslate('${you} must choose a resource to spend'),
         'args' => 'argChooseResourceToSpend',
         'type' => 'activeplayer',
-        'possibleactions' => ['actChooseResourceToSpend', 'actUndo'],
+        'possibleactions' => ['actChooseResourceToSpend'],
     ],
 
     ST_CHOOSE_DEAL_TO_LOSE => [
