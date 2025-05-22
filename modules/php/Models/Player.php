@@ -409,7 +409,7 @@ class Player extends DB_Manager implements JsonSerializable
         if ($includeRuins) {
             return $withRuins;
         } else {
-            return Locations::getBoard($this->id)->filter(function (Location $location) {
+            return $withRuins->filter(function (Location $location) {
                 return !$location->isRuined();
             });
         }
