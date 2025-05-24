@@ -296,10 +296,7 @@ class Locations extends Pieces
     {
         foreach ($cardIds as $cardId) {
             self::insertOnTop($cardId, LOCATION_DISCARD);
-            self::DB()
-                ->update(['is_defended' => 0])
-                ->where('location_id', $cardId)
-                ->run();
+            self::removeDefence($cardId);
         }
     }
 
@@ -317,10 +314,7 @@ class Locations extends Pieces
 
     public static function increaseActivatedTimes(int $id, int $newAmount)
     {
-        self::DB()
-            ->update(['activated_times' => $newAmount])
-            ->where('location_id', $id)
-            ->run();
+        self::updateWhereLocationId(['activated_times' => $newAmount], $id);
     }
 
     public static function ruin(Location $location): void
@@ -331,26 +325,22 @@ class Locations extends Pieces
             Resources::deleteAll($location->getId());
             Notifications::resourcesChanged($owner, $owner->getResourcesWithNames($resourcesChanged));
         }
-        self::DB()
-            ->update(['is_ruined' => 1])
-            ->where('location_id', $location->getId())
-            ->run();
+        self::updateWhereLocationId(['is_ruined' => 1], $location->getId());
     }
 
     public static function unruin(Location $location): void
     {
-        self::DB()
-            ->update(['is_ruined' => 0])
-            ->where('location_id', $location->getId())
-            ->run();
+        self::updateWhereLocationId(['is_ruined' => 0], $location->getId());
     }
 
     public static function addDefence(int $locationId): void
     {
-        self::DB()
-            ->update(['is_defended' => 1])
-            ->where('location_id', $locationId)
-            ->run();
+        self::updateWhereLocationId(['is_defended' => 1], $locationId);
+    }
+
+    public static function removeDefence(int $locationId): void
+    {
+        self::updateWhereLocationId(['is_defended' => 0], $locationId);
     }
 
     public static function resetAllDefended()
@@ -375,5 +365,13 @@ class Locations extends Pieces
     public static function reshuffle()
     {
         Notifications::locationsReshuffle();
+    }
+
+    private static function updateWhereLocationId(array $update, int $locationId)
+    {
+        self::DB()
+            ->update($update)
+            ->where('location_id', $locationId)
+            ->run();
     }
 }

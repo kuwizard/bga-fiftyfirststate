@@ -171,6 +171,7 @@ class Location implements \JsonSerializable
     {
         $this->isRuined = true;
         Locations::ruin($this);
+        Locations::removeDefence($this->id);
     }
 
     public function unruin()

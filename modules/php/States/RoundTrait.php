@@ -23,6 +23,7 @@ trait RoundTrait
         $firstPlayer = Globals::getFirstPlayerId();
         if ($firstPlayer === 0) {
             $nextPlayerId = Players::getFirstFirstPlayerId();
+            Players::giveEachPlayerCardsSetup();
             // If for some reason Factions never called setupNewGame(), let's call it now (it might happen in debug only!)
             $playerFaction = Players::get($nextPlayerId)->getFaction();
             if (empty(Factions::getAllForFaction($playerFaction))) {
