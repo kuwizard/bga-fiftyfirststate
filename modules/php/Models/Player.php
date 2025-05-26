@@ -454,7 +454,9 @@ class Player extends DB_Manager implements JsonSerializable
     {
         $board = $this->getBoard();
         $locationsGivingCardOnRazeAmount = $board->filter(function (Location $location) {
-            return $location instanceof FeaturePassiveAbility && $location->isTriggeredBy(LOCATION_ACTION_RAZE);
+            return $location instanceof FeaturePassiveAbility
+                && $location->isTriggeredBy(LOCATION_ACTION_RAZE)
+                && $location->getBonusFor(LOCATION_ACTION_RAZE) === RESOURCE_CARD;
         });
         return $locationsGivingCardOnRazeAmount->count() > 0;
     }
