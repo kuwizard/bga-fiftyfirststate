@@ -535,12 +535,21 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
         },
 
         dojoConnect(element, func) {
-            const connection = dojo.connect($(element), 'click', (evt) => {
+            const connectionDown = dojo.connect($(element), 'pointerdown', (evt) => {
                 evt.preventDefault();
                 evt.stopPropagation();
-                func();
+                this._pointerDownElt = $(element);
             });
-            this._connections.push(connection);
+            this._connections.push(connectionDown);
+
+            const connectionUp = dojo.connect($(element), 'pointerup', (evt) => {
+                evt.preventDefault();
+                evt.stopPropagation();
+                if ($(element) === this._pointerDownElt) {
+                    func(evt);
+                }
+            });
+            this._connections.push(connectionUp);
         },
 
         addClass(element, clazz, removeAfter = false, delay = 1000) {
