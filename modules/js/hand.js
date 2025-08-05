@@ -5,6 +5,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         addHand() {
             dojo.place(this.format_block('jstpl_hand', {}), 'board');
+            const hand = $('handLocations');
             if (!this.isSpectator) {
                 dojo.place(this.format_block('jstpl_selector', {}), 'hand', 'first');
                 ['unselected', 'selected'].forEach((selectorBlock) => {
@@ -35,11 +36,20 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                     });
                 });
                 this.gamedatas.players[this.player_id].hand.forEach((location) => {
-                    this.addLocation(location, $('handLocations'));
+                    this.addLocation(location, hand);
                 });
                 this.gamedatas.players[this.player_id].connections.forEach((connection) => {
                     this.addConnection(connection, 'handConnections')
                 });
+                
+                hand.addEventListener('scroll', () => {
+                    const isScrolledRight = hand.scrollLeft + hand.clientWidth >= hand.scrollWidth - 1;
+                    const isScrolledLeft = hand.scrollLeft <= 1;
+
+                    hand.classList.toggle('mask-hide-right', isScrolledRight);
+                    hand.classList.toggle('mask-hide-left', isScrolledLeft);
+                });
+                dojo.addClass(hand, 'mask-hide-left');
             }
         },
 

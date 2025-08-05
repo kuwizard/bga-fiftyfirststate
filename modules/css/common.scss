@@ -212,6 +212,77 @@ $icons: (
   }
 }
 
+.scrollable {
+  #hand {
+    width: 100%;
+  }
+
+  .nameCardsWrapper .cards .cardsBlock {
+    --mask-height: 18px;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0 10px 10px 15px;
+    --mask-image-content: linear-gradient(to right, transparent, black var(--mask-height), black var(--delta-mask-height), transparent);
+    --mask-size-content: 100%;
+    --mask-image-scrollbar: linear-gradient(black, black);
+    --mask-size-scrollbar: 0 100%;
+    --delta-mask-height: calc(99% - var(--mask-height));
+    mask-image: var(--mask-image-content), var(--mask-image-scrollbar);
+    mask-size: var(--mask-size-content), var(--mask-size-scrollbar);
+    scrollbar-width: none;
+  }
+
+  #hand #handLocations {
+    --mask-height: 60px; /* Width of the fade effect */
+    overflow-x: auto;
+
+    /* Left fade (shown when NOT scrolled all the way left) */
+    --mask-fade-left: linear-gradient(
+                    to right,
+                    transparent 2%,
+                    black var(--mask-height),
+                    black 100%
+    );
+
+    /* Right fade (shown when NOT scrolled all the way right) */
+    --mask-fade-right: linear-gradient(
+                    to left,
+                    transparent 2%,
+                    black var(--mask-height),
+                    black 100%
+    );
+
+    /* Combine masks (both active by default) */
+    -webkit-mask-image: var(--mask-fade-left), var(--mask-fade-right);
+    mask-image: var(--mask-fade-left), var(--mask-fade-right);
+    mask-size: 50% 100%, 50% 100%; /* Both halves */
+    mask-position: left, right;
+    mask-repeat: no-repeat;
+    scrollbar-width: none;
+    margin: 0;
+    padding: 7px 0 9px 0;
+
+    &.mask-hide-right {
+      mask-image: var(--mask-fade-left);
+      mask-size: 100% 100%;
+      padding: 7px 15px 9px 0;
+    }
+
+    /* Hide left fade when scrolled all the way left */
+    &.mask-hide-left {
+      mask-image: var(--mask-fade-right);
+      mask-size: 100% 100%;
+      padding: 7px 0 9px 15px;
+    }
+
+    transition: padding 0.5s ease;
+  }
+
+  .factionBoard .cardsBlock:not(.cardsBlock.notTooManyChildren) .locationWrapper, #handLocations:not(#handLocations.notTooManyChildren) .locationWrapper {
+    width: auto;
+  }
+}
+
 .mobile_version {
   #board {
     margin-right: 5px;

@@ -87,9 +87,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             let callback;
             if (prefId === PLAYER_OPTION_SCROLLABLE) {
                 callback = parseInt(prefValue) === SCROLLABLE_DISABLE ? dojo.removeClass : dojo.addClass;
-                dojo.query('.factionBoard').forEach((factionBoard) => {
-                    callback(factionBoard, 'scrollable');
-                });
+                callback(this.querySingle('#board'), 'scrollable');
             }
         },
 
