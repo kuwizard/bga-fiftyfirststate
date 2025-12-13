@@ -28,10 +28,10 @@ trait DevelopTrait
         $isRuins = !$board->filter(function (Location $location) {
             return $location->isRuined();
         })->empty();
-        $isVoidIcon = !$board->filter(function (Location $location) {
+        $isVoidIconOnBoard = !$board->filter(function (Location $location) {
             return in_array(ICON_VOID, $location->getIcons());
         })->empty();
-        if ($resource === RESOURCE_DEVELOPMENT || $isRuins || $isVoidIcon) {
+        if ($resource === RESOURCE_DEVELOPMENT || $isRuins || $isVoidIconOnBoard) {
             $possibleHandLocations = $player->getHand();
         } else {
             $possibleHandLocations = $player->getHand()->filter(function (Location $location) use ($board) {
@@ -40,7 +40,8 @@ trait DevelopTrait
                     return $location->getIcons();
                 })->toArray()
                 );
-                return !empty(array_intersect($location->getIcons(), $iconsOnBoard));
+                $locationIsVoid = in_array(ICON_VOID, $location->getIcons());
+                return !empty(array_intersect($location->getIcons(), $iconsOnBoard)) || $locationIsVoid;
             });
         }
         return $possibleHandLocations;
@@ -48,23 +49,24 @@ trait DevelopTrait
 
     public function argDevelopChooseDestination()
     {
-        $newLocationId = Stack::getCtx()['newLocationId'];
-        $fromLocation = Locations::get($newLocationId);
+        $locationToBuildId = Stack::getCtx()['newLocationId'];
+        $locationToBuild = Locations::get($locationToBuildId);
         $player = Players::getActive();
-        if (ResourcesHelper::getResourceType(Stack::getCtx()['resource']) === RESOURCE_DEVELOPMENT) {
+        $isToBuildVoid = in_array(ICON_VOID, $locationToBuild->getIcons());
+        if (ResourcesHelper::getResourceType(Stack::getCtx()['resource']) === RESOURCE_DEVELOPMENT || $isToBuildVoid) {
             $possibleDestinations = $player->getBoard(true);
         } else {
             $possibleDestinations = $player->getBoard(true)->filter(
-                function (Location $location) use ($fromLocation) {
+                function (Location $location) use ($locationToBuild) {
                     return $location->isRuined()
                         || in_array(ICON_VOID, $location->getIcons())
-                        || !empty(array_intersect($location->getIcons(), $fromLocation->getIcons()));
+                        || !empty(array_intersect($location->getIcons(), $locationToBuild->getIcons()));
                 }
             );
         }
-        $cardWarning = in_array(RESOURCE_CARD, $fromLocation->getBuildingBonus($player));
+        $cardWarning = in_array(RESOURCE_CARD, $locationToBuild->getBuildingBonus($player));
         return [
-            'newLocationId' => $newLocationId,
+            'newLocationId' => $locationToBuildId,
             'possibleDestinations' => $this->getMapWithCardConfirmation($possibleDestinations->getIds(), $cardWarning),
         ];
     }
