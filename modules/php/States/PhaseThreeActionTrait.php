@@ -81,12 +81,19 @@ trait PhaseThreeActionTrait
         return $location instanceof Production && in_array(RESOURCE_CARD, $location->getProduct($player));
     }
 
-    private function razeReachableCardInSpoils(Location $location, Player $player)
+    private function razeReachableCardInSpoils(Location $location, Player $player, bool $strictCheckForRaze = true)
     {
         $reachableAndGivesACard = $location->getDistance() <= $player->getResource(RESOURCE_ARROW_RED)
             && in_array(RESOURCE_CARD, $location->getSpoils());
         $playerGetsCardOnRaze = $player->isReceiveNewCardOnRaze();
-        return $reachableAndGivesACard || $playerGetsCardOnRaze;
+        $locationCouldBeUsedAsOpenProd = $this->isLocationCouldBeUsedAsOpenProd($location, $player);
+        $couldBeRazed = $player->getResource(RESOURCE_ARROW_RED, false, true) >= $location->getDefenceValue();
+        if ($strictCheckForRaze) {
+            $locationCouldOnlyBeRazed = !$locationCouldBeUsedAsOpenProd && $couldBeRazed;
+            return $reachableAndGivesACard || ($playerGetsCardOnRaze && $locationCouldOnlyBeRazed);
+        } else {
+            return $reachableAndGivesACard || $playerGetsCardOnRaze;
+        }
     }
 
     private function whatCanBeUsedForDevel(Player $player): array
@@ -135,7 +142,7 @@ trait PhaseThreeActionTrait
         $player = Players::getActive();
         return [
             'locationId' => $location->getId(),
-            'raze' => $this->razeReachableCardInSpoils($location, $player),
+            'raze' => $this->razeReachableCardInSpoils($location, $player, false),
             'openProd' => $this->isOpenProdProducingCards($location, $player),
         ];
     }
