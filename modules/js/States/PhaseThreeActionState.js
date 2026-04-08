@@ -206,6 +206,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             if (this.player_id === n.args.player_id) {
                 const location = this.querySingle(`#location_${n.args.location.id}`);
                 this.addClass(location, 'turnAround');
+                this.addClass(location, 'moving');
                 this.addClass(location, 'turning', true, 450);
                 await this.waitForDisappearance('.turning');
                 await this.slide(location, deals, { destroy: true, pos: { x: 50, y: 0 }, duration: 700 });
