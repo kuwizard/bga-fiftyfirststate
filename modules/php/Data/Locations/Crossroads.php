@@ -1,8 +1,8 @@
 <?php
 
-namespace STATE\Data\Locations;
+namespace Bga\Games\Fiftyfirststate\Data\Locations;
 
-use STATE\Models\Feature;
+use Bga\Games\Fiftyfirststate\Models\Feature;
 
 class Crossroads extends Feature
 {

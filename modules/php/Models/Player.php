@@ -1,20 +1,20 @@
 <?php
 
-namespace STATE\Models;
+namespace Bga\Games\Fiftyfirststate\Models;
 
 use JsonSerializable;
-use STATE\Core\Game;
-use STATE\Core\Globals;
-use STATE\Core\Notifications;
-use STATE\Core\Preferences;
-use STATE\Helpers\Collection;
-use STATE\Helpers\DB_Manager;
-use STATE\Helpers\ResourcesHelper;
-use STATE\Managers\Connections;
-use STATE\Managers\Factions;
-use STATE\Managers\Locations;
-use STATE\Managers\Players;
-use STATE\Managers\Resources;
+use Bga\Games\Fiftyfirststate\Game;
+use Bga\Games\Fiftyfirststate\Core\Globals;
+use Bga\Games\Fiftyfirststate\Core\Notifications;
+use Bga\Games\Fiftyfirststate\Core\Preferences;
+use Bga\Games\Fiftyfirststate\Helpers\Collection;
+use Bga\Games\Fiftyfirststate\Helpers\DB_Manager;
+use Bga\Games\Fiftyfirststate\Helpers\ResourcesHelper;
+use Bga\Games\Fiftyfirststate\Managers\Connections;
+use Bga\Games\Fiftyfirststate\Managers\Factions;
+use Bga\Games\Fiftyfirststate\Managers\Locations;
+use Bga\Games\Fiftyfirststate\Managers\Players;
+use Bga\Games\Fiftyfirststate\Managers\Resources;
 
 /*
  * Player: all utility functions concerning a player
@@ -170,7 +170,7 @@ class Player extends DB_Manager implements JsonSerializable
      */
     public function getFactionProduction()
     {
-        $name = 'STATE\Data\Factions\\' . Factions::getName($this->getFaction());
+        $name = 'Bga\Games\Fiftyfirststate\Data\Factions\\' . Factions::getName($this->getFaction());
         /** @var Faction $faction */
         $faction = new $name;
         return $faction->getProduction();
@@ -181,7 +181,7 @@ class Player extends DB_Manager implements JsonSerializable
      */
     public function getFactionActions()
     {
-        $name = 'STATE\Data\Factions\\' . Factions::getName($this->getFaction());
+        $name = 'Bga\Games\Fiftyfirststate\Data\Factions\\' . Factions::getName($this->getFaction());
         /** @var Faction $faction */
         $faction = new $name;
         return $faction->getActions();

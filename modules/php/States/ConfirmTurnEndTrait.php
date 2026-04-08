@@ -1,10 +1,10 @@
 <?php
 
-namespace STATE\States;
+namespace Bga\Games\Fiftyfirststate\States;
 
-use STATE\Core\Globals;
-use STATE\Core\Stack;
-use STATE\Managers\Players;
+use Bga\Games\Fiftyfirststate\Core\Globals;
+use Bga\Games\Fiftyfirststate\Core\Stack;
+use Bga\Games\Fiftyfirststate\Managers\Players;
 
 trait ConfirmTurnEndTrait
 {

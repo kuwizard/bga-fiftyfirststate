@@ -1,9 +1,9 @@
 <?php
 
-namespace STATE\Core;
+namespace Bga\Games\Fiftyfirststate\Core;
 
-use STATE\Helpers\DB_Manager;
-use STATE\Managers\Players;
+use Bga\Games\Fiftyfirststate\Helpers\DB_Manager;
+use Bga\Games\Fiftyfirststate\Managers\Players;
 
 /*
  * User preferences

@@ -1,9 +1,9 @@
 <?php
 
-namespace STATE\Models;
+namespace Bga\Games\Fiftyfirststate\Models;
 
-use STATE\Core\Stack;
-use STATE\Helpers\ResourcesHelper;
+use Bga\Games\Fiftyfirststate\Core\Stack;
+use Bga\Games\Fiftyfirststate\Helpers\ResourcesHelper;
 
 class Act implements \JsonSerializable
 {

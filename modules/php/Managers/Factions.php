@@ -1,11 +1,11 @@
 <?php
 
-namespace STATE\Managers;
+namespace Bga\Games\Fiftyfirststate\Managers;
 
-use STATE\Helpers\Collection;
-use STATE\Helpers\DB_Manager;
-use STATE\Helpers\ResourcesHelper;
-use STATE\Models\Faction;
+use Bga\Games\Fiftyfirststate\Helpers\Collection;
+use Bga\Games\Fiftyfirststate\Helpers\DB_Manager;
+use Bga\Games\Fiftyfirststate\Helpers\ResourcesHelper;
+use Bga\Games\Fiftyfirststate\Models\Faction;
 
 class Factions extends DB_Manager
 {
@@ -89,7 +89,7 @@ class Factions extends DB_Manager
 
     private static function getProductionAndActionsUI($type)
     {
-        $name = "STATE\Data\Factions\\" . self::$factionsNames[$type];
+        $name = "Bga\Games\Fiftyfirststate\Data\Factions\\" . self::$factionsNames[$type];
         /** @var Faction $faction */
         $faction = new $name();
         $production = $faction->getProduction();

@@ -1,8 +1,8 @@
 <?php
 
-namespace STATE\Models;
+namespace Bga\Games\Fiftyfirststate\Models;
 
-use STATE\Core\Notifications;
+use Bga\Games\Fiftyfirststate\Core\Notifications;
 
 class FeaturePassiveAbility extends Feature
 {

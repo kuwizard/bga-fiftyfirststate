@@ -1,11 +1,11 @@
 <?php
 
-namespace STATE\Managers;
+namespace Bga\Games\Fiftyfirststate\Managers;
 
-use STATE\Core\Notifications;
-use STATE\Helpers\Collection;
-use STATE\Helpers\Pieces;
-use STATE\Models\Connection;
+use Bga\Games\Fiftyfirststate\Core\Notifications;
+use Bga\Games\Fiftyfirststate\Helpers\Collection;
+use Bga\Games\Fiftyfirststate\Helpers\Pieces;
+use Bga\Games\Fiftyfirststate\Models\Connection;
 
 class Connections extends Pieces
 {
@@ -19,7 +19,7 @@ class Connections extends Pieces
         LOCATION_CONNECTIONS_RED_DECK => LOCATION_CONNECTIONS_RED_DISCARD,
     ];
     protected static $autoreshuffleListener = [
-        'obj' => 'STATE\Managers\Connections',
+        'obj' => 'Bga\Games\Fiftyfirststate\Managers\Connections',
         'method' => 'reshuffle',
     ];
 
@@ -29,7 +29,7 @@ class Connections extends Pieces
             $row['type'],
             array_keys(self::$blueCardTypes)
         ) ? self::$blueCardTypes : self::$redCardTypes;
-        $name = "STATE\Data\Connections\\" . $deck[$row['type']];
+        $name = "Bga\Games\Fiftyfirststate\Data\Connections\\" . $deck[$row['type']];
         return new $name($row);
     }
 
@@ -59,7 +59,7 @@ class Connections extends Pieces
             'redCardTypes' => LOCATION_CONNECTIONS_RED_DECK,
         ] as $deck => $location) {
             foreach (array_values(self::$$deck) as $class) {
-                $name = "STATE\Data\Connections\\" . $class;
+                $name = "Bga\Games\Fiftyfirststate\Data\Connections\\" . $class;
                 /** @var Connection $card */
                 $card = new $name();
                 for ($i = 0; $i < $card->getCopies(); $i++) {

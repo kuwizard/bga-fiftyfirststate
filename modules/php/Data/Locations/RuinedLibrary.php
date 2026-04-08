@@ -1,9 +1,9 @@
 <?php
 
-namespace STATE\Data\Locations;
+namespace Bga\Games\Fiftyfirststate\Data\Locations;
 
-use STATE\Models\FeatureStorageMultiple;
-use STATE\Models\ResourceStorageOptionMulti;
+use Bga\Games\Fiftyfirststate\Models\FeatureStorageMultiple;
+use Bga\Games\Fiftyfirststate\Models\ResourceStorageOptionMulti;
 
 class RuinedLibrary extends FeatureStorageMultiple
 {

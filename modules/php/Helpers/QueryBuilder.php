@@ -1,13 +1,12 @@
 <?php
 
-namespace STATE\Helpers;
+namespace Bga\Games\Fiftyfirststate\Helpers;
 
-use APP_DbObject;
-use BgaVisibleSystemException;
 use feException;
+use Bga\Games\Fiftyfirststate\Game;
 use function in_array;
 
-class QueryBuilder extends APP_DbObject
+class QueryBuilder
 {
     private $table,
         $cast,
@@ -51,7 +50,7 @@ class QueryBuilder extends APP_DbObject
     public function insert($fields = [])
     {
         $this->multipleInsert(array_keys($fields))->values([array_values($fields)]);
-        return self::DbGetLastId();
+        return Game::get()->DbGetLastId();
     }
 
     /*
@@ -68,36 +67,41 @@ class QueryBuilder extends APP_DbObject
 
     public function values($rows = [])
     {
-        // Fetch starting index if not provided
-        $startingId = null;
-        if ($this->insertPrimaryIndex === false) {
-            $startingId = (int) self::getUniqueValueFromDB(
-                "SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '{$this->table}';"
-            );
-        }
-
-        $ids = [];
         $vals = [];
+        $ids = [];
+
         foreach ($rows as $row) {
             $rowValues = [];
+
             foreach ($row as $val) {
-                $rowValues[] = $val === null ? 'NULL' : "'" . mysql_escape_string($val) . "'";
+                $rowValues[] = $val === null
+                    ? 'NULL'
+                    : "'" . mysql_escape_string($val) . "'";
             }
+
             $vals[] = '(' . implode(',', $rowValues) . ')';
-            $ids[] =
-                $rom[$this->primary] ?? ($this->insertPrimaryIndex === false ? $startingId++ : $row[$this->insertPrimaryIndex]);
+
+            // Case 1: Primary key explicitly provided
+            if ($this->insertPrimaryIndex !== false && $this->insertPrimaryIndex !== null) {
+                $ids[] = $row[$this->insertPrimaryIndex];
+            }
         }
 
         $this->sql .= implode(',', $vals);
-        self::DbQuery($this->sql);
-        if ($this->log) {
-            Log::addEntry([
-                'table' => $this->table,
-                'primary' => $this->primary,
-                'type' => 'create',
-                'affected' => $ids,
-            ]);
+
+        // Execute INSERT
+        Game::get()->DbQuery($this->sql);
+
+        // Case 2: AUTO_INCREMENT primary key
+        if ($this->insertPrimaryIndex === false) {
+            $firstId = (int) Game::get()->getUniqueValueFromDB("SELECT LAST_INSERT_ID()");
+            $count = count($rows);
+
+            for ($i = 0; $i < $count; $i++) {
+                $ids[] = $firstId + $i;
+            }
         }
+
         return $ids;
     }
 
@@ -178,19 +182,12 @@ class QueryBuilder extends APP_DbObject
             }
 
             $this->assembleQueryClauses();
-            $objList = self::getObjectListFromDB($this->sql);
-            Log::addEntry([
-                'table' => $this->table,
-                'primary' => $this->primary,
-                'type' => $this->operation,
-                'affected' => $objList,
-            ]);
             $this->sql = $tmp;
         }
 
         $this->assembleQueryClauses();
-        self::DbQuery($this->sql);
-        return self::DbAffectedRow();
+        Game::get()->DbQuery($this->sql);
+        return Game::get()->DbAffectedRow();
     }
 
     /*********************************
@@ -229,7 +226,7 @@ class QueryBuilder extends APP_DbObject
         if ($debug) {
             throw new feException($this->sql);
         }
-        $res = self::getObjectListFromDB($this->sql);
+        $res = Game::get()->getObjectListFromDB($this->sql);
         $oRes = [];
         foreach ($res as $row) {
             $id = $row['result_associative_index'];
@@ -269,7 +266,7 @@ class QueryBuilder extends APP_DbObject
         $field = is_null($field) ? '*' : "`$field`";
         $this->sql = "SELECT $func($field) FROM `$this->table`";
         $this->assembleQueryClauses();
-        return (int) self::getUniqueValueFromDB($this->sql);
+        return (int) Game::get()->getUniqueValueFromDB($this->sql);
     }
 
     public function count($field = null)

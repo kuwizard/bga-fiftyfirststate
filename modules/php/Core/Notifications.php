@@ -1,11 +1,12 @@
 <?php
-namespace STATE\Core;
+namespace Bga\Games\Fiftyfirststate\Core;
 
-use STATE\Helpers\ResourcesHelper;
-use STATE\Managers\Locations;
-use STATE\Models\Connection;
-use STATE\Models\Location;
-use STATE\Models\Player;
+use Bga\Games\Fiftyfirststate\Game;
+use Bga\Games\Fiftyfirststate\Helpers\ResourcesHelper;
+use Bga\Games\Fiftyfirststate\Managers\Locations;
+use Bga\Games\Fiftyfirststate\Models\Connection;
+use Bga\Games\Fiftyfirststate\Models\Location;
+use Bga\Games\Fiftyfirststate\Models\Player;
 
 class Notifications
 {
@@ -15,14 +16,14 @@ class Notifications
     private static function notifyAll($name, $msg, $data = [])
     {
         self::updateArgs($data);
-        Game::get()->notifyAllPlayers($name, $msg, $data);
+        Game::get()->notify->all($name, $msg, $data);
     }
 
     private static function notify($player, $name, $msg, $data)
     {
         $pId = is_int($player) ? $player : $player->getId();
         self::updateArgs($data);
-        Game::get()->notifyPlayer($pId, $name, $msg, $data);
+        Game::get()->notify->player($pId, $name, $msg, $data);
     }
 
     /**

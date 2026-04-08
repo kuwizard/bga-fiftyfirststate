@@ -1,18 +1,18 @@
 <?php
 
-namespace STATE\Managers;
+namespace Bga\Games\Fiftyfirststate\Managers;
 
-use STATE\Core\Notifications;
-use STATE\Helpers\Collection;
-use STATE\Helpers\GameOptions;
-use STATE\Helpers\Pieces;
-use STATE\Helpers\ResourcesHelper;
-use STATE\Models\Action;
-use STATE\Models\Feature;
-use STATE\Models\FeatureStorage;
-use STATE\Models\Location;
-use STATE\Models\Player;
-use STATE\Models\Production;
+use Bga\Games\Fiftyfirststate\Core\Notifications;
+use Bga\Games\Fiftyfirststate\Helpers\Collection;
+use Bga\Games\Fiftyfirststate\Helpers\GameOptions;
+use Bga\Games\Fiftyfirststate\Helpers\Pieces;
+use Bga\Games\Fiftyfirststate\Helpers\ResourcesHelper;
+use Bga\Games\Fiftyfirststate\Models\Action;
+use Bga\Games\Fiftyfirststate\Models\Feature;
+use Bga\Games\Fiftyfirststate\Models\FeatureStorage;
+use Bga\Games\Fiftyfirststate\Models\Location;
+use Bga\Games\Fiftyfirststate\Models\Player;
+use Bga\Games\Fiftyfirststate\Models\Production;
 
 class Locations extends Pieces
 {
@@ -23,7 +23,7 @@ class Locations extends Pieces
     protected static $autoreshuffle = true;
     protected static $autoreshuffleCustom = [LOCATION_DECK => LOCATION_DISCARD];
     protected static $autoreshuffleListener = [
-        'obj' => 'STATE\Managers\Locations',
+        'obj' => 'Bga\Games\Fiftyfirststate\Managers\Locations',
         'method' => 'reshuffle',
     ];
 
@@ -190,7 +190,7 @@ class Locations extends Pieces
 
     private static function getFolder(int $expansion): string
     {
-        return 'STATE\Data\Locations\\' . [
+        return 'Bga\Games\Fiftyfirststate\Data\Locations\\' . [
                 BASE_GAME => '',
                 NEW_ERA => 'NewEra\\',
             ][$expansion];

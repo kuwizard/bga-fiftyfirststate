@@ -1,16 +1,16 @@
 <?php
 
-namespace STATE\States;
+namespace Bga\Games\Fiftyfirststate\States;
 
-use STATE\Core\Globals;
-use STATE\Core\Notifications;
-use STATE\Core\Stack;
-use STATE\Helpers\ResourcesHelper;
-use STATE\Managers\Players;
-use STATE\Managers\Resources;
-use STATE\Models\FeatureStorageMultiple;
-use STATE\Models\Location;
-use STATE\Models\Player;
+use Bga\Games\Fiftyfirststate\Core\Globals;
+use Bga\Games\Fiftyfirststate\Core\Notifications;
+use Bga\Games\Fiftyfirststate\Core\Stack;
+use Bga\Games\Fiftyfirststate\Helpers\ResourcesHelper;
+use Bga\Games\Fiftyfirststate\Managers\Players;
+use Bga\Games\Fiftyfirststate\Managers\Resources;
+use Bga\Games\Fiftyfirststate\Models\FeatureStorageMultiple;
+use Bga\Games\Fiftyfirststate\Models\Location;
+use Bga\Games\Fiftyfirststate\Models\Player;
 
 trait PhaseTwoProductionTrait
 {

@@ -1,12 +1,13 @@
 <?php
 
-namespace STATE\Core;
+namespace Bga\Games\Fiftyfirststate\Core;
 
 /*
  * Stack: a class that handles resolution stack
  */
 
-use STATE\Managers\Players;
+use Bga\Games\Fiftyfirststate\Game;
+use Bga\Games\Fiftyfirststate\Managers\Players;
 
 class Stack
 {

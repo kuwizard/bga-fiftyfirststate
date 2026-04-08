@@ -1,8 +1,8 @@
 <?php
 
-namespace STATE\Helpers;
+namespace Bga\Games\Fiftyfirststate\Helpers;
 
-use STATE\Models\Player;
+use Bga\Games\Fiftyfirststate\Models\Player;
 
 class ResourcesHelper
 {

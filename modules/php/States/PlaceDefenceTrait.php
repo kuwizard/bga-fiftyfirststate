@@ -1,13 +1,13 @@
 <?php
 
-namespace STATE\States;
+namespace Bga\Games\Fiftyfirststate\States;
 
-use STATE\Core\Globals;
-use STATE\Core\Notifications;
-use STATE\Core\Stack;
-use STATE\Managers\Locations;
-use STATE\Managers\Players;
-use STATE\Models\Location;
+use Bga\Games\Fiftyfirststate\Core\Globals;
+use Bga\Games\Fiftyfirststate\Core\Notifications;
+use Bga\Games\Fiftyfirststate\Core\Stack;
+use Bga\Games\Fiftyfirststate\Managers\Locations;
+use Bga\Games\Fiftyfirststate\Managers\Players;
+use Bga\Games\Fiftyfirststate\Models\Location;
 
 trait PlaceDefenceTrait
 {

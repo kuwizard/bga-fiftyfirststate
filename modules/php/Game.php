@@ -1,65 +1,34 @@
 <?php
-/**
- *------
- * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * 51 State implementation : © Pavel Kulagin (KuWizard) kuzwiz@mail.ru
- *
- * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
- * See http://en.boardgamearena.com/#!doc/Studio for more information.
- * -----
- *
- * fiftyfirststate.game.php
- *
- * This is the main file for your game logic.
- *
- * In this PHP file, you are going to defines the rules of the game.
- *
- */
 
-use STATE\Core\Globals;
-use STATE\Core\Preferences;
-use STATE\Core\Stack;
-use STATE\Core\Stats;
-use STATE\Managers\Connections;
-use STATE\Managers\Factions;
-use STATE\Managers\Locations;
-use STATE\Managers\Players;
-use STATE\Models\Player;
+namespace Bga\Games\Fiftyfirststate;
 
-require_once APP_GAMEMODULE_PATH . 'module/table/table.game.php';
+use Bga\GameFramework\Table;
+use Bga\Games\Fiftyfirststate\Core\Globals;
+use Bga\Games\Fiftyfirststate\Core\Preferences;
+use Bga\Games\Fiftyfirststate\Core\Stack;
+use Bga\Games\Fiftyfirststate\Core\Stats;
+use Bga\Games\Fiftyfirststate\Managers\Connections;
+use Bga\Games\Fiftyfirststate\Managers\Locations;
+use Bga\Games\Fiftyfirststate\Managers\Players;
 
-$swdNamespaceAutoload = function ($class) {
-    $classParts = explode('\\', $class);
-    if ($classParts[0] === 'STATE') {
-        array_shift($classParts);
-        $file = dirname(__FILE__) . '/modules/php/' . implode(DIRECTORY_SEPARATOR, $classParts) . '.php';
-        if (file_exists($file)) {
-            require_once $file;
-        } else {
-            var_dump('Cannot find file : ' . $file);
-        }
-    }
-};
-spl_autoload_register($swdNamespaceAutoload, true, true);
-
-class Fiftyfirststate extends Table
+class Game extends Table
 {
-    use STATE\States\RoundTrait;
-    use STATE\States\DiscardCardsGameStartTrait;
-    use STATE\States\PhaseOneLookoutTrait;
-    use STATE\States\PhaseTwoProductionTrait;
-    use STATE\States\PhaseThreeActionTrait;
-    use STATE\States\PhaseFourCleanupTrait;
-    use STATE\States\ChooseResourceSourceTrait;
-    use STATE\States\ChooseResourceToStoreTrait;
-    use STATE\States\DevelopTrait;
-    use STATE\States\ChoosePlayerToStealTrait;
-    use STATE\States\ActivateSecondTimeTrait;
-    use STATE\States\ActivateProductionTrait;
-    use STATE\States\SpecificLocationsActionsTrait;
-    use STATE\States\ConfirmTurnEndTrait;
-    use STATE\States\ChooseFactionTrait;
-    use STATE\States\PlaceDefenceTrait;
+    use States\RoundTrait;
+    use States\DiscardCardsGameStartTrait;
+    use States\PhaseOneLookoutTrait;
+    use States\PhaseTwoProductionTrait;
+    use States\PhaseThreeActionTrait;
+    use States\PhaseFourCleanupTrait;
+    use States\ChooseResourceSourceTrait;
+    use States\ChooseResourceToStoreTrait;
+    use States\DevelopTrait;
+    use States\ChoosePlayerToStealTrait;
+    use States\ActivateSecondTimeTrait;
+    use States\ActivateProductionTrait;
+    use States\SpecificLocationsActionsTrait;
+    use States\ConfirmTurnEndTrait;
+    use States\ChooseFactionTrait;
+    use States\PlaceDefenceTrait;
 
     public static $instance = null;
 
@@ -68,19 +37,15 @@ class Fiftyfirststate extends Table
         parent::__construct();
         self::$instance = $this;
         self::initGameStateLabels([
-            'expansion' => OPT_EXPANSION,
+            'expansion' => 101,
         ]);
+
+        require_once dirname(__FILE__) . "/constants.inc.php";
     }
 
-    public static function get()
+    public static function get(): Game
     {
         return self::$instance;
-    }
-
-    protected function getGameName()
-    {
-        // Used for translations and stuff. Please do not modify.
-        return 'fiftyfirststate';
     }
 
     /*
@@ -88,7 +53,6 @@ class Fiftyfirststate extends Table
      */
     protected function setupNewGame($players, $options = [])
     {
-        Stats::setupNewGame();
         Players::setupNewGame($players, $options);
         Locations::setupNewGame();
         Connections::setupNewGame();

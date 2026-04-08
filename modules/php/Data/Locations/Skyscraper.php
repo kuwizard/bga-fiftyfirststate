@@ -1,9 +1,9 @@
 <?php
 
-namespace STATE\Data\Locations;
+namespace Bga\Games\Fiftyfirststate\Data\Locations;
 
-use STATE\Models\Act;
-use STATE\Models\Action;
+use Bga\Games\Fiftyfirststate\Models\Act;
+use Bga\Games\Fiftyfirststate\Models\Action;
 
 class Skyscraper extends Action
 {

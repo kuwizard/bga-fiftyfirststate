@@ -1,12 +1,12 @@
 <?php
 
-namespace STATE\States;
+namespace Bga\Games\Fiftyfirststate\States;
 
-use STATE\Core\Notifications;
-use STATE\Core\Stack;
-use STATE\Helpers\ResourcesHelper;
-use STATE\Managers\Locations;
-use STATE\Managers\Players;
+use Bga\Games\Fiftyfirststate\Core\Notifications;
+use Bga\Games\Fiftyfirststate\Core\Stack;
+use Bga\Games\Fiftyfirststate\Helpers\ResourcesHelper;
+use Bga\Games\Fiftyfirststate\Managers\Locations;
+use Bga\Games\Fiftyfirststate\Managers\Players;
 
 trait SpecificLocationsActionsTrait
 {

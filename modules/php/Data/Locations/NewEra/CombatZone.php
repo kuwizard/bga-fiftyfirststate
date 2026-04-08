@@ -1,9 +1,9 @@
 <?php
 
-namespace STATE\Data\Locations\NewEra;
+namespace Bga\Games\Fiftyfirststate\Data\Locations\NewEra;
 
-use STATE\Models\Act;
-use STATE\Models\Action;
+use Bga\Games\Fiftyfirststate\Models\Act;
+use Bga\Games\Fiftyfirststate\Models\Action;
 
 class CombatZone extends Action
 {

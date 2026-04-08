@@ -1,6 +1,6 @@
 <?php
 
-namespace STATE\Models;
+namespace Bga\Games\Fiftyfirststate\Models;
 
 class Faction
 {

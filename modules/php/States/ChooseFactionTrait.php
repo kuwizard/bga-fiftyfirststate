@@ -1,11 +1,11 @@
 <?php
 
-namespace STATE\States;
+namespace Bga\Games\Fiftyfirststate\States;
 
-use STATE\Core\Notifications;
-use STATE\Core\Preferences;
-use STATE\Managers\Factions;
-use STATE\Managers\Players;
+use Bga\Games\Fiftyfirststate\Core\Notifications;
+use Bga\Games\Fiftyfirststate\Core\Preferences;
+use Bga\Games\Fiftyfirststate\Managers\Factions;
+use Bga\Games\Fiftyfirststate\Managers\Players;
 use \Bga\GameFramework\Actions\CheckAction;
 
 trait ChooseFactionTrait

@@ -1,11 +1,10 @@
 <?php
 
-namespace STATE\Helpers;
+namespace Bga\Games\Fiftyfirststate\Helpers;
 
-use APP_DbObject;
 use feException;
 
-class DB_Manager extends APP_DbObject
+class DB_Manager
 {
     protected static $table = null;
     protected static $primary = null;

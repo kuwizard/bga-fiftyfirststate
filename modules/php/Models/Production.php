@@ -1,10 +1,10 @@
 <?php
 
-namespace STATE\Models;
+namespace Bga\Games\Fiftyfirststate\Models;
 
-use STATE\Core\Notifications;
-use STATE\Managers\Locations;
-use STATE\Managers\Players;
+use Bga\Games\Fiftyfirststate\Core\Notifications;
+use Bga\Games\Fiftyfirststate\Managers\Locations;
+use Bga\Games\Fiftyfirststate\Managers\Players;
 
 class Production extends Location
 {
