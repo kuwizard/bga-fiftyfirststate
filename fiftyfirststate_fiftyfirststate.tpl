@@ -156,7 +156,6 @@
     var jstpl_resource_icon_log = `<span class="\${type}Icon resourceIcon logIcon"></span>`
     var jstpl_resource_acon_log = `<span class="\${type}Acon resourceAcon logAcon"></span>`
     var jstpl_resource_block = `<span class="\${type}Block resourceBlock"></span>`
-    var jstpl_last_round = `<div id="lastRound">\${text}</div>`
     var jstpl_collapsed_text = '<div class="collapsedText">\${text}</div>'
     var jstpl_selector = `<div id="handSelector">
             <div id="unselected">

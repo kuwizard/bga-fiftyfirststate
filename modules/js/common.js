@@ -130,11 +130,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         },
 
         addLastRound() {
-            // 11 should be a calculated parameter but when you use 1-5 - it's placed as a second child. Bug?..
-            dojo.place(
-                this.format_block('jstpl_last_round', { text: _('This is the last round!') }),
-                'game_play_area',
-                11
+            this.bga.gameArea.addLastTurnBanner(
+                _('This is the last round!')
             );
         },
 
