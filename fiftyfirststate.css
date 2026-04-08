@@ -1555,7 +1555,7 @@
 .scrollable #hand #handLocations.mask-hide-left {
   mask-image: var(--mask-fade-right);
   mask-size: 100% 100%;
-  padding: 7px 0 9px 15px;
+  padding: 12px 0 9px 15px;
 }
 .scrollable .factionBoard .cardsBlock:not(.cardsBlock.notTooManyChildren) .locationWrapper, .scrollable #handLocations:not(#handLocations.notTooManyChildren) .locationWrapper {
   width: auto;

@@ -55,6 +55,11 @@ trait PhaseOneLookoutTrait
         Stack::finishState();
     }
 
+    public function stPhaseOneLookoutChoose(): void
+    {
+        $this->undoSavepoint();
+    }
+
     public function actChooseCardLookout(int $id): void
     {
         $player = Players::getActive();
@@ -66,6 +71,6 @@ trait PhaseOneLookoutTrait
         Locations::move($id, [LOCATION_HAND, $player->getId()]);
         Notifications::locationPicked($player, Locations::get($id), 'lookout');
         Notifications::resourcesChanged($player, ['card' => $player->getHandAmount()]);
-        Stack::finishState();
+        Stack::insertOnTopAndFinish(ST_CONFIRM_TURN_END, ['outOfTurn' => true, 'forceTimer' => 5]);
     }
 }

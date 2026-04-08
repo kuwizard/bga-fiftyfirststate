@@ -9,8 +9,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             if (this.isCurrentPlayerActive()) {
                 const buttonId = 'buttonConfirmTurn';
                 this.addEndTurnButton(buttonId);
-                if (this.getGameUserPreference(PLAYER_OPTION_TIMER) === TIMER_10_SECONDS) {
-                    this.startActionTimer(buttonId, 10);
+                if (this.getGameUserPreference(PLAYER_OPTION_TIMER) === TIMER_10_SECONDS || args.forceTimer) {
+                    const seconds = args.forceTimer ? args.forceTimer : 10;
+                    this.startActionTimer(buttonId, seconds);
                     this.addSecondaryActionButton('buttonLetMeThink', _('Let me think'), () => {
                         this.stopActionTimer(buttonId);
                         this.removeActionButtons();

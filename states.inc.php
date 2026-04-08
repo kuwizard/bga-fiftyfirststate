@@ -72,6 +72,7 @@ $machinestates = [
         'descriptionmyturn' => clienttranslate('${you} must choose a Location card'),
         'args' => 'argPhaseOneLookoutChoose',
         'type' => 'activeplayer',
+        'action' => 'stPhaseOneLookoutChoose',
         'updateGameProgression' => true,
         'possibleactions' => ['actChooseCardLookout'],
     ],
