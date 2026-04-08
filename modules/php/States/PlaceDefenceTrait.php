@@ -2,6 +2,7 @@
 
 namespace STATE\States;
 
+use STATE\Core\Globals;
 use STATE\Core\Notifications;
 use STATE\Core\Stack;
 use STATE\Managers\Locations;
@@ -33,7 +34,7 @@ trait PlaceDefenceTrait
         Notifications::locationDefended($player, Locations::get($id));
         Notifications::resourcesChanged($player, $player->getResourcesWithNames([RESOURCE_DEFENCE]));
         self::giveExtraTime($player->getId());
-        Stack::insertOnTop(ST_CONFIRM_TURN_END);
-        Stack::finishState();
+        $nextState = Globals::isActionDone() ? ST_CONFIRM_TURN_END : ST_PHASE_THREE_ACTION;
+        Stack::insertOnTopAndFinish($nextState);
     }
 }

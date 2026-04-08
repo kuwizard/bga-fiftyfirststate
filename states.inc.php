@@ -117,6 +117,7 @@ $machinestates = [
             // Actions leading to another sub-phase with a choice
             'actEnableFactionActions',
             'actSpendWorkers',
+            'actResetTurn',
         ],
     ],
 
@@ -300,7 +301,9 @@ $machinestates = [
         'description' => clienttranslate('${actplayer} must confirm turn end'),
         'descriptionmyturn' => clienttranslate('${you} must confirm turn end'),
         'type' => 'activeplayer',
-        'possibleactions' => ['actConfirmTurnEnd', 'actResetTurn'],
+        'args' => 'argConfirmTurnEnd',
+        'action' => 'stConfirmTurnEnd',
+        'possibleactions' => ['actConfirmTurnEnd', 'actResetTurn', 'actEnablePlaceDefenceState'],
     ],
 
     // Final state.

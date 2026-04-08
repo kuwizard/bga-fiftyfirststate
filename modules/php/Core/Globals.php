@@ -24,6 +24,7 @@ class Globals extends DB_Manager
         'lastRound' => 'bool',
         'lastRoundNotify' => 'bool',
         'addConfirmTurnEnd' => 'bool',
+        'actionDone' => 'bool',
     ];
 
     protected static $table = 'global_variables';

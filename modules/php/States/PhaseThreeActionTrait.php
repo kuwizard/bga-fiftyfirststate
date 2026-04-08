@@ -2,6 +2,7 @@
 
 namespace STATE\States;
 
+use STATE\Core\Globals;
 use STATE\Core\Notifications;
 use STATE\Core\Stack;
 use STATE\Helpers\Collection;
@@ -177,7 +178,8 @@ trait PhaseThreeActionTrait
     {
         Stack::removeAllAtomsWithState(ST_ACTIVATE_SECOND_TIME);
         Stack::removeAllAtomsWithState(ST_ACTIVATE_SPEND_WORKERS_AGAIN);
-        Stack::insertOnTopAndFinish(ST_PHASE_THREE_ACTION);
+        $nextState = Globals::isActionDone() ? ST_CONFIRM_TURN_END : ST_PHASE_THREE_ACTION;
+        Stack::insertOnTopAndFinish($nextState);
     }
 
     public function actGainResourceForWorkers(string $resourceName): void
@@ -195,7 +197,7 @@ trait PhaseThreeActionTrait
         Stack::insertOnTopAndFinish(ST_FACTION_ACTIONS, ['combined' => $combined]);
     }
 
-    public function actEnablePlaceDefenceState()
+    public function actEnablePlaceDefenceState(): void
     {
         Stack::insertOnTopAndFinish(ST_PLACE_DEFENCE);
     }

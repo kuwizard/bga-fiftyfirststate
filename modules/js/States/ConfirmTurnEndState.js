@@ -5,7 +5,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         constructor() {
         },
 
-        onEnteringStateConfirmTurnEnd() {
+        onEnteringStateConfirmTurnEnd(args) {
             if (this.isCurrentPlayerActive()) {
                 const buttonId = 'buttonConfirmTurn';
                 this.addEndTurnButton(buttonId);
@@ -15,9 +15,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                         this.stopActionTimer(buttonId);
                         this.removeActionButtons();
                         this.addEndTurnButton(buttonId);
+                        if (args.mayPlaceDefence) this.addPlaceDefenceButton();
                         this.addResetTurnButton();
                     });
                 }
+                if (args.mayPlaceDefence) this.addPlaceDefenceButton();
                 this.addResetTurnButton();
             }
         },
