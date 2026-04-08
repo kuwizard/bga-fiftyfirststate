@@ -127,7 +127,7 @@ $machinestates = [
         'description' => clienttranslate('${actplayer} must choose a resource to gain'),
         'descriptionmyturn' => clienttranslate('${you} must choose a resource to gain'),
         'type' => 'activeplayer',
-        'possibleactions' => ['actGainResourceForWorkers', 'actUndo'],
+        'possibleactions' => ['actGainResourceForWorkers', 'actResetTurn'],
     ],
 
     ST_FACTION_ACTIONS => [

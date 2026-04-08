@@ -11,7 +11,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 });
                 this.makeLocationsUnselectable('.location');
                 this.makeLocationsUnselectable('.connection');
-                this.addUndoButton();
+                this.addResetTurnButton();
             }
         },
 
