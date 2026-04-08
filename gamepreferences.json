@@ -136,13 +136,13 @@
     ]
   },
   "401": {
-    "name": "End turn confirmation timer",
+    "name": "End turn confirmation",
     "values": [
       {
-        "name": "10 seconds"
+        "name": "With timer: 10 seconds"
       },
       {
-        "name": "Off"
+        "name": "Without timer"
       }
     ]
   },
