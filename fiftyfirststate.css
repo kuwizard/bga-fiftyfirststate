@@ -1523,17 +1523,17 @@
   overflow-x: auto;
   /* Left fade (shown when NOT scrolled all the way left) */
   --mask-fade-left: linear-gradient(
-                  to right,
-                  transparent 2%,
-                  black var(--mask-height),
-                  black 100%
+          to right,
+          transparent 2%,
+          black var(--mask-height),
+          black 100%
   );
   /* Right fade (shown when NOT scrolled all the way right) */
   --mask-fade-right: linear-gradient(
-                  to left,
-                  transparent 2%,
-                  black var(--mask-height),
-                  black 100%
+          to left,
+          transparent 2%,
+          black var(--mask-height),
+          black 100%
   );
   /* Combine masks (both active by default) */
   -webkit-mask-image: var(--mask-fade-left), var(--mask-fade-right);
@@ -1555,7 +1555,7 @@
 .scrollable #hand #handLocations.mask-hide-left {
   mask-image: var(--mask-fade-right);
   mask-size: 100% 100%;
-  padding: 12px 0 9px 15px;
+  padding: 12px 0 12px 15px;
 }
 .scrollable .factionBoard .cardsBlock:not(.cardsBlock.notTooManyChildren) .locationWrapper, .scrollable #handLocations:not(#handLocations.notTooManyChildren) .locationWrapper {
   width: auto;

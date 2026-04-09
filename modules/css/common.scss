@@ -238,18 +238,18 @@ $icons: (
 
     /* Left fade (shown when NOT scrolled all the way left) */
     --mask-fade-left: linear-gradient(
-                    to right,
-                    transparent 2%,
-                    black var(--mask-height),
-                    black 100%
+            to right,
+            transparent 2%,
+            black var(--mask-height),
+            black 100%
     );
 
     /* Right fade (shown when NOT scrolled all the way right) */
     --mask-fade-right: linear-gradient(
-                    to left,
-                    transparent 2%,
-                    black var(--mask-height),
-                    black 100%
+            to left,
+            transparent 2%,
+            black var(--mask-height),
+            black 100%
     );
 
     /* Combine masks (both active by default) */
@@ -272,7 +272,7 @@ $icons: (
     &.mask-hide-left {
       mask-image: var(--mask-fade-right);
       mask-size: 100% 100%;
-      padding:12px 0 9px 15px;;
+      padding: 12px 0 12px 15px;
     }
 
     transition: padding 0.5s ease;
