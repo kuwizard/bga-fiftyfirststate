@@ -5,6 +5,7 @@ namespace Bga\Games\Fiftyfirststate\States;
 use Bga\Games\Fiftyfirststate\Core\Globals;
 use Bga\Games\Fiftyfirststate\Core\Notifications;
 use Bga\Games\Fiftyfirststate\Core\Stack;
+use Bga\Games\Fiftyfirststate\Core\Stats;
 use Bga\Games\Fiftyfirststate\Helpers\Collection;
 use Bga\Games\Fiftyfirststate\Helpers\ResourcesHelper;
 use Bga\Games\Fiftyfirststate\Managers\Connections;
@@ -184,11 +185,14 @@ trait PhaseThreeActionTrait
 
     public function actGainResourceForWorkers(string $resourceName): void
     {
+        $player = Players::getActive();
+        $resource = ResourcesHelper::getResourceType($resourceName);
+        Stats::getResourceForWorkers($player, $resource);
         Stack::insertOnTopAndFinish(ST_CREATE_RESOURCE_SOURCE_MAP, [
             'spend' => [RESOURCE_WORKER, RESOURCE_WORKER],
-            'bonus' => [ResourcesHelper::getResourceType($resourceName)],
+            'bonus' => [$resource],
             // 3 is a magic number for spending workers. 0-2 are for faction actions
-            'activatorId' => Players::getActive()->getFaction() + 3,
+            'activatorId' => $player->getFaction() + 3,
         ]);
     }
 
@@ -314,6 +318,7 @@ trait PhaseThreeActionTrait
         if ($locationCouldBeUsedAsOpenProd && $couldBeRazed) {
             Stack::insertOnTop(ST_OPEN_PRODUCTION_OR_RAZE, ['locationId' => $id]);
         } elseif ($locationCouldBeUsedAsOpenProd) {
+            Stats::incPlayer($player, STAT_LOCATIONS_USED_OPEN_PROD);
             $location->activate($player);
         } elseif ($couldBeRazed) {
             $this->razeOtherPlayersLocation($location);
@@ -355,6 +360,7 @@ trait PhaseThreeActionTrait
         self::giveExtraTime($player->getId());
         Notifications::connectionTaken($player, $id, Connections::getDeckName($id));
         Notifications::resourcesChanged($player, ['card' => $player->getHandAmount()]);
+        Stats::incPlayer($player, STAT_TAKEN_CONNECTIONS);
         // Move all actions above to postActions block
         Stack::insertOnTop(ST_CREATE_RESOURCE_SOURCE_MAP, [
             'spend' => [RESOURCE_WORKER, RESOURCE_WORKER],
@@ -379,6 +385,7 @@ trait PhaseThreeActionTrait
     {
         $player = Players::getActive();
         $this->getLocationFromCtx()->activate($player);
+        Stats::incPlayer($player, STAT_LOCATIONS_USED_OPEN_PROD);
         self::giveExtraTime($player->getId());
         Stack::finishState();
     }
@@ -395,6 +402,7 @@ trait PhaseThreeActionTrait
         })->first();
 
         $locationToActivate->activate($attacker);
+        Stats::incPlayer($attacker, STAT_LOCATIONS_USED_OPEN_PROD);
         self::giveExtraTime($attacker->getId());
         Stack::finishState();
     }
@@ -402,6 +410,7 @@ trait PhaseThreeActionTrait
     public function actOptionRaze(): void
     {
         $this->razeOtherPlayersLocation($this->getLocationFromCtx());
+        Stats::incPlayer(Players::getActiveId(), STAT_LOCATIONS_RAZED_OPPONENTS);
         self::giveExtraTime(Players::getActiveId());
         Stack::finishState();
     }

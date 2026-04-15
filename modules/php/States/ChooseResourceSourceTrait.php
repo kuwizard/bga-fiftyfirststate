@@ -5,6 +5,7 @@ namespace Bga\Games\Fiftyfirststate\States;
 use Bga\Games\Fiftyfirststate\Core\Globals;
 use Bga\Games\Fiftyfirststate\Core\Notifications;
 use Bga\Games\Fiftyfirststate\Core\Stack;
+use Bga\Games\Fiftyfirststate\Core\Stats;
 use Bga\Games\Fiftyfirststate\Helpers\ResourcesHelper;
 use Bga\Games\Fiftyfirststate\Managers\Locations;
 use Bga\Games\Fiftyfirststate\Managers\Players;
@@ -309,18 +310,21 @@ trait ChooseResourceSourceTrait
                     Notifications::locationBuilt($player, $location, $processed, $ctx['postActions']['resource'], $oldLocation);
                     $gotNewLocations = $this->getProductionAfterBuildAndPlaceResources($location, $player);
                     $resourcesChanged[] = RESOURCE_CARD;
+                    Stats::incPlayer($player, STAT_LOCATIONS_DEVELOPED);
                     break;
                 case LOCATION_ACTION_RAZE:
                     Locations::move($location->getId(), LOCATION_DISCARD);
                     Notifications::locationRazed($player, $location, $processed);
                     $gotNewLocations = in_array(RESOURCE_CARD, $location->getSpoils());
                     $resourcesChanged[] = RESOURCE_CARD;
+                    Stats::incPlayer($player, STAT_LOCATIONS_RAZED_FROM_HAND);
                     break;
                 case LOCATION_ACTION_BUILD:
                     Notifications::locationBuilt($player, $location, $processed);
                     Locations::move($location->getId(), [LOCATION_BOARD, $player->getId()]);
                     $gotNewLocations = $this->getProductionAfterBuildAndPlaceResources($location, $player);
                     $resourcesChanged[] = RESOURCE_CARD;
+                    Stats::locationBuilt($player, $location);
                     break;
                 case LOCATION_ACTION_DEAL:
                     if (count($location->getDeals()) > 1) {
@@ -334,6 +338,7 @@ trait ChooseResourceSourceTrait
                     );
                     $gotNewLocations = in_array(RESOURCE_CARD, $location->getDeals());
                     $resourcesChanged[] = RESOURCE_CARD;
+                    Stats::incPlayer($player, STAT_LOCATIONS_DEAL);
                     break;
                 case LOCATION_ACTION_RAZE_OTHER:
                     $owner = Players::getOwner($location->getId());
@@ -343,6 +348,8 @@ trait ChooseResourceSourceTrait
                     Locations::resetActivatedTimes([$location->getId()]);
                     $gotNewLocations = in_array(RESOURCE_CARD, $location->getSpoils());
                     Notifications::locationRuined($owner, $location, $player, $location->getDefenceValue());
+                    Stats::incPlayer($player, STAT_LOCATIONS_RAZED_OPPONENTS);
+                    Stats::incPlayer($owner, STAT_PLAYER_VICTIM_OF_RAZE);
                     break;
                 default:
                     throw new \BgaVisibleSystemException('Unknown action ' . $type);

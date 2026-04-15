@@ -53,6 +53,10 @@ class Stack
             Game::get()->gamestate->changeActivePlayer($nextPId);
             $activePlayerId = $nextPId;
             Game::get()->undoSavepoint();
+            if ($atom['state'] === ST_PHASE_THREE_ACTION) {
+                $playerId = $atom['pId'] ?? $activePlayerId;
+                Stats::incPlayer($playerId, STAT_TURNS_NUMBER);
+            }
         }
         if (isset($atom['pId']) && $activePlayerId !== $atom['pId']) {
             Game::get()->gamestate->changeActivePlayer($atom['pId']);

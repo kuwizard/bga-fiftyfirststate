@@ -58,6 +58,7 @@ class Game extends Table
         Connections::setupNewGame();
         Preferences::setupNewGame($players, $this->player_preferences);
         Globals::setupNewGame();
+        Stats::setupNewGame();
     }
 
     /*

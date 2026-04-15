@@ -5,6 +5,7 @@ namespace Bga\Games\Fiftyfirststate\States;
 use Bga\Games\Fiftyfirststate\Core\Globals;
 use Bga\Games\Fiftyfirststate\Core\Notifications;
 use Bga\Games\Fiftyfirststate\Core\Stack;
+use Bga\Games\Fiftyfirststate\Core\Stats;
 use Bga\Games\Fiftyfirststate\Managers\Factions;
 use Bga\Games\Fiftyfirststate\Managers\Players;
 use Bga\Games\Fiftyfirststate\Models\Player;
@@ -67,8 +68,10 @@ trait RoundTrait
                 $locationsCount = '0' . $locationsCount;
             }
             $player->setTieBreaker(intval($resourcesCount . $locationsCount));
-            $totalAmount = $player->increaseResource(RESOURCE_VP, $locationsCount);
+            $totalAmount = $player->increaseResource(RESOURCE_VP, $locationsCount, true);
             Notifications::endOfGameVPGained($player, $locationsCount, $totalAmount);
+            Stats::incPlayer($player, STAT_PLAYER_SCORE_LOCATIONS, $locationsCount);
+            Stats::incPlayer($player, STAT_PLAYER_TOTAL_SCORE, $totalAmount);
         }
     }
 }

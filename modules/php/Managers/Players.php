@@ -174,7 +174,7 @@ class Players extends DB_Manager
         return $nextId;
     }
 
-    public static function getAllFactions()
+    public static function getAllFactionsUI()
     {
         $result = [];
         /** @var Player $player */
@@ -183,6 +183,18 @@ class Players extends DB_Manager
                 'color' => $player->getColor(),
                 'faction' => self::getFactionUI($player->getFaction()),
                 'side' => $player->getFactionSide(),
+            ];
+        }
+        return $result;
+    }
+
+    public static function getAllFactions()
+    {
+        $result = [];
+        /** @var Player $player */
+        foreach (self::getAll() as $player) {
+            $result[$player->getId()] = [
+                'faction' => $player->getFaction(),
             ];
         }
         return $result;

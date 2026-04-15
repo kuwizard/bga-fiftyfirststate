@@ -259,6 +259,49 @@ define('BASE_GAME', 1011);
 define('NEW_ERA', 1012);
 
 /*
+ * Game statistics
+ */
+const STAT_TURNS_NUMBER = 'stat_turns_number';
+const STAT_CHOSEN_NEW_YORK = 'stat_chosen_new_york';
+const STAT_CHOSEN_APPALACHIAN = 'stat_chosen_appalachian';
+const STAT_CHOSEN_MUTANTS = 'stat_chosen_mutants';
+const STAT_CHOSEN_MERCHANTS = 'stat_chosen_merchants';
+const STAT_LOCATIONS_BUILT = 'stat_locations_built';
+const STAT_LOCATIONS_DEAL = 'stat_locations_deal';
+const STAT_LOCATIONS_RAZED_FROM_HAND = 'stat_locations_razed_from_hand';
+const STAT_LOCATIONS_RAZED_OPPONENTS = 'stat_locations_razed_opponents';
+const STAT_LOCATIONS_USED_OPEN_PROD = 'stat_locations_used_open_prod';
+const STAT_LOCATIONS_DEVELOPED = 'stat_locations_developed';
+const STAT_PRODUCE_FUEL = 'stat_produce_fuel';
+const STAT_PRODUCE_GUN = 'stat_produce_gun';
+const STAT_PRODUCE_IRON = 'stat_produce_iron';
+const STAT_PRODUCE_BRICK = 'stat_produce_brick';
+const STAT_PRODUCE_WORKER = 'stat_produce_worker';
+const STAT_PRODUCE_AMMO = 'stat_produce_ammo';
+const STAT_PRODUCE_DEVEL = 'stat_produce_devel';
+const STAT_PRODUCE_ARROW_GREY = 'stat_produce_arrow_grey';
+const STAT_PRODUCE_ARROW_RED = 'stat_produce_arrow_red';
+const STAT_PRODUCE_ARROW_BLUE = 'stat_produce_arrow_blue';
+const STAT_PRODUCE_ARROW_UNIVERSAL = 'stat_produce_arrow_universal';
+const STAT_TAKEN_LOCATIONS = 'stat_taken_locations';
+const STAT_TAKEN_CONNECTIONS = 'stat_taken_connections';
+const STAT_PRODUCTION_BUILT = 'stat_production_built';
+const STAT_FEATURES_BUILT = 'stat_features_built';
+const STAT_ACTIONS_BUILT = 'stat_actions_built';
+const STAT_SPENT_WORKERS_TO_GET_FUEL = 'stat_spent_workers_to_get_fuel';
+const STAT_SPENT_WORKERS_TO_GET_GUN = 'stat_spent_workers_to_get_gun';
+const STAT_SPENT_WORKERS_TO_GET_IRON = 'stat_spent_workers_to_get_iron';
+const STAT_SPENT_WORKERS_TO_GET_BRICK = 'stat_spent_workers_to_get_brick';
+const STAT_SPENT_WORKERS_TO_GET_LOCATION = 'stat_spent_workers_to_get_location';
+
+const STAT_PLAYER_FEATURES_ACTIVATED = 'stat_player_features_activated';
+const STAT_PLAYER_ACTIONS_ACTIVATED = 'stat_player_actions_activated';
+const STAT_PLAYER_VICTIM_OF_RAZE = 'stat_player_victim_of_raze';
+const STAT_PLAYER_SCORE_DURING_GAME = 'stat_player_score_during_game';
+const STAT_PLAYER_SCORE_LOCATIONS = 'stat_player_score_locations';
+const STAT_PLAYER_TOTAL_SCORE = 'stat_player_total_score';
+
+/*
  * Global constants
  */
 define('GLOBAL_START_CARDS', 6);

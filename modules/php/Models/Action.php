@@ -3,6 +3,7 @@
 namespace Bga\Games\Fiftyfirststate\Models;
 
 use Bga\Games\Fiftyfirststate\Core\Stack;
+use Bga\Games\Fiftyfirststate\Core\Stats;
 use Bga\Games\Fiftyfirststate\Managers\Locations;
 
 class Action extends Location
@@ -73,6 +74,7 @@ class Action extends Location
         if ($newActivatedTimes < $this->activationsMax) {
             Stack::insertOnTop(ST_ACTIVATE_SECOND_TIME, ['locationId' => $this->id]);
         }
+        Stats::incPlayer($player, STAT_PLAYER_ACTIONS_ACTIVATED);
         $this->action->activate($this->id);
     }
 

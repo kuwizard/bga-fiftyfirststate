@@ -1,0 +1,356 @@
+{
+  "table": {
+    "stat_turns_number": {
+      "id": 100,
+      "name": "Turns number",
+      "type": "int"
+    },
+    "stat_chosen_new_york": {
+      "id": 101,
+      "name": "New York chosen",
+      "type": "int"
+    },
+    "stat_chosen_appalachian": {
+      "id": 102,
+      "name": "Appalachian Federation chosen",
+      "type": "int"
+    },
+    "stat_chosen_mutants": {
+      "id": 103,
+      "name": "Mutants Union chosen",
+      "type": "int"
+    },
+    "stat_chosen_merchants": {
+      "id": 104,
+      "name": "The Merchants Guild chosen",
+      "type": "int"
+    },
+    "stat_locations_built": {
+      "id": 105,
+      "name": "Locations built",
+      "type": "int"
+    },
+    "stat_locations_deal": {
+      "id": 106,
+      "name": "Deals made",
+      "type": "int"
+    },
+    "stat_locations_razed_from_hand": {
+      "id": 107,
+      "name": "Locations razed from hand",
+      "type": "int"
+    },
+    "stat_locations_razed_opponents": {
+      "id": 108,
+      "name": "Opponents locations razed",
+      "type": "int"
+    },
+    "stat_locations_used_open_prod": {
+      "id": 109,
+      "name": "Open productions used",
+      "type": "int"
+    },
+    "stat_locations_developed": {
+      "id": 110,
+      "name": "Locations developed",
+      "type": "int"
+    },
+    "stat_produce_fuel": {
+      "id": 111,
+      "name": "Fuel produced",
+      "type": "int"
+    },
+    "stat_produce_gun": {
+      "id": 112,
+      "name": "Gun produced",
+      "type": "int"
+    },
+    "stat_produce_iron": {
+      "id": 113,
+      "name": "Iron produced",
+      "type": "int"
+    },
+    "stat_produce_brick": {
+      "id": 114,
+      "name": "Brick produced",
+      "type": "int"
+    },
+    "stat_produce_worker": {
+      "id": 115,
+      "name": "Worker produced",
+      "type": "int"
+    },
+    "stat_produce_ammo": {
+      "id": 116,
+      "name": "Ammo produced",
+      "type": "int"
+    },
+    "stat_produce_devel": {
+      "id": 117,
+      "name": "Development tokens produced",
+      "type": "int"
+    },
+    "stat_produce_arrow_grey": {
+      "id": 118,
+      "name": "Grey arrow produced",
+      "type": "int"
+    },
+    "stat_produce_arrow_red": {
+      "id": 119,
+      "name": "Red arrow produced",
+      "type": "int"
+    },
+    "stat_produce_arrow_blue": {
+      "id": 120,
+      "name": "Blue arrow produced",
+      "type": "int"
+    },
+    "stat_produce_arrow_universal": {
+      "id": 121,
+      "name": "Universal arrow produced",
+      "type": "int"
+    },
+    "stat_taken_locations": {
+      "id": 122,
+      "name": "Location cards taken",
+      "type": "int"
+    },
+    "stat_taken_connections": {
+      "id": 123,
+      "name": "Connection cards taken",
+      "type": "int"
+    },
+    "stat_production_built": {
+      "id": 124,
+      "name": "Production locations built",
+      "type": "int"
+    },
+    "stat_features_built": {
+      "id": 125,
+      "name": "Feature locations built",
+      "type": "int"
+    },
+    "stat_actions_built": {
+      "id": 126,
+      "name": "Action locations built",
+      "type": "int"
+    },
+    "stat_spent_workers_to_get_fuel": {
+      "id": 127,
+      "name": "Workers spent to get a fuel",
+      "type": "int"
+    },
+    "stat_spent_workers_to_get_gun": {
+      "id": 128,
+      "name": "Workers spent to get a gun",
+      "type": "int"
+    },
+    "stat_spent_workers_to_get_iron": {
+      "id": 129,
+      "name": "Workers spent to get an iron token",
+      "type": "int"
+    },
+    "stat_spent_workers_to_get_brick": {
+      "id": 130,
+      "name": "Workers spent to get a brick",
+      "type": "int"
+    },
+    "stat_spent_workers_to_get_location": {
+      "id": 131,
+      "name": "Workers spent to get a Location",
+      "type": "int"
+    }
+  },
+  "player": {
+    "stat_turns_number": {
+      "id": 500,
+      "name": "Turns number",
+      "type": "int"
+    },
+    "stat_chosen_new_york": {
+      "id": 501,
+      "name": "New York faction chosen",
+      "type": "int"
+    },
+    "stat_chosen_appalachian": {
+      "id": 502,
+      "name": "Appalachian Federation faction chosen",
+      "type": "int"
+    },
+    "stat_chosen_mutants": {
+      "id": 503,
+      "name": "Mutants Union chosen",
+      "type": "int"
+    },
+    "stat_chosen_merchants": {
+      "id": 504,
+      "name": "The Merchants Guild chosen",
+      "type": "int"
+    },
+    "stat_locations_built": {
+      "id": 505,
+      "name": "Locations built",
+      "type": "int"
+    },
+    "stat_locations_deal": {
+      "id": 506,
+      "name": "Deals made",
+      "type": "int"
+    },
+    "stat_locations_razed_from_hand": {
+      "id": 507,
+      "name": "Locations razed from hand",
+      "type": "int"
+    },
+    "stat_locations_razed_opponents": {
+      "id": 508,
+      "name": "Opponents locations razed",
+      "type": "int"
+    },
+    "stat_locations_used_open_prod": {
+      "id": 509,
+      "name": "Open production used",
+      "type": "int"
+    },
+    "stat_locations_developed": {
+      "id": 510,
+      "name": "Locations developed",
+      "type": "int"
+    },
+    "stat_produce_fuel": {
+      "id": 511,
+      "name": "Fuel produced",
+      "type": "int"
+    },
+    "stat_produce_gun": {
+      "id": 512,
+      "name": "Gun produced",
+      "type": "int"
+    },
+    "stat_produce_iron": {
+      "id": 513,
+      "name": "Iron produced",
+      "type": "int"
+    },
+    "stat_produce_brick": {
+      "id": 514,
+      "name": "Brick produced",
+      "type": "int"
+    },
+    "stat_produce_worker": {
+      "id": 515,
+      "name": "Worker produced",
+      "type": "int"
+    },
+    "stat_produce_ammo": {
+      "id": 516,
+      "name": "Ammo produced",
+      "type": "int"
+    },
+    "stat_produce_devel": {
+      "id": 517,
+      "name": "Development produced",
+      "type": "int"
+    },
+    "stat_produce_arrow_grey": {
+      "id": 518,
+      "name": "Grey arrow produced",
+      "type": "int"
+    },
+    "stat_produce_arrow_red": {
+      "id": 519,
+      "name": "Red arrow produced",
+      "type": "int"
+    },
+    "stat_produce_arrow_blue": {
+      "id": 520,
+      "name": "Blue arrow produced",
+      "type": "int"
+    },
+    "stat_produce_arrow_universal": {
+      "id": 521,
+      "name": "Universal arrow produced",
+      "type": "int"
+    },
+    "stat_taken_locations": {
+      "id": 522,
+      "name": "Location cards taken",
+      "type": "int"
+    },
+    "stat_taken_connections": {
+      "id": 523,
+      "name": "Connection cards taken",
+      "type": "int"
+    },
+    "stat_production_built": {
+      "id": 524,
+      "name": "Production locations built",
+      "type": "int"
+    },
+    "stat_features_built": {
+      "id": 525,
+      "name": "Feature locations built",
+      "type": "int"
+    },
+    "stat_actions_built": {
+      "id": 526,
+      "name": "Action locations built",
+      "type": "int"
+    },
+    "stat_spent_workers_to_get_fuel": {
+      "id": 527,
+      "name": "Workers spent to get a fuel",
+      "type": "int"
+    },
+    "stat_spent_workers_to_get_gun": {
+      "id": 528,
+      "name": "Workers spent to get a gun",
+      "type": "int"
+    },
+    "stat_spent_workers_to_get_iron": {
+      "id": 529,
+      "name": "Workers spent to get an iron",
+      "type": "int"
+    },
+    "stat_spent_workers_to_get_brick": {
+      "id": 530,
+      "name": "Workers spent to get a brick",
+      "type": "int"
+    },
+    "stat_spent_workers_to_get_location": {
+      "id": 531,
+      "name": "Workers spent to get a location",
+      "type": "int"
+    },
+    "stat_player_features_activated": {
+      "id": 532,
+      "name": "Features' passive abilities activated",
+      "type": "int"
+    },
+    "stat_player_actions_activated": {
+      "id": 533,
+      "name": "Actions activated",
+      "type": "int"
+    },
+    "stat_player_victim_of_raze": {
+      "id": 534,
+      "name": "Amount of being a victim of raze",
+      "type": "int"
+    },
+    "stat_player_score_during_game": {
+      "id": 535,
+      "name": "Score during the game",
+      "type": "int"
+    },
+    "stat_player_score_locations": {
+      "id": 536,
+      "name": "Score from built locations",
+      "type": "int"
+    },
+    "stat_player_total_score": {
+      "id": 537,
+      "name": "Final score",
+      "type": "int"
+    }
+  }
+}

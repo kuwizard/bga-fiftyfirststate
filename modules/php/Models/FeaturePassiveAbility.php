@@ -3,6 +3,7 @@
 namespace Bga\Games\Fiftyfirststate\Models;
 
 use Bga\Games\Fiftyfirststate\Core\Notifications;
+use Bga\Games\Fiftyfirststate\Core\Stats;
 
 class FeaturePassiveAbility extends Feature
 {
@@ -22,6 +23,7 @@ class FeaturePassiveAbility extends Feature
                 $player->increaseResource($bonus);
                 Notifications::passiveAbilityApplied($player, $this, $bonus);
                 $resourcesGained[] = $bonus;
+                Stats::incPlayer($player, STAT_PLAYER_FEATURES_ACTIVATED);
             }
         }
         return $resourcesGained;

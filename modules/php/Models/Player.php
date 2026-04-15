@@ -2,10 +2,9 @@
 
 namespace Bga\Games\Fiftyfirststate\Models;
 
+use Bga\Games\Fiftyfirststate\Core\Stats;
 use JsonSerializable;
-use Bga\Games\Fiftyfirststate\Game;
 use Bga\Games\Fiftyfirststate\Core\Globals;
-use Bga\Games\Fiftyfirststate\Core\Notifications;
 use Bga\Games\Fiftyfirststate\Core\Preferences;
 use Bga\Games\Fiftyfirststate\Helpers\Collection;
 use Bga\Games\Fiftyfirststate\Helpers\DB_Manager;
@@ -472,7 +471,7 @@ class Player extends DB_Manager implements JsonSerializable
         }
     }
 
-    public function increaseResource(int $type, int $amount = 1): int
+    public function increaseResource(int $type, int $amount = 1, bool $endOfGame = false): int
     {
         $name = ResourcesHelper::getResourceName($type);
         if ($type === RESOURCE_CARD) {
@@ -490,6 +489,9 @@ class Player extends DB_Manager implements JsonSerializable
                     Globals::setLastRound(true);
                     Globals::setLastRoundNotify(true);
                 }
+            }
+            if (!$endOfGame) {
+                Stats::getResource($this, $type, $amount);
             }
         }
         return $newAmount;
@@ -544,6 +546,7 @@ class Player extends DB_Manager implements JsonSerializable
 
     public function drawCards($amount = 1)
     {
+        Stats::incPlayer($this, STAT_TAKEN_LOCATIONS, $amount);
         return Locations::draw($this, $amount);
     }
 
