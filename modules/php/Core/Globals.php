@@ -6,6 +6,7 @@ namespace Bga\Games\Fiftyfirststate\Core;
  * Globals
  */
 
+use Bga\Games\Fiftyfirststate\Managers\Players;
 use InvalidArgumentException;
 use Bga\Games\Fiftyfirststate\Helpers\DB_Manager;
 use function addslashes;
@@ -25,6 +26,7 @@ class Globals extends DB_Manager
         'lastRoundNotify' => 'bool',
         'addConfirmTurnEnd' => 'bool',
         'actionDone' => 'bool',
+        'passNextTurn' => 'obj',
     ];
 
     protected static $table = 'global_variables';
@@ -139,6 +141,26 @@ class Globals extends DB_Manager
             }
         }
         return null;
+    }
+
+    public static function willPlayNextTurn(): array
+    {
+        $passObject = self::getPassNextTurn();
+        $passMap = [];
+        foreach (Players::getAllNonPassed() as $player) {
+            $isPassingAlready = isset($passObject[$player->getId()]) && $passObject[$player->getId()];
+            $passMap[$player->getId()] = !$isPassingAlready;
+        }
+
+        return $passMap;
+    }
+
+    public static function updatePassNextTurn(int $pId, bool $status): void
+    {
+        $passObject = self::getPassNextTurn();
+        $passObject[$pId] = $status;
+        self::setPassNextTurn($passObject);
+        Notifications::passStatusChanged($pId, $status);
     }
 
     public static function enabledStackLogger()

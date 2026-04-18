@@ -2,6 +2,7 @@
 
 namespace Bga\Games\Fiftyfirststate\States;
 
+use Bga\Games\Fiftyfirststate\Core\Globals;
 use Bga\Games\Fiftyfirststate\Core\Stack;
 use Bga\Games\Fiftyfirststate\Helpers\Collection;
 use Bga\Games\Fiftyfirststate\Helpers\ResourcesHelper;
@@ -15,7 +16,10 @@ trait DevelopTrait
     {
         $resource = ResourcesHelper::getResourceType(Stack::getCtx()['resource']);
         $availableLocationIds = $this->getLocationsAvailableToDevelop($resource)->getIds();
-        return ['possibleHandIds' => $this->getMapWithCardConfirmation($availableLocationIds, false)];
+        return [
+            'possibleHandIds' => $this->getMapWithCardConfirmation($availableLocationIds, false),
+            'willPlayNextTurn' => Globals::willPlayNextTurn(),
+        ];
     }
 
     /**
@@ -68,6 +72,7 @@ trait DevelopTrait
         return [
             'newLocationId' => $locationToBuildId,
             'possibleDestinations' => $this->getMapWithCardConfirmation($possibleDestinations->getIds(), $cardWarning),
+            'willPlayNextTurn' => Globals::willPlayNextTurn(),
         ];
     }
 

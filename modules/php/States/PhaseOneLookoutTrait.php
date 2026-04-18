@@ -71,6 +71,6 @@ trait PhaseOneLookoutTrait
         Locations::move($id, [LOCATION_HAND, $player->getId()]);
         Notifications::locationPicked($player, Locations::get($id), 'lookout');
         Notifications::resourcesChanged($player, ['card' => $player->getHandAmount()]);
-        Stack::insertOnTopAndFinish(ST_CONFIRM_TURN_END, ['outOfTurn' => true, 'forceTimer' => 5]);
+        Stack::insertOnTopAndFinish(ST_CONFIRM_TURN_END, ['forceTimer' => 5, 'showPassNextTurn' => false]);
     }
 }

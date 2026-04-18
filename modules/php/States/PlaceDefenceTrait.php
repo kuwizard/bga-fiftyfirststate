@@ -20,13 +20,16 @@ trait PlaceDefenceTrait
         foreach ($locationsIds as $locationId) {
             $args[$locationId] = false;
         }
-        return $args;
+        return [
+            'locations' => $args,
+            'willPlayNextTurn' => Globals::willPlayNextTurn(),
+        ];
     }
 
     public function actPlaceDefence(int $id)
     {
         $player = Players::getActive();
-        if (!in_array($id, array_keys($this->argPlaceDefence()))) {
+        if (!isset($this->argPlaceDefence()['locations'][$id])) {
             throw new \BgaVisibleSystemException('Cannot place a defence token on location ' . $id);
         }
         Locations::addDefence($id);

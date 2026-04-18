@@ -10,6 +10,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this._notifications.push(['locationsReshuffle', 1]);
             this._notifications.push(['removeLastRound', 1]);
             this._notifications.push(['message', 1]);
+            this._notifications.push(['passStatusChanged', 1]);
         },
 
         forEachFactionRow(callback) {
@@ -357,6 +358,16 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             this.addTooltipToLogEntry(n.args.location);
             this.setCorrectClassToOverlapCards();
             dojo.removeClass('board', 'discarding');
+        },
+
+        notif_passStatusChanged(n) {
+            debug('Notif: passStatusChanged', n);
+            this.bga.statusBar.removeActionButtons();
+            if (n.args.status) {
+                this.addCancelPassNextTurnButton();
+            } else {
+                this.addPassNextTurnButton();
+            }
         },
 
         notif_lastRound(n) {

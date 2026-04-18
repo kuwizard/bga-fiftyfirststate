@@ -2,6 +2,7 @@
 
 namespace Bga\Games\Fiftyfirststate\States;
 
+use Bga\Games\Fiftyfirststate\Core\Globals;
 use Bga\Games\Fiftyfirststate\Core\Notifications;
 use Bga\Games\Fiftyfirststate\Core\Stack;
 use Bga\Games\Fiftyfirststate\Helpers\ResourcesHelper;
@@ -16,13 +17,19 @@ trait SpecificLocationsActionsTrait
         $filteredResources = array_filter(Stack::getCtx()['resources'], function ($resource) use ($player) {
             return $player->getResource($resource, false) > 0;
         });
-        return ResourcesHelper::getResourceNames(array_values($filteredResources));
+        return [
+            'resources' => ResourcesHelper::getResourceNames(array_values($filteredResources)),
+            'willPlayNextTurn' => Globals::willPlayNextTurn(),
+        ];
     }
 
     public function argChooseDealToLose()
     {
         $resourcesOnDeals = Players::getActive()->getDeals();
-        return ResourcesHelper::getResourceNames(array_values(array_unique($resourcesOnDeals)));
+        return [
+            'resources' => ResourcesHelper::getResourceNames(array_values(array_unique($resourcesOnDeals))),
+            'willPlayNextTurn' => Globals::willPlayNextTurn(),
+        ];
     }
 
     public function actChooseDeal(string $resourceName): void

@@ -494,6 +494,11 @@ class Notifications
         ]);
     }
 
+    public static function passStatusChanged(int $pId, bool $status): void
+    {
+        self::notify($pId, 'passStatusChanged', '', ['status' => $status]);
+    }
+
     /*********************
      **** UPDATE ARGS ****
      *********************/

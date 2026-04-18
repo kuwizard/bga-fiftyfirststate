@@ -53,6 +53,23 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             }
         },
 
+        addPassNextTurnButton() {
+            this.addDangerActionButton(
+                'buttonPassNext', _('Pass next turn'),
+                this.wrapIntoConfirmation(
+                    this.getNextTurnPassWarningLexeme(),
+                    () => this.takeAction('actPassNextTurn', {}, false, false)
+                )
+            );
+        },
+
+        addCancelPassNextTurnButton() {
+            this.addSecondaryActionButton(
+                'buttonCancelPassNext', _('I don\'t want to pass!'),
+                () => this.takeAction('actCancelPassNextTurn', {}, false, false)
+            );
+        },
+
         noActionsAvailable(args) {
             return args.connectionsToPlay.length === 0
                 && args.connectionsToTake.length === 0

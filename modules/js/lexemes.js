@@ -81,6 +81,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 'After you pass, you will not be able to take any Actions for the round. Also other players will not interact with your Locations in any way.');
         },
 
+        getNextTurnPassWarningLexeme() {
+            return _(
+                'On your next turn as an action, you\'re going to pass. This means you will not be able to take any Actions for the round. Also other players will not interact with your Locations in any way. They still can before your next turn starts.');
+        },
+
         getIDontCareFactionChooseLexeme() {
             return _('Faction will be assigned randomly based on what your opponents chose as their last priority');
         },

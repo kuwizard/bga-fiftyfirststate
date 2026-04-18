@@ -40,6 +40,7 @@ $machinestates = [
         'description' => clienttranslate('Other players must choose 2 cards to discard'),
         'descriptionmyturn' => clienttranslate('${you} must choose 2 cards to discard'),
         'action' => 'stMakeEveryoneActive',
+        'args' => 'argConfirmTurnEnd',
         'type' => 'multipleactiveplayer',
         'possibleactions' => ['actDiscardCardsGameStart'],
         'transitions' => ['' => ST_NEXT_ROUND],
@@ -54,6 +55,7 @@ $machinestates = [
 
     ST_NEXT_ROUND => [
         'name' => 'nextRound',
+        'args' => 'argNoNotify',
         'description' => '',
         'action' => 'stNextRound',
         'type' => 'game',
@@ -62,6 +64,7 @@ $machinestates = [
     ST_PHASE_ONE_LOOKOUT_SETUP => [
         'name' => 'phaseOneLookoutSetup',
         'description' => '',
+        'args' => 'argNoNotify',
         'action' => 'stPhaseOneLookoutSetup',
         'type' => 'game',
     ],
@@ -80,6 +83,7 @@ $machinestates = [
     ST_PHASE_ONE_LOOKOUT_DRAW => [
         'name' => 'phaseOneLookoutDraw',
         'description' => '',
+        'args' => 'argNoNotify',
         'action' => 'stPhaseOneLookoutDraw',
         'type' => 'game',
     ],
@@ -87,6 +91,7 @@ $machinestates = [
     ST_PHASE_ONE_LOOKOUT_DISCARD => [
         'name' => 'phaseOneLookoutDiscard',
         'description' => '',
+        'args' => 'argNoNotify',
         'action' => 'stPhaseOneLookoutDiscard',
         'type' => 'game',
     ],
@@ -103,6 +108,7 @@ $machinestates = [
         'description' => clienttranslate('${actplayer} must choose an action or a Location/Connection card'),
         'descriptionmyturn' => clienttranslate('${you} must choose an action or a Location/Connection card'),
         'args' => 'argPhaseThreeAction',
+        'action' => 'stPhaseThreeAction',
         'type' => 'activeplayer',
         'updateGameProgression' => true,
         'possibleactions' => [
@@ -115,10 +121,10 @@ $machinestates = [
             'actTakeConnection',
             'actPlayConnection',
             'actEnablePlaceDefenceState',
+            'actResetTurn',
             // Actions leading to another sub-phase with a choice
             'actEnableFactionActions',
             'actSpendWorkers',
-            'actResetTurn',
         ],
     ],
 
@@ -292,6 +298,7 @@ $machinestates = [
 
     ST_PHASE_FOUR_CLEANUP => [
         'name' => 'phaseFourCleanup',
+        'args' => 'argNoNotify',
         'description' => '',
         'action' => 'stPhaseFourCleanup',
         'type' => 'game',
@@ -305,16 +312,6 @@ $machinestates = [
         'args' => 'argConfirmTurnEnd',
         'action' => 'stConfirmTurnEnd',
         'possibleactions' => ['actConfirmTurnEnd', 'actResetTurn', 'actEnablePlaceDefenceState'],
-    ],
-
-    // Final state.
-    // Please do not modify (and do not overload action/args methods).
-    ST_END_GAME => [
-        'name' => 'gameEnd',
-        'description' => clienttranslate('End of game'),
-        'type' => 'manager',
-        'action' => 'stGameEnd',
-        'args' => 'argGameEnd',
     ],
 ];
 

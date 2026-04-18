@@ -11,9 +11,11 @@ trait ConfirmTurnEndTrait
     public function argConfirmTurnEnd()
     {
         $player = Players::getActive();
+        $showPassNextTurn = Stack::getCtx()['showPassNextTurn'] ?? true;
         return [
             'mayPlaceDefence' => $player->getResource(RESOURCE_DEFENCE) > 0 && $player->getBoard()->count() > 0,
             'forceTimer' => Stack::getCtx()['forceTimer'] ?? false,
+            'willPlayNextTurn' => $showPassNextTurn ? Globals::willPlayNextTurn() : null,
         ];
     }
 

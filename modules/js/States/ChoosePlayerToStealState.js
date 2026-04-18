@@ -5,13 +5,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         onEnteringStateChoosePlayerToSteal(args) {
             if (this.isCurrentPlayerActive()) {
-                args.forEach((item) => {
+                args.players.forEach((player) => {
                     this.addPrimaryActionButton(
-                        `buttonPlayer${item.playerId}`,
-                        item.playerName,
-                        () => this.takeAction('actChoosePlayerToSteal', { pId: item.playerId })
+                        `buttonPlayer${player.playerId}`,
+                        player.playerName,
+                        () => this.takeAction('actChoosePlayerToSteal', { pId: player.playerId })
                     );
-                    this.selectResourcesToSteal(item.playerId, item.resources, 'actChoosePlayerAndResourceToSteal');
+                    this.selectResourcesToSteal(player.playerId, player.resources, 'actChoosePlayerAndResourceToSteal');
                 });
                 this.addUndoButton();
             }

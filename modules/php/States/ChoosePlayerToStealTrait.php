@@ -2,6 +2,7 @@
 
 namespace Bga\Games\Fiftyfirststate\States;
 
+use Bga\Games\Fiftyfirststate\Core\Globals;
 use Bga\Games\Fiftyfirststate\Core\Notifications;
 use Bga\Games\Fiftyfirststate\Core\Stack;
 use Bga\Games\Fiftyfirststate\Helpers\ResourcesHelper;
@@ -21,7 +22,7 @@ trait ChoosePlayerToStealTrait
         Players::getAllNonPassed(Players::getActiveId())->map(function (Player $player) use (&$args, $ctx) {
             $args[] = $this->getResourcesOfPlayer($player, $ctx['resourcesAllowed']);
         });
-        return $args;
+        return ['players' => $args, 'willPlayNextTurn' => Globals::willPlayNextTurn()];
     }
 
     public function argChooseResourceToSteal()
@@ -37,6 +38,7 @@ trait ChoosePlayerToStealTrait
             'resources' => array_values(
                 ResourcesHelper::getResourceNames($victim->getResourcesNotZero($ctx['resourcesAllowed']))
             ),
+            'willPlayNextTurn' => Globals::willPlayNextTurn(),
         ];
     }
 

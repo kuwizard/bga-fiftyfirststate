@@ -11,7 +11,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 this.makeLocationsSelectableAndClickable(
                     `#faction_${this.player_id} .location`,
                     'actActivateProduction',
-                    args
+                    args.locations
                 );
                 this.addUndoButton();
             }

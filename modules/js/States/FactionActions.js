@@ -17,7 +17,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         onEnteringStateFactionActions(args) {
             if (this.isCurrentPlayerActive()) {
-                this.showIconButtonsFromArgs(args);
+                this.showIconButtonsFromArgs(args.actions);
                 this.makeLocationsUnselectable('.location');
                 this.makeLocationsUnselectable('.connection');
                 this.addUndoButton();

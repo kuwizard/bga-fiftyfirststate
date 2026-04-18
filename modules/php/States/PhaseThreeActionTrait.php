@@ -63,7 +63,17 @@ trait PhaseThreeActionTrait
             'connectionsToTake' => $connectionsToTake,
             'connectionsToPlay' => $player->getPlayableConnectionsIds(),
             'placeDefence' => $player->getResource(RESOURCE_DEFENCE) >= 1,
+            'willPlayNextTurn' => Globals::willPlayNextTurn(),
         ];
+    }
+
+    public function stPhaseThreeAction()
+    {
+        $activePlayerWantsToPlay = Globals::willPlayNextTurn()[Players::getActiveId()] ?? null;
+        if (!is_null($activePlayerWantsToPlay) && !$activePlayerWantsToPlay) {
+            Globals::updatePassNextTurn(Players::getActiveId(), false);
+            $this->actActionPass();
+        }
     }
 
     private function mapLocationsWithCardGetting(array $locations, Player $player): array
@@ -121,7 +131,10 @@ trait PhaseThreeActionTrait
             // 0, 1 and 2 might be faction actions, we don't want to conflict with them. Maybe new factions will have 3 or 4 as well...
             $actions[10] = $spendWorkersAction;
         }
-        return $actions;
+        return [
+            'actions' => $actions,
+            'willPlayNextTurn' => Globals::willPlayNextTurn(),
+        ];
     }
 
     public function argLocationActions()
@@ -135,6 +148,7 @@ trait PhaseThreeActionTrait
                 LOCATION_ACTION_DEAL => clienttranslate('Make a deal'),
                 LOCATION_ACTION_BUILD => clienttranslate('Build'),
             ],
+            'willPlayNextTurn' => Globals::willPlayNextTurn(),
         ];
     }
 
@@ -146,6 +160,7 @@ trait PhaseThreeActionTrait
             'locationId' => $location->getId(),
             'raze' => $this->razeReachableCardInSpoils($location, $player, false),
             'openProd' => $this->isOpenProdProducingCards($location, $player),
+            'willPlayNextTurn' => Globals::willPlayNextTurn(),
         ];
     }
 

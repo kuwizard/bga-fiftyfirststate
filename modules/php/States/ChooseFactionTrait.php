@@ -2,6 +2,7 @@
 
 namespace Bga\Games\Fiftyfirststate\States;
 
+use Bga\Games\Fiftyfirststate\Core\Globals;
 use Bga\Games\Fiftyfirststate\Core\Notifications;
 use Bga\Games\Fiftyfirststate\Core\Preferences;
 use Bga\Games\Fiftyfirststate\Core\Stats;
@@ -14,7 +15,11 @@ trait ChooseFactionTrait
     public function argChooseFaction()
     {
         $preferences = Preferences::getPreferencesAll();
-        return ['prodActions' => Factions::getAllProductionsAndActionsUI(), '_private' => $preferences];
+        return [
+            'prodActions' => Factions::getAllProductionsAndActionsUI(),
+            '_private' => $preferences,
+            'willPlayNextTurn' => Globals::willPlayNextTurn(),
+        ];
     }
 
     public function actChooseFactionsPreferences(string $factions, string $sides)

@@ -2,6 +2,7 @@
 
 namespace Bga\Games\Fiftyfirststate\States;
 
+use Bga\Games\Fiftyfirststate\Core\Globals;
 use Bga\Games\Fiftyfirststate\Core\Notifications;
 use Bga\Games\Fiftyfirststate\Core\Stack;
 use Bga\Games\Fiftyfirststate\Helpers\Collection;
@@ -19,7 +20,10 @@ trait ChooseResourceToStoreTrait
         $player = Players::getActive();
         $nonZeroResources = $this->getPlayersAvailableResources($player);
         $args[$player->getId()] = ResourcesHelper::getResourceNames($nonZeroResources);
-        return ['_private' => $args];
+        return [
+            '_private' => $args,
+            'willPlayNextTurn' => Globals::willPlayNextTurn(),
+        ];
     }
 
     public function actPassStoringResource()

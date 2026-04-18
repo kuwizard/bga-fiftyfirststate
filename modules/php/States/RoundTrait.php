@@ -2,6 +2,7 @@
 
 namespace Bga\Games\Fiftyfirststate\States;
 
+use Bga\GameFramework\Actions\CheckAction;
 use Bga\Games\Fiftyfirststate\Core\Globals;
 use Bga\Games\Fiftyfirststate\Core\Notifications;
 use Bga\Games\Fiftyfirststate\Core\Stack;
@@ -73,5 +74,17 @@ trait RoundTrait
             Stats::incPlayer($player, STAT_PLAYER_SCORE_LOCATIONS, $locationsCount);
             Stats::incPlayer($player, STAT_PLAYER_TOTAL_SCORE, $totalAmount);
         }
+    }
+
+    #[CheckAction(false)]
+    public function actPassNextTurn(): void
+    {
+        Globals::updatePassNextTurn(Players::getCurrentId(), true);
+    }
+
+    #[CheckAction(false)]
+    public function actCancelPassNextTurn(): void
+    {
+        Globals::updatePassNextTurn(Players::getCurrentId(), false);
     }
 }

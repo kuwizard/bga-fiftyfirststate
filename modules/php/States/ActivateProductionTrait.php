@@ -2,6 +2,7 @@
 
 namespace Bga\Games\Fiftyfirststate\States;
 
+use Bga\Games\Fiftyfirststate\Core\Globals;
 use Bga\Games\Fiftyfirststate\Core\Stack;
 use Bga\Games\Fiftyfirststate\Managers\Locations;
 use Bga\Games\Fiftyfirststate\Managers\Players;
@@ -17,7 +18,10 @@ trait ActivateProductionTrait
         foreach ($player->getProductionLocations() as $location) {
             $args[$location->getId()] = in_array(RESOURCE_CARD, $location->getProduct($player));
         }
-        return $args;
+        return [
+            'locations' => $args,
+            'willPlayNextTurn' => Globals::willPlayNextTurn(),
+        ];
     }
 
     public function actActivateProduction(int $id)

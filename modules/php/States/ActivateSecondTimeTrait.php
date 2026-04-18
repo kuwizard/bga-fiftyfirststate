@@ -11,7 +11,10 @@ trait ActivateSecondTimeTrait
 {
     public function argActivateSecondTime()
     {
-        return ['locationId' => Stack::getCtx()['locationId'] ?? null];
+        return [
+            'locationId' => Stack::getCtx()['locationId'] ?? null,
+            'willPlayNextTurn' => Globals::willPlayNextTurn(),
+        ];
     }
 
     public function stActivateSecondTime()

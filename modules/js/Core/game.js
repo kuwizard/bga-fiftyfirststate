@@ -75,8 +75,9 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             return this.isSpectator || typeof g_replayFrom != 'undefined' || g_archive_mode;
         },
 
-        takeAction(action, data = {}, check = true) {
-            const params = check ? {} : { checkAction: false, checkPossibleActions: true };
+        takeAction(action, data = {}, check = true, checkPossibleActions = true) {
+            const params = check ? {} : { checkAction: false, checkPossibleActions: checkPossibleActions };
+
             this.bgaPerformAction(action, data, params);
         },
 
@@ -99,9 +100,25 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
                 return;
             }
 
+            this.checkIfPassNextTurnButtonShouldBeShown(args.args);
+
             // Call appropriate method
             var methodName = 'onEnteringState' + stateName.charAt(0).toUpperCase() + stateName.slice(1);
             if (this[methodName] !== undefined) this[methodName](args.args);
+        },
+
+        checkIfPassNextTurnButtonShouldBeShown(args) {
+            if (args.willPlayNextTurn) {
+                const currentPlayerStatus = args.willPlayNextTurn[this.player_id];
+                const showPassNextTurn = currentPlayerStatus !== undefined && currentPlayerStatus !== null;
+                if (!this.isCurrentPlayerActive() && showPassNextTurn) {
+                    if (currentPlayerStatus) {
+                        this.addPassNextTurnButton();
+                    } else {
+                        this.addCancelPassNextTurnButton();
+                    }
+                }
+            }
         },
 
         /**

@@ -6,7 +6,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         onEnteringStateChooseDealToLose(args) {
             if (this.isCurrentPlayerActive()) {
-                args.forEach((resource) => {
+                args.resources.forEach((resource) => {
                     this.addActionButtonWithResource(resource, 'actChooseDeal', false);
                 });
                 this.addUndoButton();
@@ -15,7 +15,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         onEnteringStateChooseResourceToSpend(args) {
             if (this.isCurrentPlayerActive()) {
-                args.forEach((resource) => {
+                args.resources.forEach((resource) => {
                     this.addActionButtonWithResource(resource, 'actChooseResourceToSpend');
                 });
             }
